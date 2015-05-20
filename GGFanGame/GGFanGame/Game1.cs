@@ -28,6 +28,10 @@ namespace GGFanGame
         {
             // TODO: Add your initialization logic here
 
+            //Just testing the screen manager here and setting the main menu as first screen.
+            //I guess we will implement a splash screen of some sort later.
+            Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.MainMenuScreen());
+
             base.Initialize();
         }
 
@@ -64,6 +68,8 @@ namespace GGFanGame
 
             // TODO: Add your update logic here
 
+            Screens.ScreenManager.getInstance().updateScreen(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -76,6 +82,8 @@ namespace GGFanGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
+            Screens.ScreenManager.getInstance().drawScreen(gameTime);
 
             base.Draw(gameTime);
         }

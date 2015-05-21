@@ -44,6 +44,8 @@ namespace GGFanGame
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            UI.Graphics.initialize(GraphicsDevice, spriteBatch);
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -83,7 +85,11 @@ namespace GGFanGame
 
             // TODO: Add your drawing code here
 
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+
             Screens.ScreenManager.getInstance().drawScreen(gameTime);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

@@ -23,3 +23,5 @@ D:\GitHub\GGFanGame\GGFanGame\GGFanGame\bin\Windows\Debug\SharpDX.Direct3D9.xml
 D:\GitHub\GGFanGame\GGFanGame\GGFanGame\obj\x86\Debug\GGFanGame.csprojResolveAssemblyReference.cache
 D:\GitHub\GGFanGame\GGFanGame\GGFanGame\obj\x86\Debug\GGFanGame.exe
 D:\GitHub\GGFanGame\GGFanGame\GGFanGame\obj\x86\Debug\GGFanGame.pdb
+D:\GitHub\GGFanGame\GGFanGame\GGFanGame\bin\Windows\Debug\Content\gg_logo.xnb
+D:\GitHub\GGFanGame\GGFanGame\GGFanGame\bin\Windows\Debug\Content\st_logo.xnb

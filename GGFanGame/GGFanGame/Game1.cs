@@ -10,7 +10,7 @@ namespace GGFanGame
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
 
         public Game1() : base()
         {
@@ -30,7 +30,7 @@ namespace GGFanGame
 
             //Just testing the screen manager here and setting the main menu as first screen.
             //I guess we will implement a splash screen of some sort later.
-            Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.MainMenuScreen());
+            Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.MainMenuScreen(this));
 
             base.Initialize();
         }

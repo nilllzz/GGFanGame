@@ -15,7 +15,8 @@ namespace GGFanGame.Screens
     public enum Identification
     {
         MainMenu,
-        InGame
+        InGame,
+        Test
     }
 
     /// <summary>
@@ -23,11 +24,13 @@ namespace GGFanGame.Screens
     /// </summary>
     public abstract class Screen
     {
-        private Identification _identification; 
+        private Identification _identification;
+        private Game1 _game;
 
-        public Screen(Identification identification)
+        public Screen(Identification identification, Game1 game)
         {
             _identification = identification;
+            _game = game;
         }
 
         /// <summary>
@@ -37,6 +40,15 @@ namespace GGFanGame.Screens
         public Identification identification
         {
             get { return _identification; }
+        }
+
+        /// <summary>
+        /// The game instance.
+        /// </summary>
+        /// <returns></returns>
+        protected Game1 gameInstance
+        {
+            get { return _game; }
         }
 
         /// <summary>

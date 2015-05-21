@@ -44,7 +44,7 @@ namespace GGFanGame.GameJolt.API
         /// <param name="username"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static GameJoltRequest VerifyUser(string username, string token)
+        public static GameJoltRequest verifyUser(string username, string token)
         {
             GameJoltRequest request = new GameJoltRequest(RequestType.GET, "/users/auth/");
 
@@ -54,9 +54,99 @@ namespace GGFanGame.GameJolt.API
             return request;
         }
 
-        //TODO: Add all the needed GameJolt requests here.
-        //Documentation: https://github.com/gamejolt/doc-game-api/tree/master/v1.x
+        /// <summary>
+        /// Fetches data for a user from the server.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public static GameJoltRequest fetchUserData(string username)
+        {
+            GameJoltRequest request = new GameJoltRequest(RequestType.GET, "/users/");
+
+            request.addUrlParameter("username", username);
+
+            return request;
+        }
+
+        /// <summary>
+        /// Fetches data for a user from the server by their GameJolt Id.
+        /// </summary>
+        /// <param name="gameJoltId"></param>
+        /// <returns></returns>
+        public static GameJoltRequest fetchUserDataById(string gameJoltId)
+        {
+            GameJoltRequest request = new GameJoltRequest(RequestType.GET, "/users/");
+
+            request.addUrlParameter("user_id", gameJoltId);
+
+            return request;
+        }
 
         #endregion
+
+        #region Storage
+
+        public static GameJoltRequest setStorageData(string key, string data, bool userSpace)
+        {
+            GameJoltRequest request = new GameJoltRequest(RequestType.POST, "/data-store/set/");
+            if (userSpace)
+                addUserCredentials(ref request);
+
+            request.addUrlParameter("key", key);
+            request._postData = data;
+
+            return request;
+        }
+
+        public static GameJoltRequest updateStorageData(string key, string oValue, string operation, bool userSpace)
+        {
+            GameJoltRequest request = new GameJoltRequest(RequestType.GET, "/data-store/update/");
+            if (userSpace)
+                addUserCredentials(ref request);
+
+            request.addUrlParameter("key", key);
+            request.addUrlParameter("operation", operation);
+            request.addUrlParameter("value", oValue);
+
+            return request;
+        }
+
+        public static GameJoltRequest getStorageData(string key, bool userSpace)
+        {
+            GameJoltRequest request = new GameJoltRequest(RequestType.GET, "/data-store/get/");
+            if (userSpace)
+                addUserCredentials(ref request);
+
+            request.addUrlParameter("key", key);
+
+            return request;
+        }
+
+        public static GameJoltRequest getKeys(string pattern, bool userSpace)
+        {
+            GameJoltRequest request = new GameJoltRequest(RequestType.GET, "/data-store/get-keys/");
+            if (userSpace)
+                addUserCredentials(ref request);
+
+            request.addUrlParameter("pattern", pattern);
+
+            return request;
+        }
+
+        public static GameJoltRequest removeStorageData(string key, bool userSpace)
+        {
+            GameJoltRequest request = new GameJoltRequest(RequestType.GET, "/data-store/remove/");
+            if (userSpace)
+                addUserCredentials(ref request);
+
+            request.addUrlParameter("key", key);
+
+            return request;
+        }
+
+        #endregion
+
+        //TODO: Add all the needed GameJolt requests here.
+        //Documentation: https://github.com/gamejolt/doc-game-api/tree/master/v1.x
     }
 }

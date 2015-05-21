@@ -25,9 +25,9 @@ namespace GGFanGame.Screens
     abstract class Screen
     {
         private Identification _identification;
-        private Game1 _game;
+        private GGGame _game;
 
-        public Screen(Identification identification, Game1 game)
+        public Screen(Identification identification, GGGame game)
         {
             _identification = identification;
             _game = game;
@@ -46,7 +46,7 @@ namespace GGFanGame.Screens
         /// The game instance.
         /// </summary>
         /// <returns></returns>
-        protected Game1 gameInstance
+        protected GGGame gameInstance
         {
             get { return _game; }
         }

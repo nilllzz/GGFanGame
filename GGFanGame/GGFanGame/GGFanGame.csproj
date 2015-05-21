@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DataModel\Json\JsonDataModel.cs" />
-    <Compile Include="Game1.cs" />
+    <Compile Include="GGGame.cs" />
     <Compile Include="GameJolt\API\APIManager.cs" />
     <Compile Include="GameJolt\API\GameJoltRequest.cs" />
     <Compile Include="GameJolt\API\GameJoltRequests_Definitions.cs" />

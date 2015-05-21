@@ -13,7 +13,7 @@ namespace GGFanGame.Screens.Menu
     /// </summary>
     class MainMenuScreen : Screen
     {
-        public MainMenuScreen(Game1 game) : base(Identification.MainMenu, game)
+        public MainMenuScreen(GGGame game) : base(Identification.MainMenu, game)
         {
             
         }

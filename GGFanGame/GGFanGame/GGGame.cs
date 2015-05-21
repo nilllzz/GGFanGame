@@ -5,16 +5,34 @@ using Microsoft.Xna.Framework.Input;
 namespace GGFanGame
 {
     /// <summary>
-    /// This is the main type for your game
+    /// The main game type.
     /// </summary>
-    public class Game1 : Game
+    public class GGGame : Game
     {
-        GraphicsDeviceManager graphics;
-        public SpriteBatch spriteBatch;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
 
-        public Game1() : base()
+        /// <summary>
+        /// The active main sprite batch of the game.
+        /// </summary>
+        /// <returns></returns>
+        public SpriteBatch spriteBatch
         {
-            graphics = new GraphicsDeviceManager(this);
+            get { return _spriteBatch;  }
+        }
+
+        /// <summary>
+        /// The video card manager.
+        /// </summary>
+        /// <returns></returns>
+        public GraphicsDeviceManager graphics
+        {
+            get { return _graphics; }
+        }
+
+        public GGGame() : base()
+        {
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
@@ -30,7 +48,7 @@ namespace GGFanGame
 
             //Just testing the screen manager here and setting the main menu as first screen.
             //I guess we will implement a splash screen of some sort later.
-            Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.MainMenuScreen(this));
+            Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.TestScreen(this));
 
             base.Initialize();
         }
@@ -42,11 +60,9 @@ namespace GGFanGame
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            UI.Graphics.initialize(GraphicsDevice, spriteBatch);
-
-            // TODO: use this.Content to load your game content here
+            UI.Graphics.initialize(GraphicsDevice, _spriteBatch);
         }
 
         /// <summary>
@@ -68,8 +84,6 @@ namespace GGFanGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
             Screens.ScreenManager.getInstance().updateScreen(gameTime);
 
             base.Update(gameTime);
@@ -83,13 +97,11 @@ namespace GGFanGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
             Screens.ScreenManager.getInstance().drawScreen(gameTime);
 
-            spriteBatch.End();
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

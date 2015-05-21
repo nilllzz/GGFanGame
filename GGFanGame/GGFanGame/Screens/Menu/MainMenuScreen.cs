@@ -15,7 +15,7 @@ namespace GGFanGame.Screens.Menu
     {
         public MainMenuScreen(Game1 game) : base(Identification.MainMenu, game)
         {
-
+            
         }
 
         public override void draw(GameTime gametime) { }

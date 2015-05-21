@@ -43,6 +43,9 @@
     <Compile Include="GameJolt\API\APIManager.cs" />
     <Compile Include="GameJolt\API\GameJoltRequest.cs" />
     <Compile Include="GameJolt\API\GameJoltRequests_Definitions.cs" />
+    <Compile Include="Input\GamePadHandler.cs" />
+    <Compile Include="Input\KeyboardHandler.cs" />
+    <Compile Include="Input\MouseHandler.cs" />
     <Compile Include="Networking\UrlEncoder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

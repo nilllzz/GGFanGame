@@ -5,7 +5,7 @@ namespace GGFanGame.Networking
     /// <summary>
     /// This class encodes the special characters in URLs so we can send them over http requests.
     /// </summary>
-    public class UrlEncoder
+    class UrlEncoder
     {
         /// <summary>
         /// Encodes an URL string.

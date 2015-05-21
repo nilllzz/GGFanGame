@@ -9,7 +9,7 @@ namespace GGFanGame.Screens
     /// <summary>
     /// A class to manage game states as screens.
     /// </summary>
-    public class ScreenManager
+    class ScreenManager
     {
         //We only ever need a single ScreenManager, so we do a singleton here:
         private static ScreenManager _singleton = null;

@@ -2,7 +2,7 @@
 
 namespace GGFanGame.GameJolt.API
 {
-    public sealed partial class GameJoltRequest
+    sealed partial class GameJoltRequest
     {
         //This file is the second part of the partial GameJoltRequest class.
         //The actual calls to the API with their url parameters will be defined here.

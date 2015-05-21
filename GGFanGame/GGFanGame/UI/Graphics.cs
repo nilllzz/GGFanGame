@@ -10,7 +10,7 @@ namespace GGFanGame.UI
     /// <summary>
     /// This class is used across the game to render basic forms like rectangles.
     /// </summary>
-    public static class Graphics
+    static class Graphics
     {
         //Stores a single pixel to draw forms with:
         private static Texture2D _canvas = null;
@@ -83,7 +83,7 @@ namespace GGFanGame.UI
             //If we don't want to do this every frame we render the gradient, we store the generated texture in a configuration.
 
             //This where we store the generated texture:
-            private Texture2D _texture = null;
+            private Texture2D _texture;
 
             public GradientConfiguration(int width, int height, Color fromColor, Color toColor, bool horizontal, int steps)
             {
@@ -239,7 +239,7 @@ namespace GGFanGame.UI
         /// </summary>
         private struct EllipseConfiguration
         {
-            private Texture2D _texture = null;
+            private Texture2D _texture;
 
             public EllipseConfiguration(int width, int height)
             {

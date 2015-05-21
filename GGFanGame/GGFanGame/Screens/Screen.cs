@@ -12,7 +12,7 @@ namespace GGFanGame.Screens
     /// <summary>
     /// The identification of a screen.
     /// </summary>
-    public enum Identification
+    enum Identification
     {
         MainMenu,
         InGame,
@@ -22,7 +22,7 @@ namespace GGFanGame.Screens
     /// <summary>
     /// The base class for all screens in the game.
     /// </summary>
-    public abstract class Screen
+    abstract class Screen
     {
         private Identification _identification;
         private Game1 _game;

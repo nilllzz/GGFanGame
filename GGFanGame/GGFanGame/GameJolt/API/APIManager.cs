@@ -3,7 +3,7 @@
     /// <summary>
     /// A class to manage global GameJolt API settings.
     /// </summary>
-    public class APIManager
+    class APIManager
     {
         //The API Manager will be needed as singleton:
         private static APIManager _singleton = null;

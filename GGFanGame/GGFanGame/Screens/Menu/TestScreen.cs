@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GGFanGame.Screens.Menu
 {
-    public class TestScreen : Screen
+    class TestScreen : Screen
     {
         public TestScreen(Game1 game) : base(Identification.Test, game)
         { }

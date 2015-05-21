@@ -7,7 +7,7 @@ namespace GGFanGame.DataModel.Json
     /// <summary>
     /// The JsonDataModel is the base class for all data models in the game.
     /// </summary>
-    public abstract class JsonDataModel
+    abstract class JsonDataModel
     {
         //This class will manage the Json data models for this game.
         //Levels, saves etc. will be saved in the Json format.

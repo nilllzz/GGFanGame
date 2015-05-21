@@ -15,7 +15,7 @@ namespace GGFanGame.GameJolt.API
     /// <summary>
     /// The formats a request can return data in.
     /// </summary>
-    public enum RequestFormat
+    enum RequestFormat
     {
         Json,
         KeyPair,
@@ -26,7 +26,7 @@ namespace GGFanGame.GameJolt.API
     /// <summary>
     /// Which http request type the request uses.
     /// </summary>
-    public enum RequestType
+    enum RequestType
     {
         GET,
         POST
@@ -35,7 +35,7 @@ namespace GGFanGame.GameJolt.API
     /// <summary>
     /// The return status of a request.
     /// </summary>
-    public enum RequestStatus
+    enum RequestStatus
     {
         Success,
         Failure
@@ -46,7 +46,7 @@ namespace GGFanGame.GameJolt.API
     /// <summary>
     /// A request to the GameJolt API.
     /// </summary>
-    public sealed partial class GameJoltRequest
+    sealed partial class GameJoltRequest
     {
         const string GAMEID = ""; //TODO: Put Game Id from GameJolt here.
         const string GAMEKEY = ""; //TODO: Put Game key from GameJolt here.
@@ -227,7 +227,7 @@ namespace GGFanGame.GameJolt.API
     /// <summary>
     /// A class that contains the result of an API request.
     /// </summary>
-    public sealed class RequestResult
+    sealed class RequestResult
     {
         private RequestStatus _requestStatus;
         private string _requestData;
@@ -298,7 +298,7 @@ namespace GGFanGame.GameJolt.API
     /// <summary>
     /// An exception that occured during an API request.
     /// </summary>
-    public sealed class RequestException : Exception
+    sealed class RequestException : Exception
     {
         public RequestException(Exception innerException) : base("A problem occured while making a request to the GameJolt API.", innerException) { }
     }

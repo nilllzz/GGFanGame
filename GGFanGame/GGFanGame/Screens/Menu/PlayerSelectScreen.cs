@@ -28,16 +28,17 @@ namespace GGFanGame.Screens.Menu
 
         //These store the grumps, grump overlays and grump name textures:
         //The grump overlays are white copies of the normal textures and used to overlay with an alpha over the normal grump texture when not selected.
-        private Texture2D[] _grumps = new Texture2D[4];
-        private Texture2D[] _grumps_overlay = new Texture2D[4];
-        private Texture2D[] _grumps_names = new Texture2D[4];
+        private Texture2D[] _grumps = new Texture2D[5];
+        private Texture2D[] _grumps_overlay = new Texture2D[5];
+        private Texture2D[] _grumps_names = new Texture2D[5];
 
         public PlayerSelectScreen(GGGame game) : base(Identification.PlayerSelect, game)
         {
             loadGrumpTexture(0, "Arin");
-            loadGrumpTexture(1, "Barry");
-            loadGrumpTexture(2, "Ross");
-            loadGrumpTexture(3, "Suzy");
+            loadGrumpTexture(1, "Danny");
+            loadGrumpTexture(2, "Barry");
+            loadGrumpTexture(3, "Ross");
+            loadGrumpTexture(4, "Suzy");
 
             for (int i = 0; i < 4; i++)
             {
@@ -85,10 +86,10 @@ namespace GGFanGame.Screens.Menu
             //Only when the player has chosen a character, draw the dash line and a shadow.
             if (_activatedPlayers[index])
             {
-                UI.Graphics.drawLine(new Vector2(posX - 90 + _selectedAnimations[0] / 4.8f,
-                                                480 - _selectedAnimations[0] + 480),
-                                     new Vector2(posX + 30 + _selectedAnimations[0] / 4.8f,
-                                                480 - _selectedAnimations[0]),
+                UI.Graphics.drawLine(new Vector2(posX - 90 + _selectedAnimations[index] / 4.8f,
+                                                480 - _selectedAnimations[index] + 480),
+                                     new Vector2(posX + 30 + _selectedAnimations[index] / 4.8f,
+                                                480 - _selectedAnimations[index]),
                                      new Color(color.R, color.G, color.B, 255), 120);
                 gameInstance.spriteBatch.Draw(_grumps[_selections[index]], new Rectangle(posX + 30, 190, (int)(_grumps[_selections[index]].Width * 0.5), (int)(_grumps[_selections[index]].Height * 0.5)), new Color(0, 0, 0, 100));
             }
@@ -115,8 +116,8 @@ namespace GGFanGame.Screens.Menu
                 if (_selectedAnimations[index] < 480)
                 {
                     //Get an alpha and size for a quick animation that plays when selecting a character:
-                    alpha = (int)(255 * (double)_selectedAnimations[0] / 480);
-                    size = (int)(80 * (double)_selectedAnimations[0] / 480);
+                    alpha = (int)(255 * (double)_selectedAnimations[index] / 480);
+                    size = (int)(80 * (double)_selectedAnimations[index] / 480);
 
                     //Draw a white transparent overlay when selecting a grump:
                     gameInstance.spriteBatch.Draw(_grumps_overlay[_selections[index]],

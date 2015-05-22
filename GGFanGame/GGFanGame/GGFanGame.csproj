@@ -50,6 +50,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\Menu\MainMenuScreen.cs" />
+    <Compile Include="Screens\Menu\PlayerSelectScreen.cs" />
     <Compile Include="Screens\Menu\TestScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />

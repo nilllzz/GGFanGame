@@ -10,11 +10,12 @@ namespace GGFanGame.Screens.Menu
 {
     class TestScreen : Screen
     {
-        public TestScreen(GGGame game) : base(Identification.Test, game)
-        { }
+        public TestScreen(GGGame game) : base(Identification.Test, game) { }
 
-        float offsetX = 0;
-        float offsetY = 0;
+        float ggoffsetX = 0;
+        float ggoffsetY = 0;
+        float stoffsetX = 0;
+        float stoffsetY = 0;
 
         public override void draw(GameTime gametime)
         {
@@ -47,8 +48,8 @@ namespace GGFanGame.Screens.Menu
             {
                 for (int y = 0; y < 25; y++)
                 {
-                    int posX = (int)(x * 24 + y * 8 + offsetX);
-                    int posY = (int)(y * 24 - (x * 8) + offsetY);
+                    int posX = (int)(x * 24 + y * 8 + ggoffsetX);
+                    int posY = (int)(y * 24 - (x * 8) + ggoffsetY);
 
                     double colorShift = (double)posY / 480;
                     double cR = 4 * colorShift;
@@ -82,6 +83,35 @@ namespace GGFanGame.Screens.Menu
 
             UI.Graphics.drawGradient(new Rectangle(400 + extraOffsetX, 0, 400 - extraOffsetX, 480), new Color(78, 143, 249), new Color(151, 186, 251), false, -1);
 
+            for (int x = -9; x < 17; x++)
+            {
+                for (int y = -1; y < 24; y++)
+                {
+                    int posX = (int)(x * 24 + y * 8 + stoffsetX) + 400;
+                    int posY = (int)(y * 24 - (x * 8) + stoffsetY);
+
+                    double colorShift = (double)posY / 480;
+                    double cR = 79 * colorShift;
+                    double cG = 50 * colorShift;
+                    double cB = 6 * colorShift;
+
+                    double cA = 255;
+
+                    if (posX < 400 + extraOffsetX + 90)
+                    {
+                        cA = 255 - ((400 + extraOffsetX + 90 - posX) * 3);
+                        if (cA < 0)
+                        {
+                            cA = 0;
+                        }
+                    }
+
+                    if (posX + 16 >= 400 + extraOffsetX && posX < 800  && posY + 16 >= 0 && posY < 480)
+                    {
+                        UI.Graphics.drawCircle(new Vector2(posX, posY), 16, new Color((int)(71 + cR), (int)(133 + cG), (int)(244 + cB), (int)cA));
+                    }
+                }
+            }
             UI.Graphics.drawCircle(new Vector2(620 + extraOffsetX / 2, 345), 150, new Color(255, 255, 255, 130));
 
             UI.Graphics.drawCircle(new Vector2(400 + extraOffsetX / 2, 350), 400, Color.White);
@@ -112,26 +142,24 @@ namespace GGFanGame.Screens.Menu
 
         public override void update(GameTime gametime)
         {
-            GamePadState gState = GamePad.GetState(0);
-
-            if (gState.IsButtonDown(Buttons.DPadLeft))
+            if (Input.GamePadHandler.buttonPressed(Buttons.DPadLeft) || Input.KeyboardHandler.keyPressed(Keys.Left))
             {
                 selection = true;
             }
-            if (gState.IsButtonDown(Buttons.DPadRight))
+            if (Input.GamePadHandler.buttonPressed(Buttons.DPadRight) || Input.KeyboardHandler.keyPressed(Keys.Right))
             {
                 selection = false;
             }
 
             if (selection)
             {
-                offsetX -= 0.9f;
-                offsetY += 0.3f;
+                ggoffsetX -= 0.9f;
+                ggoffsetY += 0.3f;
 
-                if (offsetX <= -24f)
+                if (ggoffsetX <= -24f)
                 {
-                    offsetX = 0;
-                    offsetY = 0;
+                    ggoffsetX = 0;
+                    ggoffsetY = 0;
                 }
 
                 if (fadeRight > 0f)
@@ -145,6 +173,14 @@ namespace GGFanGame.Screens.Menu
             }
             else
             {
+                stoffsetX -= 0.9f;
+                stoffsetY += 0.3f;
+
+                if (stoffsetX <= -24f)
+                {
+                    stoffsetX = 0;
+                    stoffsetY = 0;
+                }
                 if (fadeLeft > 0f)
                 {
                     fadeLeft = MathHelper.Lerp(0f, fadeLeft, 0.9f);

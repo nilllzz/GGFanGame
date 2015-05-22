@@ -16,7 +16,8 @@ namespace GGFanGame.Screens
     {
         MainMenu,
         InGame,
-        Test
+        Test,
+        PlayerSelect
     }
 
     /// <summary>

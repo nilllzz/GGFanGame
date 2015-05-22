@@ -6,5 +6,21 @@
   <SourceFiles>
     <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/gg_logo.png</File>
     <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/st_logo.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/1Up.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Barry.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Barry_Overlay.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/2Up.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/3Up.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/4Up.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Arin.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Arin_Overlay.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Suzy.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Suzy_Overlay.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Arin_name.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Barry_name.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Ross_name.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Suzy_name.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Ross.png</File>
+    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Ross_Overlay.png</File>
   </SourceFiles>
 </SourceFileCollection>

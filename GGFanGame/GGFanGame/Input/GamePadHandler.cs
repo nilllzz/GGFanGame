@@ -74,5 +74,16 @@ namespace GGFanGame.Input
             int index = (int)playerIndex;
             return _currentStates[index].IsButtonDown(button);
         }
+
+        /// <summary>
+        /// Returns if the GamePad at the given player index is connected.
+        /// </summary>
+        /// <param name="playerIndex"></param>
+        /// <returns></returns>
+        public static bool isConnected(PlayerIndex playerIndex)
+        {
+            int index = (int)playerIndex;
+            return _currentStates[index].IsConnected;
+        }
     }
 }

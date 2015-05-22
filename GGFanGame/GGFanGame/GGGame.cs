@@ -55,7 +55,8 @@ namespace GGFanGame
             //I guess we will implement a splash screen of some sort later.
             Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.PlayerSelectScreen(this));
 
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferHeight = 680;
             graphics.ApplyChanges();
 
             base.Initialize();

@@ -244,3 +244,15 @@
 /processorParam:TextureFormat=Color
 /build:Names/Danny_name.png
 
+#begin CartoonFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:CartoonFont.spritefont
+
+#begin CartoonFontLarge.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:CartoonFontLarge.spritefont
+

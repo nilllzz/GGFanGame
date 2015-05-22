@@ -85,16 +85,16 @@ namespace GGFanGame.Screens.Menu
             //Only when the player has chosen a character, draw the dash line and a shadow.
             if (_activatedPlayers[index])
             {
-                UI.Graphics.drawLine(new Vector2(posX - 90 + _selectedAnimations[0] / 4.8f, 
-                                                480 - _selectedAnimations[0] + 480), 
-                                     new Vector2(posX + 30 + _selectedAnimations[0] / 4.8f, 
-                                                480 - _selectedAnimations[0]), 
+                UI.Graphics.drawLine(new Vector2(posX - 90 + _selectedAnimations[0] / 4.8f,
+                                                480 - _selectedAnimations[0] + 480),
+                                     new Vector2(posX + 30 + _selectedAnimations[0] / 4.8f,
+                                                480 - _selectedAnimations[0]),
                                      new Color(color.R, color.G, color.B, 255), 120);
                 gameInstance.spriteBatch.Draw(_grumps[_selections[index]], new Rectangle(posX + 30, 190, (int)(_grumps[_selections[index]].Width * 0.5), (int)(_grumps[_selections[index]].Height * 0.5)), new Color(0, 0, 0, 100));
             }
 
             //Draw a black overlay in the back over the dash line to hide it behind the UI on the top:
-            UI.Graphics.drawRectangle(new Rectangle(posX - 10, 0, 270, 150), Color.Black);
+            UI.Graphics.drawRectangle(new Rectangle(posX - 10, 0, 270, 160), Color.Black);
             //Draws the UI element on top:
             gameInstance.spriteBatch.Draw(_menuElements[index], new Rectangle(posX, 30, 220, 120), Color.White);
 
@@ -109,24 +109,27 @@ namespace GGFanGame.Screens.Menu
             else //otherwise...
             {
                 int alpha = 255;
+                int size = 0;
 
                 //While the animation is going on
                 if (_selectedAnimations[index] < 480)
                 {
                     //Get an alpha and size for a quick animation that plays when selecting a character:
-                    alpha = (int)(255 * (double)_selectedAnimations[0] / 480); 
-                    int size = (int)(60 * (double)_selectedAnimations[0] / 480);
+                    alpha = (int)(255 * (double)_selectedAnimations[0] / 480);
+                    size = (int)(80 * (double)_selectedAnimations[0] / 480);
 
                     //Draw a white transparent overlay when selecting a grump:
-                    gameInstance.spriteBatch.Draw(_grumps_overlay[_selections[index]], 
-                        new Rectangle(posX + 20 - size / 2, 
-                                     180 - size / 2, 
-                                     (int)(_grumps[_selections[index]].Width * 0.5) + size, 
+                    gameInstance.spriteBatch.Draw(_grumps_overlay[_selections[index]],
+                        new Rectangle(posX + 20 - size / 2,
+                                     180 - size / 2,
+                                     (int)(_grumps[_selections[index]].Width * 0.5) + size,
                                      (int)(_grumps[_selections[index]].Height * 0.5) + size), new Color(255, 255, 255, 255 - alpha));
                 }
 
                 //Draw the name of the selected grump in the UI:
                 gameInstance.spriteBatch.Draw(_grumps_names[_selections[index]], new Rectangle(posX + 20, 90, (int)(_grumps_names[_selections[index]].Width / 1.6), (int)(_grumps_names[_selections[index]].Height / 1.6)), new Color(color.R, color.G, color.B, alpha));
+                if (_selectedAnimations[index] < 480)
+                    gameInstance.spriteBatch.Draw(_grumps_names[_selections[index]], new Rectangle(posX + 20 - size / 2, 90 - size / 4, (int)(_grumps_names[_selections[index]].Width / 1.6) + size, (int)(_grumps_names[_selections[index]].Height / 1.6) + size / 2), new Color(color.R, color.G, color.B, 255 - alpha));
             }
         }
 

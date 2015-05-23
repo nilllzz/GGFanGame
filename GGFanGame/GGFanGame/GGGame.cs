@@ -11,6 +11,7 @@ namespace GGFanGame
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private SpriteBatch _fontBatch;
 
         /// <summary>
         /// The active main sprite batch of the game.
@@ -19,6 +20,15 @@ namespace GGFanGame
         public SpriteBatch spriteBatch
         {
             get { return _spriteBatch;  }
+        }
+
+        /// <summary>
+        /// The active font sprite batch of the game.
+        /// </summary>
+        /// <returns></returns>
+        public SpriteBatch fontBatch
+        {
+            get { return _fontBatch; }
         }
 
         /// <summary>
@@ -70,6 +80,7 @@ namespace GGFanGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _fontBatch = new SpriteBatch(GraphicsDevice);
 
             UI.Graphics.initialize(GraphicsDevice, _spriteBatch);
         }
@@ -111,10 +122,12 @@ namespace GGFanGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            _fontBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.AnisotropicClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
             Screens.ScreenManager.getInstance().drawScreen(gameTime);
 
             _spriteBatch.End();
+            _fontBatch.End();
 
             base.Draw(gameTime);
         }

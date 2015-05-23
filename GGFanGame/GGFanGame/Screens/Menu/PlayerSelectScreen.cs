@@ -92,7 +92,7 @@ namespace GGFanGame.Screens.Menu
                 string text = "PRESS START TO BEGIN!";
                 Vector2 textSize = grumpFont.MeasureString(text);
 
-                gameInstance.spriteBatch.DrawString(grumpFont, text, 
+                gameInstance.fontBatch.DrawString(grumpFont, text, 
                     new Vector2(gameInstance.clientRectangle.Width / 2 - textSize.X / 2,
                                 startY + 480 + 50), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
@@ -155,9 +155,9 @@ namespace GGFanGame.Screens.Menu
                 }
 
                 //Draw the name of the selected grump in the UI:
-                gameInstance.spriteBatch.Draw(_grumps_names[_selections[index]], new Rectangle((int)offset.X + 20, (int)offset.Y + 90, (int)(_grumps_names[_selections[index]].Width / 1.6), (int)(_grumps_names[_selections[index]].Height / 1.6)), new Color(color.R, color.G, color.B, alpha));
+                gameInstance.fontBatch.Draw(_grumps_names[_selections[index]], new Rectangle((int)offset.X + 20, (int)offset.Y + 90, (int)(_grumps_names[_selections[index]].Width / 1.6), (int)(_grumps_names[_selections[index]].Height / 1.6)), new Color(color.R, color.G, color.B, alpha));
                 if (_selectedAnimations[index] < 480)
-                    gameInstance.spriteBatch.Draw(_grumps_names[_selections[index]], new Rectangle((int)offset.X + 20 - size / 2, (int)offset.Y + 90 - size / 4, (int)(_grumps_names[_selections[index]].Width / 1.6) + size, (int)(_grumps_names[_selections[index]].Height / 1.6) + size / 2), new Color(color.R, color.G, color.B, 255 - alpha));
+                    gameInstance.fontBatch.Draw(_grumps_names[_selections[index]], new Rectangle((int)offset.X + 20 - size / 2, (int)offset.Y + 90 - size / 4, (int)(_grumps_names[_selections[index]].Width / 1.6) + size, (int)(_grumps_names[_selections[index]].Height / 1.6) + size / 2), new Color(color.R, color.G, color.B, 255 - alpha));
             }
         }
 

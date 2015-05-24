@@ -80,6 +80,7 @@ build/
 *.chk
 *.jrs
 *.ide
+*.suo
 
 # Visual C++ cache files
 ipch/

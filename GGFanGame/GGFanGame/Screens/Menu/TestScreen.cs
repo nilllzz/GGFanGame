@@ -142,11 +142,11 @@ namespace GGFanGame.Screens.Menu
 
         public override void update(GameTime gametime)
         {
-            if (Input.GamePadHandler.buttonPressed(Buttons.DPadLeft) || Input.KeyboardHandler.keyPressed(Keys.Left))
+            if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.DPadLeft) || Input.KeyboardHandler.keyPressed(Keys.Left))
             {
                 selection = true;
             }
-            if (Input.GamePadHandler.buttonPressed(Buttons.DPadRight) || Input.KeyboardHandler.keyPressed(Keys.Right))
+            if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.DPadRight) || Input.KeyboardHandler.keyPressed(Keys.Right))
             {
                 selection = false;
             }

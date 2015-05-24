@@ -53,6 +53,21 @@ namespace GGFanGame.Screens
         }
 
         /// <summary>
+        /// If this screen is the currently active screen.
+        /// </summary>
+        /// <returns></returns>
+        protected bool isCurrentScreen
+        {
+            get
+            {
+                if (ScreenManager.getInstance().currentScreen != null)
+                    return ScreenManager.getInstance().currentScreen._identification == _identification;
+                else
+                    return false;
+            }
+        }
+
+        /// <summary>
         /// Draws the screen.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>

@@ -171,18 +171,18 @@ namespace GGFanGame.Screens.Menu
                 //Only when the player has not selected a character, they can select a different one:
                 if (!_activatedPlayers[i] && _randomCharacters[i] == 0)
                 {
-                    if (Input.GamePadHandler.buttonPressed(Buttons.Y, playerIndex))
+                    if (Input.GamePadHandler.buttonPressed(playerIndex, Buttons.Y))
                     {
                         _randomCharacters[i] = new Random().Next(5, 12);
                     }
                     else
                     {
-                        if (Input.GamePadHandler.buttonPressed(Buttons.DPadUp, playerIndex))
+                        if (Input.ControlsHandler.upPressed(playerIndex, new Input.InputDirectionType[] { Input.InputDirectionType.All }))
                         {
                             _selections[i]--;
                             _switchedAnimations[i] = 10;
                         }
-                        if (Input.GamePadHandler.buttonPressed(Buttons.DPadDown, playerIndex))
+                        if (Input.ControlsHandler.downPressed(playerIndex, new Input.InputDirectionType[] { Input.InputDirectionType.All }))
                         {
                             _selections[i]++;
                             _switchedAnimations[i] = 10;
@@ -194,7 +194,7 @@ namespace GGFanGame.Screens.Menu
                             _selections[i] = 0;
 
                         //When A is pressed, select a character:
-                        if (Input.GamePadHandler.buttonPressed(Buttons.A, playerIndex) || (Input.KeyboardHandler.keyPressed(Keys.Enter) && i == 0))
+                        if (Input.GamePadHandler.buttonPressed(playerIndex, Buttons.A) || (Input.KeyboardHandler.keyPressed(Keys.Enter) && i == 0))
                         {
                             _activatedPlayers[i] = true;
                             _selectedAnimations[i] = 0;
@@ -204,7 +204,7 @@ namespace GGFanGame.Screens.Menu
                 else if(_activatedPlayers[i])
                 {
                     //When B is pressed, revoke the selection:
-                    if (Input.GamePadHandler.buttonPressed(Buttons.B, playerIndex) || !Input.GamePadHandler.isConnected(playerIndex))
+                    if (Input.GamePadHandler.buttonPressed(playerIndex, Buttons.B) || !Input.GamePadHandler.isConnected(playerIndex))
                     {
                         _activatedPlayers[i] = false;
                     }

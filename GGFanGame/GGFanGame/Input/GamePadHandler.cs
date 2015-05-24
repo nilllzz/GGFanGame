@@ -32,35 +32,15 @@ namespace GGFanGame.Input
         }
 
         /// <summary>
-        /// Returns if a specific button on the first GamePad is pressed.
-        /// </summary>
-        /// <param name="button"></param>
-        /// <returns></returns>
-        public static bool buttonPressed(Buttons button)
-        {
-            return buttonPressed(button, PlayerIndex.One);
-        }
-
-        /// <summary>
         /// Returns if a specific button on a GamePad is pressed.
         /// </summary>
         /// <param name="button"></param>
         /// <param name="playerIndex"></param>
         /// <returns></returns>
-        public static bool buttonPressed(Buttons button, PlayerIndex playerIndex)
+        public static bool buttonPressed(PlayerIndex playerIndex, Buttons button)
         {
             int index = (int)playerIndex;
             return (!_oldStates[index].IsButtonDown(button) && _currentStates[index].IsButtonDown(button));
-        }
-
-        /// <summary>
-        /// Returns is a button is currently being held down on the first GamePad.
-        /// </summary>
-        /// <param name="button"></param>
-        /// <returns></returns>
-        public static bool buttonDown(Buttons button)
-        {
-            return buttonDown(button, PlayerIndex.One);
         }
 
         /// <summary>
@@ -69,7 +49,7 @@ namespace GGFanGame.Input
         /// <param name="button"></param>
         /// <param name="playerIndex"></param>
         /// <returns></returns>
-        public static bool buttonDown(Buttons button, PlayerIndex playerIndex)
+        public static bool buttonDown(PlayerIndex playerIndex, Buttons button)
         {
             int index = (int)playerIndex;
             return _currentStates[index].IsButtonDown(button);

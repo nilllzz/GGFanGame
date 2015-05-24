@@ -63,7 +63,7 @@ namespace GGFanGame
 
             //Just testing the screen manager here and setting the main menu as first screen.
             //I guess we will implement a splash screen of some sort later.
-            Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.PlayerSelectScreen(this));
+            Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.MainMenuScreen(this));
 
             graphics.PreferredBackBufferWidth = 1200;
             graphics.PreferredBackBufferHeight = 680;
@@ -104,9 +104,7 @@ namespace GGFanGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            Input.KeyboardHandler.update();
-            Input.GamePadHandler.update();
-            Input.MouseHandler.update();
+            Input.ControlsHandler.update();
 
             Screens.ScreenManager.getInstance().updateScreen(gameTime);
 

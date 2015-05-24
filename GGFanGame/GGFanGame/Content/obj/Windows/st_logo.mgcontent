@@ -3,11 +3,11 @@
   <SourceFile>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/st_logo.png</SourceFile>
   <SourceTime>2015-05-21T05:10:33.0260789+02:00</SourceTime>
   <DestFile>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/bin/Windows/st_logo.xnb</DestFile>
-  <DestTime>2015-05-21T05:11:09.0181446+02:00</DestTime>
+  <DestTime>2015-05-24T02:43:14.6959743+02:00</DestTime>
   <Importer>TextureImporter</Importer>
-  <ImporterTime>2015-03-16T04:01:46+01:00</ImporterTime>
+  <ImporterTime>2015-04-29T19:14:44+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
-  <ProcessorTime>2015-03-16T04:01:46+01:00</ProcessorTime>
+  <ProcessorTime>2015-04-29T19:14:44+02:00</ProcessorTime>
   <Parameters>
     <Key>ColorKeyColor</Key>
     <Value>255,0,255,255</Value>

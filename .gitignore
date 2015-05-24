@@ -80,6 +80,7 @@ build/
 *.chk
 *.jrs
 *.ide
+*.v12.suo
 *.suo
 
 # Visual C++ cache files

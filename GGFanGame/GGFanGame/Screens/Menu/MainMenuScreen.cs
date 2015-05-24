@@ -18,18 +18,28 @@ namespace GGFanGame.Screens.Menu
         private Texture2D _logoTexture = null; //texture of the logo that appears on the screen.
 
         //The offset of the dots:
-        float ggoffsetX = 0;
-        float ggoffsetY = 0;
+        float _offsetX = 0;
+        float _offsetY = 0;
 
         //The size reference of the dots in the background
         const int DOT_SIZE = 16;
+        const string _gameTitle = "HARD DUDES";
+
+        private SpriteFont _grumpFont = null;
 
         public MainMenuScreen(GGGame game) : base(Identification.MainMenu, game)
         {
             _logoTexture = game.Content.Load<Texture2D>("gg_logo");
+            _grumpFont = game.Content.Load<SpriteFont>("CartoonFontLarge");
         }
 
         public override void draw(GameTime gametime)
+        {
+            drawBackground();
+            drawTitle();
+        }
+
+        private void drawBackground()
         {
             //Draws the black-orange background gradient:
             UI.Graphics.drawGradient(gameInstance.clientRectangle, Color.Black, new Color(164, 108, 46), false);
@@ -39,8 +49,8 @@ namespace GGFanGame.Screens.Menu
             {
                 for (int y = 0; y < 20; y++)
                 {
-                    int posX = (int)(x * DOT_SIZE * 3 + y * DOT_SIZE + ggoffsetX);
-                    int posY = (int)(y * DOT_SIZE * 3 - (x * DOT_SIZE) + ggoffsetY);
+                    int posX = (int)(x * DOT_SIZE * 3 + y * DOT_SIZE + _offsetX);
+                    int posY = (int)(y * DOT_SIZE * 3 - (x * DOT_SIZE) + _offsetY);
 
                     //We shift their color from top to bottom, so we take the different between the height of the screen and the dot's position:
                     double colorShift = (double)posY / gameInstance.clientRectangle.Height;
@@ -77,20 +87,26 @@ namespace GGFanGame.Screens.Menu
                     }
                 }
             }
+        }
 
+        private void drawTitle()
+        {
+            gameInstance.spriteBatch.Draw(_logoTexture, new Vector2(gameInstance.clientRectangle.Width / 2 - _logoTexture.Width / 2, 90), Color.White);
+            gameInstance.fontBatch.DrawString(_grumpFont, _gameTitle, new Vector2(gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(_gameTitle).X / 2 + 5, 90 + _logoTexture.Height + 5), new Color(122, 141, 235), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            gameInstance.fontBatch.DrawString(_grumpFont, _gameTitle, new Vector2(gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(_gameTitle).X / 2, 90 + _logoTexture.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 
         public override void update(GameTime gametime)
         {
             //Update the dot animation:
-            ggoffsetX -= 0.9f;
-            ggoffsetY += 0.3f;
+            _offsetX -= 0.9f;
+            _offsetY += 0.3f;
 
             //Reset it, once it went through a complete cycle:
-            if (ggoffsetX <= (float)-DOT_SIZE * 3)
+            if (_offsetX <= (float)-DOT_SIZE * 3)
             {
-                ggoffsetX = 0;
-                ggoffsetY = 0;
+                _offsetX = 0;
+                _offsetY = 0;
             }
 
             //When a button is pressed, open the next screen:

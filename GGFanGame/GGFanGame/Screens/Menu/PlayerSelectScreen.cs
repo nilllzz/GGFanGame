@@ -33,11 +33,11 @@ namespace GGFanGame.Screens.Menu
         private Texture2D[] _grumps_overlay = new Texture2D[5];
         private Texture2D[] _grumps_names = new Texture2D[5];
 
-        private SpriteFont grumpFont = null;
+        private SpriteFont _grumpFont = null;
 
         public PlayerSelectScreen(GGGame game) : base(Identification.PlayerSelect, game)
         {
-            grumpFont = game.Content.Load<SpriteFont>("CartoonFontLarge");
+            _grumpFont = game.Content.Load<SpriteFont>("CartoonFont");
 
             loadGrumpTexture(0, "Arin");
             loadGrumpTexture(1, "Danny");
@@ -77,7 +77,7 @@ namespace GGFanGame.Screens.Menu
 
             //Drawing the selections at the center of the screen:
             int startX = (gameInstance.clientRectangle.Width - 1030) / 2;
-            int startY = 50; 
+            int startY = 50;
 
             drawGrumpSelect(0, new Vector2(startX, startY), oneUpColor);
             drawGrumpSelect(1, new Vector2(startX + 260, startY), twoUpColor);
@@ -89,10 +89,10 @@ namespace GGFanGame.Screens.Menu
 
             if (_activatedPlayers[0])
             {
-                string text = "PRESS START TO BEGIN!";
-                Vector2 textSize = grumpFont.MeasureString(text);
+                string text = "Press START to Begin!";
+                Vector2 textSize = _grumpFont.MeasureString(text);
 
-                gameInstance.fontBatch.DrawString(grumpFont, text, 
+                gameInstance.fontBatch.DrawString(_grumpFont, text,
                     new Vector2(gameInstance.clientRectangle.Width / 2 - textSize.X / 2,
                                 startY + 480 + 50), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
@@ -201,7 +201,7 @@ namespace GGFanGame.Screens.Menu
                         }
                     }
                 }
-                else if(_activatedPlayers[i])
+                else if (_activatedPlayers[i])
                 {
                     //When B is pressed, revoke the selection:
                     if (Input.GamePadHandler.buttonPressed(playerIndex, Buttons.B) || !Input.GamePadHandler.isConnected(playerIndex))
@@ -209,7 +209,7 @@ namespace GGFanGame.Screens.Menu
                         _activatedPlayers[i] = false;
                     }
                 }
-                else if(_randomCharacters[i] > 0)
+                else if (_randomCharacters[i] > 0)
                 {
                     //When the randomizer is running, update it:
                     if (!Input.GamePadHandler.isConnected(playerIndex))

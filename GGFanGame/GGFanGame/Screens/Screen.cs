@@ -70,14 +70,12 @@ namespace GGFanGame.Screens
         /// <summary>
         /// Draws the screen.
         /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public abstract void draw(GameTime gameTime);
+        public abstract void draw();
 
         /// <summary>
         /// Updates the screen.
         /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public abstract void update(GameTime gameTime);
+        public abstract void update();
 
         /// <summary>
         /// Gets called when the screen gets closed by the ScreenManager.

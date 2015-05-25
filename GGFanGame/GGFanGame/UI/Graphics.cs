@@ -274,7 +274,7 @@ namespace GGFanGame.UI
                         int index = x * height + y;
                         Vector2 pos = new Vector2(x - diamX, y - diamY);
 
-                        if (pos.LengthSquared() <= diamXsq && pos.LengthSquared() <= diamYsq)
+                        if (pos.LengthSquared() <= diamXsq)
                             colorArr[index] = Color.White;
                         else
                             colorArr[index] = Color.Transparent;

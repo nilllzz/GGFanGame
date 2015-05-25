@@ -8,6 +8,15 @@ using Microsoft.Xna.Framework;
 namespace GGFanGame.Input
 {
     /// <summary>
+    /// The thumbsticks on a GamePad.
+    /// </summary>
+    enum ThumbStick
+    {
+        Left,
+        Right
+    }
+
+    /// <summary>
     /// Handles GamePad input.
     /// </summary>
     class GamePadHandler
@@ -64,6 +73,46 @@ namespace GGFanGame.Input
         {
             int index = (int)playerIndex;
             return _currentStates[index].IsConnected;
+        }
+
+        /// <summary>
+        /// Returns a value from 0 to 1 how much a thumbstick is pressed in one direction.
+        /// </summary>
+        /// <param name="playerIndex"></param>
+        /// <param name="thumbStick"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public static float thumbStickDirection(PlayerIndex playerIndex, ThumbStick thumbStick, InputDirection direction)
+        {
+            Vector2 v;
+            float result = 0f;
+            int index = (int)playerIndex;
+
+            if (thumbStick == ThumbStick.Left)
+                v = _currentStates[index].ThumbSticks.Left;
+            else
+                v = _currentStates[index].ThumbSticks.Right;
+
+            switch (direction)
+            {
+                case InputDirection.Up:
+                    result = v.Y;
+                    break;
+                case InputDirection.Left:
+                    result = v.X * -1f;
+                    break;
+                case InputDirection.Down:
+                    result = v.Y * -1f;
+                    break;
+                case InputDirection.Right:
+                    result = v.X;
+                    break;
+            }
+
+            if (result < 0f)
+                result = 0f;
+
+            return result;
         }
     }
 }

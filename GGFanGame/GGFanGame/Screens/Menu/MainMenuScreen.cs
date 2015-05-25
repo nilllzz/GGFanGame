@@ -33,7 +33,7 @@ namespace GGFanGame.Screens.Menu
             _grumpFont = game.Content.Load<SpriteFont>("CartoonFontLarge");
         }
 
-        public override void draw(GameTime gametime)
+        public override void draw()
         {
             drawBackground();
             drawTitle();
@@ -96,7 +96,7 @@ namespace GGFanGame.Screens.Menu
             gameInstance.fontBatch.DrawString(_grumpFont, _gameTitle, new Vector2(gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(_gameTitle).X / 2, 90 + _logoTexture.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 
-        public override void update(GameTime gametime)
+        public override void update()
         {
             //Update the dot animation:
             _offsetX -= 0.9f;
@@ -112,7 +112,7 @@ namespace GGFanGame.Screens.Menu
             //When a button is pressed, open the next screen:
             if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.A))
             {
-                ScreenManager.getInstance().setScreen(new PlayerSelectScreen(gameInstance));
+                ScreenManager.getInstance().setScreen(new Game.GrumpSpaceScreen(gameInstance));
             }
         }
     }

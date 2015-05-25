@@ -17,7 +17,7 @@ namespace GGFanGame.Screens.Menu
         float stoffsetX = 0;
         float stoffsetY = 0;
 
-        public override void draw(GameTime gametime)
+        public override void draw()
         {
             //TESTS FOR THE DRAWING CLASS:
             //Game grumps:
@@ -140,7 +140,7 @@ namespace GGFanGame.Screens.Menu
         float fadeRight = 0f;
         bool selection = true;
 
-        public override void update(GameTime gametime)
+        public override void update()
         {
             if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.DPadLeft) || Input.KeyboardHandler.keyPressed(Keys.Left))
             {

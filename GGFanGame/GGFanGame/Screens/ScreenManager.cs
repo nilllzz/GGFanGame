@@ -61,7 +61,7 @@ namespace GGFanGame.Screens
         public void updateScreen(GameTime gameTime)
         {
             if (_currentScreen != null)
-                _currentScreen.update(gameTime);
+                _currentScreen.update();
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace GGFanGame.Screens
         public void drawScreen(GameTime gameTime)
         {
             if (_currentScreen != null)
-                _currentScreen.draw(gameTime);
+                _currentScreen.draw();
         }
     }
 }

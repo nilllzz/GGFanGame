@@ -66,7 +66,7 @@ namespace GGFanGame
             Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.MainMenuScreen(this));
 
             graphics.PreferredBackBufferWidth = 1200;
-            graphics.PreferredBackBufferHeight = 680;
+            graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
 
             base.Initialize();
@@ -82,7 +82,7 @@ namespace GGFanGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _fontBatch = new SpriteBatch(GraphicsDevice);
 
-            UI.Graphics.initialize(GraphicsDevice, _spriteBatch);
+            Drawing.Graphics.initialize(GraphicsDevice, _spriteBatch);
         }
 
         /// <summary>

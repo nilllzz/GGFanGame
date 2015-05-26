@@ -41,10 +41,9 @@ namespace GGFanGame.DataModel.Json
                 T returnObj = (T)serializer.ReadObject(memStream);
                 return returnObj;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //TODO: Throw correct exception.
-                throw;
+                throw new JsonDataLoadException(input, typeof(T), ex);
             }
         }
 
@@ -69,6 +68,26 @@ namespace GGFanGame.DataModel.Json
             string returnJson = sr.ReadToEnd();
 
             return returnJson;
+        }
+    }
+
+    /// <summary>
+    /// The exception that occurs when the serialization of Json data failed.
+    /// </summary>
+    class JsonDataLoadException : Exception
+    {
+        private const string MESSAGE = "An exception occured trying to read Json data into an internal format. Please check that the input data is correct.";
+
+        /// <summary>
+        /// Creates a new instance of the JsonDataLoadException class.
+        /// </summary>
+        /// <param name="jsonData">The json data that caused the problem.</param>
+        /// <param name="targetType">The target type.</param>
+        /// <param name="inner">The inner exception thrown.</param>
+        public JsonDataLoadException(string jsonData, Type targetType, Exception inner) : base(MESSAGE, inner)
+        {
+            Data.Add("Target type", targetType.Name);
+            Data.Add("Json data", jsonData);
         }
     }
 }

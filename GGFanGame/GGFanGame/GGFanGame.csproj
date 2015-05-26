@@ -38,7 +38,9 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DataModel\Json\Game\GameSessionModel.cs" />
     <Compile Include="DataModel\Json\JsonDataModel.cs" />
+    <Compile Include="GameSession.cs" />
     <Compile Include="GGGame.cs" />
     <Compile Include="GameJolt\API\APIManager.cs" />
     <Compile Include="GameJolt\API\GameJoltRequest.cs" />
@@ -61,7 +63,7 @@
     <Compile Include="Screens\Menu\TestScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
-    <Compile Include="UI\Graphics.cs" />
+    <Compile Include="Drawing\Graphics.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -77,9 +79,7 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataModel\Json\Game\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

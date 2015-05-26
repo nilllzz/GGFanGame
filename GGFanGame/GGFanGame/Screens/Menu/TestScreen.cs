@@ -42,7 +42,7 @@ namespace GGFanGame.Screens.Menu
         {
             int extraOffsetX = (int)((100 * fadeLeft) - (100 * fadeRight));
 
-            UI.Graphics.drawGradient(new Rectangle(0, 0, 400 + extraOffsetX, 480), new Color(244, 131, 55), new Color(244, 170, 73), false, -1);
+            Drawing.Graphics.drawGradient(new Rectangle(0, 0, 400 + extraOffsetX, 480), new Color(244, 131, 55), new Color(244, 170, 73), false, -1);
 
             for (int x = -6; x < 19; x++)
             {
@@ -68,20 +68,20 @@ namespace GGFanGame.Screens.Menu
 
                     if (posX + 16 >= 0 && posX < 400 + extraOffsetX && posY + 16 >= 0 && posY < 480)
                     {
-                        UI.Graphics.drawCircle(new Vector2(posX, posY), 16, new Color((int)(241 + cR), (int)(118 + cG), (int)(50 + cB), (int)cA));
+                        Drawing.Graphics.drawCircle(new Vector2(posX, posY), 16, new Color((int)(241 + cR), (int)(118 + cG), (int)(50 + cB), (int)cA));
                     }
                 }
             }
             gameInstance.spriteBatch.Draw(gameInstance.Content.Load<Texture2D>("gg_logo"), new Rectangle(0 + extraOffsetX / 2, 100, 400, 225), Color.White);
-            UI.Graphics.drawRectangle(new Rectangle(0, 0, 400 + extraOffsetX, 480), new Color(0, 0, 0, (int)(130 * fadeRight)));
-            UI.Graphics.drawRectangle(new Rectangle(388 + extraOffsetX, 0, 12, 480), new Color(0, 0, 0, (int)(100 * fadeRight)));
+            Drawing.Graphics.drawRectangle(new Rectangle(0, 0, 400 + extraOffsetX, 480), new Color(0, 0, 0, (int)(130 * fadeRight)));
+            Drawing.Graphics.drawRectangle(new Rectangle(388 + extraOffsetX, 0, 12, 480), new Color(0, 0, 0, (int)(100 * fadeRight)));
         }
 
         private void drawSteamTrain()
         {
             int extraOffsetX = (int)((100 * fadeLeft) - (100 * fadeRight));
 
-            UI.Graphics.drawGradient(new Rectangle(400 + extraOffsetX, 0, 400 - extraOffsetX, 480), new Color(78, 143, 249), new Color(151, 186, 251), false, -1);
+            Drawing.Graphics.drawGradient(new Rectangle(400 + extraOffsetX, 0, 400 - extraOffsetX, 480), new Color(78, 143, 249), new Color(151, 186, 251), false, -1);
 
             for (int x = -9; x < 17; x++)
             {
@@ -108,32 +108,32 @@ namespace GGFanGame.Screens.Menu
 
                     if (posX + 16 >= 400 + extraOffsetX && posX < 800  && posY + 16 >= 0 && posY < 480)
                     {
-                        UI.Graphics.drawCircle(new Vector2(posX, posY), 16, new Color((int)(71 + cR), (int)(133 + cG), (int)(244 + cB), (int)cA));
+                        Drawing.Graphics.drawCircle(new Vector2(posX, posY), 16, new Color((int)(71 + cR), (int)(133 + cG), (int)(244 + cB), (int)cA));
                     }
                 }
             }
-            UI.Graphics.drawCircle(new Vector2(620 + extraOffsetX / 2, 345), 150, new Color(255, 255, 255, 130));
+            Drawing.Graphics.drawCircle(new Vector2(620 + extraOffsetX / 2, 345), 150, new Color(255, 255, 255, 130));
 
-            UI.Graphics.drawCircle(new Vector2(400 + extraOffsetX / 2, 350), 400, Color.White);
+            Drawing.Graphics.drawCircle(new Vector2(400 + extraOffsetX / 2, 350), 400, Color.White);
 
 
-            UI.Graphics.drawCircle(new Vector2(430 + extraOffsetX / 2, 360), 90, Color.White);
-            UI.Graphics.drawCircle(new Vector2(415 + extraOffsetX / 2, 345), 120, new Color(255, 255, 255, 130));
-            UI.Graphics.drawCircle(new Vector2(445 + extraOffsetX / 2, 375), 60, new Color(204, 218, 247));
-            UI.Graphics.drawCircle(new Vector2(452 + extraOffsetX / 2, 385), 40, Color.White);
+            Drawing.Graphics.drawCircle(new Vector2(430 + extraOffsetX / 2, 360), 90, Color.White);
+            Drawing.Graphics.drawCircle(new Vector2(415 + extraOffsetX / 2, 345), 120, new Color(255, 255, 255, 130));
+            Drawing.Graphics.drawCircle(new Vector2(445 + extraOffsetX / 2, 375), 60, new Color(204, 218, 247));
+            Drawing.Graphics.drawCircle(new Vector2(452 + extraOffsetX / 2, 385), 40, Color.White);
 
-            UI.Graphics.drawCircle(new Vector2(630 + extraOffsetX / 2, 410), 20, new Color(204, 218, 247));
+            Drawing.Graphics.drawCircle(new Vector2(630 + extraOffsetX / 2, 410), 20, new Color(204, 218, 247));
 
-            UI.Graphics.drawCircle(new Vector2(670 + extraOffsetX / 2, 390), 30, new Color(204, 218, 247));
+            Drawing.Graphics.drawCircle(new Vector2(670 + extraOffsetX / 2, 390), 30, new Color(204, 218, 247));
 
-            UI.Graphics.drawCircle(new Vector2(540 + extraOffsetX / 2, 375), 40, new Color(204, 218, 247));
+            Drawing.Graphics.drawCircle(new Vector2(540 + extraOffsetX / 2, 375), 40, new Color(204, 218, 247));
 
-            UI.Graphics.drawCircle(new Vector2(580 + extraOffsetX / 2, 405), 60, new Color(204, 218, 247));
-            UI.Graphics.drawCircle(new Vector2(588 + extraOffsetX / 2, 415), 40, Color.White);
+            Drawing.Graphics.drawCircle(new Vector2(580 + extraOffsetX / 2, 405), 60, new Color(204, 218, 247));
+            Drawing.Graphics.drawCircle(new Vector2(588 + extraOffsetX / 2, 415), 40, Color.White);
 
             gameInstance.spriteBatch.Draw(gameInstance.Content.Load<Texture2D>("st_logo"), new Rectangle(400 + extraOffsetX / 2, 100, 400, 225), Color.White);
-            UI.Graphics.drawRectangle(new Rectangle(400 + extraOffsetX, 0, 400 - extraOffsetX, 480), new Color(0, 0, 0, (int)(130 * fadeLeft)));
-            UI.Graphics.drawRectangle(new Rectangle(400 + extraOffsetX, 0, 12, 480), new Color(0, 0, 0, (int)(100 * fadeLeft)));
+            Drawing.Graphics.drawRectangle(new Rectangle(400 + extraOffsetX, 0, 400 - extraOffsetX, 480), new Color(0, 0, 0, (int)(130 * fadeLeft)));
+            Drawing.Graphics.drawRectangle(new Rectangle(400 + extraOffsetX, 0, 12, 480), new Color(0, 0, 0, (int)(100 * fadeLeft)));
         }
 
         float fadeLeft = 1f;

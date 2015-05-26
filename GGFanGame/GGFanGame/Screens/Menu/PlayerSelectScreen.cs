@@ -71,7 +71,7 @@ namespace GGFanGame.Screens.Menu
 
         public override void draw()
         {
-            UI.Graphics.drawRectangle(gameInstance.clientRectangle, Color.Black);
+            Drawing.Graphics.drawRectangle(gameInstance.clientRectangle, Color.Black);
 
             //We draw the selections here:
 
@@ -85,7 +85,7 @@ namespace GGFanGame.Screens.Menu
             drawGrumpSelect(3, new Vector2(startX + 780, startY), fourUpColor);
 
             //Now, draw a black overlay on the bottom to hide the incoming dash lines:
-            UI.Graphics.drawRectangle(new Rectangle(0, startY + 480, gameInstance.clientRectangle.Width, gameInstance.clientRectangle.Height - 480 - startY), Color.Black);
+            Drawing.Graphics.drawRectangle(new Rectangle(0, startY + 480, gameInstance.clientRectangle.Width, gameInstance.clientRectangle.Height - 480 - startY), Color.Black);
 
             if (_activatedPlayers[0])
             {
@@ -113,7 +113,7 @@ namespace GGFanGame.Screens.Menu
             //Only when the player has chosen a character, draw the dash line and a shadow.
             if (_activatedPlayers[index])
             {
-                UI.Graphics.drawLine(new Vector2(offset.X - 90 + _selectedAnimations[index] / 4.8f,
+                Drawing.Graphics.drawLine(new Vector2(offset.X - 90 + _selectedAnimations[index] / 4.8f,
                                                  offset.Y + 480 - _selectedAnimations[index] + 480),
                                      new Vector2(offset.X + 30 + _selectedAnimations[index] / 4.8f,
                                                  offset.Y + 480 - _selectedAnimations[index]),
@@ -122,7 +122,7 @@ namespace GGFanGame.Screens.Menu
             }
 
             //Draw a black overlay in the back over the dash line to hide it behind the UI on the top:
-            UI.Graphics.drawRectangle(new Rectangle((int)offset.X - 10, (int)offset.Y, 270, 160), Color.Black);
+            Drawing.Graphics.drawRectangle(new Rectangle((int)offset.X - 10, (int)offset.Y, 270, 160), Color.Black);
             //Draws the UI element on top:
             gameInstance.spriteBatch.Draw(_menuElements[index], new Rectangle((int)offset.X, (int)offset.Y + 30, 220, 120), Color.White);
 

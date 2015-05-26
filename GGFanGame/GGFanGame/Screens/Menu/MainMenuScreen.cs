@@ -42,12 +42,12 @@ namespace GGFanGame.Screens.Menu
         private void drawBackground()
         {
             //Draws the black-orange background gradient:
-            UI.Graphics.drawGradient(gameInstance.clientRectangle, Color.Black, new Color(164, 108, 46), false);
+            Drawing.Graphics.drawGradient(gameInstance.clientRectangle, Color.Black, new Color(164, 108, 46), false);
 
             //Draw the background dots:
             for (int x = -6; x < 32; x++)
             {
-                for (int y = 0; y < 20; y++)
+                for (int y = 0; y < 21; y++)
                 {
                     int posX = (int)(x * DOT_SIZE * 3 + y * DOT_SIZE + _offsetX);
                     int posY = (int)(y * DOT_SIZE * 3 - (x * DOT_SIZE) + _offsetY);
@@ -83,7 +83,7 @@ namespace GGFanGame.Screens.Menu
                     //When the dot is inside the rendering area, draw it.
                     if (posX + DOT_SIZE * 2 >= 0 && posX < gameInstance.clientRectangle.Width && posY + DOT_SIZE * 2 >= 0 && posY < gameInstance.clientRectangle.Height)
                     {
-                        UI.Graphics.drawCircle(new Vector2(posX, posY), DOT_SIZE * 2, new Color((int)(241 + cR), (int)(118 + cG), (int)(50 + cB), (int)cA));
+                        Drawing.Graphics.drawCircle(new Vector2(posX, posY), DOT_SIZE * 2, new Color((int)(241 + cR), (int)(118 + cG), (int)(50 + cB), (int)cA));
                     }
                 }
             }

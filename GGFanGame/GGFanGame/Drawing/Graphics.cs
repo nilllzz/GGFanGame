@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GGFanGame.UI
+namespace GGFanGame.Drawing
 {
     /// <summary>
     /// This class is used across the game to render basic forms like rectangles.
@@ -44,12 +44,18 @@ namespace GGFanGame.UI
         /// <summary>
         /// Draws a rectangle in a given color.
         /// </summary>
-        /// <param name="rectangle">The rectangle to draw.</param>
-        /// <param name="color"></param>
         public static void drawRectangle(Rectangle rectangle, Color color)
         {
+            drawRectangle(_spriteBatch, rectangle, color);
+        }
+
+        /// <summary>
+        /// Draws a rectangle in a given color.
+        /// </summary>
+        public static void drawRectangle(SpriteBatch batch, Rectangle rectangle, Color color)
+        {
             if (_initialized)
-                _spriteBatch.Draw(_canvas, rectangle, color);
+                batch.Draw(_canvas, rectangle, color);
         }
 
         /// <summary>
@@ -61,10 +67,25 @@ namespace GGFanGame.UI
         /// <param name="width">The width of the line.</param>
         public static void drawLine(Vector2 start, Vector2 end, Color color, double width)
         {
-            double angle = Math.Atan2(end.Y - start.Y, end.X - start.X);
-            double length = Vector2.Distance(start, end);
+            drawLine(_spriteBatch, start, end, color, width);
+        }
 
-            _spriteBatch.Draw(_canvas, start, null, color, (float)angle, Vector2.Zero, new Vector2((float)length, (float)width), SpriteEffects.None, 0);
+        /// <summary>
+        /// Draws a line in a given color.
+        /// </summary>
+        /// <param name="start">The starting point of the line.</param>
+        /// <param name="end">The ending point of the line.</param>
+        /// <param name="color">The color of the line.</param>
+        /// <param name="width">The width of the line.</param>
+        public static void drawLine(SpriteBatch batch, Vector2 start, Vector2 end, Color color, double width)
+        {
+            if (_initialized)
+            {
+                double angle = Math.Atan2(end.Y - start.Y, end.X - start.X);
+                double length = Vector2.Distance(start, end);
+
+                batch.Draw(_canvas, start, null, color, (float)angle, Vector2.Zero, new Vector2((float)length, (float)width), SpriteEffects.None, 0);
+            }
         }
 
         #region Gradients
@@ -94,9 +115,9 @@ namespace GGFanGame.UI
             /// Renders a rectangle filled with the gradient.
             /// </summary>
             /// <param name="r">The rectangle.</param>
-            public void draw(Rectangle r)
+            public void draw(SpriteBatch batch, Rectangle r)
             {
-                _spriteBatch.Draw(_texture, r, Color.White);
+                batch.Draw(_texture, r, Color.White);
             }
 
             private static Texture2D generateTexture(int width, int height, Color fromColor, Color toColor, bool horizontal, int steps)
@@ -186,24 +207,31 @@ namespace GGFanGame.UI
         /// <summary>
         /// Draws a smooth gradient.
         /// </summary>
-        /// <param name="rectangle"></param>
-        /// <param name="fromColor"></param>
-        /// <param name="toColor"></param>
-        /// <param name="horizontal"></param>
         public static void drawGradient(Rectangle rectangle, Color fromColor, Color toColor, bool horizontal)
         {
-            drawGradient(rectangle, fromColor, toColor, horizontal, -1); //negative number for steps means as many steps as possible.
+            drawGradient(_spriteBatch, rectangle, fromColor, toColor, horizontal, -1); //negative number for steps means as many steps as possible.
+        }
+
+        /// <summary>
+        /// Draws a smooth gradient.
+        /// </summary>
+        public static void drawGradient(SpriteBatch batch, Rectangle rectangle, Color fromColor, Color toColor, bool horizontal)
+        {
+            drawGradient(batch, rectangle, fromColor, toColor, horizontal, -1); //negative number for steps means as many steps as possible.
         }
 
         /// <summary>
         /// Draws a gradient.
         /// </summary>
-        /// <param name="rectangle"></param>
-        /// <param name="fromColor"></param>
-        /// <param name="toColor"></param>
-        /// <param name="horizontal"></param>
-        /// <param name="steps"></param>
         public static void drawGradient(Rectangle rectangle, Color fromColor, Color toColor, bool horizontal, int steps)
+        {
+            drawGradient(_spriteBatch, rectangle, fromColor, toColor, horizontal, steps);
+        }
+
+        /// <summary>
+        /// Draws a gradient.
+        /// </summary>
+        public static void drawGradient(SpriteBatch batch, Rectangle rectangle, Color fromColor, Color toColor, bool horizontal, int steps)
         {
             if (rectangle.Width > 0 && rectangle.Height > 0)
             {
@@ -221,7 +249,7 @@ namespace GGFanGame.UI
                 }
 
                 //Finally, draw the configuration:
-                gradient.draw(rectangle);
+                gradient.draw(batch, rectangle);
             }
         }
 
@@ -251,9 +279,9 @@ namespace GGFanGame.UI
             /// </summary>
             /// <param name="position"></param>
             /// <param name="color"></param>
-            public void draw(Vector2 position, Color color)
+            public void draw(SpriteBatch batch, Vector2 position, Color color)
             {
-                _spriteBatch.Draw(_texture, position, color);
+                batch.Draw(_texture, position, color);
             }
 
             private static Texture2D generateTexture(int width, int height)
@@ -301,9 +329,7 @@ namespace GGFanGame.UI
         /// <summary>
         /// Draws an ellipse with a specified color.
         /// </summary>
-        /// <param name="rectangle"></param>
-        /// <param name="color"></param>
-        public static void drawEllipse(Rectangle rectangle, Color color)
+        public static void drawEllipse(SpriteBatch batch, Rectangle rectangle, Color color)
         {
             EllipseConfiguration ellipse;
             string checksum = EllipseConfiguration.generateChecksum(rectangle.Width, rectangle.Height);
@@ -319,19 +345,32 @@ namespace GGFanGame.UI
             }
 
             //Finally, draw the configuration:
-            ellipse.draw(new Vector2(rectangle.X, rectangle.Y), color);
+            ellipse.draw(batch, new Vector2(rectangle.X, rectangle.Y), color);
+        }
+
+        /// <summary>
+        /// Draws an ellipse with a specified color.
+        /// </summary>
+        public static void drawEllipse(Rectangle rectangle, Color color)
+        {
+            drawEllipse(_spriteBatch, rectangle, color);
         }
 
         //To draw a circle, we draw an ellipse with x and y radius being the same:
         /// <summary>
         /// Draws a circle with specified radius and color.
         /// </summary>
-        /// <param name="position"></param>
-        /// <param name="radius"></param>
-        /// <param name="color"></param>
+        public static void drawCircle(SpriteBatch batch, Vector2 position, int radius, Color color)
+        {
+            drawEllipse(batch, new Rectangle((int)position.X, (int)position.Y, radius, radius), color);
+        }
+
+        /// <summary>
+        /// Draws a circle with specified radius and color.
+        /// </summary>
         public static void drawCircle(Vector2 position, int radius, Color color)
         {
-            drawEllipse(new Rectangle((int)position.X, (int)position.Y, radius, radius), color);
+            drawCircle(_spriteBatch, position, radius, color);
         }
 
         #endregion

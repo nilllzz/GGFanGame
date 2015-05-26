@@ -42,18 +42,30 @@ namespace GGFanGame.Screens.Game.Level
             set { _position = value; }
         }
 
+        /// <summary>
+        /// The X position.
+        /// </summary>
+        /// <returns></returns>
         public float X
         {
             get { return _position.X; }
             set { _position.X = value; }
         }
 
+        /// <summary>
+        /// The Y position.
+        /// </summary>
+        /// <returns></returns>
         public float Y
         {
             get { return _position.Y; }
             set { _position.Y = value; }
         }
 
+        /// <summary>
+        /// The Z position.
+        /// </summary>
+        /// <returns></returns>
         public float Z
         {
             get { return _position.Z; }

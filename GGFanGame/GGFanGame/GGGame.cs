@@ -1,17 +1,47 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using GGFanGame.Content;
+using System;
 
 namespace GGFanGame
 {
     /// <summary>
     /// The main game type.
     /// </summary>
-    public class GGGame : Game
+    class GGGame : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private SpriteBatch _fontBatch;
+
+        private MusicManager _musicManager;
+        private TextureManager _textureManager;
+
+        private Random _random = new Random();
+
+        public Random random
+        {
+            get { return _random; }
+        }
+
+        /// <summary>
+        /// The texture manager for this game.
+        /// </summary>
+        /// <returns></returns>
+        public TextureManager textureManager
+        {
+            get { return _textureManager; }
+        }
+
+        /// <summary>
+        /// The music manager for this game.
+        /// </summary>
+        /// <returns></returns>
+        public MusicManager musicManager
+        {
+            get { return _musicManager; }
+        }
 
         /// <summary>
         /// The active main sprite batch of the game.
@@ -19,7 +49,7 @@ namespace GGFanGame
         /// <returns></returns>
         public SpriteBatch spriteBatch
         {
-            get { return _spriteBatch;  }
+            get { return _spriteBatch; }
         }
 
         /// <summary>
@@ -40,6 +70,10 @@ namespace GGFanGame
             get { return _graphics; }
         }
 
+        /// <summary>
+        /// Returns a rectangle representing the game's drawing area relative to the window position.
+        /// </summary>
+        /// <returns></returns>
         public Rectangle clientRectangle
         {
             get { return new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height); }
@@ -49,6 +83,9 @@ namespace GGFanGame
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            _musicManager = new MusicManager(this);
+            _textureManager = new TextureManager(this);
         }
 
         /// <summary>

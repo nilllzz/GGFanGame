@@ -278,3 +278,9 @@
 /processorParam:TextureFormat=Color
 /build:Misc/Shadow.png
 
+#begin Music/Smash 1.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Smash 1.mp3
+

@@ -47,7 +47,7 @@ namespace GGFanGame.Screens.Menu
 
             for (int i = 0; i < 4; i++)
             {
-                _menuElements[i] = gameInstance.Content.Load<Texture2D>(@"GrumpCade\" + (i + 1).ToString() + "Up");
+                _menuElements[i] = game.textureManager.getResource(@"GrumpCade\" + (i + 1).ToString() + "Up");
             }
 
             //Set start selections:
@@ -64,9 +64,9 @@ namespace GGFanGame.Screens.Menu
         /// <param name="name">The name of the grump.</param>
         private void loadGrumpTexture(int index, string name)
         {
-            _grumps[index] = gameInstance.Content.Load<Texture2D>(@"GrumpCade\" + name);
-            _grumps_overlay[index] = gameInstance.Content.Load<Texture2D>(@"GrumpCade\" + name + "_Overlay");
-            _grumps_names[index] = gameInstance.Content.Load<Texture2D>(@"Names\" + name + "_name");
+            _grumps[index] = gameInstance.textureManager.getResource(@"GrumpCade\" + name);
+            _grumps_overlay[index] = gameInstance.textureManager.getResource(@"GrumpCade\" + name + "_Overlay");
+            _grumps_names[index] = gameInstance.textureManager.getResource(@"Names\" + name + "_name");
         }
 
         public override void draw()

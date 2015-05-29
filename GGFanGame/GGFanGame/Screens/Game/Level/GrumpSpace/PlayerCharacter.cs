@@ -98,7 +98,7 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
         /// </summary>
         protected PlayerCharacter(GGGame game) : base(game)
         {
-            _shadow = gameInstance.Content.Load<Texture2D>(@"Misc\Shadow");
+            _shadow = gameInstance.textureManager.getResource(@"Misc\Shadow");
         }
 
         /// <summary>

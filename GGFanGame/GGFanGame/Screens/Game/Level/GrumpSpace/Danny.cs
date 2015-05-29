@@ -11,7 +11,7 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
     {
         public Danny(GGGame game) : base(game)
         {
-            texture = gameInstance.Content.Load<Texture2D>(@"Sprites\Danny");
+            texture = gameInstance.textureManager.getResource(@"Sprites\Danny");
 
             addAnimation(PlayerState.Idle, new PlayerAnimation(6, 8, Vector2.Zero));
             addAnimation(PlayerState.Walking, new PlayerAnimation(4, 6, new Vector2(0, 64)));

@@ -38,8 +38,12 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Content\MusicManager.cs" />
+    <Compile Include="Content\ResourceManager.cs" />
+    <Compile Include="Content\TextureManager.cs" />
     <Compile Include="DataModel\Json\Game\GameSessionModel.cs" />
     <Compile Include="DataModel\Json\JsonDataModel.cs" />
+    <Compile Include="Drawing\Palette.cs" />
     <Compile Include="GameSession.cs" />
     <Compile Include="GGGame.cs" />
     <Compile Include="GameJolt\API\APIManager.cs" />

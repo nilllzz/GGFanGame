@@ -20,6 +20,8 @@ namespace GGFanGame
 
         private Random _random = new Random();
 
+        private RenderTarget2D _target; //The target each frame renders to.
+
         public Random random
         {
             get { return _random; }
@@ -120,6 +122,7 @@ namespace GGFanGame
             _fontBatch = new SpriteBatch(GraphicsDevice);
 
             Drawing.Graphics.initialize(GraphicsDevice, _spriteBatch);
+            _target = new RenderTarget2D(GraphicsDevice, 1200, 720);
         }
 
         /// <summary>
@@ -155,6 +158,7 @@ namespace GGFanGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.SetRenderTarget(_target);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
             _fontBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.AnisotropicClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
@@ -163,6 +167,12 @@ namespace GGFanGame
 
             _spriteBatch.End();
             _fontBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            _spriteBatch.Draw(_target, clientRectangle, Color.White);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

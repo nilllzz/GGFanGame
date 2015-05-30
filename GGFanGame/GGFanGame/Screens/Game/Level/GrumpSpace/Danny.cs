@@ -9,17 +9,17 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
 {
     class Danny : PlayerCharacter
     {
-        public Danny(GGGame game) : base(game)
+        public Danny(GGGame game, PlayerIndex playerIndex) : base(game, playerIndex)
         {
-            texture = gameInstance.textureManager.getResource(@"Sprites\Danny");
+            //texture = gameInstance.textureManager.getResource(@"Sprites\Danny");
 
-            addAnimation(PlayerState.Idle, new PlayerAnimation(6, 8, Vector2.Zero));
-            addAnimation(PlayerState.Walking, new PlayerAnimation(4, 6, new Vector2(0, 64)));
-            addAnimation(PlayerState.Jumping, new PlayerAnimation(1, 0, new Vector2(0, 128)));
-            addAnimation(PlayerState.Falling, new PlayerAnimation(1, 0, new Vector2(0, 192)));
+            //addAnimation(PlayerState.Idle, new PlayerAnimation(6, 8, Vector2.Zero, new Vector2(32, 48)));
+            //addAnimation(PlayerState.Walking, new PlayerAnimation(4, 6, new Vector2(0, 64), new Vector2(32, 48)));
+            //addAnimation(PlayerState.Jumping, new PlayerAnimation(1, 0, new Vector2(0, 128), new Vector2(32, 48)));
+            //addAnimation(PlayerState.Falling, new PlayerAnimation(1, 0, new Vector2(0, 192), new Vector2(32, 48)));
 
-            speed = 5f;
-            jumpHeight = 14;
+            //speed = 5f;
+            //jumpHeight = 14;
         }
     }
 }

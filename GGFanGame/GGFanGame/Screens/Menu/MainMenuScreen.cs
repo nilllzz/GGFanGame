@@ -36,8 +36,8 @@ namespace GGFanGame.Screens.Menu
             _logoTexture = game.textureManager.getResource("gg_logo");
             _grumpFont = game.Content.Load<SpriteFont>("CartoonFontLarge");
 
-            MediaPlayer.Play(game.musicManager.getResource(@"Music\Smash 1"));
-            MediaPlayer.IsRepeating = true;
+            //MediaPlayer.Play(game.musicManager.getResource(@"Music\Smash 1"));
+            //MediaPlayer.IsRepeating = true;
         }
 
         public override void draw()

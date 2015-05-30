@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace GGFanGame.Screens.Game
 {
@@ -17,6 +18,7 @@ namespace GGFanGame.Screens.Game
 
         public override void draw()
         {
+            Drawing.Graphics.drawRectangle(gameInstance.clientRectangle, Color.CornflowerBlue);
             _level.draw();
         }
 

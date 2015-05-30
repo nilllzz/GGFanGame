@@ -105,17 +105,6 @@ namespace GGFanGame.Screens.Game.Level
             set { _collision = value; }
         }
 
-        private bool _inDestructable;
-        /// <summary>
-        /// If this object can be destroyed by attacking it.
-        /// </summary>
-        /// <returns></returns>
-        public bool inDestructable
-        {
-            get { return _inDestructable; }
-            set { _inDestructable = value; }
-        }
-
         private int _health = 1; //1 is the default so every object has at least one health when spawned.
         /// <summary>
         /// The health of this object.
@@ -125,6 +114,28 @@ namespace GGFanGame.Screens.Game.Level
         {
             get { return _health; }
             set { _health = value; }
+        }
+
+        private float _strength = 0;
+        /// <summary>
+        /// The strength of this object.
+        /// </summary>
+        /// <returns></returns>
+        public float strength
+        {
+            get { return _strength; }
+            set { _strength = value; }
+        }
+
+        private float _weigth = 0;
+        /// <summary>
+        /// The weigth of this object.
+        /// </summary>
+        /// <returns></returns>
+        public float weigth
+        {
+            get { return _weigth; }
+            set { _weigth = value; }
         }
 
         public LevelObject(GGGame game)

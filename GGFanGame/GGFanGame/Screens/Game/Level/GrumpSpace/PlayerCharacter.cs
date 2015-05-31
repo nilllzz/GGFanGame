@@ -16,8 +16,6 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
         private PlayerIndex _playerIndex;
         private float _playerSpeed = 5f;
 
-        private Vector3 _autoMovement = new Vector3(0);
-
         protected float playerSpeed
         {
             get { return _playerSpeed; }
@@ -108,41 +106,65 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
                     setToState = ObjectState.Hurt;
                 }
             }
-            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.B) && setToState == ObjectState.Idle)
+            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.X) && setToState == ObjectState.Idle)
             {
                 getHit(true, 15f, 20);
                 setToState = ObjectState.HurtFalling;
             }
 
-            if (setToState == ObjectState.Idle)
+            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.B) && setToState == ObjectState.Idle && Y == 0f)
+            {
+                _autoMovement.Y = 18f;
+                setToState = ObjectState.Jumping;
+            }
+            if (state == ObjectState.Jumping && setToState == ObjectState.Idle)
+            {
+                if (_autoMovement.Y > 0f)
+                {
+                    setToState = ObjectState.Jumping;
+                }
+                else
+                {
+                    setToState = ObjectState.Falling;
+                }
+            }
+
+            if ((setToState == ObjectState.Idle || setToState == ObjectState.Falling || setToState == ObjectState.Jumping) && _autoMovement.X == 0f)
             {
                 if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickRight))
                 {
-                    setToState = ObjectState.Walking;
+                    if (setToState == ObjectState.Idle)
+                        setToState = ObjectState.Walking;
                     X += _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right);
                     facing = ObjectFacing.Right;
                 }
                 if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickLeft))
                 {
-                    setToState = ObjectState.Walking;
+                    if (setToState == ObjectState.Idle)
+                        setToState = ObjectState.Walking;
                     X -= _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left);
                     facing = ObjectFacing.Left;
                 }
                 if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickUp))
                 {
-                    setToState = ObjectState.Walking;
+                    if (setToState == ObjectState.Idle)
+                        setToState = ObjectState.Walking;
                     Z -= _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up);
                 }
                 if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickDown))
                 {
-                    setToState = ObjectState.Walking;
+                    if (setToState == ObjectState.Idle)
+                        setToState = ObjectState.Walking;
                     Z += _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down);
                 }
             }
 
-            setState(setToState);
+            if ((setToState == ObjectState.Walking || setToState == ObjectState.Idle) && Y > 0f)
+            {
+                setToState = ObjectState.Falling;
+            }
 
-            updateAutoMovement();
+            setState(setToState);
 
             base.update();
         }
@@ -194,61 +216,7 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
                 }
             }
 
-
             repeatAnimation = false;
-        }
-
-        private void updateAutoMovement()
-        {
-            if (_autoMovement.X > 0f)
-            {
-                _autoMovement.X--;
-                if (_autoMovement.X < 0f)
-                    _autoMovement.X = 0f;
-            }
-            if (_autoMovement.X < 0f)
-            {
-                _autoMovement.X++;
-                if (_autoMovement.X > 0f)
-                    _autoMovement.X = 0f;
-            }
-
-            if (_autoMovement.Y > 0f)
-            {
-                _autoMovement.Y--;
-                if (_autoMovement.Y < 0f)
-                    _autoMovement.Y = 0f;
-            }
-            else
-            {
-                if (Y > 0f)
-                {
-                    _autoMovement.Y--;
-                }
-            }
-
-            if (_autoMovement.Z > 0f)
-            {
-                _autoMovement.Z--;
-                if (_autoMovement.Z < 0f)
-                    _autoMovement.Z = 0f;
-            }
-            if (_autoMovement.Z < 0f)
-            {
-                _autoMovement.Z++;
-                if (_autoMovement.Z > 0f)
-                    _autoMovement.Z = 0f;
-            }
-
-            X += _autoMovement.X;
-            Y += _autoMovement.Y;
-            Z += _autoMovement.Z;
-
-            if (Y < 0f)
-            {
-                Y = 0f;
-                _autoMovement.Y = 0f;
-            }
         }
     }
 }

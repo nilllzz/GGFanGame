@@ -20,6 +20,8 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             addAnimation(ObjectState.HurtFalling, new Animation(5, new Point(0, 128), new Point(64, 64), 7, 5));
             addAnimation(ObjectState.StandingUp, new Animation(5, new Point(256, 128), new Point(64, 64), 9));
             addAnimation(ObjectState.Dead, new Animation(1, new Point(256, 128), new Point(64, 64), 1));
+            addAnimation(ObjectState.Jumping, new Animation(6, new Point(0, 192), new Point(64,64), 4));
+            addAnimation(ObjectState.Falling, new Animation(2, new Point(0, 256), new Point(64, 64), 4));
 
             health = 100;
             playerSpeed = 8f;

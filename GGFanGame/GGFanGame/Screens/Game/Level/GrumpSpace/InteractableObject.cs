@@ -27,42 +27,63 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
 
         protected struct Animation
         {
-            public AnimationFrame[] frames;
+            private AnimationFrame[] _frames;
+
+            public AnimationFrame[] frames
+            {
+                get { return _frames; }
+            }
 
             public Animation(int frameCount, Point startPosition, Point frameSize, double frameLength) : this(frameCount, startPosition, frameSize, frameLength, 0)
             { }
 
             public Animation(int frameCount, Point startPosition, Point frameSize, double frameLength, int repeatLastFrameCount)
             {
-                frames = new AnimationFrame[frameCount + repeatLastFrameCount];
+                _frames = new AnimationFrame[frameCount + repeatLastFrameCount];
                 for (int i = 0; i < frameCount; i++)
                 {
-                    frames[i] = new AnimationFrame() { frameLength = frameLength, startPosition = startPosition + new Point(i * frameSize.X, 0), frameSize = frameSize };
+                    _frames[i] = new AnimationFrame() { frameLength = frameLength, startPosition = startPosition + new Point(i * frameSize.X, 0), frameSize = frameSize };
                 }
                 if (repeatLastFrameCount > 0)
                 {
                     for (int i = 0; i < repeatLastFrameCount; i++)
                     {
-                        frames[frameCount + i] = frames[frameCount - 1];
+                        _frames[frameCount + i] = _frames[frameCount - 1];
                     }
                 }
             }
 
             public Rectangle getFrameRec(int animationFrame)
             {
-                return frames[animationFrame].getRect();
+                return _frames[animationFrame].getRect();
             }
         }
 
         protected struct AnimationFrame
         {
-            public Point frameSize;
-            public Point startPosition;
-            public double frameLength;
+            private Point _frameSize;
+            private Point _startPosition;
+            private double _frameLength;
+
+            public Point frameSize
+            {
+                get { return _frameSize; }
+                set { _frameSize = value; }
+            }
+            public Point startPosition
+            {
+                get { return _startPosition; }
+                set { _startPosition = value; }
+            }
+            public double frameLength
+            {
+                get { return _frameLength; }
+                set { _frameLength = value; }
+            }
 
             public Rectangle getRect()
             {
-                return new Rectangle(startPosition.X, startPosition.Y, frameSize.X, frameSize.Y);
+                return new Rectangle(_startPosition.X, _startPosition.Y, _frameSize.X, _frameSize.Y);
             }
         }
 
@@ -114,6 +135,8 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             set { _shadowSize = value; }
         }
 
+        protected Vector3 _autoMovement = new Vector3(0);
+
         public InteractableObject(GGGame game) : base(game)
         {
             if (_shadowTexture == null)
@@ -147,6 +170,8 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
 
         public override void update()
         {
+            updateAutoMovement();
+
             if (getAnimation().frames.Length > 1)
             {
                 _animationDelay--;
@@ -192,6 +217,71 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
         public virtual void getHit(bool knockback, float strength, int health)
         {
             //By default, nothing happens...
+        }
+
+        private void updateAutoMovement()
+        {
+            if (_autoMovement.X > 0f)
+            {
+                _autoMovement.X--;
+                if (_autoMovement.X < 0f)
+                    _autoMovement.X = 0f;
+            }
+            if (_autoMovement.X < 0f)
+            {
+                _autoMovement.X++;
+                if (_autoMovement.X > 0f)
+                    _autoMovement.X = 0f;
+            }
+
+            if (_autoMovement.Y > 0f)
+            {
+                _autoMovement.Y--;
+                if (_autoMovement.Y < 0f)
+                    _autoMovement.Y = 0f;
+            }
+            else
+            {
+                if (Y > 0f)
+                {
+                    _autoMovement.Y--;
+                }
+            }
+
+            if (_autoMovement.Z > 0f)
+            {
+                _autoMovement.Z--;
+                if (_autoMovement.Z < 0f)
+                    _autoMovement.Z = 0f;
+            }
+            if (_autoMovement.Z < 0f)
+            {
+                _autoMovement.Z++;
+                if (_autoMovement.Z > 0f)
+                    _autoMovement.Z = 0f;
+            }
+
+            X += _autoMovement.X;
+            Y += _autoMovement.Y;
+            Z += _autoMovement.Z;
+
+            if (Y < 0f)
+            {
+                Y = 0f;
+
+                if (_autoMovement.Y < -17f && state == ObjectState.HurtFalling)
+                {
+                    _autoMovement.Y = 8f;
+                    if (facing == ObjectFacing.Left)
+                        _autoMovement.X = 12f;
+                    else
+                        _autoMovement.X = -12f;
+                }
+                else
+                {
+                    _autoMovement.Y = 0f;
+                }
+            }
         }
     }
 }

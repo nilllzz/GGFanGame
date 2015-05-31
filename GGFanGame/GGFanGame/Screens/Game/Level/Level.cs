@@ -58,7 +58,7 @@ namespace GGFanGame.Screens.Game.Level
             _gameInstance.spriteBatch.Draw(bars, new Rectangle(114, 74, _drawHealthWidth * 2, 16), new Rectangle(0, 0, _drawHealthWidth, 8), Color.White);
             _gameInstance.spriteBatch.Draw(bars, new Rectangle(114, 90, 172, 8), new Rectangle(0, 8, 86, 4), Color.White);
 
-            if (_arin.state == GrumpSpace.ObjectState.HurtFalling)
+            if (_arin.state == GrumpSpace.ObjectState.HurtFalling || _arin.state == GrumpSpace.ObjectState.Hurt)
                 _gameInstance.spriteBatch.Draw(arinHead, new Rectangle(34, 34, 96, 96), new Rectangle(48, 0, 48, 48), Color.White);
             else if (_arin.state == GrumpSpace.ObjectState.Dead)
                 _gameInstance.spriteBatch.Draw(arinHead, new Rectangle(34, 34, 96, 96), new Rectangle(96, 0, 48, 48), Color.White);

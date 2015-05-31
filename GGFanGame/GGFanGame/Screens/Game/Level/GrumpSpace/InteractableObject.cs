@@ -108,6 +108,12 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             set { _drawShadow = value; }
         }
 
+        protected double shadowSize
+        {
+            get { return _shadowSize; }
+            set { _shadowSize = value; }
+        }
+
         public InteractableObject(GGGame game) : base(game)
         {
             if (_shadowTexture == null)
@@ -127,7 +133,15 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             {
                 Rectangle drawFrame = getAnimation().getFrameRec(_animationFrame);
 
-                gameInstance.spriteBatch.Draw(_shadowTexture, new Rectangle((int)X, (int)Z + (int)(drawFrame.Height * (3d / 4d)), drawFrame.Width, drawFrame.Height / 4), new Color(0, 0, 0, 100));
+                int shadowWidth = (int)(drawFrame.Width * _shadowSize * 2d);
+                int shadowHeight = (int)(drawFrame.Height * _shadowSize * 2d * (1d / 4d));
+
+                gameInstance.spriteBatch.Draw(_shadowTexture, 
+                    new Rectangle((int)(X + (drawFrame.Width - (shadowWidth / 2d))), 
+                                  (int)(Z + drawFrame.Height * 2d - shadowHeight / 2d), 
+                                  shadowWidth, 
+                                  shadowHeight), 
+                    new Color(0, 0, 0, 100));
             }
         }
 

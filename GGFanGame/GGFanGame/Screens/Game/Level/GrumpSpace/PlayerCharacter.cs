@@ -16,7 +16,7 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
         private PlayerIndex _playerIndex;
         private float _playerSpeed = 5f;
 
-        private Vector2 _autoMovement = new Vector2(0);
+        private Vector3 _autoMovement = new Vector3(0);
 
         protected float playerSpeed
         {
@@ -76,6 +76,18 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
                 }
             }
 
+            if (state == ObjectState.Hurt)
+            {
+                if (animationEnded() && _autoMovement.X == 0f)
+                {
+                    repeatAnimation = true;
+                }
+                else
+                {
+                    setToState = ObjectState.Hurt;
+                }
+            }
+
             if (state == ObjectState.StandingUp)
             {
                 if (animationEnded())
@@ -86,14 +98,20 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
 
             if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.A) && setToState == ObjectState.Idle)
             {
-                setToState = ObjectState.HurtFalling;
-                if (facing == ObjectFacing.Left)
-                    _autoMovement.X = 18;
+                getHit(false, 10f, 10);
+                if (health <= 0)
+                {
+                    setToState = ObjectState.HurtFalling;
+                }
                 else
-                    _autoMovement.X = -18;
-
-                repeatAnimation = false;
-                health -= 24;
+                {
+                    setToState = ObjectState.Hurt;
+                }
+            }
+            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.B) && setToState == ObjectState.Idle)
+            {
+                getHit(true, 15f, 20);
+                setToState = ObjectState.HurtFalling;
             }
 
             if (setToState == ObjectState.Idle)
@@ -129,6 +147,57 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             base.update();
         }
 
+        public override void getHit(bool knockback, float strength, int health)
+        {
+            base.getHit(knockback, strength, health);
+
+            this.health -= health;
+
+            if (this.health <= 0)
+            {
+                if (facing == ObjectFacing.Left)
+                {
+                    _autoMovement.X = strength * 1.5f;
+                    _autoMovement.Y = strength;
+                }
+                else
+                {
+                    _autoMovement.X = -(strength * 1.5f);
+                    _autoMovement.Y = strength;
+                }
+            }
+            else
+            {
+                if (knockback)
+                {
+                    if (facing == ObjectFacing.Left)
+                    {
+                        _autoMovement.X = strength * 1.5f;
+                        _autoMovement.Y = strength;
+                    }
+                    else
+                    {
+                        _autoMovement.X = -(strength * 1.5f);
+                        _autoMovement.Y = strength;
+                    }
+                }
+                else
+                {
+                    if (facing == ObjectFacing.Left)
+                    {
+                        _autoMovement.X = strength;
+                    }
+                    else
+                    {
+                        _autoMovement.X = -strength;
+                    }
+                }
+            }
+
+
+            repeatAnimation = false;
+        }
+
         private void updateAutoMovement()
         {
             if (_autoMovement.X > 0f)
@@ -150,15 +219,36 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
                 if (_autoMovement.Y < 0f)
                     _autoMovement.Y = 0f;
             }
-            if (_autoMovement.Y < 0f)
+            else
             {
-                _autoMovement.Y++;
-                if (_autoMovement.Y > 0f)
-                    _autoMovement.Y = 0f;
+                if (Y > 0f)
+                {
+                    _autoMovement.Y--;
+                }
+            }
+
+            if (_autoMovement.Z > 0f)
+            {
+                _autoMovement.Z--;
+                if (_autoMovement.Z < 0f)
+                    _autoMovement.Z = 0f;
+            }
+            if (_autoMovement.Z < 0f)
+            {
+                _autoMovement.Z++;
+                if (_autoMovement.Z > 0f)
+                    _autoMovement.Z = 0f;
             }
 
             X += _autoMovement.X;
-            Z += _autoMovement.Y;
+            Y += _autoMovement.Y;
+            Z += _autoMovement.Z;
+
+            if (Y < 0f)
+            {
+                Y = 0f;
+                _autoMovement.Y = 0f;
+            }
         }
     }
 }

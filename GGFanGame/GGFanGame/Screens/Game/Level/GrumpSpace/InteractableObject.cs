@@ -25,8 +25,6 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
 
     abstract class InteractableObject : LevelObject
     {
-        private static Texture2D _shadowTexture = null;
-
         protected struct Animation
         {
             private AnimationFrame[] _frames;
@@ -141,9 +139,6 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
 
         public InteractableObject(GGGame game) : base(game)
         {
-            if (_shadowTexture == null)
-                _shadowTexture = gameInstance.textureManager.getResource(@"Misc\Shadow");
-
             setState(ObjectState.Idle);
         }
 
@@ -161,12 +156,11 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
                 int shadowWidth = (int)(drawFrame.Width * _shadowSize * 2d);
                 int shadowHeight = (int)(drawFrame.Height * _shadowSize * 2d * (1d / 4d));
 
-                gameInstance.spriteBatch.Draw(_shadowTexture, 
-                    new Rectangle((int)(X + (drawFrame.Width - (shadowWidth / 2d))), 
-                                  (int)(Z + drawFrame.Height * 2d - shadowHeight / 2d), 
-                                  shadowWidth, 
-                                  shadowHeight), 
-                    new Color(0, 0, 0, 100));
+                Drawing.Graphics.drawEllipse(new Rectangle((int)(X + (drawFrame.Width - (shadowWidth / 2d))),
+                                (int)(Z + drawFrame.Height * 2d - shadowHeight / 2d),
+                                shadowWidth,
+                                shadowHeight),
+                  new Color(0, 0, 0, 100));
             }
         }
 

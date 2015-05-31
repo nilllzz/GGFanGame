@@ -286,23 +286,24 @@ namespace GGFanGame.Drawing
 
             private static Texture2D generateTexture(int width, int height)
             {
-                //width and height are x and y radius.
+                //width and height are x and y diameter.
 
                 Color[] colorArr = new Color[width * height];
 
-                float diamX = width / 2f;
-                float diamXsq = diamX * diamX;
-                float diamY = height / 2f;
-                float diamYsq = diamY * diamY;
+                Point center = new Point(width / 2, height / 2);
+
+                double xRadius = width / 2d;
+                double yRadius = height / 2d;
 
                 for (int x = 0; x < width; x++)
                 {
                     for (int y = 0; y < height; y++)
                     {
-                        int index = x * height + y;
-                        Vector2 pos = new Vector2(x - diamX, y - diamY);
+                        int index = y * width + x;
 
-                        if (pos.LengthSquared() <= diamXsq)
+                        Point normalized = new Point(x - center.X, y - center.Y);
+
+                        if (((normalized.X * normalized.X) / (xRadius * xRadius)) + ((normalized.Y * normalized.Y) / (yRadius * yRadius)) <= 1.0)
                             colorArr[index] = Color.White;
                         else
                             colorArr[index] = Color.Transparent;

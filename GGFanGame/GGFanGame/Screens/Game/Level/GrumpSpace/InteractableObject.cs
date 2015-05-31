@@ -14,6 +14,8 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
         Jumping,
         Falling,
 
+        Blocking,
+
         Hurt,
         HurtFalling,
         OnBack,

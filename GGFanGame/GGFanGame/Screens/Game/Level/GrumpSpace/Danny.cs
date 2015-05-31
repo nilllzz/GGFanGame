@@ -9,7 +9,7 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
 {
     class Danny : PlayerCharacter
     {
-        public Danny(GGGame game, PlayerIndex playerIndex) : base(game, playerIndex)
+        public Danny(GGGame game, PlayerIndex playerIndex) : base(game, playerIndex, "Danny")
         {
             //texture = gameInstance.textureManager.getResource(@"Sprites\Danny");
 

@@ -15,6 +15,7 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
     {
         private PlayerIndex _playerIndex;
         private float _playerSpeed = 5f;
+        private string _name = "";
 
         protected float playerSpeed
         {
@@ -22,12 +23,18 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             set { _playerSpeed = value; }
         }
 
+        public string name
+        {
+            get { return _name; }
+        }
+
         /// <summary>
         /// Creates a new instance of the player character class.
         /// </summary>
-        protected PlayerCharacter(GGGame game, PlayerIndex playerIndex) : base(game)
+        protected PlayerCharacter(GGGame game, PlayerIndex playerIndex, string name) : base(game)
         {
             _playerIndex = playerIndex;
+            _name = name;
         }
 
         /// <summary>
@@ -101,7 +108,7 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
                 {
                     setToState = ObjectState.HurtFalling;
                 }
-                else
+                else if (state != ObjectState.Blocking)
                 {
                     setToState = ObjectState.Hurt;
                 }
@@ -109,7 +116,10 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.X) && setToState == ObjectState.Idle)
             {
                 getHit(true, 15f, 20);
-                setToState = ObjectState.HurtFalling;
+                if (state != ObjectState.Blocking || health <= 0)
+                {
+                    setToState = ObjectState.HurtFalling;
+                }
             }
 
             if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.B) && setToState == ObjectState.Idle && Y == 0f)
@@ -127,6 +137,11 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
                 {
                     setToState = ObjectState.Falling;
                 }
+            }
+
+            if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftShoulder) && setToState == ObjectState.Idle && Y == 0f)
+            {
+                setToState = ObjectState.Blocking;
             }
 
             if ((setToState == ObjectState.Idle || setToState == ObjectState.Falling || setToState == ObjectState.Jumping) && _autoMovement.X == 0f)
@@ -173,24 +188,23 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
         {
             base.getHit(knockback, strength, health);
 
-            this.health -= health;
-
-            if (this.health <= 0)
+            if (state == ObjectState.Blocking)
             {
+                this.health -= (int)(health / 4d);
                 if (facing == ObjectFacing.Left)
                 {
-                    _autoMovement.X = strength * 1.5f;
-                    _autoMovement.Y = strength;
+                    _autoMovement.X = strength;
                 }
                 else
                 {
-                    _autoMovement.X = -(strength * 1.5f);
-                    _autoMovement.Y = strength;
+                    _autoMovement.X = -strength;
                 }
             }
             else
             {
-                if (knockback)
+                this.health -= health;
+
+                if (this.health <= 0)
                 {
                     if (facing == ObjectFacing.Left)
                     {
@@ -205,18 +219,34 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
                 }
                 else
                 {
-                    if (facing == ObjectFacing.Left)
+                    if (knockback)
                     {
-                        _autoMovement.X = strength;
+                        if (facing == ObjectFacing.Left)
+                        {
+                            _autoMovement.X = strength * 1.5f;
+                            _autoMovement.Y = strength;
+                        }
+                        else
+                        {
+                            _autoMovement.X = -(strength * 1.5f);
+                            _autoMovement.Y = strength;
+                        }
                     }
                     else
                     {
-                        _autoMovement.X = -strength;
+                        if (facing == ObjectFacing.Left)
+                        {
+                            _autoMovement.X = strength;
+                        }
+                        else
+                        {
+                            _autoMovement.X = -strength;
+                        }
                     }
                 }
-            }
 
-            repeatAnimation = false;
+                repeatAnimation = false;
+            }
         }
     }
 }

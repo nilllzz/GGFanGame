@@ -8,7 +8,7 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
 {
     class Arin : PlayerCharacter
     {
-        public Arin(GGGame game, PlayerIndex playerIndex) : base(game, playerIndex)
+        public Arin(GGGame game, PlayerIndex playerIndex) : base(game, playerIndex, "Arin")
         {
             spriteSheet = gameInstance.textureManager.getResource(@"Sprites\Arin");
             drawShadow = true;
@@ -22,16 +22,10 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             addAnimation(ObjectState.Dead, new Animation(1, new Point(256, 128), new Point(64, 64), 1));
             addAnimation(ObjectState.Jumping, new Animation(6, new Point(0, 192), new Point(64,64), 4));
             addAnimation(ObjectState.Falling, new Animation(2, new Point(0, 256), new Point(64, 64), 4));
+            addAnimation(ObjectState.Blocking, new Animation(1, new Point(576, 0), new Point(64, 64), 1));
 
             health = 100;
             playerSpeed = 8f;
-        }
-
-        public override void update()
-        {
-            base.update();
-
-            
         }
     }
 }

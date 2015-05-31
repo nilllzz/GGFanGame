@@ -62,6 +62,7 @@
     <Compile Include="Screens\Game\Level\GrumpSpace\Danny.cs" />
     <Compile Include="Screens\Game\Level\GrumpSpace\InteractableObject.cs" />
     <Compile Include="Screens\Game\Level\GrumpSpace\PlayerCharacter.cs" />
+    <Compile Include="Screens\Game\Level\HUD\PlayerStatus.cs" />
     <Compile Include="Screens\Game\Level\Level.cs" />
     <Compile Include="Screens\Game\Level\LevelObject.cs" />
     <Compile Include="Screens\Menu\MainMenuScreen.cs" />

@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using GGFanGame.Game.Level;
 
 namespace GGFanGame.Screens.Game
 {
     class GrumpSpaceScreen : Screen
     {
 
-        private Level.Level _level;
+        private Stage _level;
 
         public GrumpSpaceScreen(GGGame game) : base(Identification.InGame, game)
         {
-            _level = new Level.Level(game);
+            _level = new Stage(game);
+            _level.setActiveStage();
         }
 
         public override void draw()

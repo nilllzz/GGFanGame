@@ -6,13 +6,37 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace GGFanGame.Screens.Game.Level.GrumpSpace
+namespace GGFanGame.Game.Level.Playable
 {
     /// <summary>
     /// A playable character in the grump space.
     /// </summary>
-    abstract class PlayerCharacter : InteractableObject
+    abstract class PlayerCharacter : InteractableStageObject
     {
+        #region Combo
+
+        private Dictionary<string, Animation> _comboAnimations = new Dictionary<string, Animation>();
+
+        private string _comboChain = ""; //The current combo chain.
+        private double _comboDelay = 0d; //The time period after an attack to chain a combo.
+
+        /// <summary>
+        /// Adds an animation bound to an attack combo.
+        /// </summary>
+        protected void addComboAnimation(string comboChain, Animation animation)
+        {
+            _comboAnimations.Add(comboChain, animation);
+        }
+
+        private Dictionary<string, Attack> _attacks = new Dictionary<string, Attack>();
+
+        protected void addAttack(string combo, int frame, Attack attack)
+        {
+            _attacks.Add(combo + frame.ToString(), attack);
+        }
+
+        #endregion
+
         private PlayerIndex _playerIndex;
         private float _playerSpeed = 5f;
         private string _name = "";
@@ -38,21 +62,11 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
         }
 
         /// <summary>
-        /// Draws the player character and related things like the shadow.
+        /// Draws the player character.
         /// </summary>
         public override void draw()
         {
             base.draw();
-
-            SpriteEffects effect = SpriteEffects.None;
-            if (facing == ObjectFacing.Left)
-            {
-                effect = SpriteEffects.FlipHorizontally;
-            }
-
-            Rectangle frame = getAnimation().getFrameRec(animationFrame);
-
-            gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)X, (int)(Z - Y), frame.Width * 2, frame.Height * 2), frame, Color.White, 0f, Vector2.Zero, effect, 0f);
         }
 
         public override void update()
@@ -101,27 +115,65 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
                     setToState = ObjectState.StandingUp;
             }
 
-            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.A) && setToState == ObjectState.Idle)
+            //Attacking:
+            if (!animationEnded() && setToState == ObjectState.Idle && state == ObjectState.Attacking)
             {
-                getHit(false, 10f, 10);
-                if (health <= 0)
-                {
-                    setToState = ObjectState.HurtFalling;
-                }
-                else if (state != ObjectState.Blocking)
-                {
-                    setToState = ObjectState.Hurt;
-                }
+                setToState = ObjectState.Attacking;
             }
-            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.X) && setToState == ObjectState.Idle)
+            else
             {
-                getHit(true, 15f, 20);
-                if (state != ObjectState.Blocking || health <= 0)
+                if (_comboDelay > 0d)
                 {
-                    setToState = ObjectState.HurtFalling;
+                    if (setToState != ObjectState.Idle)
+                    {
+                        _comboDelay = 0d;
+                        _comboChain = "";
+                    }
+                    else
+                    {
+                        _comboDelay--;
+                        if (_comboDelay <= 0d)
+                        {
+                            _comboDelay = 0d;
+                            _comboChain = "";
+                            setToState = ObjectState.Idle;
+                            repeatAnimation = true;
+                        }
+                        else
+                        {
+                            setToState = ObjectState.Attacking;
+                        }
+                    }
                 }
             }
 
+            if (_comboChain == "" || animationEnded())
+            {
+                if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.X) && (setToState == ObjectState.Idle || setToState == ObjectState.Attacking))
+                {
+                    _comboChain += "B";
+                    if (!_comboAnimations.Keys.Contains(_comboChain))
+                    {
+                        _comboChain = "";
+                        _comboDelay = 0d;
+                        setToState = ObjectState.Idle;
+                        repeatAnimation = true;
+                    }
+                    else
+                    {
+                        animationFrame = 0;
+                        setToState = ObjectState.Attacking;
+                        repeatAnimation = false;
+                        _comboDelay = 12d;
+                        if (facing == ObjectFacing.Left)
+                            _autoMovement.X -= 12;
+                        else
+                            _autoMovement.X += 12;
+                    }
+                }
+            }
+
+            //Jumping and landing:
             if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.B) && setToState == ObjectState.Idle && Y == 0f)
             {
                 _autoMovement.Y = 18f;
@@ -139,11 +191,13 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
                 }
             }
 
+            //Blocking:
             if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftShoulder) && setToState == ObjectState.Idle && Y == 0f)
             {
                 setToState = ObjectState.Blocking;
             }
 
+            //Walking + movement while in the air:
             if ((setToState == ObjectState.Idle || setToState == ObjectState.Falling || setToState == ObjectState.Jumping) && _autoMovement.X == 0f)
             {
                 if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickRight))
@@ -181,72 +235,28 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
 
             setState(setToState);
 
+            if (state == ObjectState.Attacking && getAnimation().frames[animationFrame].frameLength == animationDelay)
+            {
+                if (_attacks.Keys.Contains(_comboChain + animationFrame.ToString()))
+                {
+                    Attack attack = _attacks[_comboChain + animationFrame.ToString()];
+                    attack.facing = facing;
+
+                    Stage.activeStage().singleHitAll(attack, position);
+                }
+            }
+
             base.update();
         }
 
-        public override void getHit(bool knockback, float strength, int health)
+        protected override Animation getAnimation()
         {
-            base.getHit(knockback, strength, health);
-
-            if (state == ObjectState.Blocking)
+            if (state == ObjectState.Attacking)
             {
-                this.health -= (int)(health / 4d);
-                if (facing == ObjectFacing.Left)
-                {
-                    _autoMovement.X = strength;
-                }
-                else
-                {
-                    _autoMovement.X = -strength;
-                }
+                return _comboAnimations[_comboChain];
             }
-            else
-            {
-                this.health -= health;
 
-                if (this.health <= 0)
-                {
-                    if (facing == ObjectFacing.Left)
-                    {
-                        _autoMovement.X = strength * 1.5f;
-                        _autoMovement.Y = strength;
-                    }
-                    else
-                    {
-                        _autoMovement.X = -(strength * 1.5f);
-                        _autoMovement.Y = strength;
-                    }
-                }
-                else
-                {
-                    if (knockback)
-                    {
-                        if (facing == ObjectFacing.Left)
-                        {
-                            _autoMovement.X = strength * 1.5f;
-                            _autoMovement.Y = strength;
-                        }
-                        else
-                        {
-                            _autoMovement.X = -(strength * 1.5f);
-                            _autoMovement.Y = strength;
-                        }
-                    }
-                    else
-                    {
-                        if (facing == ObjectFacing.Left)
-                        {
-                            _autoMovement.X = strength;
-                        }
-                        else
-                        {
-                            _autoMovement.X = -strength;
-                        }
-                    }
-                }
-
-                repeatAnimation = false;
-            }
+            return base.getAnimation();
         }
     }
 }

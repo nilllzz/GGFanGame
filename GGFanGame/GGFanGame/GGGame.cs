@@ -9,8 +9,12 @@ namespace GGFanGame
     /// <summary>
     /// The main game type.
     /// </summary>
-    class GGGame : Game
+    class GGGame : Microsoft.Xna.Framework.Game
     {
+        public const int RENDER_WIDTH = 1280;
+        public const int RENDER_HEIGHT = 720;
+        public const string GAME_TITLE = "Hard Dudes";
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private SpriteBatch _fontBatch;
@@ -104,8 +108,8 @@ namespace GGFanGame
             //I guess we will implement a splash screen of some sort later.
             Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.MainMenuScreen(this));
 
-            graphics.PreferredBackBufferWidth = 1200;
-            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = RENDER_WIDTH;
+            graphics.PreferredBackBufferHeight = RENDER_HEIGHT;
             graphics.ApplyChanges();
 
             base.Initialize();
@@ -122,7 +126,7 @@ namespace GGFanGame
             _fontBatch = new SpriteBatch(GraphicsDevice);
 
             Drawing.Graphics.initialize(GraphicsDevice, _spriteBatch);
-            _target = new RenderTarget2D(GraphicsDevice, 1200, 720);
+            _target = new RenderTarget2D(GraphicsDevice, RENDER_WIDTH, RENDER_HEIGHT);
         }
 
         /// <summary>

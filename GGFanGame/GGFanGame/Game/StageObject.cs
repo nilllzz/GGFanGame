@@ -5,8 +5,31 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GGFanGame.Screens.Game.Level
+namespace GGFanGame.Game.Level
 {
+
+    /// <summary>
+    /// The states of an object.
+    /// </summary>
+    public enum ObjectState
+    {
+        Idle,
+        Walking,
+        Jumping,
+        Falling,
+
+        Blocking,
+
+        Hurt,
+        HurtFalling,
+        OnBack,
+        StandingUp,
+        Dead,
+
+        Attacking
+    }
+
+
     /// <summary>
     /// The ways an object can face.
     /// </summary>
@@ -17,9 +40,9 @@ namespace GGFanGame.Screens.Game.Level
     }
 
     /// <summary>
-    /// The base object for all things that appear in a level.
+    /// The base object for all things that appear in a stage.
     /// </summary>
-    abstract class LevelObject
+    abstract class StageObject : IComparable<StageObject>
     {
         private GGGame _game; 
         /// <summary>
@@ -83,6 +106,11 @@ namespace GGFanGame.Screens.Game.Level
             set { _size = value; }
         }
 
+        public virtual Vector3 getFeetPosition()
+        {
+            return _position;
+        }
+
         private ObjectFacing _facing; 
         /// <summary>
         /// The way this object is facing.
@@ -138,7 +166,7 @@ namespace GGFanGame.Screens.Game.Level
             set { _weigth = value; }
         }
 
-        public LevelObject(GGGame game)
+        public StageObject(GGGame game)
         {
             _game = game;
         }
@@ -156,5 +184,37 @@ namespace GGFanGame.Screens.Game.Level
         public abstract void update();
 
         public abstract void draw();
+
+        public virtual void getHit(Attack attack)
+        {
+            //By default, nothing happens...
+        }
+
+        private bool _canInteract = false;
+
+        public bool canInteract
+        {
+            get { return _canInteract; }
+            protected set { _canInteract = value; }
+        }
+
+        public int CompareTo(StageObject obj)
+        {
+            Vector3 ownFeet = getFeetPosition();
+            Vector3 objFeet = obj.getFeetPosition();
+
+            if (ownFeet.Z < objFeet.Z)
+            {
+                return -1;
+            }
+            else if (ownFeet.Z > objFeet.Z)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }

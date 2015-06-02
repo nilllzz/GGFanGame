@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GGFanGame.Game.Level.Playable;
 
-namespace GGFanGame.Screens.Game.Level.HUD
+namespace GGFanGame.Game.Level.HUD
 {
     /// <summary>
     /// HUD element to display player status.
@@ -14,7 +15,7 @@ namespace GGFanGame.Screens.Game.Level.HUD
     {
         private GGGame _gameInstance;
 
-        private GrumpSpace.PlayerCharacter _player;
+        private PlayerCharacter _player;
         private PlayerIndex _playerIndex;
 
         private int _drawHealthWidth = 0;
@@ -27,7 +28,7 @@ namespace GGFanGame.Screens.Game.Level.HUD
         /// <summary>
         /// Creates a new instance of the PlayerStatus class.
         /// </summary>
-        public PlayerStatus(GGGame game, GrumpSpace.PlayerCharacter player, PlayerIndex playerIndex)
+        public PlayerStatus(GGGame game, PlayerCharacter player, PlayerIndex playerIndex)
         {
             _gameInstance = game;
 
@@ -72,9 +73,9 @@ namespace GGFanGame.Screens.Game.Level.HUD
             _gameInstance.spriteBatch.Draw(_barTexture, new Rectangle(114, 90, 172, 8), new Rectangle(0, 8, 86, 4), Color.White);
 
             //Render face depending on the player's state.
-            if (_player.state == GrumpSpace.ObjectState.HurtFalling || _player.state == GrumpSpace.ObjectState.Hurt)
+            if (_player.state == ObjectState.HurtFalling || _player.state == ObjectState.Hurt)
                 _gameInstance.spriteBatch.Draw(_headTexture, new Rectangle(34, 34, 96, 96), new Rectangle(48, 0, 48, 48), Color.White);
-            else if (_player.state == GrumpSpace.ObjectState.Dead)
+            else if (_player.state == ObjectState.Dead)
                 _gameInstance.spriteBatch.Draw(_headTexture, new Rectangle(34, 34, 96, 96), new Rectangle(96, 0, 48, 48), Color.White);
             else
                 _gameInstance.spriteBatch.Draw(_headTexture, new Rectangle(34, 34, 96, 96), new Rectangle(0, 0, 48, 48), Color.White);

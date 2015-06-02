@@ -5,8 +5,11 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GGFanGame.Screens.Game.Level.GrumpSpace
+namespace GGFanGame.Game.Level.Playable
 {
+    /// <summary>
+    /// Playable Dan character.
+    /// </summary>
     class Danny : PlayerCharacter
     {
         public Danny(GGGame game, PlayerIndex playerIndex) : base(game, playerIndex, "Danny")
@@ -20,6 +23,9 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
 
             //speed = 5f;
             //jumpHeight = 14;
+
+            //TODO: Finish animation once the sprite sheet is there.
+            //TODO: Set values.
         }
     }
 }

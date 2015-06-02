@@ -27,7 +27,6 @@ namespace GGFanGame.Screens.Menu
 
         //The size reference of the dots in the background
         const int DOT_SIZE = 16;
-        const string _gameTitle = "HARD DUDES";
 
         private SpriteFont _grumpFont = null;
 
@@ -108,11 +107,11 @@ namespace GGFanGame.Screens.Menu
             gameInstance.spriteBatch.Draw(_logoTexture, destinationRectangle, 
                 null, Color.White, _logoAnimation - 1f, new Vector2(width / 2f, height / 2f), SpriteEffects.None, 0f);
 
-            gameInstance.fontBatch.DrawString(_grumpFont, _gameTitle, 
-                new Vector2((gameInstance.clientRectangle.Width * _gameTitleAnimation) + gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(_gameTitle).X / 2 + 5, 
+            gameInstance.fontBatch.DrawString(_grumpFont, GGGame.GAME_TITLE, 
+                new Vector2((gameInstance.clientRectangle.Width * _gameTitleAnimation) + gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(GGGame.GAME_TITLE).X / 2 + 5, 
                 90 + _logoTexture.Height + 5), new Color(122, 141, 235), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            gameInstance.fontBatch.DrawString(_grumpFont, _gameTitle, 
-                new Vector2(-(gameInstance.clientRectangle.Width * _gameTitleAnimation) + gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(_gameTitle).X / 2, 
+            gameInstance.fontBatch.DrawString(_grumpFont, GGGame.GAME_TITLE, 
+                new Vector2(-(gameInstance.clientRectangle.Width * _gameTitleAnimation) + gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(GGGame.GAME_TITLE).X / 2, 
                 90 + _logoTexture.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 

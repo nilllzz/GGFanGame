@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace GGFanGame.Screens.Game.Level.GrumpSpace
+namespace GGFanGame.Game.Level.Playable
 {
+    /// <summary>
+    /// Playable Arin character.
+    /// </summary>
     class Arin : PlayerCharacter
     {
         public Arin(GGGame game, PlayerIndex playerIndex) : base(game, playerIndex, "Arin")
@@ -13,6 +16,8 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             spriteSheet = gameInstance.textureManager.getResource(@"Sprites\Arin");
             drawShadow = true;
             shadowSize = 0.5d;
+            strength = 8;
+            size = new Vector3(32, 32, 10);
 
             addAnimation(ObjectState.Idle, new Animation(8, Point.Zero, new Point(64, 64), 7));
             addAnimation(ObjectState.Walking, new Animation(6, new Point(0, 64), new Point(64, 64), 5));
@@ -23,6 +28,12 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             addAnimation(ObjectState.Jumping, new Animation(6, new Point(0, 192), new Point(64,64), 4));
             addAnimation(ObjectState.Falling, new Animation(2, new Point(0, 256), new Point(64, 64), 4));
             addAnimation(ObjectState.Blocking, new Animation(1, new Point(576, 0), new Point(64, 64), 1));
+
+            addComboAnimation("B", new Animation(5, new Point(0, 320), new Point(64, 64), 5, 1));
+            addComboAnimation("BB", new Animation(3, new Point(320, 320), new Point(64, 64), 5));
+
+            addAttack("B", 3, new Attack(this, false, 5, new Vector3(30), new Vector3(40, 20, 0)));
+            addAttack("BB", 2, new Attack(this, true, 5, new Vector3(30), new Vector3(40, 20, 0)));
 
             health = 100;
             playerSpeed = 8f;

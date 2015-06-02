@@ -5,26 +5,16 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GGFanGame.Screens.Game.Level.GrumpSpace
+namespace GGFanGame.Game.Level
 {
-    public enum ObjectState
+    /// <summary>
+    /// A class that represents an interactable object, the base for all players, enemies and other complex objects.
+    /// </summary>
+    abstract class InteractableStageObject : StageObject
     {
-        Idle,
-        Walking,
-        Jumping,
-        Falling,
-
-        Blocking,
-
-        Hurt,
-        HurtFalling,
-        OnBack,
-        StandingUp,
-        Dead
-    }
-
-    abstract class InteractableObject : LevelObject
-    {
+        /// <summary>
+        /// An animation for the object, which is a collection of frames.
+        /// </summary>
         protected struct Animation
         {
             private AnimationFrame[] _frames;
@@ -59,6 +49,9 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             }
         }
 
+        /// <summary>
+        /// A single frame of an animation.
+        /// </summary>
         protected struct AnimationFrame
         {
             private Point _frameSize;
@@ -119,6 +112,10 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
         }
 
         private double _animationDelay = 0f;
+        protected double animationDelay
+        {
+            get { return _animationDelay; }
+        }
 
         private double _shadowSize = 1;
         private bool _drawShadow = true;
@@ -137,11 +134,15 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
 
         protected Vector3 _autoMovement = new Vector3(0);
 
-        public InteractableObject(GGGame game) : base(game)
+        public InteractableStageObject(GGGame game) : base(game)
         {
             setState(ObjectState.Idle);
+            canInteract = true;
         }
 
+        /// <summary>
+        /// Adds an animation for a specific object state.
+        /// </summary>
         protected void addAnimation(ObjectState state, Animation animation)
         {
             _animations.Add(state, animation);
@@ -162,6 +163,16 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
                                 shadowHeight),
                   new Color(0, 0, 0, 100));
             }
+
+            SpriteEffects effect = SpriteEffects.None;
+            if (facing == ObjectFacing.Left)
+            {
+                effect = SpriteEffects.FlipHorizontally;
+            }
+
+            Rectangle frame = getAnimation().getFrameRec(animationFrame);
+
+            gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)X, (int)(Z - Y), frame.Width * 2, frame.Height * 2), frame, Color.White, 0f, Vector2.Zero, effect, 0f);
         }
 
         public override void update()
@@ -195,26 +206,36 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             return _animationFrame == getAnimation().frames.Length - 1;
         }
 
-        protected Animation getAnimation()
+        /// <summary>
+        /// Returns the current animation.
+        /// </summary>
+        protected virtual Animation getAnimation()
         {
             return _animations[_state];
         }
 
-        protected void setState(ObjectState state)
+        /// <summary>
+        /// Sets the state to a new one and resets animations.
+        /// </summary>
+        protected void setState(ObjectState newState)
         {
-            if (state != _state)
+            if (newState != _state)
             {
-                _state = state;
+                _state = newState;
                 _animationFrame = 0;
                 _animationDelay = getAnimation().frames[0].frameLength;
             }
         }
 
-        public virtual void getHit(bool knockback, float strength, int health)
+        public override Vector3 getFeetPosition()
         {
-            //By default, nothing happens...
+            Rectangle rect = getAnimation().getFrameRec(_animationFrame);
+            return new Vector3(X + rect.Width, Y, Z + rect.Height * 2f);
         }
 
+        /// <summary>
+        /// Updates the auto movement of the object. This also updates falling.
+        /// </summary>
         private void updateAutoMovement()
         {
             if (_autoMovement.X > 0f)
@@ -265,6 +286,9 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
             {
                 Y = 0f;
 
+                Rectangle rect = getAnimation().getFrameRec(_animationFrame);
+                Stage.activeStage().addActionWord(new ActionWord(gameInstance, "tud", Color.LightGreen, 0.3f, new Vector3(X + rect.Width, 0f, Z + rect.Height * 2)));
+
                 if (_autoMovement.Y < -17f && state == ObjectState.HurtFalling)
                 {
                     _autoMovement.Y = 8f;
@@ -277,6 +301,89 @@ namespace GGFanGame.Screens.Game.Level.GrumpSpace
                 {
                     _autoMovement.Y = 0f;
                 }
+            }
+        }
+
+        public override void getHit(Attack attack)
+        {
+            base.getHit(attack);
+
+            if (state == ObjectState.Blocking)
+            {
+                health -= (int)(attack.health / 4d);
+                if (attack.facing == ObjectFacing.Right)
+                {
+                    _autoMovement.X = attack.origin.strength;
+                }
+                else
+                {
+                    _autoMovement.X = -attack.origin.strength;
+                }
+            }
+            else
+            {
+                health -= attack.health;
+
+                if (health <= 0)
+                {
+                    if (attack.facing == ObjectFacing.Right)
+                    {
+                        _autoMovement.X = attack.origin.strength * 1.5f;
+                        _autoMovement.Y = attack.origin.strength;
+                    }
+                    else
+                    {
+                        _autoMovement.X = -(attack.origin.strength * 1.5f);
+                        _autoMovement.Y = attack.origin.strength;
+                    }
+                }
+                else
+                {
+                    if (attack.knockback)
+                    {
+                        if (attack.facing == ObjectFacing.Right)
+                        {
+                            _autoMovement.X = attack.origin.strength * 1.5f;
+                            _autoMovement.Y = attack.origin.strength;
+                        }
+                        else
+                        {
+                            _autoMovement.X = -(attack.origin.strength * 1.5f);
+                            _autoMovement.Y = attack.origin.strength;
+                        }
+                    }
+                    else
+                    {
+                        if (attack.facing == ObjectFacing.Right)
+                        {
+                            _autoMovement.X = attack.origin.strength;
+                        }
+                        else
+                        {
+                            _autoMovement.X = -attack.origin.strength;
+                        }
+                    }
+                }
+
+                repeatAnimation = false;
+
+                if (health <= 0 || attack.knockback)
+                {
+                    setState(ObjectState.HurtFalling);
+                }
+                else
+                {
+                    setState(ObjectState.Hurt);
+                }
+            }
+
+            if (attack.facing == ObjectFacing.Left)
+            {
+                facing = ObjectFacing.Right;
+            }
+            else
+            {
+                facing = ObjectFacing.Left;
             }
         }
     }

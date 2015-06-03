@@ -17,6 +17,7 @@ namespace GGFanGame.Game.Level.Playable
 
         private Dictionary<string, Animation> _comboAnimations = new Dictionary<string, Animation>();
 
+        private string _nextComboItem = "";
         private string _comboChain = ""; //The current combo chain.
         private double _comboDelay = 0d; //The time period after an attack to chain a combo.
 
@@ -82,6 +83,8 @@ namespace GGFanGame.Game.Level.Playable
 
             if (state == ObjectState.Attacking && getAnimation().frames[animationFrame].frameLength == animationDelay)
             {
+                System.Diagnostics.Debug.Print(_comboChain + animationFrame.ToString());
+
                 if (_attacks.Keys.Contains(_comboChain + animationFrame.ToString()))
                 {
                     Attack attack = _attacks[_comboChain + animationFrame.ToString()];
@@ -141,59 +144,54 @@ namespace GGFanGame.Game.Level.Playable
             }
 
             //Attacking:
-            if (!animationEnded() && setToState == ObjectState.Idle && state == ObjectState.Attacking)
-            {
-                setToState = ObjectState.Attacking;
-            }
-            else
-            {
-                if (_comboDelay > 0d)
-                {
-                    if (setToState != ObjectState.Idle)
-                    {
-                        _comboDelay = 0d;
-                        _comboChain = "";
-                    }
-                    else
-                    {
-                        _comboDelay--;
-                        if (_comboDelay <= 0d)
-                        {
-                            _comboDelay = 0d;
-                            _comboChain = "";
-                            setToState = ObjectState.Idle;
-                            repeatAnimation = true;
-                        }
-                        else
-                        {
-                            setToState = ObjectState.Attacking;
-                        }
-                    }
-                }
-            }
 
-            if (_comboChain == "" || animationEnded())
+            if (setToState == ObjectState.Idle)
             {
-                if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.X) && (setToState == ObjectState.Idle || setToState == ObjectState.Attacking))
+                string comboAddition = "";
+                if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.X) && comboAddition == "")
                 {
-                    _comboChain += "B";
-                    if (!_comboAnimations.Keys.Contains(_comboChain))
+                    comboAddition = "B";
+                }
+                if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.A) && comboAddition == "")
+                {
+                    comboAddition = "A";
+                }
+
+                if (state == ObjectState.Attacking && !animationEnded())
+                {
+                    setToState = ObjectState.Attacking;
+                    repeatAnimation = false;
+                    if (_nextComboItem == "")
+                        _nextComboItem = comboAddition;
+                }
+                else if((state == ObjectState.Attacking && animationEnded() && _comboDelay > 0) || state != ObjectState.Attacking)
+                {
+                    _comboDelay--;
+
+                    if (_nextComboItem != "" && comboAddition == "")
                     {
-                        _comboChain = "";
-                        _comboDelay = 0d;
-                        setToState = ObjectState.Idle;
-                        repeatAnimation = true;
+                        comboAddition = _nextComboItem;
+                        _nextComboItem = "";
                     }
-                    else
+
+                    if (comboAddition != "" && _comboAnimations.Keys.Contains(_comboChain + comboAddition))
                     {
-                        animationFrame = 0;
+                        _comboChain += comboAddition;
+                        _comboDelay = 12d;
+
                         setToState = ObjectState.Attacking;
                         repeatAnimation = false;
-                        _comboDelay = 12d;
+                        animationFrame = 0;
+
                         if (facing == ObjectFacing.Left)
                             _autoMovement.X -= 12;
                         else
                             _autoMovement.X += 12;
+                    }
+                    else
+                    {
+                        _comboChain = "";
+                        _comboDelay = 0;
                     }
                 }
             }

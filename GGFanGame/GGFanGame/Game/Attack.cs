@@ -15,11 +15,12 @@ namespace GGFanGame.Game
         private Vector3 _size;
         private Vector3 _offset;
         private ObjectFacing _facing;
+        private float _strength;
 
-        public Attack(StageObject origin, bool knockback, int health, Vector3 size, Vector3 offset) :
-            this(origin, knockback, health, size, offset, ObjectFacing.Left) { }
+        public Attack(StageObject origin, bool knockback, int health, float strength, Vector3 size, Vector3 offset) :
+            this(origin, knockback, health, strength, size, offset, ObjectFacing.Left) { }
 
-        public Attack(StageObject origin, bool knockback, int health, Vector3 size, Vector3 offset, ObjectFacing facing)
+        public Attack(StageObject origin, bool knockback, int health, float strength, Vector3 size, Vector3 offset, ObjectFacing facing)
         {
             _origin = origin;
             _knockback = knockback;
@@ -27,6 +28,7 @@ namespace GGFanGame.Game
             _size = size;
             _offset = offset;
             _facing = facing;
+            _strength = strength;
         }
 
         public StageObject origin
@@ -42,6 +44,11 @@ namespace GGFanGame.Game
         public int health
         {
             get { return _health; }
+        }
+
+        public float strength
+        {
+            get { return _strength; }
         }
 
         public ObjectFacing facing

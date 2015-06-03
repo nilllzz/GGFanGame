@@ -26,6 +26,14 @@ namespace GGFanGame.Game.Level
         private List<StageObject> _objects;
 
         private PlayerCharacter _onePlayer;
+        private PlayerCharacter _twoPlayer;
+        private PlayerCharacter _threePlayer;
+        private PlayerCharacter _fourPlayer;
+
+        private HUD.PlayerStatus _oneStatus;
+        private HUD.PlayerStatus _twoStatus;
+        private HUD.PlayerStatus _threeStatus;
+        private HUD.PlayerStatus _fourStatus;
 
         public PlayerCharacter onePlayer
         {
@@ -39,8 +47,20 @@ namespace GGFanGame.Game.Level
             _objects = new List<StageObject>();
 
             _onePlayer = new Arin(game, PlayerIndex.One);
+            _twoPlayer = new Arin(game, PlayerIndex.Two) { X = 300, Z = 300 };
+            _threePlayer = new Arin(game, PlayerIndex.Three) { X = 500, Z = 400 };
+            _fourPlayer = new Arin(game, PlayerIndex.Four) { X = 900, Z = 100 };
 
             _objects.Add(_onePlayer);
+            _objects.Add(_twoPlayer);
+            _objects.Add(_threePlayer);
+            _objects.Add(_fourPlayer);
+
+            _oneStatus = new HUD.PlayerStatus(game, _onePlayer, PlayerIndex.One);
+            _twoStatus = new HUD.PlayerStatus(game, _twoPlayer, PlayerIndex.Two);
+            _threeStatus = new HUD.PlayerStatus(game, _threePlayer, PlayerIndex.Three);
+            _fourStatus = new HUD.PlayerStatus(game, _fourPlayer, PlayerIndex.Four);
+
             _objects.Add(new Enemies.Dummy(game) { X = 100, Z = 100 });
             _objects.Add(new Enemies.Dummy(game) { X = 300, Z = 200 });
             _objects.Add(new Enemies.Dummy(game) { X = 500, Z = 150 });
@@ -53,6 +73,11 @@ namespace GGFanGame.Game.Level
             {
                 obj.draw();
             }
+
+            _oneStatus.draw();
+            _twoStatus.draw();
+            _threeStatus.draw();
+            _fourStatus.draw();
         }
 
         public void update()
@@ -81,8 +106,6 @@ namespace GGFanGame.Game.Level
         /// </summary>
         public void singleHitAll(Attack attack, Vector3 relPosition)
         {
-            System.Diagnostics.Debug.Print("ATTACK");
-
             int objIndex = 0;
             bool hit = false;
 

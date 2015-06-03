@@ -65,7 +65,7 @@ namespace GGFanGame.Game.Level.HUD
                 if (sinking)
                 {
                     position.Y += 0.1f;
-                    if (position.Y >= 4f)
+                    if (position.Y >= -2f)
                         sinking = false;
                 }
                 else
@@ -95,8 +95,8 @@ namespace GGFanGame.Game.Level.HUD
 
             for (int i = 0; i < 42; i++)
             {
-                ellipses.Add(new Ellipse(new Vector2(_gameInstance.random.Next(-20, 140), _gameInstance.random.Next(-10, 25)),
-                                         _gameInstance.random.Next(7, 30)));
+                ellipses.Add(new Ellipse(new Vector2(_gameInstance.random.Next(-20, 125), _gameInstance.random.Next(-15, 4)),
+                                         _gameInstance.random.Next(15, 45)));
             }
         }
 
@@ -130,6 +130,7 @@ namespace GGFanGame.Game.Level.HUD
 
             int xOffset = 34 + 320 * (int)_playerIndex;
 
+            Drawing.Graphics.drawRectangle(new Rectangle(xOffset + 75, 65, 130, 20), Drawing.Colors.getColor(_playerIndex));
             foreach (var ell in ellipses)
             {
                 Drawing.Graphics.drawCircle(new Vector2(xOffset + 75, 56) + ell.position, (int)ell.size, Drawing.Colors.getColor(_playerIndex));

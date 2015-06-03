@@ -83,8 +83,6 @@ namespace GGFanGame.Game.Level.Playable
 
             if (state == ObjectState.Attacking && getAnimation().frames[animationFrame].frameLength == animationDelay)
             {
-                System.Diagnostics.Debug.Print(_comboChain + animationFrame.ToString());
-
                 if (_attacks.Keys.Contains(_comboChain + animationFrame.ToString()))
                 {
                     Attack attack = _attacks[_comboChain + animationFrame.ToString()];
@@ -149,13 +147,9 @@ namespace GGFanGame.Game.Level.Playable
             {
                 string comboAddition = "";
                 if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.X) && comboAddition == "")
-                {
                     comboAddition = "B";
-                }
                 if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.A) && comboAddition == "")
-                {
                     comboAddition = "A";
-                }
 
                 if (state == ObjectState.Attacking && !animationEnded())
                 {
@@ -192,6 +186,7 @@ namespace GGFanGame.Game.Level.Playable
                     {
                         _comboChain = "";
                         _comboDelay = 0;
+                        repeatAnimation = true;
                     }
                 }
             }

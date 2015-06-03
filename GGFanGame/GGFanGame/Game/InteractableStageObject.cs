@@ -310,16 +310,18 @@ namespace GGFanGame.Game.Level
         {
             base.getHit(attack);
 
+            float knockbackValue = attack.strength + attack.origin.strength - weigth * 0.7f;
+
             if (state == ObjectState.Blocking)
             {
                 health -= (int)(attack.health / 4d);
                 if (attack.facing == ObjectFacing.Right)
                 {
-                    _autoMovement.X = attack.origin.strength;
+                    _autoMovement.X = knockbackValue;
                 }
                 else
                 {
-                    _autoMovement.X = -attack.origin.strength;
+                    _autoMovement.X = -knockbackValue;
                 }
             }
             else
@@ -330,13 +332,13 @@ namespace GGFanGame.Game.Level
                 {
                     if (attack.facing == ObjectFacing.Right)
                     {
-                        _autoMovement.X = attack.origin.strength * 1.5f;
-                        _autoMovement.Y = attack.origin.strength;
+                        _autoMovement.X = knockbackValue * 1.5f;
+                        _autoMovement.Y = knockbackValue;
                     }
                     else
                     {
-                        _autoMovement.X = -(attack.origin.strength * 1.5f);
-                        _autoMovement.Y = attack.origin.strength;
+                        _autoMovement.X = -(knockbackValue * 1.5f);
+                        _autoMovement.Y = knockbackValue;
                     }
                 }
                 else
@@ -345,24 +347,24 @@ namespace GGFanGame.Game.Level
                     {
                         if (attack.facing == ObjectFacing.Right)
                         {
-                            _autoMovement.X = attack.origin.strength * 1.5f;
-                            _autoMovement.Y = attack.origin.strength;
+                            _autoMovement.X = knockbackValue * 1.5f;
+                            _autoMovement.Y = knockbackValue;
                         }
                         else
                         {
-                            _autoMovement.X = -(attack.origin.strength * 1.5f);
-                            _autoMovement.Y = attack.origin.strength;
+                            _autoMovement.X = -(knockbackValue * 1.5f);
+                            _autoMovement.Y = knockbackValue;
                         }
                     }
                     else
                     {
                         if (attack.facing == ObjectFacing.Right)
                         {
-                            _autoMovement.X = attack.origin.strength;
+                            _autoMovement.X = knockbackValue;
                         }
                         else
                         {
-                            _autoMovement.X = -attack.origin.strength;
+                            _autoMovement.X = -knockbackValue;
                         }
                     }
                 }

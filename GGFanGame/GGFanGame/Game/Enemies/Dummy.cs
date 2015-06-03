@@ -16,6 +16,8 @@ namespace GGFanGame.Game.Level.Enemies
             spriteSheet = game.textureManager.getResource(@"Sprites\Dummy");
             drawShadow = true;
             shadowSize = 0.9d;
+            strength = 0f;
+            weigth = 12f;
             state = ObjectState.Idle;
             size = new Vector3(60, 60, 20);
 

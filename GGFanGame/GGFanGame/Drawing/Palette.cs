@@ -62,7 +62,7 @@ namespace GGFanGame.Drawing
         public static Texture2D applyPalette(GGGame game, Texture2D originalTexture, Texture2D paletteTexture)
         {
             if (paletteTexture.Height != 2)
-                throw new InvalidPaletteTextureSizeException(paletteTexture);
+                throw new PaletteTextureSizeException(paletteTexture);
 
             PaletteColor[] paletteColors = new PaletteColor[paletteTexture.Width];
             Color[] paletteTextureData = new Color[paletteTexture.Width * paletteTexture.Height];
@@ -116,10 +116,10 @@ namespace GGFanGame.Drawing
     /// <summary>
     /// An exception for when the input palette has a wrong format.
     /// </summary>
-    class InvalidPaletteTextureSizeException : Exception
+    class PaletteTextureSizeException : Exception
     {
         const string MESSAGE = "The input palette didn't have the correct format. Its height is {0}, but is supposed to be 2.";
 
-        public InvalidPaletteTextureSizeException(Texture2D paletteTexture) : base(string.Format(MESSAGE, paletteTexture.Height.ToString())) { }
+        public PaletteTextureSizeException(Texture2D paletteTexture) : base(string.Format(MESSAGE, paletteTexture.Height.ToString())) { }
     }
 }

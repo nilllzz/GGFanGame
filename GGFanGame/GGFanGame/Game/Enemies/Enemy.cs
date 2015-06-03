@@ -31,11 +31,23 @@ namespace GGFanGame.Game.Level.Enemies
         {
             ObjectState setToState = ObjectState.Idle;
 
+            if (state == ObjectState.Dead)
+            {
+                setToState = ObjectState.Dead;
+                if (animationEnded())
+                {
+                    canBeRemoved = true;
+                }
+            }
+
             if (state == ObjectState.Hurt)
             {
                 if (animationEnded())
                 {
-                    repeatAnimation = true;
+                    if (health <= 0)
+                        setToState = ObjectState.Dead;
+                    else
+                        repeatAnimation = true;
                 }
                 else
                 {
@@ -46,7 +58,10 @@ namespace GGFanGame.Game.Level.Enemies
             {
                 if (animationEnded())
                 {
-                    repeatAnimation = true;
+                    if (health <= 0)
+                        setToState = ObjectState.Dead;
+                    else
+                        repeatAnimation = true;
                 }
                 else
                 {

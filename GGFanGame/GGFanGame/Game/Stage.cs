@@ -26,7 +26,6 @@ namespace GGFanGame.Game.Level
         private List<StageObject> _objects;
 
         private PlayerCharacter _onePlayer;
-        private HUD.PlayerStatus _oneStatus;
 
         public PlayerCharacter onePlayer
         {
@@ -40,7 +39,6 @@ namespace GGFanGame.Game.Level
             _objects = new List<StageObject>();
 
             _onePlayer = new Arin(game, PlayerIndex.One);
-            _oneStatus = new HUD.PlayerStatus(game, _onePlayer, PlayerIndex.One);
 
             _objects.Add(_onePlayer);
             _objects.Add(new Enemies.Dummy(game) { X = 100, Z = 100 });
@@ -54,9 +52,7 @@ namespace GGFanGame.Game.Level
             foreach (StageObject obj in _objects)
             {
                 obj.draw();
-               }
-
-            _oneStatus.draw();
+            }
         }
 
         public void update()
@@ -67,7 +63,15 @@ namespace GGFanGame.Game.Level
             {
                 if (i <= _objects.Count - 1)
                 {
-                    _objects[i].update();
+                    if (_objects[i].canBeRemoved)
+                    {
+                        _objects.RemoveAt(i);
+                        i--;
+                    }
+                    else
+                    {
+                        _objects[i].update();
+                    }
                 }
             }
         }
@@ -95,11 +99,10 @@ namespace GGFanGame.Game.Level
                         hit = true;
                         obj.getHit(attack);
 
-
                         Vector3 wordPosition = obj.getFeetPosition();
                         wordPosition.Y += obj.size.Y * 2;
 
-                        _objects.Add(new ActionWord(_gameInstance, ActionWord.getHurtWord(), Color.Orange, 1f, wordPosition));   
+                        _objects.Add(new ActionWord(_gameInstance, ActionWord.getWordText(ActionWord.WordType.HurtEnemy), obj.objectColor, 1f, wordPosition));
                     }
                 }
 

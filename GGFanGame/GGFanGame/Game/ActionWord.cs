@@ -12,12 +12,34 @@ namespace GGFanGame.Game
     /// </summary>
     sealed class ActionWord : Level.StageObject
     {
-        private static readonly string[] hurtWords = new string[] { "Ouch!", "Shiet", "Ahh!", "Uhh!", "ECH" };
-        private static Random wordRnd = new Random();
-
-        public static string getHurtWord()
+        public enum WordType
         {
-            return hurtWords[wordRnd.Next(0, hurtWords.Length)];
+            HurtEnemy,
+            HurtPlayer,
+            Landing
+        }
+
+        private static Random wordRnd = new Random();
+        private static Dictionary<WordType, string[]> _wordGroups;
+
+        private static void initializeWords()
+        {
+            if (_wordGroups == null)
+            {
+                _wordGroups = new Dictionary<WordType, string[]>();
+
+                _wordGroups.Add(WordType.HurtEnemy, new string[] { "Uhh", "Ahh", "Arg", "Huu", "Ehh" });
+                _wordGroups.Add(WordType.HurtPlayer, new string[] { "Ech", "Shiet", "Damn", "Dammit", "Urg", "Ahh", "Garg" });
+                _wordGroups.Add(WordType.Landing, new string[] { "Tud" });
+            }
+        }
+
+        public static string getWordText(WordType wordType)
+        {
+            initializeWords();
+
+            string[] words = _wordGroups[wordType];
+            return words[wordRnd.Next(0, words.Length)];
         }
 
         //one-time values:
@@ -31,8 +53,7 @@ namespace GGFanGame.Game
         private double _delay;
         private float _rotation = 0f;
 
-        private bool visible = true;
-        private SpriteFont _grumpFont; 
+        private SpriteFont _grumpFont;
 
         public ActionWord(GGGame game, string text, Color color, float targetSize, Vector3 position) : base(game)
         {
@@ -46,12 +67,9 @@ namespace GGFanGame.Game
 
         public override void draw()
         {
-            if (visible)
-            {
-                Vector2 fontSize = _grumpFont.MeasureString(_text) * _size;
+            Vector2 fontSize = _grumpFont.MeasureString(_text) * _size;
 
-                gameInstance.spriteBatch.DrawString(_grumpFont, _text, new Vector2(X - fontSize.X / 2f, Z - Y - fontSize.Y / 2f), _color, 0f,Vector2.Zero, _size, SpriteEffects.None, 0f);
-            }
+            gameInstance.spriteBatch.DrawString(_grumpFont, _text, new Vector2(X - fontSize.X / 2f, Z - Y - fontSize.Y / 2f), _color, 0f, Vector2.Zero, _size, SpriteEffects.None, 0f);
         }
 
         public override Vector3 getFeetPosition()
@@ -80,15 +98,11 @@ namespace GGFanGame.Game
                     Y = Y + 0.9f;
                     if (_delay <= 0d)
                     {
-                        visible = false;
+                        canBeRemoved = true;
                     }
                 }
             }
-
-            if (visible)
-            {
-                _rotation += 0.01f;
-            }
+            _rotation += 0.01f;
         }
     }
 }

@@ -44,7 +44,20 @@ namespace GGFanGame.Game.Level
     /// </summary>
     abstract class StageObject : IComparable<StageObject>
     {
-        private GGGame _game; 
+        private Vector3 _position;
+        private Vector3 _size;
+        private ObjectFacing _facing;
+        private Color _objectColor = Color.Orange;
+        private bool _collision;
+        private int _health = 1; //1 is the default so every object has at least one health when spawned.
+        private float _weigth = 0;
+        private bool _canInteract = false;
+        private bool _canBeRemoved = false;
+        private float _strength = 0;
+        private GGGame _game;
+
+        #region Properties
+
         /// <summary>
         /// The game instance to refer to.
         /// </summary>
@@ -54,7 +67,12 @@ namespace GGFanGame.Game.Level
             get { return _game; }
         }
 
-        private Vector3 _position;
+        public Color objectColor
+        {
+            get { return _objectColor; }
+            protected set { _objectColor = value; }
+        }
+
         /// <summary>
         /// The absolute position of this object in the level.
         /// </summary>
@@ -95,7 +113,6 @@ namespace GGFanGame.Game.Level
             set { _position.Z = value; }
         }
 
-        private Vector3 _size; 
         /// <summary>
         /// The size of this object.
         /// </summary>
@@ -106,12 +123,6 @@ namespace GGFanGame.Game.Level
             set { _size = value; }
         }
 
-        public virtual Vector3 getFeetPosition()
-        {
-            return _position;
-        }
-
-        private ObjectFacing _facing; 
         /// <summary>
         /// The way this object is facing.
         /// </summary>
@@ -122,7 +133,6 @@ namespace GGFanGame.Game.Level
             set { _facing = value; }
         }
 
-        private bool _collision;
         /// <summary>
         /// If other objects can collide with this one.
         /// </summary>
@@ -133,7 +143,6 @@ namespace GGFanGame.Game.Level
             set { _collision = value; }
         }
 
-        private int _health = 1; //1 is the default so every object has at least one health when spawned.
         /// <summary>
         /// The health of this object.
         /// </summary>
@@ -144,7 +153,6 @@ namespace GGFanGame.Game.Level
             set { _health = value; }
         }
 
-        private float _strength = 0;
         /// <summary>
         /// The strength of this object.
         /// </summary>
@@ -155,7 +163,6 @@ namespace GGFanGame.Game.Level
             set { _strength = value; }
         }
 
-        private float _weigth = 0;
         /// <summary>
         /// The weigth of this object.
         /// </summary>
@@ -165,6 +172,28 @@ namespace GGFanGame.Game.Level
             get { return _weigth; }
             set { _weigth = value; }
         }
+
+        /// <summary>
+        /// If anything can interact with this object.
+        /// </summary>
+        /// <returns></returns>
+        public bool canInteract
+        {
+            get { return _canInteract; }
+            protected set { _canInteract = value; }
+        }
+
+        /// <summary>
+        /// A check to indicate wether this object can be removed from a stage.
+        /// </summary>
+        /// <returns></returns>
+        public bool canBeRemoved
+        {
+            get { return _canBeRemoved; }
+            set { _canBeRemoved = value; }
+        }
+
+        #endregion
 
         public StageObject(GGGame game)
         {
@@ -181,23 +210,35 @@ namespace GGFanGame.Game.Level
                                          new Vector3(_position.X + _size.X / 2, _position.Y + _size.Y, _position.Z + _size.Z / 2)); }
         }
 
+        /// <summary>
+        /// Update the object.
+        /// </summary>
         public abstract void update();
 
+        /// <summary>
+        /// Draw the object.
+        /// </summary>
         public abstract void draw();
 
+        /// <summary>
+        /// This object gets hit by an attack.
+        /// </summary>
         public virtual void getHit(Attack attack)
         {
             //By default, nothing happens...
         }
 
-        private bool _canInteract = false;
-
-        public bool canInteract
+        /// <summary>
+        /// Returns the lower center of this object.
+        /// </summary>
+        /// <returns></returns>
+        public virtual Vector3 getFeetPosition()
         {
-            get { return _canInteract; }
-            protected set { _canInteract = value; }
+            return _position;
         }
 
+        //Needed in order to sort the list of objects and arrange them in an order
+        //so that the objects in the foreground are overlaying those in the background.
         public int CompareTo(StageObject obj)
         {
             Vector3 ownFeet = getFeetPosition();

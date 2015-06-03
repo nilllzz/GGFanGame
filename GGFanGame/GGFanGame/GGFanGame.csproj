@@ -43,6 +43,7 @@
     <Compile Include="Content\TextureManager.cs" />
     <Compile Include="DataModel\Json\Game\GameSessionModel.cs" />
     <Compile Include="DataModel\Json\JsonDataModel.cs" />
+    <Compile Include="Drawing\Colors.cs" />
     <Compile Include="Drawing\Palette.cs" />
     <Compile Include="GameSession.cs" />
     <Compile Include="Game\ActionWord.cs" />

@@ -22,8 +22,9 @@ namespace GGFanGame.Game.Level.Enemies
             addAnimation(ObjectState.Idle, new Animation(3, Point.Zero, new Point(64, 64), 15));
             addAnimation(ObjectState.Hurt, new Animation(1, new Point(0, 64), new Point(64, 64), 20, 1));
             addAnimation(ObjectState.HurtFalling, new Animation(1, new Point(0, 64), new Point(64, 64), 20, 1));
+            addAnimation(ObjectState.Dead, new Animation(4, new Point(0, 128), new Point(64, 64), 6));
 
-            health = 40;
+            health = 50;
         }
 
         public override void update()

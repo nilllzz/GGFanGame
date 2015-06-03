@@ -81,6 +81,17 @@ namespace GGFanGame.Game.Level
         }
 
         private Texture2D _spriteSheet;
+        private ObjectState _state;
+        private Dictionary<ObjectState, Animation> _animations = new Dictionary<ObjectState, Animation>();
+        private int _animationFrame = 0;
+        private bool _repeatAnimation = true;
+        private double _animationDelay = 0f;
+        private double _shadowSize = 1;
+        private bool _drawShadow = true;
+
+        protected Vector3 _autoMovement = new Vector3(0);
+
+        #region Properties
 
         protected Texture2D spriteSheet
         {
@@ -88,37 +99,28 @@ namespace GGFanGame.Game.Level
             set { _spriteSheet = value; }
         }
 
-        private ObjectState _state;
-
         public ObjectState state
         {
             get { return _state; }
             set { _state = value; }
         }
 
-        private Dictionary<ObjectState, Animation> _animations = new Dictionary<ObjectState, Animation>();
-        private int _animationFrame = 0;
         protected int animationFrame
         {
             get { return _animationFrame; }
             set { _animationFrame = value; }
         }
 
-        private bool _repeatAnimation = true;
         protected bool repeatAnimation
         {
             get { return _repeatAnimation; }
             set { _repeatAnimation = value; }
         }
 
-        private double _animationDelay = 0f;
         protected double animationDelay
         {
             get { return _animationDelay; }
         }
-
-        private double _shadowSize = 1;
-        private bool _drawShadow = true;
 
         protected bool drawShadow
         {
@@ -132,13 +134,13 @@ namespace GGFanGame.Game.Level
             set { _shadowSize = value; }
         }
 
-        protected Vector3 _autoMovement = new Vector3(0);
-
         public InteractableStageObject(GGGame game) : base(game)
         {
             setState(ObjectState.Idle);
             canInteract = true;
         }
+
+        #endregion
 
         /// <summary>
         /// Adds an animation for a specific object state.
@@ -287,7 +289,7 @@ namespace GGFanGame.Game.Level
                 Y = 0f;
 
                 Rectangle rect = getAnimation().getFrameRec(_animationFrame);
-                Stage.activeStage().addActionWord(new ActionWord(gameInstance, "tud", Color.LightGreen, 0.3f, new Vector3(X + rect.Width, 0f, Z + rect.Height * 2)));
+                Stage.activeStage().addActionWord(new ActionWord(gameInstance, ActionWord.getWordText(ActionWord.WordType.Landing), objectColor, 0.3f, new Vector3(X + rect.Width, 0f, Z + rect.Height * 2)));
 
                 if (_autoMovement.Y < -17f && state == ObjectState.HurtFalling)
                 {

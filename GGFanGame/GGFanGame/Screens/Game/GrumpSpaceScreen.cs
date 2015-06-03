@@ -9,24 +9,23 @@ namespace GGFanGame.Screens.Game
 {
     class GrumpSpaceScreen : Screen
     {
-
-        private Stage _level;
+        private Stage _stage;
 
         public GrumpSpaceScreen(GGGame game) : base(Identification.InGame, game)
         {
-            _level = new Stage(game);
-            _level.setActiveStage();
+            _stage = new Stage(game);
+            _stage.setActiveStage();
         }
 
         public override void draw()
         {
             Drawing.Graphics.drawRectangle(gameInstance.clientRectangle, Color.CornflowerBlue);
-            _level.draw();
+            _stage.draw();
         }
 
         public override void update()
         {
-            _level.update();
+            _stage.update();
         }
     }
 }

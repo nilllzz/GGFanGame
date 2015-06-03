@@ -59,6 +59,8 @@ namespace GGFanGame.Game.Level.Playable
         {
             _playerIndex = playerIndex;
             _name = name;
+
+            objectColor = Drawing.Colors.getColor(playerIndex);
         }
 
         /// <summary>
@@ -70,6 +72,29 @@ namespace GGFanGame.Game.Level.Playable
         }
 
         public override void update()
+        {
+            updateState();
+
+            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.DPadLeft))
+            {
+                health -= 10;
+            }
+
+            if (state == ObjectState.Attacking && getAnimation().frames[animationFrame].frameLength == animationDelay)
+            {
+                if (_attacks.Keys.Contains(_comboChain + animationFrame.ToString()))
+                {
+                    Attack attack = _attacks[_comboChain + animationFrame.ToString()];
+                    attack.facing = facing;
+
+                    Stage.activeStage().singleHitAll(attack, position);
+                }
+            }
+
+            base.update();
+        }
+
+        private void updateState()
         {
             ObjectState setToState = ObjectState.Idle;
 
@@ -234,19 +259,6 @@ namespace GGFanGame.Game.Level.Playable
             }
 
             setState(setToState);
-
-            if (state == ObjectState.Attacking && getAnimation().frames[animationFrame].frameLength == animationDelay)
-            {
-                if (_attacks.Keys.Contains(_comboChain + animationFrame.ToString()))
-                {
-                    Attack attack = _attacks[_comboChain + animationFrame.ToString()];
-                    attack.facing = facing;
-
-                    Stage.activeStage().singleHitAll(attack, position);
-                }
-            }
-
-            base.update();
         }
 
         protected override Animation getAnimation()

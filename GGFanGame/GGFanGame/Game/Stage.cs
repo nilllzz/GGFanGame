@@ -104,14 +104,15 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// A single hit that targets all objects on the screen gets issued.
         /// </summary>
-        public void singleHitAll(Attack attack, Vector3 relPosition)
+        /// <param name="maxHitCount">The maximum amount of objects this attack can hit.</param>
+        public void applyAttack(Attack attack, Vector3 relPosition, int maxHitCount)
         {
             int objIndex = 0;
-            bool hit = false;
+            int hitCount = 0;
 
             var attackHitbox = attack.getHitbox(relPosition);
 
-            while (objIndex < _objects.Count && !hit)
+            while (objIndex < _objects.Count && hitCount < maxHitCount)
             {
                 StageObject obj = _objects[objIndex];
 
@@ -119,11 +120,11 @@ namespace GGFanGame.Game.Level
                 {
                     if (attackHitbox.Intersects(obj.boundingBox))
                     {
-                        hit = true;
+                        hitCount++;
                         obj.getHit(attack);
 
                         Vector3 wordPosition = obj.getFeetPosition();
-                        wordPosition.Y += obj.size.Y * 2;
+                        wordPosition.Y += obj.size.Y;
 
                         _objects.Add(new ActionWord(_gameInstance, ActionWord.getWordText(ActionWord.WordType.HurtEnemy), obj.objectColor, 1f, wordPosition));
                     }

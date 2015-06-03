@@ -203,6 +203,10 @@ namespace GGFanGame.Game.Level
             }
         }
 
+        /// <summary>
+        /// Returns if the set animation ended. This happens after the animation is over and repeatAnimation is false.
+        /// </summary>
+        /// <returns></returns>
         protected bool animationEnded()
         {
             return _animationFrame == getAnimation().frames.Length - 1;
@@ -229,6 +233,9 @@ namespace GGFanGame.Game.Level
             }
         }
 
+        /// <summary>
+        /// Returns the position where the feet of this object would be.
+        /// </summary>
         public override Vector3 getFeetPosition()
         {
             Rectangle rect = getAnimation().getFrameRec(_animationFrame);
@@ -316,13 +323,9 @@ namespace GGFanGame.Game.Level
             {
                 health -= (int)(attack.health / 4d);
                 if (attack.facing == ObjectFacing.Right)
-                {
                     _autoMovement.X = knockbackValue;
-                }
                 else
-                {
                     _autoMovement.X = -knockbackValue;
-                }
             }
             else
             {
@@ -372,23 +375,15 @@ namespace GGFanGame.Game.Level
                 repeatAnimation = false;
 
                 if (health <= 0 || attack.knockback)
-                {
                     setState(ObjectState.HurtFalling);
-                }
                 else
-                {
                     setState(ObjectState.Hurt);
-                }
             }
 
             if (attack.facing == ObjectFacing.Left)
-            {
                 facing = ObjectFacing.Right;
-            }
             else
-            {
                 facing = ObjectFacing.Left;
-            }
         }
     }
 }

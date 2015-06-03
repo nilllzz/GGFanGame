@@ -18,7 +18,7 @@ namespace GGFanGame.Game.Level.Playable
             shadowSize = 0.5d;
             strength = 8;
             weigth = 8;
-            size = new Vector3(32, 32, 10);
+            size = new Vector3(64, 100, 10);
 
             addAnimation(ObjectState.Idle, new Animation(8, Point.Zero, new Point(64, 64), 7));
             addAnimation(ObjectState.Walking, new Animation(6, new Point(0, 64), new Point(64, 64), 5));
@@ -33,7 +33,7 @@ namespace GGFanGame.Game.Level.Playable
             addComboAnimation("B", new Animation(5, new Point(0, 320), new Point(64, 64), 5, 1));
             addComboAnimation("BB", new Animation(3, new Point(320, 320), new Point(64, 64), 5));
 
-            addAttack("B", 3, new Attack(this, false, 5, strength, new Vector3(30), new Vector3(40, 20, 0)));
+            addAttack("B", 2, new Attack(this, false, 5, strength, new Vector3(30), new Vector3(40, 20, 0)));
             addAttack("BB", 1, new Attack(this, true, 5, strength * 1.3f, new Vector3(30), new Vector3(40, 20, 0)));
 
             health = 100;

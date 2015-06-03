@@ -88,7 +88,7 @@ namespace GGFanGame.Game.Level.Playable
                     Attack attack = _attacks[_comboChain + animationFrame.ToString()];
                     attack.facing = facing;
 
-                    Stage.activeStage().singleHitAll(attack, position);
+                    Stage.activeStage().applyAttack(attack, position, 2);
                 }
             }
 

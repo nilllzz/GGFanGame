@@ -56,6 +56,9 @@ namespace GGFanGame.Game.Level
         private float _strength = 0;
         private GGGame _game;
 
+        private static int _currentSortingPriority = 0; //Keeps track of all the sorting priorities added so that every object has a different one.
+        private int _sortingPriority = 0;
+
         #region Properties
 
         /// <summary>
@@ -198,6 +201,9 @@ namespace GGFanGame.Game.Level
         public StageObject(GGGame game)
         {
             _game = game;
+
+            _sortingPriority = _currentSortingPriority;
+            _currentSortingPriority++;
         }
 
         /// <summary>
@@ -254,7 +260,20 @@ namespace GGFanGame.Game.Level
             }
             else
             {
-                return 0;
+                //When they are on the same Z plane, compare their sorting priority.
+                //This is very unlikely to happen, but eh.
+                if (_sortingPriority < obj._sortingPriority)
+                {
+                    return -1;
+                }
+                else if (_sortingPriority > obj._sortingPriority)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
     }

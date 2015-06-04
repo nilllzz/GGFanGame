@@ -71,6 +71,7 @@ namespace GGFanGame.Game.Level
             _fourStatus = new PlayerStatus(game, _fourPlayer, PlayerIndex.Four);
 
             _objects.Add(new Enemies.Dummy(game) { X = 100, Z = 100 });
+            _objects.Add(new SceneryObject(game) { X = 300, Z = 300 });
             _objects.Add(new Enemies.Dummy(game) { X = 300, Z = 200 });
             _objects.Add(new Enemies.Dummy(game) { X = 500, Z = 150 });
             _objects.Add(new Enemies.Dummy(game) { X = 800, Z = 400 });
@@ -81,7 +82,7 @@ namespace GGFanGame.Game.Level
             foreach (StageObject obj in _objects)
             {
                 obj.draw();
-            }
+                }
 
             _oneStatus.draw();
             _twoStatus.draw();
@@ -146,6 +147,39 @@ namespace GGFanGame.Game.Level
         public void addActionWord(ActionWord word)
         {
             _objects.Add(word);
+        }
+
+        /// <summary>
+        /// Returns the altitute of the ground for a specific position.
+        /// </summary>
+        /// <returns></returns>
+        public float getGround(Vector3 position)
+        {
+            float returnY = 0f;
+
+            Vector2 twoDimPoint = new Vector2(position.X, position.Z);
+            BoundingBox box;
+
+            foreach (StageObject obj in _objects)
+            {
+                if (obj.canLandOn)
+                {
+                    box = obj.boundingBox;
+
+                    float topY = box.Max.Y;
+                    Rectangle twoDimPlane = new Rectangle((int)box.Min.X, (int)box.Min.Z, (int)(box.Max.X - box.Min.X), (int)(box.Max.Z - box.Min.Z));
+
+                    if (topY <= position.Y && topY > returnY)
+                    {
+                        if (twoDimPlane.Contains(twoDimPoint))
+                        {
+                            returnY = topY;
+                        }
+                    }
+                }
+            }
+
+            return returnY;
         }
     }
 }

@@ -72,6 +72,12 @@ namespace GGFanGame.Game
             gameInstance.spriteBatch.DrawString(_grumpFont, _text, new Vector2(X - fontSize.X / 2f, Z - Y - fontSize.Y / 2f), _color, 0f, Vector2.Zero, _size, SpriteEffects.None, 0f);
         }
 
+        public override Point getDrawingSize()
+        {
+            Vector2 textSize = _grumpFont.MeasureString(_text) * _size;
+            return textSize.ToPoint();
+        }
+
         public override Vector3 getFeetPosition()
         {
             Vector2 fontSize = _grumpFont.MeasureString(_text) * _size;

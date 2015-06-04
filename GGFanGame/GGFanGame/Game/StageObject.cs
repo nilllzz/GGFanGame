@@ -53,6 +53,8 @@ namespace GGFanGame.Game.Level
         private float _weigth = 0;
         private bool _canInteract = false;
         private bool _canBeRemoved = false;
+        private bool _canLandOn = true; //TODO: set to false, just for testing, this is true for all.
+        private bool _canCollideWith = true;
         private float _strength = 0;
         private GGGame _game;
 
@@ -196,6 +198,16 @@ namespace GGFanGame.Game.Level
             set { _canBeRemoved = value; }
         }
 
+        /// <summary>
+        /// If an object can land on this object.
+        /// </summary>
+        /// <returns></returns>
+        public bool canLandOn
+        {
+            get { return _canLandOn; }
+            set { _canLandOn = value; }
+        }
+
         #endregion
 
         public StageObject(GGGame game)
@@ -212,9 +224,11 @@ namespace GGFanGame.Game.Level
         /// <returns></returns>
         public virtual BoundingBox boundingBox
         {
-            get { return new BoundingBox(new Vector3(_position.X - _size.X / 2, _position.Y, _position.Z - _size.Z / 2),
-                                         new Vector3(_position.X + _size.X / 2, _position.Y + _size.Y, _position.Z + _size.Z / 2)); }
+            get { return new BoundingBox(new Vector3(_position.X - _size.X / 2f, _position.Y, _position.Z - _size.Z / 2),
+                                         new Vector3(_position.X + _size.X / 2f, _position.Y + _size.Y, _position.Z + _size.Z / 2)); }
         }
+
+        public abstract Point getDrawingSize();
 
         /// <summary>
         /// Update the object.
@@ -247,14 +261,11 @@ namespace GGFanGame.Game.Level
         //so that the objects in the foreground are overlaying those in the background.
         public int CompareTo(StageObject obj)
         {
-            Vector3 ownFeet = getFeetPosition();
-            Vector3 objFeet = obj.getFeetPosition();
-
-            if (ownFeet.Z < objFeet.Z)
+            if (Z < obj.Z)
             {
                 return -1;
             }
-            else if (ownFeet.Z > objFeet.Z)
+            else if (Z > obj.Z)
             {
                 return 1;
             }

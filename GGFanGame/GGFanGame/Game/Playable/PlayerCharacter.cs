@@ -98,6 +98,7 @@ namespace GGFanGame.Game.Level.Playable
         private void updateState()
         {
             ObjectState setToState = ObjectState.Idle;
+            float groundY = Stage.activeStage().getGround(getFeetPosition());
 
             if (state == ObjectState.Dead)
             {
@@ -192,7 +193,7 @@ namespace GGFanGame.Game.Level.Playable
             }
 
             //Jumping and landing:
-            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.B) && setToState == ObjectState.Idle && Y == 0f)
+            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.B) && setToState == ObjectState.Idle && Y == groundY)
             {
                 _autoMovement.Y = 18f;
                 setToState = ObjectState.Jumping;
@@ -210,7 +211,7 @@ namespace GGFanGame.Game.Level.Playable
             }
 
             //Blocking:
-            if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftShoulder) && setToState == ObjectState.Idle && Y == 0f)
+            if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftShoulder) && setToState == ObjectState.Idle && Y == groundY)
             {
                 setToState = ObjectState.Blocking;
             }
@@ -246,7 +247,7 @@ namespace GGFanGame.Game.Level.Playable
                 }
             }
 
-            if ((setToState == ObjectState.Walking || setToState == ObjectState.Idle) && Y > 0f)
+            if ((setToState == ObjectState.Walking || setToState == ObjectState.Idle) && Y > groundY)
             {
                 setToState = ObjectState.Falling;
             }

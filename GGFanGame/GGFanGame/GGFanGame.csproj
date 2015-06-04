@@ -49,6 +49,7 @@
     <Compile Include="Game\ActionWord.cs" />
     <Compile Include="Game\Attack.cs" />
     <Compile Include="Game\Enemies\Dummy.cs" />
+    <Compile Include="Game\SceneryObject.cs" />
     <Compile Include="GGGame.cs" />
     <Compile Include="GameJolt\API\APIManager.cs" />
     <Compile Include="GameJolt\API\GameJoltRequest.cs" />

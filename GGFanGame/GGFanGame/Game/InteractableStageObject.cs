@@ -152,29 +152,26 @@ namespace GGFanGame.Game.Level
 
         public override void draw()
         {
+            Rectangle frame = getAnimation().getFrameRec(animationFrame);
             if (_drawShadow)
             {
-                Rectangle drawFrame = getAnimation().getFrameRec(_animationFrame);
+                int shadowWidth = (int)(frame.Width * _shadowSize * 2d);
+                int shadowHeight = (int)(frame.Height * _shadowSize * 2d * (1d / 4d));
 
-                int shadowWidth = (int)(drawFrame.Width * _shadowSize * 2d);
-                int shadowHeight = (int)(drawFrame.Height * _shadowSize * 2d * (1d / 4d));
-
-                Drawing.Graphics.drawEllipse(new Rectangle((int)(X + (drawFrame.Width - (shadowWidth / 2d))),
-                                (int)(Z + drawFrame.Height * 2d - shadowHeight / 2d),
+                Drawing.Graphics.drawEllipse(new Rectangle((int)(X - frame.Width + (frame.Width - (shadowWidth / 2d))),
+                                (int)(Z - shadowHeight / 2d),
                                 shadowWidth,
                                 shadowHeight),
                   new Color(0, 0, 0, 100));
             }
 
             SpriteEffects effect = SpriteEffects.None;
-            if (facing == ObjectFacing.Left)
+            if (facing == ObjectFacing.Left) //Flip the sprite if facing the other way.
             {
                 effect = SpriteEffects.FlipHorizontally;
             }
 
-            Rectangle frame = getAnimation().getFrameRec(animationFrame);
-
-            gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)X, (int)(Z - Y), frame.Width * 2, frame.Height * 2), frame, Color.White, 0f, Vector2.Zero, effect, 0f);
+            gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)(X - frame.Width), (int)(Z - Y - frame.Height * 2), frame.Width * 2, frame.Height * 2), frame, Color.White, 0f, Vector2.Zero, effect, 0f);
         }
 
         public override void update()
@@ -234,19 +231,12 @@ namespace GGFanGame.Game.Level
         }
 
         /// <summary>
-        /// Returns the position where the feet of this object would be.
-        /// </summary>
-        public override Vector3 getFeetPosition()
-        {
-            Rectangle rect = getAnimation().getFrameRec(_animationFrame);
-            return new Vector3(X + rect.Width, Y, Z + rect.Height * 2f);
-        }
-
-        /// <summary>
         /// Updates the auto movement of the object. This also updates falling.
         /// </summary>
         private void updateAutoMovement()
         {
+            float groundY = Stage.activeStage().getGround(getFeetPosition());
+
             if (_autoMovement.X > 0f)
             {
                 _autoMovement.X--;
@@ -268,7 +258,7 @@ namespace GGFanGame.Game.Level
             }
             else
             {
-                if (Y > 0f)
+                if (Y > groundY)
                 {
                     _autoMovement.Y--;
                 }
@@ -291,12 +281,11 @@ namespace GGFanGame.Game.Level
             Y += _autoMovement.Y;
             Z += _autoMovement.Z;
 
-            if (Y < 0f)
+            if (Y < groundY)
             {
-                Y = 0f;
-
-                Rectangle rect = getAnimation().getFrameRec(_animationFrame);
-                Stage.activeStage().addActionWord(new ActionWord(gameInstance, ActionWord.getWordText(ActionWord.WordType.Landing), objectColor, 0.3f, new Vector3(X + rect.Width, 0f, Z + rect.Height * 2)));
+                Y = groundY;
+                //Spawn an action word for where the player landed.
+                Stage.activeStage().addActionWord(new ActionWord(gameInstance, ActionWord.getWordText(ActionWord.WordType.Landing), objectColor, 0.3f, position));
 
                 if (_autoMovement.Y < -17f && state == ObjectState.HurtFalling)
                 {
@@ -311,6 +300,13 @@ namespace GGFanGame.Game.Level
                     _autoMovement.Y = 0f;
                 }
             }
+        }
+
+        public override Point getDrawingSize()
+        {
+            //Returns the drawing size of the current frame:
+            Rectangle frame = getAnimation().getFrameRec(animationFrame);
+            return new Point(frame.Width, frame.Height);
         }
 
         public override void getHit(Attack attack)

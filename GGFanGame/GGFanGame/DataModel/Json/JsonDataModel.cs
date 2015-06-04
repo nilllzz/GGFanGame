@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.IO;
 
@@ -7,6 +8,7 @@ namespace GGFanGame.DataModel.Json
     /// <summary>
     /// The JsonDataModel is the base class for all data models in the game.
     /// </summary>
+    [DataContract]
     abstract class JsonDataModel
     {
         //This class will manage the Json data models for this game.

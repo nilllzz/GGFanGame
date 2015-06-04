@@ -88,6 +88,20 @@ namespace GGFanGame.Drawing
             }
         }
 
+        /// <summary>
+        /// Draws a border around a rectangle.
+        /// </summary>
+        /// <param name="thickness">The border thickness.</param>
+        /// <param name="rectangle">The rectangle to draw around.</param>
+        /// <param name="color">The color of the border.</param>
+        public static void drawBorder(int thickness, Rectangle rectangle, Color color)
+        {
+            drawRectangle(new Rectangle(rectangle.X + thickness, rectangle.Y, rectangle.Width - thickness, thickness), color);
+            drawRectangle(new Rectangle(rectangle.X + rectangle.Width - thickness, rectangle.Y + thickness, thickness, rectangle.Height - thickness), color);
+            drawRectangle(new Rectangle(rectangle.X, rectangle.Y + rectangle.Height - thickness, rectangle.Width - thickness, thickness), color);
+            drawRectangle(new Rectangle(rectangle.X, rectangle.Y, thickness, rectangle.Height - thickness), color);
+        }
+
         #region Gradients
 
         //We'd also like to draw simple gradients here.

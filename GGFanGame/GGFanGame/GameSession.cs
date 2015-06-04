@@ -28,6 +28,12 @@ namespace GGFanGame
             set { _dataModel.progress = value; }
         }
 
+        public string lastGrump
+        {
+            get { return _dataModel.lastGrump; }
+            set { _dataModel.lastGrump = value; }
+        }
+
         private bool _loadedCorrectly = false;
         /// <summary>
         /// Indicates wether this game session has been loaded correctly.

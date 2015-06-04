@@ -5,18 +5,27 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GGFanGame.Game.Level.Playable;
+using GGFanGame.Game.Level.HUD;
 
 namespace GGFanGame.Game.Level
 {
     class Stage
     {
+        //We store a single stage as active so that objects can easily access the current stage.
         private static Stage _activeStage = null;
 
+        /// <summary>
+        /// The currently active stage.
+        /// </summary>
+        /// <returns></returns>
         public static Stage activeStage()
         {
             return _activeStage;
         }
 
+        /// <summary>
+        /// Sets the active stage to this instance.
+        /// </summary>
         public void setActiveStage()
         {
             _activeStage = this;
@@ -30,10 +39,10 @@ namespace GGFanGame.Game.Level
         private PlayerCharacter _threePlayer;
         private PlayerCharacter _fourPlayer;
 
-        private HUD.PlayerStatus _oneStatus;
-        private HUD.PlayerStatus _twoStatus;
-        private HUD.PlayerStatus _threeStatus;
-        private HUD.PlayerStatus _fourStatus;
+        private PlayerStatus _oneStatus;
+        private PlayerStatus _twoStatus;
+        private PlayerStatus _threeStatus;
+        private PlayerStatus _fourStatus;
 
         public PlayerCharacter onePlayer
         {
@@ -56,10 +65,10 @@ namespace GGFanGame.Game.Level
             _objects.Add(_threePlayer);
             _objects.Add(_fourPlayer);
 
-            _oneStatus = new HUD.PlayerStatus(game, _onePlayer, PlayerIndex.One);
-            _twoStatus = new HUD.PlayerStatus(game, _twoPlayer, PlayerIndex.Two);
-            _threeStatus = new HUD.PlayerStatus(game, _threePlayer, PlayerIndex.Three);
-            _fourStatus = new HUD.PlayerStatus(game, _fourPlayer, PlayerIndex.Four);
+            _oneStatus = new PlayerStatus(game, _onePlayer, PlayerIndex.One);
+            _twoStatus = new PlayerStatus(game, _twoPlayer, PlayerIndex.Two);
+            _threeStatus = new PlayerStatus(game, _threePlayer, PlayerIndex.Three);
+            _fourStatus = new PlayerStatus(game, _fourPlayer, PlayerIndex.Four);
 
             _objects.Add(new Enemies.Dummy(game) { X = 100, Z = 100 });
             _objects.Add(new Enemies.Dummy(game) { X = 300, Z = 200 });

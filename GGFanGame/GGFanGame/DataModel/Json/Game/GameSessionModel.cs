@@ -14,5 +14,8 @@ namespace GGFanGame.DataModel.Json.Game
 
         [DataMember]
         public decimal progress;
+
+        [DataMember]
+        public string lastGrump;
     }
 }

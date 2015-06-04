@@ -10,39 +10,29 @@ using Microsoft.Xna.Framework.Media;
 namespace GGFanGame.Screens.Menu
 {
     /// <summary>
-    /// The main menu of the game.
+    /// An abstract screen class that renders the background of the main menu.
     /// </summary>
-    class MainMenuScreen : Screen
+    abstract class MainMenuScreen : Screen
     {
-        //The main menu will just feature the logo of the game and a prompt that says "press any button to start".
-
-        private Texture2D _logoTexture = null; //texture of the logo that appears on the screen.
-
         //The offset of the dots:
-        float _offsetX = 0;
-        float _offsetY = 0;
-
-        float _logoAnimation = 20f;
-        float _gameTitleAnimation = 1f;
+        protected float _offsetX = 0;
+        protected float _offsetY = 0;
 
         //The size reference of the dots in the background
         const int DOT_SIZE = 16;
 
-        private SpriteFont _grumpFont = null;
+        public MainMenuScreen(Identification identification, GGGame game) : this(identification, game, Vector2.Zero)
+        {  /* Empty constructor */ }
 
-        public MainMenuScreen(GGGame game) : base(Identification.MainMenu, game)
+        public MainMenuScreen(Identification identification, GGGame game, Vector2 initialDotOffset) : base(identification ,game)
         {
-            _logoTexture = game.textureManager.getResource("gg_logo");
-            _grumpFont = game.Content.Load<SpriteFont>("CartoonFontLarge");
-
-            MediaPlayer.Play(game.musicManager.getResource(@"Music\Smash 2"));
-            MediaPlayer.IsRepeating = true;
+            _offsetX = initialDotOffset.X;
+            _offsetY = initialDotOffset.Y;
         }
 
         public override void draw()
         {
             drawBackground();
-            drawTitle();
         }
 
         private void drawBackground()
@@ -95,63 +85,17 @@ namespace GGFanGame.Screens.Menu
             }
         }
 
-        private void drawTitle()
-        {
-            int width = (int)(_logoTexture.Width / _logoAnimation);
-            int height = (int)(_logoTexture.Height / _logoAnimation);
-
-            Rectangle destinationRectangle = new Rectangle((int)(gameInstance.clientRectangle.Width / 2f - width / 2f), (int)(200 - height / 2f), width, height);
-            destinationRectangle.X += destinationRectangle.Width / 2;
-            destinationRectangle.Y += destinationRectangle.Height / 2;
-
-            gameInstance.spriteBatch.Draw(_logoTexture, destinationRectangle, 
-                null, Color.White, _logoAnimation - 1f, new Vector2(width / 2f, height / 2f), SpriteEffects.None, 0f);
-
-            gameInstance.fontBatch.DrawString(_grumpFont, GGGame.GAME_TITLE, 
-                new Vector2((gameInstance.clientRectangle.Width * _gameTitleAnimation) + gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(GGGame.GAME_TITLE).X / 2 + 5, 
-                90 + _logoTexture.Height + 5), new Color(122, 141, 235), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            gameInstance.fontBatch.DrawString(_grumpFont, GGGame.GAME_TITLE, 
-                new Vector2(-(gameInstance.clientRectangle.Width * _gameTitleAnimation) + gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(GGGame.GAME_TITLE).X / 2, 
-                90 + _logoTexture.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-        }
-
         public override void update()
         {
             //Update the dot animation:
             _offsetX -= 0.9f;
             _offsetY += 0.3f;
 
-            if (_logoAnimation > 1f)
-            {
-                _logoAnimation -= 0.2f;
-                if (_logoAnimation <= 1f)
-                {
-                    _logoAnimation = 1f;
-                }
-            }
-            else
-            {
-                if (_gameTitleAnimation > 0f)
-                {
-                    _gameTitleAnimation = MathHelper.Lerp(0f, _gameTitleAnimation, 0.92f);
-                    if (_gameTitleAnimation <= 0f)
-                    {
-                        _gameTitleAnimation = 0f;
-                    }
-                }
-            }
-
             //Reset it, once it went through a complete cycle:
             if (_offsetX <= (float)-DOT_SIZE * 3)
             {
                 _offsetX = 0;
                 _offsetY = 0;
-            }
-
-            //When a button is pressed, open the next screen:
-            if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.A))
-            {
-                ScreenManager.getInstance().setScreen(new Game.GrumpSpaceScreen(gameInstance));
             }
         }
     }

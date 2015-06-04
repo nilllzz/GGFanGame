@@ -70,9 +70,12 @@
     <Compile Include="Game\HUD\PlayerStatus.cs" />
     <Compile Include="Game\Stage.cs" />
     <Compile Include="Game\StageObject.cs" />
+    <Compile Include="Screens\Menu\LoadSaveScreen.cs" />
     <Compile Include="Screens\Menu\MainMenuScreen.cs" />
     <Compile Include="Screens\Menu\PlayerSelectScreen.cs" />
     <Compile Include="Screens\Menu\TestScreen.cs" />
+    <Compile Include="Screens\Menu\TitleScreen.cs" />
+    <Compile Include="Screens\Menu\TransitionScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Drawing\Graphics.cs" />

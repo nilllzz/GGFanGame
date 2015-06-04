@@ -329,3 +329,14 @@
 /processorParam:Quality=Best
 /build:Music/Smash 2.mp3
 
+#begin UI/gg_overlay.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:UI/gg_overlay.png
+

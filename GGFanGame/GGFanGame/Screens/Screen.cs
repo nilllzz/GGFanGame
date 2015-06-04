@@ -14,10 +14,12 @@ namespace GGFanGame.Screens
     /// </summary>
     enum Identification
     {
-        MainMenu,
+        Title,
         InGame,
         Test,
-        PlayerSelect
+        PlayerSelect,
+        LoadSave,
+        Transition
     }
 
     /// <summary>

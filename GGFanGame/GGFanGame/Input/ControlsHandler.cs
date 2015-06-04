@@ -324,6 +324,15 @@ namespace GGFanGame.Input
         //These methods are the public access to the internal check methods:
 
         /// <summary>
+        /// Checks if up left are down.
+        /// </summary>
+        /// <returns></returns>
+        public static bool leftDown(PlayerIndex playerIndex)
+        {
+            return leftDown(playerIndex, new InputDirectionType[] { InputDirectionType.All });
+        }
+
+        /// <summary>
         /// Checks if left controls are down.
         /// </summary>
         /// <param name="inputTypes">The input types to check.</param>
@@ -331,6 +340,15 @@ namespace GGFanGame.Input
         public static bool leftDown(PlayerIndex playerIndex, InputDirectionType[] inputTypes)
         {
             return internalLeft(false, playerIndex, inputTypes);
+        }
+
+        /// <summary>
+        /// Checks if up left are pressed.
+        /// </summary>
+        /// <returns></returns>
+        public static bool leftPressed(PlayerIndex playerIndex)
+        {
+            return leftPressed(playerIndex, new InputDirectionType[] { InputDirectionType.All });
         }
 
         /// <summary>
@@ -346,11 +364,29 @@ namespace GGFanGame.Input
         /// <summary>
         /// Checks if right controls are down.
         /// </summary>
+        /// <returns></returns>
+        public static bool rightDown(PlayerIndex playerIndex)
+        {
+            return rightDown(playerIndex, new InputDirectionType[] { InputDirectionType.All });
+        }
+
+        /// <summary>
+        /// Checks if right controls are down.
+        /// </summary>
         /// <param name="inputTypes">The input types to check.</param>
         /// <returns></returns>
         public static bool rightDown(PlayerIndex playerIndex, InputDirectionType[] inputTypes)
         {
             return internalRight(false, playerIndex, inputTypes);
+        }
+
+        /// <summary>
+        /// Checks if up controls are pressed.
+        /// </summary>
+        /// <returns></returns>
+        public static bool rightPressed(PlayerIndex playerIndex)
+        {
+            return rightPressed(playerIndex, new InputDirectionType[] { InputDirectionType.All });
         }
 
         /// <summary>
@@ -366,11 +402,29 @@ namespace GGFanGame.Input
         /// <summary>
         /// Checks if up controls are down.
         /// </summary>
+        /// <returns></returns>
+        public static bool upDown(PlayerIndex playerIndex)
+        {
+            return upDown(playerIndex, new InputDirectionType[] { InputDirectionType.All });
+        }
+
+        /// <summary>
+        /// Checks if up controls are down.
+        /// </summary>
         /// <param name="inputTypes">The input types to check.</param>
         /// <returns></returns>
         public static bool upDown(PlayerIndex playerIndex, InputDirectionType[] inputTypes)
         {
             return internalUp(false, playerIndex, inputTypes);
+        }
+
+        /// <summary>
+        /// Checks if up controls are pressed.
+        /// </summary>
+        /// <returns></returns>
+        public static bool upPressed(PlayerIndex playerIndex)
+        {
+            return upPressed(playerIndex, new InputDirectionType[] { InputDirectionType.All });
         }
 
         /// <summary>
@@ -386,11 +440,29 @@ namespace GGFanGame.Input
         /// <summary>
         /// Checks if down controls are down.
         /// </summary>
+        /// <returns></returns>
+        public static bool downDown(PlayerIndex playerIndex)
+        {
+            return downDown(playerIndex, new InputDirectionType[] { InputDirectionType.All });
+        }
+
+        /// <summary>
+        /// Checks if down controls are down.
+        /// </summary>
         /// <param name="inputTypes">The input types to check.</param>
         /// <returns></returns>
         public static bool downDown(PlayerIndex playerIndex, InputDirectionType[] inputTypes)
         {
             return internalDown(false, playerIndex, inputTypes);
+        }
+
+        /// <summary>
+        /// Checks if down controls are pressed.
+        /// </summary>
+        /// <returns></returns>
+        public static bool downPressed(PlayerIndex playerIndex)
+        {
+            return downPressed(playerIndex, new InputDirectionType[] { InputDirectionType.All });
         }
 
         /// <summary>

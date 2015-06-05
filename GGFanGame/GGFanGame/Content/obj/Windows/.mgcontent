@@ -4,39 +4,39 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/gg_logo.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/st_logo.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/1Up.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Barry.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Barry_Overlay.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/2Up.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/3Up.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/4Up.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Arin.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Arin_Overlay.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Suzy.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Suzy_Overlay.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Ross.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Ross_Overlay.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Danny.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Danny_Overlay.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Arin_name.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Barry_name.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Ross_name.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Suzy_name.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Danny_name.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/CartoonFont.spritefont</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/CartoonFontLarge.spritefont</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Sprites/Danny.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Music/Smash 1.mp3</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Sprites/Arin.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/CartoonFontSmall.spritefont</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/UI/Arin.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/UI/Bars.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Sprites/Dummy.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Music/Smash 2.mp3</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/UI/gg_overlay.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Sprites/couch.png</File>
-    <File>D:/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Sprites/Booper.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/gg_logo.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/st_logo.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/1Up.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Barry.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Barry_Overlay.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/2Up.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/3Up.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/4Up.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Arin.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Arin_Overlay.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Suzy.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Suzy_Overlay.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Ross.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Ross_Overlay.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Danny.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/GrumpCade/Danny_Overlay.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Arin_name.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Barry_name.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Ross_name.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Suzy_name.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Names/Danny_name.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/CartoonFont.spritefont</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/CartoonFontLarge.spritefont</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Sprites/Danny.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Music/Smash 1.mp3</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Sprites/Arin.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/CartoonFontSmall.spritefont</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/UI/Arin.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/UI/Bars.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Sprites/Dummy.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Music/Smash 2.mp3</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/UI/gg_overlay.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Sprites/couch.png</File>
+    <File>C:/Users/MaK/Documents/GitHub/GGFanGame/GGFanGame/GGFanGame/Content/Sprites/Booper.png</File>
   </SourceFiles>
 </SourceFileCollection>

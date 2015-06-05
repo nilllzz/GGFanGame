@@ -30,7 +30,7 @@ namespace GGFanGame
         {
             get { return _random; }
         }
-
+        
         /// <summary>
         /// The texture manager for this game.
         /// </summary>
@@ -84,7 +84,7 @@ namespace GGFanGame
         {
             get { return new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height); }
         }
-
+        
         public GGGame() : base()
         {
             _graphics = new GraphicsDeviceManager(this);

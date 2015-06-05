@@ -177,13 +177,14 @@ namespace GGFanGame.Game.Level
             if (_drawShadow)
             {
                 int shadowWidth = (int)(frame.Width * _shadowSize * stageScale);
-                int shadowHeight = (int)(frame.Height * _shadowSize * stageScale * (1d / 4d));
+                int shadowHeight = (int)(frame.Height * _shadowSize * stageScale * (1d / (stageScale * 2)));
+
 
                 Drawing.Graphics.drawEllipse(new Rectangle((int)(X - (shadowWidth / 2d)),
                                 (int)(Z - shadowHeight / 2d - Stage.activeStage().getGround(position)),
                                 shadowWidth,
                                 shadowHeight),
-                  new Color(0, 0, 0, 100)); //TODO: maybe, we have the shadow fade away when the player jumps?
+                  new Color(0, 0, 0, 100), stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
             }
 
             SpriteEffects effect = SpriteEffects.None;

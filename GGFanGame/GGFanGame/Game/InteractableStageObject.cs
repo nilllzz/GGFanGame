@@ -178,7 +178,7 @@ namespace GGFanGame.Game.Level
             {
 <<<<<<< HEAD
                 int shadowWidth = (int)(frame.Width * _shadowSize * stageScale);
-                int shadowHeight = (int)(frame.Height * _shadowSize * stageScale * (1d / (stageScale * 2)));
+                int shadowHeight = (int)(frame.Height * _shadowSize * stageScale * (1d / 4));
 
 
                 Drawing.Graphics.drawEllipse(new Rectangle((int)(X - (shadowWidth / 2d)),

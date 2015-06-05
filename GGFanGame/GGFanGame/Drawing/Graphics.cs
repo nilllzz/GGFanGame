@@ -221,31 +221,31 @@ namespace GGFanGame.Drawing
         /// <summary>
         /// Draws a smooth gradient.
         /// </summary>
-        public static void drawGradient(Rectangle rectangle, Color fromColor, Color toColor, bool horizontal)
+        public static void drawGradient(Rectangle rectangle, Color fromColor, Color toColor, bool horizontal, double scale)
         {
-            drawGradient(_spriteBatch, rectangle, fromColor, toColor, horizontal, -1); //negative number for steps means as many steps as possible.
+            drawGradient(_spriteBatch, rectangle, fromColor, toColor, horizontal, -1, scale); //negative number for steps means as many steps as possible.
         }
 
         /// <summary>
         /// Draws a smooth gradient.
         /// </summary>
-        public static void drawGradient(SpriteBatch batch, Rectangle rectangle, Color fromColor, Color toColor, bool horizontal)
+        public static void drawGradient(SpriteBatch batch, Rectangle rectangle, Color fromColor, Color toColor, bool horizontal, double scale)
         {
-            drawGradient(batch, rectangle, fromColor, toColor, horizontal, -1); //negative number for steps means as many steps as possible.
+            drawGradient(batch, rectangle, fromColor, toColor, horizontal, -1, scale); //negative number for steps means as many steps as possible.
         }
 
         /// <summary>
         /// Draws a gradient.
         /// </summary>
-        public static void drawGradient(Rectangle rectangle, Color fromColor, Color toColor, bool horizontal, int steps)
+        public static void drawGradient(Rectangle rectangle, Color fromColor, Color toColor, bool horizontal, int steps, double scale)
         {
-            drawGradient(_spriteBatch, rectangle, fromColor, toColor, horizontal, steps);
+            drawGradient(_spriteBatch, rectangle, fromColor, toColor, horizontal, steps, scale);
         }
 
         /// <summary>
         /// Draws a gradient.
         /// </summary>
-        public static void drawGradient(SpriteBatch batch, Rectangle rectangle, Color fromColor, Color toColor, bool horizontal, int steps)
+        public static void drawGradient(SpriteBatch batch, Rectangle rectangle, Color fromColor, Color toColor, bool horizontal, int steps, double scale)
         {
             if (rectangle.Width > 0 && rectangle.Height > 0)
             {
@@ -258,7 +258,7 @@ namespace GGFanGame.Drawing
                 }
                 else
                 {
-                    gradient = new GradientConfiguration(rectangle.Width, rectangle.Height, fromColor, toColor, horizontal, steps);
+                    gradient = new GradientConfiguration((int)(rectangle.Width / scale), (int)(rectangle.Height / scale), fromColor, toColor, horizontal, steps);
                     _gradientConfigs.Add(checksum, gradient);
                 }
 
@@ -364,7 +364,15 @@ namespace GGFanGame.Drawing
         }
 
         /// <summary>
-        /// Draws an ellipse with a specified color. - Original call
+        /// Draws an ellipse with a specified color - Original call.
+        /// </summary>
+        public static void drawEllipse(Rectangle rectangle, Color color)
+        {
+            drawEllipse(_spriteBatch, rectangle, color, 1d);
+        }
+        
+        /// <summary>
+        /// Draws an ellipse with a specified color - Original call overloaded with scale.
         /// </summary>
         public static void drawEllipse(Rectangle rectangle, Color color, double scale)
         {
@@ -381,7 +389,15 @@ namespace GGFanGame.Drawing
         }
 
         /// <summary>
-        /// Draws a circle with specified radius and color. - Original call
+        /// Draws a circle with specified radius and color - Original call.
+        /// </summary>
+        public static void drawCircle(Vector2 position, int radius, Color color)
+        {
+            drawCircle(_spriteBatch, position, radius, color, 1d);
+        }
+        
+        /// <summary>
+        /// Draws a circle with specified radius and color - Original call overloaded with scale.
         /// </summary>
         public static void drawCircle(Vector2 position, int radius, Color color, double scale)
         {

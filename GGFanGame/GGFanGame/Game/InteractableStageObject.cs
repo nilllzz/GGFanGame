@@ -173,6 +173,7 @@ namespace GGFanGame.Game.Level
         {
             Rectangle frame = getAnimation().getFrameRec(animationFrame);
             double stageScale = Stage.activeStage().scale;
+            Color ambientColor = Stage.activeStage().ambientColor;
 
             if (_drawShadow)
             {
@@ -183,7 +184,7 @@ namespace GGFanGame.Game.Level
                                 (int)((Z - shadowHeight / 2d - Stage.activeStage().getGround(position)) * stageScale),
                                 (int)(shadowWidth * stageScale),
                                 (int)(shadowHeight * stageScale)),
-                                new Color(0, 0, 0, 100), stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
+                                ambientColor, stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
             }
 
             SpriteEffects effect = SpriteEffects.None;

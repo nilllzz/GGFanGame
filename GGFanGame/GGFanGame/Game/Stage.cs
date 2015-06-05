@@ -36,7 +36,8 @@ namespace GGFanGame.Game.Level
 
         private GGGame _gameInstance;
         private List<StageObject> _objects;
-        private double _scale = 1d;
+        private double _scale = 2d;
+        private Color _ambientColor = new Color(0, 0, 0, 100); //Used for shadow color
 
         /// <summary>
         /// The scale of objects in this stage.
@@ -45,6 +46,15 @@ namespace GGFanGame.Game.Level
         public double scale
         {
             get { return _scale; }
+        }
+
+        /// <summary>
+        /// The ambient shadow color in this stage.
+        /// </summary>
+        /// <returns></returns>
+        public Color ambientColor
+        {
+            get { return _ambientColor; }
         }
 
         private PlayerCharacter _onePlayer;
@@ -68,9 +78,9 @@ namespace GGFanGame.Game.Level
 
             _objects = new List<StageObject>();
 
-            _onePlayer = new Arin(game, PlayerIndex.One);
-            _twoPlayer = new Arin(game, PlayerIndex.Two) { X = 300, Z = 302 };
-            _threePlayer = new Arin(game, PlayerIndex.Three) { X = 500, Z = 400 };
+            _onePlayer = new Arin(game, PlayerIndex.One) { X = 35, Z = 115 };
+            _twoPlayer = new Arin(game, PlayerIndex.Two) { X = 320, Z = 280 };
+            _threePlayer = new Arin(game, PlayerIndex.Three) { X = 500, Z = 330 };
             _fourPlayer = new Arin(game, PlayerIndex.Four) { X = 900, Z = 100 };
 
             _objects.Add(_onePlayer);

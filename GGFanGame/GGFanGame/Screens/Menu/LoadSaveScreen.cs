@@ -65,7 +65,8 @@ namespace GGFanGame.Screens.Menu
                     int toG = 108 + (int)(68 * gradientProgress);
                     int toB = 46 + (int)(37 * gradientProgress);
 
-                    Drawing.Graphics.drawGradient(new Rectangle(targetRect.X + 132, targetRect.Y + 74, width, 24), new Color(fromR, fromG, fromB, (int)(255 * alphaDelta)), new Color(toR, toG, toB, (int)(255 * alphaDelta)), false);
+                    Drawing.Graphics.drawGradient(new Rectangle(targetRect.X + 132, targetRect.Y + 74, width, 24),
+                                                  new Color(fromR, fromG, fromB, (int)(255 * alphaDelta)), new Color(toR, toG, toB, (int)(255 * alphaDelta)), false, 1d);
 
                     if (_gradientFading)
                     {

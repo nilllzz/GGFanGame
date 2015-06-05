@@ -79,7 +79,7 @@ namespace GGFanGame.Screens.Menu
                     //When the dot is inside the rendering area, draw it.
                     if (posX + DOT_SIZE * 2 >= 0 && posX < gameInstance.clientRectangle.Width && posY + DOT_SIZE * 2 >= 0 && posY < gameInstance.clientRectangle.Height)
                     {
-                        Drawing.Graphics.drawCircle(new Vector2(posX, posY), DOT_SIZE * 2, new Color((int)(241 + cR), (int)(118 + cG), (int)(50 + cB), (int)cA));
+                        Drawing.Graphics.drawCircle(new Vector2(posX, posY), DOT_SIZE * 2, new Color((int)(241 + cR), (int)(118 + cG), (int)(50 + cB), (int)cA), 1f);
                     }
                 }
             }

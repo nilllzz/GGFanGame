@@ -293,9 +293,9 @@ namespace GGFanGame.Drawing
             /// </summary>
             /// <param name="position"></param>
             /// <param name="color"></param>
-            public void draw(SpriteBatch batch, Vector2 position, Color color)
+            public void draw(SpriteBatch batch, Rectangle rectangle, Color color)
             {
-                batch.Draw(_texture, position, color);
+                batch.Draw(_texture, rectangle, color);
             }
 
             private static Texture2D generateTexture(int width, int height)
@@ -344,7 +344,7 @@ namespace GGFanGame.Drawing
         /// <summary>
         /// Draws an ellipse with a specified color.
         /// </summary>
-        public static void drawEllipse(SpriteBatch batch, Rectangle rectangle, Color color)
+        public static void drawEllipse(SpriteBatch batch, Rectangle rectangle, Color color, float scale)
         {
             EllipseConfiguration ellipse;
             string checksum = EllipseConfiguration.generateChecksum(rectangle.Width, rectangle.Height);
@@ -355,37 +355,37 @@ namespace GGFanGame.Drawing
             }
             else
             {
-                ellipse = new EllipseConfiguration(rectangle.Width, rectangle.Height);
+                ellipse = new EllipseConfiguration((int)(rectangle.Width / scale), (int)(rectangle.Height / scale));
                 _ellipseConfigs.Add(checksum, ellipse);
             }
 
             //Finally, draw the configuration:
-            ellipse.draw(batch, new Vector2(rectangle.X, rectangle.Y), color);
+            ellipse.draw(batch, rectangle, color);
         }
 
         /// <summary>
-        /// Draws an ellipse with a specified color.
+        /// Draws an ellipse with a specified color. - Original call
         /// </summary>
-        public static void drawEllipse(Rectangle rectangle, Color color)
+        public static void drawEllipse(Rectangle rectangle, Color color, float scale)
         {
-            drawEllipse(_spriteBatch, rectangle, color);
+            drawEllipse(_spriteBatch, rectangle, color, scale);
         }
 
         //To draw a circle, we draw an ellipse with x and y radius being the same:
         /// <summary>
         /// Draws a circle with specified radius and color.
         /// </summary>
-        public static void drawCircle(SpriteBatch batch, Vector2 position, int radius, Color color)
+        public static void drawCircle(SpriteBatch batch, Vector2 position, int radius, Color color, float scale)
         {
-            drawEllipse(batch, new Rectangle((int)position.X, (int)position.Y, radius, radius), color);
+            drawEllipse(batch, new Rectangle((int)position.X, (int)position.Y, radius, radius), color, scale);
         }
 
         /// <summary>
-        /// Draws a circle with specified radius and color.
+        /// Draws a circle with specified radius and color. - Original call
         /// </summary>
-        public static void drawCircle(Vector2 position, int radius, Color color)
+        public static void drawCircle(Vector2 position, int radius, Color color, float scale)
         {
-            drawCircle(_spriteBatch, position, radius, color);
+            drawCircle(_spriteBatch, position, radius, color, scale);
         }
 
         #endregion

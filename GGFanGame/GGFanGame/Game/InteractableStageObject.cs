@@ -155,14 +155,13 @@ namespace GGFanGame.Game.Level
             Rectangle frame = getAnimation().getFrameRec(animationFrame);
             if (_drawShadow)
             {
-                int shadowWidth = (int)(frame.Width * _shadowSize * 2d);
-                int shadowHeight = (int)(frame.Height * _shadowSize * 2d * (1d / 4d));
+                int shadowWidth = (int)(frame.Width * _shadowSize * gameInstance.scale);
+                int shadowHeight = (int)(frame.Height * _shadowSize * gameInstance.scale * (1d / (gameInstance.scale * 2)));
 
-                Drawing.Graphics.drawEllipse(new Rectangle((int)(X - frame.Width + (frame.Width - (shadowWidth / 2d))),
-                                (int)(Z - shadowHeight / 2d),
-                                shadowWidth,
-                                shadowHeight),
-                  new Color(0, 0, 0, 100));
+                Drawing.Graphics.drawEllipse(new Rectangle((int)(X - frame.Width + (frame.Width - (shadowWidth / gameInstance.scale))), 
+                                                           (int)(Z - shadowHeight / gameInstance.scale),
+                                                           shadowWidth, shadowHeight),
+                  new Color(0, 0, 0, 100), gameInstance.scale);
             }
 
             SpriteEffects effect = SpriteEffects.None;
@@ -171,7 +170,9 @@ namespace GGFanGame.Game.Level
                 effect = SpriteEffects.FlipHorizontally;
             }
 
-            gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)(X - frame.Width), (int)(Z - Y - frame.Height * 2), frame.Width * 2, frame.Height * 2), frame, Color.White, 0f, Vector2.Zero, effect, 0f);
+            gameInstance.spriteBatch.Draw(spriteSheet,
+                new Rectangle((int)(X - frame.Width), (int)(Z - Y - frame.Height * gameInstance.scale), (int)(frame.Width * gameInstance.scale), (int)(frame.Height * gameInstance.scale)),
+                frame, Color.White, 0f, Vector2.Zero, effect, 0f);
         }
 
         public override void update()

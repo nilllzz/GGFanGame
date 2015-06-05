@@ -15,8 +15,6 @@ namespace GGFanGame
         public const int RENDER_HEIGHT = 720;
         public const string GAME_TITLE = "Hard Dudes";
 
-        private float _scale = 2;
-
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private SpriteBatch _fontBatch;
@@ -31,15 +29,6 @@ namespace GGFanGame
         public Random random
         {
             get { return _random; }
-        }
-
-        /// <summary>
-        /// The scale for this game.
-        /// </summary>
-        /// <returns></returns>
-        public float scale
-        {
-            get { return _scale; }
         }
         
         /// <summary>

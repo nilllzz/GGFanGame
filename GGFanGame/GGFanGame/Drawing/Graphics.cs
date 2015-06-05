@@ -344,7 +344,7 @@ namespace GGFanGame.Drawing
         /// <summary>
         /// Draws an ellipse with a specified color.
         /// </summary>
-        public static void drawEllipse(SpriteBatch batch, Rectangle rectangle, Color color, float scale)
+        public static void drawEllipse(SpriteBatch batch, Rectangle rectangle, Color color, double scale)
         {
             EllipseConfiguration ellipse;
             string checksum = EllipseConfiguration.generateChecksum(rectangle.Width, rectangle.Height);
@@ -366,7 +366,7 @@ namespace GGFanGame.Drawing
         /// <summary>
         /// Draws an ellipse with a specified color. - Original call
         /// </summary>
-        public static void drawEllipse(Rectangle rectangle, Color color, float scale)
+        public static void drawEllipse(Rectangle rectangle, Color color, double scale)
         {
             drawEllipse(_spriteBatch, rectangle, color, scale);
         }
@@ -375,7 +375,7 @@ namespace GGFanGame.Drawing
         /// <summary>
         /// Draws a circle with specified radius and color.
         /// </summary>
-        public static void drawCircle(SpriteBatch batch, Vector2 position, int radius, Color color, float scale)
+        public static void drawCircle(SpriteBatch batch, Vector2 position, int radius, Color color, double scale)
         {
             drawEllipse(batch, new Rectangle((int)position.X, (int)position.Y, radius, radius), color, scale);
         }
@@ -383,7 +383,7 @@ namespace GGFanGame.Drawing
         /// <summary>
         /// Draws a circle with specified radius and color. - Original call
         /// </summary>
-        public static void drawCircle(Vector2 position, int radius, Color color, float scale)
+        public static void drawCircle(Vector2 position, int radius, Color color, double scale)
         {
             drawCircle(_spriteBatch, position, radius, color, scale);
         }

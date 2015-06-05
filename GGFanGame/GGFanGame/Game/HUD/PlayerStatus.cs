@@ -133,7 +133,7 @@ namespace GGFanGame.Game.Level.HUD
             Drawing.Graphics.drawRectangle(new Rectangle(xOffset + 75, 65, 130, 20), Drawing.Colors.getColor(_playerIndex));
             foreach (var ell in ellipses)
             {
-                Drawing.Graphics.drawCircle(new Vector2(xOffset + 75, 56) + ell.position, (int)ell.size, Drawing.Colors.getColor(_playerIndex), _gameInstance.scale);
+                Drawing.Graphics.drawCircle(new Vector2(xOffset + 75, 56) + ell.position, (int)ell.size, Drawing.Colors.getColor(_playerIndex), 2d);
                 ell.update();
             }
 

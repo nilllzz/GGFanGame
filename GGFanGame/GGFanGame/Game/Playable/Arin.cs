@@ -16,9 +16,9 @@ namespace GGFanGame.Game.Level.Playable
             spriteSheet = gameInstance.textureManager.getResource(@"Sprites\Arin");
             drawShadow = true;
             shadowSize = 0.5d;
-            strength = 4;
-            weigth = 4;
-            size = new Vector3(32, 50, 5);
+            strength = 8;
+            weigth = 8;
+            size = new Vector3(64, 100, 10);
 
             addAnimation(ObjectState.Idle, new Animation(8, Point.Zero, new Point(64, 64), 7));
             addAnimation(ObjectState.Walking, new Animation(6, new Point(0, 64), new Point(64, 64), 5));
@@ -37,7 +37,7 @@ namespace GGFanGame.Game.Level.Playable
             addAttack("BB", 1, new Attack(this, true, 5, strength * 1.3f, new Vector3(30), new Vector3(40, 20, 0)));
 
             health = 100;
-            playerSpeed = 4f;
+            playerSpeed = 8f;
         }
     }
 }

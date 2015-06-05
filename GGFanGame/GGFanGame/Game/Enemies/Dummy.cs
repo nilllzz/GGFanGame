@@ -17,9 +17,9 @@ namespace GGFanGame.Game.Level.Enemies
             drawShadow = true;
             shadowSize = 0.9d;
             strength = 0f;
-            weigth = 6f;
+            weigth = 12f;
             state = ObjectState.Idle;
-            size = new Vector3(60, 60, 10);
+            size = new Vector3(120, 120, 20);
 
             addAnimation(ObjectState.Idle, new Animation(3, Point.Zero, new Point(64, 64), 15));
             addAnimation(ObjectState.Hurt, new Animation(1, new Point(0, 64), new Point(64, 64), 20, 1));

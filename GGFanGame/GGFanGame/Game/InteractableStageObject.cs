@@ -43,6 +43,11 @@ namespace GGFanGame.Game.Level
                 }
             }
 
+            /// <summary>
+            /// Returns a rectangle depicting one of the animation's frames in the sprite sheet.
+            /// </summary>
+            /// <param name="animationFrame">The frame index</param>
+            /// <returns></returns>
             public Rectangle getFrameRec(int animationFrame)
             {
                 return _frames[animationFrame].getRect();
@@ -63,17 +68,31 @@ namespace GGFanGame.Game.Level
                 get { return _frameSize; }
                 set { _frameSize = value; }
             }
+
+            /// <summary>
+            /// The coordinates of this frame in the sprite sheet.
+            /// </summary>
+            /// <returns></returns>
             public Point startPosition
             {
                 get { return _startPosition; }
                 set { _startPosition = value; }
             }
+
+            /// <summary>
+            /// The length this frame appears on screen in frames.
+            /// </summary>
+            /// <returns></returns>
             public double frameLength
             {
                 get { return _frameLength; }
                 set { _frameLength = value; }
             }
 
+            /// <summary>
+            /// Returns the rectangle this frame represents in the sprite sheet.
+            /// </summary>
+            /// <returns></returns>
             public Rectangle getRect()
             {
                 return new Rectangle(_startPosition.X, _startPosition.Y, _frameSize.X, _frameSize.Y);
@@ -153,16 +172,18 @@ namespace GGFanGame.Game.Level
         public override void draw()
         {
             Rectangle frame = getAnimation().getFrameRec(animationFrame);
+            double stageScale = Stage.activeStage().scale;
+
             if (_drawShadow)
             {
-                int shadowWidth = (int)(frame.Width * _shadowSize * 2d);
-                int shadowHeight = (int)(frame.Height * _shadowSize * 2d * (1d / 4d));
+                int shadowWidth = (int)(frame.Width * _shadowSize * stageScale);
+                int shadowHeight = (int)(frame.Height * _shadowSize * stageScale * (1d / 4d));
 
-                Drawing.Graphics.drawEllipse(new Rectangle((int)(X - frame.Width + (frame.Width - (shadowWidth / 2d))),
-                                (int)(Z - shadowHeight / 2d),
+                Drawing.Graphics.drawEllipse(new Rectangle((int)(X - (shadowWidth / 2d)),
+                                (int)(Z - shadowHeight / 2d - Stage.activeStage().getGround(position)),
                                 shadowWidth,
                                 shadowHeight),
-                  new Color(0, 0, 0, 100));
+                  new Color(0, 0, 0, 100)); //TODO: maybe, we have the shadow fade away when the player jumps?
             }
 
             SpriteEffects effect = SpriteEffects.None;
@@ -171,7 +192,11 @@ namespace GGFanGame.Game.Level
                 effect = SpriteEffects.FlipHorizontally;
             }
 
-            gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)(X - frame.Width), (int)(Z - Y - frame.Height * 2), frame.Width * 2, frame.Height * 2), frame, Color.White, 0f, Vector2.Zero, effect, 0f);
+            gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)(X - frame.Width / 2d * stageScale),
+                                                                     (int)(Z - Y - frame.Height * stageScale),
+                                                                     (int)(frame.Width * stageScale),
+                                                                     (int)(frame.Height * stageScale)),
+                                                       frame, Color.White, 0f, Vector2.Zero, effect, 0f);
         }
 
         public override void update()
@@ -306,7 +331,8 @@ namespace GGFanGame.Game.Level
         {
             //Returns the drawing size of the current frame:
             Rectangle frame = getAnimation().getFrameRec(animationFrame);
-            return new Point(frame.Width, frame.Height);
+            double stageScale = Stage.activeStage().scale;
+            return new Point((int)(frame.Width * stageScale), (int)(frame.Height * stageScale));
         }
 
         public override void getHit(Attack attack)

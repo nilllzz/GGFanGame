@@ -22,6 +22,7 @@ namespace GGFanGame.Game
             canLandOn = true;
             state = Level.ObjectState.Idle;
             drawShadow = true;
+            canInteract = false;
 
             addAnimation(Level.ObjectState.Idle, new Animation(1, Point.Zero, new Point(81, 36), 100));
         }

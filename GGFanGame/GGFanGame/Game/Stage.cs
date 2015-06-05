@@ -9,6 +9,9 @@ using GGFanGame.Game.Level.HUD;
 
 namespace GGFanGame.Game.Level
 {
+    /// <summary>
+    /// Represents a level in the game.
+    /// </summary>
     class Stage
     {
         //We store a single stage as active so that objects can easily access the current stage.
@@ -33,6 +36,16 @@ namespace GGFanGame.Game.Level
 
         private GGGame _gameInstance;
         private List<StageObject> _objects;
+        private double _scale = 2d;
+
+        /// <summary>
+        /// The scale of objects in this stage.
+        /// </summary>
+        /// <returns></returns>
+        public double scale
+        {
+            get { return _scale; }
+        }
 
         private PlayerCharacter _onePlayer;
         private PlayerCharacter _twoPlayer;
@@ -56,7 +69,7 @@ namespace GGFanGame.Game.Level
             _objects = new List<StageObject>();
 
             _onePlayer = new Arin(game, PlayerIndex.One);
-            _twoPlayer = new Arin(game, PlayerIndex.Two) { X = 300, Z = 300 };
+            _twoPlayer = new Arin(game, PlayerIndex.Two) { X = 300, Z = 302 };
             _threePlayer = new Arin(game, PlayerIndex.Three) { X = 500, Z = 400 };
             _fourPlayer = new Arin(game, PlayerIndex.Four) { X = 900, Z = 100 };
 
@@ -70,11 +83,11 @@ namespace GGFanGame.Game.Level
             _threeStatus = new PlayerStatus(game, _threePlayer, PlayerIndex.Three);
             _fourStatus = new PlayerStatus(game, _fourPlayer, PlayerIndex.Four);
 
-            _objects.Add(new Enemies.Dummy(game) { X = 100, Z = 100 });
+            _objects.Add(new Enemies.Booper(game) { X = 100, Z = 100 });
             _objects.Add(new SceneryObject(game) { X = 300, Z = 300 });
-            _objects.Add(new Enemies.Dummy(game) { X = 300, Z = 200 });
-            _objects.Add(new Enemies.Dummy(game) { X = 500, Z = 150 });
-            _objects.Add(new Enemies.Dummy(game) { X = 800, Z = 400 });
+            _objects.Add(new Enemies.Booper(game) { X = 300, Z = 200 });
+            _objects.Add(new Enemies.Booper(game) { X = 500, Z = 150 });
+            _objects.Add(new Enemies.Booper(game) { X = 800, Z = 400 });
         }
 
         public void draw()
@@ -134,7 +147,7 @@ namespace GGFanGame.Game.Level
                         obj.getHit(attack);
 
                         Vector3 wordPosition = obj.getFeetPosition();
-                        wordPosition.Y += obj.size.Y;
+                        wordPosition.Y += (float)(obj.size.Y / 2d * _scale);
 
                         _objects.Add(new ActionWord(_gameInstance, ActionWord.getWordText(ActionWord.WordType.HurtEnemy), obj.objectColor, 1f, wordPosition));
                     }

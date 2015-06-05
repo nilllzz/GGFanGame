@@ -84,7 +84,7 @@ namespace GGFanGame.Game.Level
             _fourStatus = new PlayerStatus(game, _fourPlayer, PlayerIndex.Four);
 
             _objects.Add(new Enemies.Booper(game) { X = 100, Z = 100 });
-            _objects.Add(new SceneryObject(game) { X = 300, Z = 300 });
+            _objects.Add(new Scene.Couch(game) { X = 300, Z = 300 });
             _objects.Add(new Enemies.Booper(game) { X = 300, Z = 200 });
             _objects.Add(new Enemies.Booper(game) { X = 500, Z = 150 });
             _objects.Add(new Enemies.Booper(game) { X = 800, Z = 400 });

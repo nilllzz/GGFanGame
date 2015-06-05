@@ -51,7 +51,6 @@
     <Compile Include="Game\Enemies\Booper.cs" />
     <Compile Include="Game\Enemies\Dummy.cs" />
     <Compile Include="Game\SceneryObject.cs" />
-    <Compile Include="Game\Scene\Wall.cs" />
     <Compile Include="Game\Scene\Couch.cs" />
     <Compile Include="GGGame.cs" />
     <Compile Include="GameJolt\API\APIManager.cs" />

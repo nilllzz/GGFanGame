@@ -18,7 +18,7 @@ namespace GGFanGame.Game
         public SceneryObject(GGGame game) : base(game)
         {
             spriteSheet = game.textureManager.getResource(@"Sprites\Couch");
-            size = new Vector3(80, 10, 5);
+            size = new Vector3(80, 16, 5);
             canLandOn = true;
             state = Level.ObjectState.Idle;
             drawShadow = true;

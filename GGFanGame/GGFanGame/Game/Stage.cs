@@ -78,9 +78,9 @@ namespace GGFanGame.Game.Level
 
             _objects = new List<StageObject>();
 
-            _onePlayer = new Arin(game, PlayerIndex.One);
-            _twoPlayer = new Arin(game, PlayerIndex.Two) { X = 300, Z = 302 };
-            _threePlayer = new Arin(game, PlayerIndex.Three) { X = 500, Z = 400 };
+            _onePlayer = new Arin(game, PlayerIndex.One) { X = 35, Z = 115 };
+            _twoPlayer = new Arin(game, PlayerIndex.Two) { X = 320, Z = 280 };
+            _threePlayer = new Arin(game, PlayerIndex.Three) { X = 500, Z = 330 };
             _fourPlayer = new Arin(game, PlayerIndex.Four) { X = 900, Z = 100 };
 
             _objects.Add(_onePlayer);
@@ -93,8 +93,8 @@ namespace GGFanGame.Game.Level
             _threeStatus = new PlayerStatus(game, _threePlayer, PlayerIndex.Three);
             _fourStatus = new PlayerStatus(game, _fourPlayer, PlayerIndex.Four);
 
-            _objects.Add(new Enemies.Booper(game) { X = 100, Z = 100 });
-            _objects.Add(new SceneryObject(game) { X = 300, Z = 300 });
+            _objects.Add(new Enemies.Booper(game) { X = 130, Z = 100 });
+            _objects.Add(new SceneryObject(game) { X = 240, Z = 250 });
             _objects.Add(new Enemies.Booper(game) { X = 300, Z = 200 });
             _objects.Add(new Enemies.Booper(game) { X = 500, Z = 150 });
             _objects.Add(new Enemies.Booper(game) { X = 800, Z = 400 });

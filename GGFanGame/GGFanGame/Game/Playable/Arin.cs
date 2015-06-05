@@ -33,8 +33,8 @@ namespace GGFanGame.Game.Level.Playable
             addComboAnimation("B", new Animation(5, new Point(0, 320), new Point(64, 64), 5, 1));
             addComboAnimation("BB", new Animation(3, new Point(320, 320), new Point(64, 64), 5));
 
-            addAttack("B", 2, new Attack(this, false, 5, strength, new Vector3(30), new Vector3(40, 20, 0)));
-            addAttack("BB", 1, new Attack(this, true, 5, strength * 1.3f, new Vector3(30), new Vector3(40, 20, 0)));
+            addAttack("B", 2, new Attack(this, false, 5, strength, new Vector3(15), new Vector3(20, 10, 0)));
+            addAttack("BB", 1, new Attack(this, true, 5, strength * 1.3f, new Vector3(15), new Vector3(20, 10, 0)));
 
             health = 100;
             playerSpeed = 4f;

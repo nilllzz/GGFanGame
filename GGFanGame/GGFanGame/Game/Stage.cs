@@ -36,7 +36,7 @@ namespace GGFanGame.Game.Level
 
         private GGGame _gameInstance;
         private List<StageObject> _objects;
-        private double _scale = 2d;
+        private double _scale = 1d;
 
         /// <summary>
         /// The scale of objects in this stage.

@@ -176,6 +176,7 @@ namespace GGFanGame.Game.Level
 
             if (_drawShadow)
             {
+<<<<<<< HEAD
                 int shadowWidth = (int)(frame.Width * _shadowSize * stageScale);
                 int shadowHeight = (int)(frame.Height * _shadowSize * stageScale * (1d / (stageScale * 2)));
 
@@ -185,6 +186,16 @@ namespace GGFanGame.Game.Level
                                 shadowWidth,
                                 shadowHeight),
                   new Color(0, 0, 0, 100), stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
+=======
+                int shadowWidth = (int)(frame.Width * _shadowSize);
+                int shadowHeight = (int)(frame.Height * _shadowSize * (1d / 4d));
+
+                Drawing.Graphics.drawEllipse(new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
+                                (int)((Z - shadowHeight / 2d - Stage.activeStage().getGround(position)) * stageScale),
+                                (int)(shadowWidth * stageScale),
+                                (int)(shadowHeight * stageScale)),
+                  new Color(0, 0, 0, 100)); //TODO: maybe, we have the shadow fade away when the player jumps?
+>>>>>>> parent of 60c0e63... Revert "it is possible"
             }
 
             SpriteEffects effect = SpriteEffects.None;
@@ -193,8 +204,8 @@ namespace GGFanGame.Game.Level
                 effect = SpriteEffects.FlipHorizontally;
             }
 
-            gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)(X - frame.Width / 2d * stageScale),
-                                                                     (int)(Z - Y - frame.Height * stageScale),
+            gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)((X - frame.Width / 2d) * stageScale),
+                                                                     (int)((Z - Y - frame.Height) * stageScale),
                                                                      (int)(frame.Width * stageScale),
                                                                      (int)(frame.Height * stageScale)),
                                                        frame, Color.White, 0f, Vector2.Zero, effect, 0f);
@@ -265,20 +276,20 @@ namespace GGFanGame.Game.Level
 
             if (_autoMovement.X > 0f)
             {
-                _autoMovement.X--;
+                _autoMovement.X -= 0.5f;
                 if (_autoMovement.X < 0f)
                     _autoMovement.X = 0f;
             }
             if (_autoMovement.X < 0f)
             {
-                _autoMovement.X++;
+                _autoMovement.X += 0.5f;
                 if (_autoMovement.X > 0f)
                     _autoMovement.X = 0f;
             }
 
             if (_autoMovement.Y > 0f)
             {
-                _autoMovement.Y--;
+                _autoMovement.Y -= 0.5f;
                 if (_autoMovement.Y < 0f)
                     _autoMovement.Y = 0f;
             }
@@ -292,13 +303,13 @@ namespace GGFanGame.Game.Level
 
             if (_autoMovement.Z > 0f)
             {
-                _autoMovement.Z--;
+                _autoMovement.Z -= 0.5f;
                 if (_autoMovement.Z < 0f)
                     _autoMovement.Z = 0f;
             }
             if (_autoMovement.Z < 0f)
             {
-                _autoMovement.Z++;
+                _autoMovement.Z += 0.5f;
                 if (_autoMovement.Z > 0f)
                     _autoMovement.Z = 0f;
             }

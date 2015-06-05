@@ -39,7 +39,7 @@ namespace GGFanGame.Game.Level.Playable
         #endregion
 
         private PlayerIndex _playerIndex;
-        private float _playerSpeed = 5f;
+        private float _playerSpeed = 4f;
         private string _name = "";
 
         protected float playerSpeed
@@ -179,9 +179,9 @@ namespace GGFanGame.Game.Level.Playable
                         animationFrame = 0;
 
                         if (facing == ObjectFacing.Left)
-                            _autoMovement.X -= 12;
+                            _autoMovement.X -= 6f;
                         else
-                            _autoMovement.X += 12;
+                            _autoMovement.X += 6f;
                     }
                     else
                     {
@@ -195,7 +195,7 @@ namespace GGFanGame.Game.Level.Playable
             //Jumping and landing:
             if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.B) && setToState == ObjectState.Idle && Y == groundY)
             {
-                _autoMovement.Y = 18f;
+                _autoMovement.Y = 10f;
                 setToState = ObjectState.Jumping;
             }
             if (state == ObjectState.Jumping && setToState == ObjectState.Idle)

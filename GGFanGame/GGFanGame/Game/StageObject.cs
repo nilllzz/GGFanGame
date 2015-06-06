@@ -44,6 +44,7 @@ namespace GGFanGame.Game.Level
     /// </summary>
     abstract class StageObject : IComparable<StageObject>
     {
+        private GGGame _game;
         private Vector3 _position;
         private Vector3 _size;
         private ObjectFacing _facing;
@@ -56,7 +57,7 @@ namespace GGFanGame.Game.Level
         private bool _canLandOn = true; //TODO: set to false, just for testing, this is true for all.
         private bool _canCollideWith = true;
         private float _strength = 0;
-        private GGGame _game;
+        private List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
 
         private static int _currentSortingPriority = 0; //Keeps track of all the sorting priorities added so that every object has a different one.
         private int _sortingPriority = 0;
@@ -219,13 +220,48 @@ namespace GGFanGame.Game.Level
         }
 
         /// <summary>
+        /// Adds a new bounding box to the array of defined bounding boxes for this object.
+        /// </summary>
+        /// <param name="size">The size of the box.</param>
+        /// <param name="offset">The offset of this box relative to the position of this object.</param>
+        protected void addBoundingBox(Vector3 size, Vector3 offset)
+        {
+            _boundingBoxes.Add(
+                new BoundingBox(new Vector3(-size.X / 2f + offset.X, -size.Y / 2f + offset.Y, -size.Z / 2f + offset.Z),
+                                               new Vector3(size.X / 2f + offset.X, size.Y / 2f + offset.Y, size.Z / 2f + offset.Z))
+                              );
+
+        }
+
+        /// <summary>
+        /// Returns the array of defined bounding boxes for this object.
+        /// </summary>
+        /// <returns></returns>
+        public BoundingBox[] boundingBoxes
+        {
+            get
+            {
+                BoundingBox[] boxes = new BoundingBox[_boundingBoxes.Count];
+
+                //Add this object's position to each bounding box as offset:
+                for (int i = 0; i < _boundingBoxes.Count; i++)
+                    boxes[i] = _boundingBoxes[i].Offset(_position);
+
+                return boxes;
+            }
+        }
+
+        /// <summary>
         /// The default bounding box of this object based on its position and size.
         /// </summary>
         /// <returns></returns>
         public virtual BoundingBox boundingBox
         {
-            get { return new BoundingBox(new Vector3(_position.X - _size.X / 2f, _position.Y, _position.Z - _size.Z / 2),
-                                         new Vector3(_position.X + _size.X / 2f, _position.Y + _size.Y, _position.Z + _size.Z / 2)); }
+            get
+            {
+                return new BoundingBox(new Vector3(_position.X - _size.X / 2f, _position.Y, _position.Z - _size.Z / 2),
+                                       new Vector3(_position.X + _size.X / 2f, _position.Y + _size.Y, _position.Z + _size.Z / 2));
+            }
         }
 
         public abstract Point getDrawingSize();

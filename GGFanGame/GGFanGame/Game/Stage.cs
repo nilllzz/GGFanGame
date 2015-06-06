@@ -105,12 +105,17 @@ namespace GGFanGame.Game.Level
             foreach (StageObject obj in _objects)
             {
                 obj.draw();
-                }
+            }
 
             _oneStatus.draw();
             _twoStatus.draw();
             _threeStatus.draw();
             _fourStatus.draw();
+        }
+
+        public StageObject[] getObjects()
+        {
+            return _objects.ToArray();
         }
 
         public void update()
@@ -181,28 +186,71 @@ namespace GGFanGame.Game.Level
             float returnY = 0f;
 
             Vector2 twoDimPoint = new Vector2(position.X, position.Z);
-            BoundingBox box;
 
             foreach (StageObject obj in _objects)
             {
                 if (obj.canLandOn)
                 {
-                    box = obj.boundingBox;
+                    BoundingBox[] boxes = obj.boundingBoxes;
 
-                    float topY = box.Max.Y;
-                    Rectangle twoDimPlane = new Rectangle((int)box.Min.X, (int)box.Min.Z, (int)(box.Max.X - box.Min.X), (int)(box.Max.Z - box.Min.Z));
+                    //When the object does not have defined bounding boxes, take the default bounding box.
+                    if (boxes.Length == 0)
+                        boxes = new BoundingBox[] { obj.boundingBox };
 
-                    if (topY <= position.Y && topY > returnY)
+                    foreach (BoundingBox box in boxes)
                     {
-                        if (twoDimPlane.Contains(twoDimPoint))
+                        float topY = box.Max.Y;
+                        Rectangle twoDimPlane = new Rectangle((int)box.Min.X, (int)box.Min.Z, (int)(box.Max.X - box.Min.X), (int)(box.Max.Z - box.Min.Z));
+
+                        if (topY <= position.Y && topY > returnY)
                         {
-                            returnY = topY;
+                            if (twoDimPlane.Contains(twoDimPoint))
+                            {
+                                returnY = topY;
+                            }
                         }
                     }
                 }
             }
 
             return returnY;
+        }
+
+        /// <summary>
+        /// Checks if a desired position for an object collides with space occupied by another object.
+        /// </summary>
+        /// <param name="chkObj"></param>
+        /// <param name="desiredPosition"></param>
+        /// <returns></returns>
+        public bool checkCollision(StageObject chkObj, Vector3 desiredPosition)
+        {
+            //Create bounding box out of the desired position to check for collision with other bounding boxes.
+            //We add 0.1 to the Y position so we don't get stuck in the floor.
+            //The destination box is basically a line from the feet of the object with the height of its own height.
+            //This way, it is consistent with the way we check for ground.
+            BoundingBox destinationBox = new BoundingBox(desiredPosition + new Vector3(0, 0.1f, 0), desiredPosition + new Vector3(0, 0.1f + (chkObj.boundingBox.Max.Y - chkObj.boundingBox.Min.Y), 0));
+
+            foreach (StageObject obj in _objects)
+            {
+                if (obj != chkObj && obj.collision)
+                {
+                    BoundingBox[] boxes = obj.boundingBoxes;
+
+                    //When the object does not have defined bounding boxes, take the default bounding box.
+                    if (boxes.Length == 0)
+                        boxes = new BoundingBox[] { obj.boundingBox };
+
+                    foreach (BoundingBox box in boxes)
+                    {
+                        if (box.Intersects(destinationBox))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

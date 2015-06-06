@@ -223,27 +223,45 @@ namespace GGFanGame.Game.Level.Playable
                 {
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
-                    X += _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right);
+
+                    Vector3 desiredPosition = new Vector3(X + _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right), Y, Z);
+
+                    if (Stage.activeStage().checkCollision(this, desiredPosition))
+                        X = desiredPosition.X;
+
                     facing = ObjectFacing.Right;
                 }
                 if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickLeft))
                 {
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
-                    X -= _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left);
+
+                    Vector3 desiredPosition = new Vector3(X - _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left), Y, Z);
+
+                    if (Stage.activeStage().checkCollision(this, desiredPosition))
+                        X = desiredPosition.X;
+
                     facing = ObjectFacing.Left;
                 }
                 if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickUp))
                 {
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
-                    Z -= _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up);
+
+                    Vector3 desiredPosition = new Vector3(X, Y, Z - _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up));
+
+                    if (Stage.activeStage().checkCollision(this, desiredPosition))
+                        Z = desiredPosition.Z;
                 }
                 if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickDown))
                 {
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
-                    Z += _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down);
+
+                    Vector3 desiredPosition = new Vector3(X, Y, Z + _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down));
+
+                    if (Stage.activeStage().checkCollision(this, desiredPosition))
+                        Z = desiredPosition.Z;
                 }
             }
 

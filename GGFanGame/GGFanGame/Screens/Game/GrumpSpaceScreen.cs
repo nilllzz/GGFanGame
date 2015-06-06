@@ -26,6 +26,12 @@ namespace GGFanGame.Screens.Game
         public override void update()
         {
             _stage.update();
+
+            //TEST CODE: When pressed P, rendering switches to 3D bounding box test stage:
+            if (Input.KeyboardHandler.keyPressed(Microsoft.Xna.Framework.Input.Keys.P))
+            {
+                ScreenManager.getInstance().setScreen(new Debug.BoundingBoxTestScreen(gameInstance));
+            }
         }
     }
 }

@@ -63,7 +63,7 @@ namespace GGFanGame.Screens
             get
             {
                 if (ScreenManager.getInstance().currentScreen != null)
-                    return ScreenManager.getInstance().currentScreen._identification == _identification;
+                    return ScreenManager.getInstance().currentScreen.identification == identification;
                 else
                     return false;
             }

@@ -41,11 +41,15 @@ namespace GGFanGame.Screens.Menu
 
             public void draw(SpriteFont font, Rectangle targetRect, bool selected, float alphaDelta)
             {
+
                 if (selected)
                 {
-                    Drawing.Graphics.drawBorder(3, targetRect, new Color(0, 0, 0, (int)(255 * alphaDelta)));
+                    _gameInstance.spriteBatch.Draw(_gameInstance.textureManager.getResource(@"UI\saveBack"), targetRect, new Color(0, 0, 0, (int)(255 * alphaDelta)));
                 }
-                Drawing.Graphics.drawRectangle(targetRect, new Color(0, 0, 0, (int)(100 * alphaDelta)));
+                else
+                {
+                    _gameInstance.spriteBatch.Draw(_gameInstance.textureManager.getResource(@"UI\saveBack"), targetRect, new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                }
 
                 if (_save.loadedCorrectly)
                 {

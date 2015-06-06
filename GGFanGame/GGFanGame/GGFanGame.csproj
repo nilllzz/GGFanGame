@@ -64,8 +64,8 @@
     <Compile Include="Networking\UrlEncoder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\Debug\BoundingBoxRenderer.cs" />
-    <Compile Include="Screens\Debug\BoundingBoxTestScreen.cs" />
+    <Compile Include="Screens\DebugScreen\BoundingBoxRenderer.cs" />
+    <Compile Include="Screens\DebugScreen\BoundingBoxTestScreen.cs" />
     <Compile Include="Screens\Game\GameScreen.cs" />
     <Compile Include="Screens\Game\GrumpSpaceScreen.cs" />
     <Compile Include="Game\Enemies\Enemy.cs" />

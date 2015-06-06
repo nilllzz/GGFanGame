@@ -373,3 +373,14 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Booper2.png
 
+#begin UI/saveBack.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:UI/saveBack.png
+

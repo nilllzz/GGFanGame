@@ -11,7 +11,7 @@ namespace GGFanGame.Game.Scene
     {
         public Couch(GGGame game) : base(game)
         {
-            spriteSheet = game.textureManager.getResource(@"Sprites\Couch");
+            spriteSheet = game.textureManager.load(@"Levels\GrumpSpace\Couch");
             size = new Vector3(80, 16, 5);
             drawShadow = true;
             collision = true;

@@ -13,7 +13,7 @@ namespace GGFanGame.Game.Level.Enemies
     {
         public Booper(GGGame game) : base(game)
         {
-            spriteSheet = game.textureManager.getResource(@"Sprites\Booper2");
+            spriteSheet = game.textureManager.load(@"Sprites\Booper");
             drawShadow = true;
             shadowSize = 0.6d;
             strength = 0f;

@@ -21,6 +21,7 @@ namespace GGFanGame
 
         private MusicManager _musicManager;
         private TextureManager _textureManager;
+        private FontManager _fontManager;
 
         private Random _random = new Random();
 
@@ -47,6 +48,15 @@ namespace GGFanGame
         public MusicManager musicManager
         {
             get { return _musicManager; }
+        }
+
+        /// <summary>
+        /// The font manager for this game.
+        /// </summary>
+        /// <returns></returns>
+        public FontManager fontManager
+        {
+            get { return _fontManager; }
         }
 
         /// <summary>
@@ -92,6 +102,7 @@ namespace GGFanGame
 
             _musicManager = new MusicManager(this);
             _textureManager = new TextureManager(this);
+            _fontManager = new FontManager(this);
         }
 
         /// <summary>

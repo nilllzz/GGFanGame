@@ -40,7 +40,7 @@ namespace GGFanGame.Content
                 return true;
             else
             {
-                T loadedResource = getResource(internalIdentifier);
+                T loadedResource = load(internalIdentifier);
                 if (loadedResource.Equals(default(T)))
                 {
                     return true;
@@ -54,7 +54,7 @@ namespace GGFanGame.Content
         /// </summary>
         /// <param name="identifier">The identifier of the resource.</param>
         /// <returns></returns>
-        public T getResource(string identifier)
+        public T load(string identifier)
         {
             string internalIdentifier = identifier.ToLower();
 

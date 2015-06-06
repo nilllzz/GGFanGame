@@ -13,7 +13,7 @@ namespace GGFanGame.Game.Level.Playable
     {
         public Arin(GGGame game, PlayerIndex playerIndex) : base(game, playerIndex, "Arin")
         {
-            spriteSheet = gameInstance.textureManager.getResource(@"Sprites\Arin");
+            spriteSheet = gameInstance.textureManager.load(@"Sprites\Arin");
             drawShadow = true;
             shadowSize = 0.5d;
             strength = 4;
@@ -40,8 +40,10 @@ namespace GGFanGame.Game.Level.Playable
             addCombo("BB", B2);
 
             var A1 = new AttackCombo(new Animation(4, new Point(0, 384), new Point(64, 64), 5, 1), new Vector2(6f, 0f));
+            A1.addAttack(2, new AttackDefinition(new Attack(this, false, 3, strength, new Vector3(15), new Vector3(20, 10, 0)), 1));
 
             var A2 = new AttackCombo(new Animation(4, new Point(256, 384), new Point(64, 64), 5, 1), new Vector2(6f, 7f));
+            A2.addAttack(1, new AttackDefinition(new Attack(this, true, 3, strength * 1.3f, new Vector3(15), new Vector3(20, 10, 0)), 1));
 
             var A3 = new AttackCombo(new Animation(6, new Point(0, 448), new Point(64, 64), 9), new Vector2(-5f, 0f));
 

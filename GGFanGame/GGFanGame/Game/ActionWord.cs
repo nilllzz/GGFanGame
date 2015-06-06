@@ -57,7 +57,7 @@ namespace GGFanGame.Game
 
         public ActionWord(GGGame game, string text, Color color, float targetSize, Vector3 position) : base(game)
         {
-            _grumpFont = gameInstance.Content.Load<SpriteFont>("CartoonFont");
+            _grumpFont = gameInstance.fontManager.load(@"Fonts\CartoonFont");
 
             _text = text;
             _color = color;

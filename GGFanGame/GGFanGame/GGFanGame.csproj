@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BoundingBoxExtension.cs" />
+    <Compile Include="Content\FontManager.cs" />
     <Compile Include="Content\MusicManager.cs" />
     <Compile Include="Content\ResourceManager.cs" />
     <Compile Include="Content\TextureManager.cs" />
@@ -50,7 +51,6 @@
     <Compile Include="Game\ActionWord.cs" />
     <Compile Include="Game\Attack.cs" />
     <Compile Include="Game\Enemies\Booper.cs" />
-    <Compile Include="Game\Enemies\Dummy.cs" />
     <Compile Include="Game\SceneryObject.cs" />
     <Compile Include="Game\Scene\Couch.cs" />
     <Compile Include="GGGame.cs" />

@@ -89,9 +89,9 @@ namespace GGFanGame.Game.Level.HUD
             _player = player;
             _playerIndex = playerIndex;
 
-            _barTexture = _gameInstance.textureManager.getResource(@"UI\Bars");
-            _headTexture = _gameInstance.textureManager.getResource(@"UI\" + _player.name);
-            _font = _gameInstance.Content.Load<SpriteFont>("CartoonFontSmall");
+            _barTexture = _gameInstance.textureManager.load(@"UI\HUD\Bars");
+            _headTexture = _gameInstance.textureManager.load(@"UI\HUD\" + _player.name);
+            _font = _gameInstance.fontManager.load(@"Fonts\CartoonFontSmall");
 
             for (int i = 0; i < 42; i++)
             {

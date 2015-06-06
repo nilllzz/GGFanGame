@@ -30,7 +30,7 @@ namespace GGFanGame.Screens.Menu
 
                 if (_save.loadedCorrectly)
                 {
-                    _grumpFaceTexture = _gameInstance.textureManager.getResource(@"UI\" + _save.lastGrump);
+                    _grumpFaceTexture = _gameInstance.textureManager.load(@"UI\HUD\" + _save.lastGrump);
                 }
             }
 
@@ -44,11 +44,11 @@ namespace GGFanGame.Screens.Menu
 
                 if (selected)
                 {
-                    _gameInstance.spriteBatch.Draw(_gameInstance.textureManager.getResource(@"UI\saveBack"), targetRect, new Color(0, 0, 0, (int)(255 * alphaDelta)));
+                    _gameInstance.spriteBatch.Draw(_gameInstance.textureManager.load(@"UI\saveBack"), targetRect, new Color(0, 0, 0, (int)(255 * alphaDelta)));
                 }
                 else
                 {
-                    _gameInstance.spriteBatch.Draw(_gameInstance.textureManager.getResource(@"UI\saveBack"), targetRect, new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                    _gameInstance.spriteBatch.Draw(_gameInstance.textureManager.load(@"UI\saveBack"), targetRect, new Color(255, 255, 255, (int)(255 * alphaDelta)));
                 }
 
                 if (_save.loadedCorrectly)
@@ -111,7 +111,7 @@ namespace GGFanGame.Screens.Menu
         {
             _saves.Add(new SaveContainer(game, 0, new GameSession(AppDomain.CurrentDomain.BaseDirectory + @"\Saves\testsave.json")));
             _saves.Add(new SaveContainer(game, 1, new GameSession(AppDomain.CurrentDomain.BaseDirectory + @"\Saves\testsave1.json")));
-            _grumpFont = game.Content.Load<SpriteFont>("CartoonFont");
+            _grumpFont = game.fontManager.load(@"Fonts\CartoonFont");
         }
 
         public override void update()

@@ -15,26 +15,119 @@ namespace GGFanGame.Game.Level.Playable
     {
         #region Combo
 
-        private Dictionary<string, Animation> _comboAnimations = new Dictionary<string, Animation>();
+        /// <summary>
+        /// Defines a single part of a combo chain.
+        /// </summary>
+        protected struct AttackCombo
+        {
+            Animation _animation;
+            Dictionary<int, AttackDefinition> _attacks;
+            Vector2 _movement;
+
+            public AttackCombo(Animation animation, Vector2 movement)
+            {
+                _animation = animation;
+                _movement = movement;
+                _attacks = new Dictionary<int, AttackDefinition>();
+            }
+
+            /// <summary>
+            /// Adds an attack to a frame of the animation.
+            /// </summary>
+            public void addAttack(int frame, AttackDefinition attack)
+            {
+                _attacks.Add(frame, attack);
+            }
+
+            /// <summary>
+            /// If this combo has an attack defined for a specific frame.
+            /// </summary>
+            /// <returns></returns>
+            public bool hasAttackForFrame(int frame)
+            {
+                return _attacks.Keys.Contains(frame);
+            }
+
+            /// <summary>
+            /// Returns an attack for a specific frame.
+            /// </summary>
+            /// <returns></returns>
+            public AttackDefinition getAttackForFrame(int frame)
+            {
+                return _attacks[frame];
+            }
+
+            /// <summary>
+            /// The animation for this combo.
+            /// </summary>
+            /// <returns></returns>
+            public Animation animation
+            {
+                get { return _animation; }
+            }
+
+            /// <summary>
+            /// The auto movement in X direction.
+            /// </summary>
+            /// <returns></returns>
+            public float xMovement
+            {
+                get { return _movement.X; }
+            }
+
+            /// <summary>
+            /// The auto movement in Y direction.
+            /// </summary>
+            /// <returns></returns>
+            public float yMovement
+            {
+                get { return _movement.Y; }
+            }
+        }
+
+        /// <summary>
+        /// An attack definition for a frame in an attack combo.
+        /// </summary>
+        protected struct AttackDefinition
+        {
+            private Attack _attack;
+            private int _maxHits;
+
+            public AttackDefinition(Attack attack, int maxHits)
+            {
+                _attack = attack;
+                _maxHits = maxHits;
+            }
+
+            /// <summary>
+            /// The attack in this definition.
+            /// </summary>
+            /// <returns></returns>
+            public Attack attack
+            {
+                get { return _attack; }
+            }
+
+            /// <summary>
+            /// The max amount of objects to be hit with this attack.
+            /// </summary>
+            /// <returns></returns>
+            public int maxHits
+            {
+                get { return _maxHits; }
+            }
+        }
+
+        private Dictionary<string, AttackCombo> _combos = new Dictionary<string, AttackCombo>();
+
+        protected void addCombo(string comboChain, AttackCombo combo)
+        {
+            _combos.Add(comboChain, combo);
+        }
 
         private string _nextComboItem = "";
         private string _comboChain = ""; //The current combo chain.
         private double _comboDelay = 0d; //The time period after an attack to chain a combo.
-
-        /// <summary>
-        /// Adds an animation bound to an attack combo.
-        /// </summary>
-        protected void addComboAnimation(string comboChain, Animation animation)
-        {
-            _comboAnimations.Add(comboChain, animation);
-        }
-
-        private Dictionary<string, Attack> _attacks = new Dictionary<string, Attack>();
-
-        protected void addAttack(string combo, int frame, Attack attack)
-        {
-            _attacks.Add(combo + frame.ToString(), attack);
-        }
 
         #endregion
 
@@ -83,12 +176,14 @@ namespace GGFanGame.Game.Level.Playable
 
             if (state == ObjectState.Attacking && getAnimation().frames[animationFrame].frameLength == animationDelay)
             {
-                if (_attacks.Keys.Contains(_comboChain + animationFrame.ToString()))
+                if (_combos[_comboChain].hasAttackForFrame(animationFrame))
                 {
-                    Attack attack = _attacks[_comboChain + animationFrame.ToString()];
+                    AttackDefinition def = _combos[_comboChain].getAttackForFrame(animationFrame);
+
+                    Attack attack = def.attack;
                     attack.facing = facing;
 
-                    Stage.activeStage().applyAttack(attack, position, 2);
+                    Stage.activeStage().applyAttack(attack, position, def.maxHits);
                 }
             }
 
@@ -159,7 +254,7 @@ namespace GGFanGame.Game.Level.Playable
                     if (_nextComboItem == "")
                         _nextComboItem = comboAddition;
                 }
-                else if((state == ObjectState.Attacking && animationEnded() && _comboDelay > 0) || state != ObjectState.Attacking)
+                else if ((state == ObjectState.Attacking && animationEnded() && _comboDelay > 0) || state != ObjectState.Attacking)
                 {
                     _comboDelay--;
 
@@ -169,7 +264,7 @@ namespace GGFanGame.Game.Level.Playable
                         _nextComboItem = "";
                     }
 
-                    if (comboAddition != "" && _comboAnimations.Keys.Contains(_comboChain + comboAddition))
+                    if (comboAddition != "" && _combos.Keys.Contains(_comboChain + comboAddition))
                     {
                         _comboChain += comboAddition;
                         _comboDelay = 12d;
@@ -178,10 +273,14 @@ namespace GGFanGame.Game.Level.Playable
                         repeatAnimation = false;
                         animationFrame = 0;
 
+                        AttackCombo combo = _combos[_comboChain];
+
                         if (facing == ObjectFacing.Left)
-                            _autoMovement.X -= 6f;
+                            _autoMovement.X -= combo.xMovement;
                         else
-                            _autoMovement.X += 6f;
+                            _autoMovement.X += combo.xMovement;
+
+                        _autoMovement.Y += combo.yMovement;
                     }
                     else
                     {
@@ -277,7 +376,7 @@ namespace GGFanGame.Game.Level.Playable
         {
             if (state == ObjectState.Attacking)
             {
-                return _comboAnimations[_comboChain];
+                return _combos[_comboChain].animation;
             }
 
             return base.getAnimation();

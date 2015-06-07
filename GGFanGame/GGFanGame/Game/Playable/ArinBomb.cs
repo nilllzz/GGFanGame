@@ -34,7 +34,7 @@ namespace GGFanGame.Game.Level.Playable
             Z += _movement.Z;
 
             //Check if the bomb hit something, then explode.
-            if (!Stage.activeStage().checkCollision(this, position))
+            if (Stage.activeStage().intersects(this, position))
             {
                 explode();
             }
@@ -58,7 +58,7 @@ namespace GGFanGame.Game.Level.Playable
         private void explode()
         {
             canBeRemoved = true;
-            Stage.activeStage().applyExplosion(this, position, 10, 50f, 9f);
+            Stage.activeStage().applyExplosion(this, position, 50f, 10, 9f);
         }
     }
 }

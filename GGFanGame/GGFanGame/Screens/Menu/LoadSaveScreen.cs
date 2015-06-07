@@ -109,8 +109,14 @@ namespace GGFanGame.Screens.Menu
 
         public LoadSaveScreen(GGGame game, Vector2 initialDotOffset) : base(Identification.LoadSave, game, initialDotOffset)
         {
-            _saves.Add(new SaveContainer(game, 0, new GameSession(AppDomain.CurrentDomain.BaseDirectory + @"\Saves\testsave.json")));
-            _saves.Add(new SaveContainer(game, 1, new GameSession(AppDomain.CurrentDomain.BaseDirectory + @"\Saves\testsave1.json")));
+            int saveIndex = 0;
+            foreach (string file in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"\Saves\", "*.json", System.IO.SearchOption.TopDirectoryOnly))
+            {
+                _saves.Add(new SaveContainer(game, saveIndex, new GameSession(file)));
+
+                saveIndex++;
+            }
+
             _grumpFont = game.fontManager.load(@"Fonts\CartoonFont");
         }
 

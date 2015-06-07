@@ -348,7 +348,7 @@ namespace GGFanGame.Game.Level.Playable
 
                     Vector3 desiredPosition = new Vector3(X + _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right), Y, Z);
 
-                    if (Stage.activeStage().checkCollision(this, desiredPosition))
+                    if (!Stage.activeStage().intersects(this, desiredPosition))
                         X = desiredPosition.X;
 
                     facing = ObjectFacing.Right;
@@ -360,7 +360,7 @@ namespace GGFanGame.Game.Level.Playable
 
                     Vector3 desiredPosition = new Vector3(X - _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left), Y, Z);
 
-                    if (Stage.activeStage().checkCollision(this, desiredPosition))
+                    if (!Stage.activeStage().intersects(this, desiredPosition))
                         X = desiredPosition.X;
 
                     facing = ObjectFacing.Left;
@@ -372,7 +372,7 @@ namespace GGFanGame.Game.Level.Playable
 
                     Vector3 desiredPosition = new Vector3(X, Y, Z - _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up));
 
-                    if (Stage.activeStage().checkCollision(this, desiredPosition))
+                    if (!Stage.activeStage().intersects(this, desiredPosition))
                         Z = desiredPosition.Z;
                 }
                 if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickDown))
@@ -382,7 +382,7 @@ namespace GGFanGame.Game.Level.Playable
 
                     Vector3 desiredPosition = new Vector3(X, Y, Z + _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down));
 
-                    if (Stage.activeStage().checkCollision(this, desiredPosition))
+                    if (!Stage.activeStage().intersects(this, desiredPosition))
                         Z = desiredPosition.Z;
                 }
             }

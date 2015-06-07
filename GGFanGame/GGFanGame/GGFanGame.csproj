@@ -52,6 +52,7 @@
     <Compile Include="Game\Attack.cs" />
     <Compile Include="Game\Enemies\Booper.cs" />
     <Compile Include="Game\Playable\ArinBomb.cs" />
+    <Compile Include="Game\Playable\ArinLemon.cs" />
     <Compile Include="Game\SceneryObject.cs" />
     <Compile Include="Game\Scene\Couch.cs" />
     <Compile Include="GGGame.cs" />

@@ -306,7 +306,7 @@ namespace GGFanGame.Game.Level
 
             Vector3 desiredPos = new Vector3(X + _autoMovement.X, Y, Z + _autoMovement.Z);
 
-            if (Stage.activeStage().checkCollision(this, desiredPos))
+            if (!Stage.activeStage().intersects(this, desiredPos))
             {
                 position = desiredPos;
             }
@@ -315,11 +315,11 @@ namespace GGFanGame.Game.Level
                 Vector3 desiredPosX = new Vector3(X + _autoMovement.X, Y, Z);
                 Vector3 desiredPosZ = new Vector3(X, Y, Z + _autoMovement.Z);
 
-                if (Stage.activeStage().checkCollision(this, desiredPosX))
+                if (!Stage.activeStage().intersects(this, desiredPosX))
                 {
                     X = desiredPosX.X;
                 }
-                if (Stage.activeStage().checkCollision(this, desiredPosZ))
+                if (!Stage.activeStage().intersects(this, desiredPosZ))
                 {
                     Z = desiredPosX.Z;
                 }

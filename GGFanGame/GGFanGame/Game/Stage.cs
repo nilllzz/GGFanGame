@@ -148,7 +148,8 @@ namespace GGFanGame.Game.Level
         /// A single hit that targets all objects on the screen gets issued.
         /// </summary>
         /// <param name="maxHitCount">The maximum amount of objects this attack can hit.</param>
-        public void applyAttack(Attack attack, Vector3 relPosition, int maxHitCount)
+        /// <returns>This returns the amount of objects the attack hit.</returns>
+        public int applyAttack(Attack attack, Vector3 relPosition, int maxHitCount)
         {
             int objIndex = 0;
             int hitCount = 0;
@@ -175,11 +176,21 @@ namespace GGFanGame.Game.Level
 
                 objIndex++;
             }
+
+            return hitCount;
         }
 
-        const bool TYPE1_EXPLOSION = false;
+        const bool TYPE1_EXPLOSION = false; //For testing, to easily switch methods of calculating explosion effects.
 
-        public void applyExplosion(StageObject origin, Vector3 center, int health, float radius, float strength)
+        /// <summary>
+        /// Applies an explosion effect to the objects in the level.
+        /// </summary>
+        /// <param name="origin">The object where the explosion effect originated from.</param>
+        /// <param name="center">The center of the explosion.</param>
+        /// <param name="radius">The radius of the explosion.</param>
+        /// <param name="health">The health to take away from hit targets.</param>
+        /// <param name="strength">The strength of the explosion.</param>
+        public void applyExplosion(StageObject origin, Vector3 center,  float radius, int health, float strength)
         {
             //For explosions, we are using a sphere to detect collision because why not.
             var explosionSphere = new BoundingSphere(center, radius);
@@ -264,12 +275,22 @@ namespace GGFanGame.Game.Level
         }
 
         /// <summary>
+        /// Checks if an object intersects with something in the stage.
+        /// </summary>
+        /// <returns></returns>
+        public bool intersects(StageObject chkObj, Vector3 desiredPosition)
+        {
+            return 
+                checkCollision(chkObj, desiredPosition) != null;
+        }
+
+        /// <summary>
         /// Checks if a desired position for an object collides with space occupied by another object.
         /// </summary>
         /// <param name="chkObj"></param>
         /// <param name="desiredPosition"></param>
         /// <returns></returns>
-        public bool checkCollision(StageObject chkObj, Vector3 desiredPosition)
+        public StageObject checkCollision(StageObject chkObj, Vector3 desiredPosition)
         {
             //Create bounding box out of the desired position to check for collision with other bounding boxes.
             //We add 0.1 to the Y position so we don't get stuck in the floor.
@@ -291,13 +312,13 @@ namespace GGFanGame.Game.Level
                     {
                         if (box.Intersects(destinationBox))
                         {
-                            return false;
+                            return obj;
                         }
                     }
                 }
             }
 
-            return true;
+            return null;
         }
     }
 }

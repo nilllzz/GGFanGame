@@ -329,7 +329,7 @@ namespace GGFanGame.Game.Level
             {
                 Y = groundY;
                 //Spawn an action word for where the player landed.
-                Stage.activeStage().addActionWord(new ActionWord(gameInstance, ActionWord.getWordText(ActionWord.WordType.Landing), objectColor, 0.3f, position));
+                Stage.activeStage().addObject(new ActionWord(gameInstance, ActionWord.getWordText(ActionWord.WordType.Landing), objectColor, 0.3f, position));
                 
                 if (_autoMovement.Y < -17f && state == ObjectState.HurtFalling)
                 {

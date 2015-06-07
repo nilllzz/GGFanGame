@@ -93,10 +93,16 @@ namespace GGFanGame.Game.Level.Playable
             private Attack _attack;
             private int _maxHits;
 
-            public AttackDefinition(Attack attack, int maxHits)
+            public delegate void DAttackAction(AttackDefinition attack);
+            private DAttackAction _attackAction;
+
+            public AttackDefinition(Attack attack, int maxHits) : this(attack, maxHits, null) {  }
+
+            public AttackDefinition(Attack attack, int maxHits, DAttackAction attackAction)
             {
                 _attack = attack;
                 _maxHits = maxHits;
+                _attackAction = attackAction;
             }
 
             /// <summary>
@@ -115,6 +121,15 @@ namespace GGFanGame.Game.Level.Playable
             public int maxHits
             {
                 get { return _maxHits; }
+            }
+
+            /// <summary>
+            /// Performs the attack's special action.
+            /// </summary>
+            public void useAttack()
+            {
+                if (_attackAction != null)
+                    _attackAction(this);
             }
         }
 
@@ -153,6 +168,7 @@ namespace GGFanGame.Game.Level.Playable
         {
             _playerIndex = playerIndex;
             _name = name;
+            canLandOn = false;
 
             objectColor = Drawing.Colors.getColor(playerIndex);
         }
@@ -181,9 +197,16 @@ namespace GGFanGame.Game.Level.Playable
                     AttackDefinition def = _combos[_comboChain].getAttackForFrame(animationFrame);
 
                     Attack attack = def.attack;
-                    attack.facing = facing;
 
-                    Stage.activeStage().applyAttack(attack, position, def.maxHits);
+                    //If there's an attack defined, use it:
+                    if (attack != null)
+                    {
+                        attack.facing = facing;
+                        Stage.activeStage().applyAttack(attack, position, def.maxHits);
+                    }
+
+                    //Activate the attack def's special:
+                    def.useAttack();
                 }
             }
 

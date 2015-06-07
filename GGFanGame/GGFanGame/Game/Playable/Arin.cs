@@ -46,6 +46,7 @@ namespace GGFanGame.Game.Level.Playable
             A2.addAttack(1, new AttackDefinition(new Attack(this, true, 3, strength * 1.3f, new Vector3(15), new Vector3(20, 10, 0)), 1));
 
             var A3 = new AttackCombo(new Animation(6, new Point(0, 448), new Point(64, 64), 9), new Vector2(-5f, 0f));
+            A3.addAttack(3, new AttackDefinition(null, 0, new AttackDefinition.DAttackAction(throwBomb)));
 
             addCombo("A", A1);
             addCombo("AA", A2);
@@ -53,6 +54,15 @@ namespace GGFanGame.Game.Level.Playable
 
             health = 100;
             playerSpeed = 4f;
+        }
+
+        private void throwBomb(AttackDefinition attack)
+        {
+            float xDirection = 5;
+            if (facing == ObjectFacing.Left)
+                xDirection = -5;
+
+            Stage.activeStage().addObject(new ArinBomb(gameInstance, new Vector3(xDirection, 12, 0), new Vector3(X, Y + 10, Z)));
         }
     }
 }

@@ -172,9 +172,9 @@ namespace GGFanGame.Game.Level
             }
         }
 
-        public void addActionWord(ActionWord word)
+        public void addObject(StageObject obj)
         {
-            _objects.Add(word);
+            _objects.Add(obj);
         }
 
         /// <summary>

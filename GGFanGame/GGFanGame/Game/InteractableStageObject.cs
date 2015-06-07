@@ -330,7 +330,7 @@ namespace GGFanGame.Game.Level
                 Y = groundY;
                 //Spawn an action word for where the player landed.
                 Stage.activeStage().addObject(new ActionWord(gameInstance, ActionWord.getWordText(ActionWord.WordType.Landing), objectColor, 0.3f, position));
-                
+
                 if (_autoMovement.Y < -17f && state == ObjectState.HurtFalling)
                 {
                     _autoMovement.Y = 8f;
@@ -352,6 +352,23 @@ namespace GGFanGame.Game.Level
             Rectangle frame = getAnimation().getFrameRec(animationFrame);
             double stageScale = Stage.activeStage().scale;
             return new Point((int)(frame.Width * stageScale), (int)(frame.Height * stageScale));
+        }
+
+        public override void getHit(Vector3 movement, int health, bool knockback)
+        {
+            base.getHit(movement, health, knockback);
+
+            _autoMovement = movement;
+            this.health -= health;
+
+            if (health <= 0 || knockback)
+            {
+                setState(ObjectState.HurtFalling);
+            }
+            else
+            {
+                setState(ObjectState.Hurt);
+            }
         }
 
         public override void getHit(Attack attack)

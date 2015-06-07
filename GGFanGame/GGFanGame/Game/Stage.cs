@@ -139,6 +139,11 @@ namespace GGFanGame.Game.Level
             }
         }
 
+        public void addObject(StageObject obj)
+        {
+            _objects.Add(obj);
+        }
+
         /// <summary>
         /// A single hit that targets all objects on the screen gets issued.
         /// </summary>
@@ -172,9 +177,51 @@ namespace GGFanGame.Game.Level
             }
         }
 
-        public void addObject(StageObject obj)
+        const bool TYPE1_EXPLOSION = false;
+
+        public void applyExplosion(StageObject origin, Vector3 center, int health, float radius, float strength)
         {
-            _objects.Add(obj);
+            //For explosions, we are using a sphere to detect collision because why not.
+            var explosionSphere = new BoundingSphere(center, radius);
+
+            foreach (StageObject obj in _objects)
+            {
+                if (obj != origin && obj.canInteract)
+                {
+                    if (explosionSphere.Contains(obj.position) != ContainmentType.Disjoint)
+                    {
+                        if (TYPE1_EXPLOSION)
+                        {
+                            //TODO: refine calculations
+                            strength = Vector3.Distance(center, obj.position);
+
+                            float xAffection = radius - Math.Abs(center.X - obj.X);
+                            float zAffection = radius - Math.Abs(center.Z - obj.Z);
+
+                            if (center.X > obj.X)
+                            {
+                                xAffection *= -1f;
+                            }
+                            if (center.Z > obj.Z)
+                            {
+                                zAffection *= -1f;
+                            }
+
+                            obj.getHit(new Vector3(xAffection / 10f, 5, zAffection / 25f), health, true);
+                        }
+                        else
+                        {
+                            float xAffection = strength;
+                            if (center.X > obj.X)
+                            {
+                                xAffection *= -1f;
+                            }
+
+                            obj.getHit(new Vector3(xAffection * 1.3f, strength, 0f), health, true);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

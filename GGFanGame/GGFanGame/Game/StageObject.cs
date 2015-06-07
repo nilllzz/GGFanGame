@@ -279,10 +279,12 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// This object gets hit by an attack.
         /// </summary>
-        public virtual void getHit(Attack attack)
-        {
-            //By default, nothing happens...
-        }
+        public virtual void getHit(Attack attack) { }
+
+        /// <summary>
+        /// This objects gets hit and moves by a certain amount.
+        /// </summary>
+        public virtual void getHit(Vector3 movement, int health, bool knockback) { }
 
         /// <summary>
         /// Returns the lower center of this object.

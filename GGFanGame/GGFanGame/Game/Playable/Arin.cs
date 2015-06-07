@@ -62,7 +62,7 @@ namespace GGFanGame.Game.Level.Playable
             if (facing == ObjectFacing.Left)
                 xDirection = -5;
 
-            Stage.activeStage().addObject(new ArinBomb(gameInstance, new Vector3(xDirection, 12, 0), new Vector3(X, Y + 10, Z)));
+            Stage.activeStage().addObject(new ArinBomb(gameInstance, new Vector3(xDirection, 12, 0), new Vector3(X, Y + 10, Z), facing));
         }
     }
 }

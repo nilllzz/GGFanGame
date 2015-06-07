@@ -31,26 +31,46 @@ namespace GGFanGame.Game
             _strength = strength;
         }
 
+        /// <summary>
+        /// The origin object of this attack.
+        /// </summary>
+        /// <returns></returns>
         public StageObject origin
         {
             get { return _origin; }
         }
 
+        /// <summary>
+        /// If this attack has a strong knockback that hits to the ground.
+        /// </summary>
+        /// <returns></returns>
         public bool knockback
         {
             get { return _knockback; }
         }
 
+        /// <summary>
+        /// The health this attack depletes.
+        /// </summary>
+        /// <returns></returns>
         public int health
         {
             get { return _health; }
         }
 
+        /// <summary>
+        /// The strength of this attack.
+        /// </summary>
+        /// <returns></returns>
         public float strength
         {
             get { return _strength; }
         }
 
+        /// <summary>
+        /// When an object gets hit, this is the facing to set to.
+        /// </summary>
+        /// <returns></returns>
         public ObjectFacing facing
         {
             get { return _facing; }

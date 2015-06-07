@@ -13,10 +13,11 @@ namespace GGFanGame.Game.Level.Playable
     {
         private Vector3 _movement;
 
-        public ArinBomb(GGGame game, Vector3 movement, Vector3 startPosition) : base(game)
+        public ArinBomb(GGGame game, Vector3 movement, Vector3 startPosition, ObjectFacing facing) : base(game)
         {
             spriteSheet = game.textureManager.load(@"Sprites\ArinBomb");
             shadowSize = 0.8f;
+            this.facing = facing;
 
             addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(32, 32), 20));
 
@@ -32,18 +33,32 @@ namespace GGFanGame.Game.Level.Playable
             X += _movement.X;
             Z += _movement.Z;
 
-            if (Y > groundY)
+            //Check if the bomb hit something, then explode.
+            if (!Stage.activeStage().checkCollision(this, position))
             {
-                _movement.Y -= 0.8f;
+                explode();
             }
-
-            Y += _movement.Y;
-
-            if (Y < groundY)
+            else
             {
-                Y = groundY;
-                canBeRemoved = true;
+                if (Y > groundY)
+                {
+                    _movement.Y -= 0.8f;
+                }
+
+                Y += _movement.Y;
+
+                if (Y < groundY)
+                {
+                    Y = groundY;
+                    explode();
+                }
             }
+        }
+
+        private void explode()
+        {
+            canBeRemoved = true;
+            Stage.activeStage().applyExplosion(this, position, 10, 50f, 9f);
         }
     }
 }

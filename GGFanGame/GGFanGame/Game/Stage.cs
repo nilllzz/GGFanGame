@@ -94,10 +94,16 @@ namespace GGFanGame.Game.Level
             _fourStatus = new PlayerStatus(game, _fourPlayer, PlayerIndex.Four);
 
             _objects.Add(new Enemies.Booper(game) { X = 100, Z = 100 });
-            _objects.Add(new Scene.Couch(game) { X = 300, Z = 300 });
+            _objects.Add(new Scene.GrumpSpace.Couch(game) { X = 300, Z = 300 });
             _objects.Add(new Enemies.Booper(game) { X = 300, Z = 200 });
             _objects.Add(new Enemies.Booper(game) { X = 500, Z = 150 });
             _objects.Add(new Enemies.Booper(game) { X = 800, Z = 400 });
+
+            _objects.Add(new Scene.GrumpSpace.Poster(game) { X = 300, Y = 25, Z = 150 });
+            _objects.Add(new Scene.GrumpSpace.Poster(game) { X = 350, Y = 25, Z = 150 });
+            _objects.Add(new Scene.GrumpSpace.Poster(game) { X = 400, Y = 25, Z = 150 });
+
+            _objects.Add(new Scene.GrumpSpace.ArcadeMachine(game, Scene.GrumpSpace.ArcadeType.Ninja) { X = 400, Y = 25, Z = 300 });
         }
 
         public void draw()

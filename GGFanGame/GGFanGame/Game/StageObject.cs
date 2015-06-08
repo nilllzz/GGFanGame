@@ -54,8 +54,7 @@ namespace GGFanGame.Game.Level
         private float _weigth = 0;
         private bool _canInteract = false;
         private bool _canBeRemoved = false;
-        private bool _canLandOn = true; //TODO: set to false, just for testing, this is true for all.
-        private bool _canCollideWith = true;
+        private bool _canLandOn = false;
         private float _strength = 0;
         private List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
 

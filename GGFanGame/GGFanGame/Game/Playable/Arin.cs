@@ -52,7 +52,7 @@ namespace GGFanGame.Game.Level.Playable
             addCombo("AA", A2);
             addCombo("AAA", A3);
 
-            var B4 = new AttackCombo(new Animation(4, new Point(0, 512), new Point(64, 64), 4, 1), new Vector2(3f, 0f));
+            var B4 = new AttackCombo(new Animation(4, new Point(0, 512), new Point(64, 64), 6, 1), new Vector2(3f, 0f));
             B4.addAttack(2, new AttackDefinition(new Attack(this, true, 5, strength, new Vector3(15), new Vector3(24, 10, 0)), 1));
 
             var A4 = new AttackCombo(new Animation(1, new Point(320, 512), new Point(64, 64), 5, 3), new Vector2(-3f, 0f));

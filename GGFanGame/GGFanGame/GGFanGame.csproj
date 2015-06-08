@@ -54,7 +54,9 @@
     <Compile Include="Game\Playable\ArinBomb.cs" />
     <Compile Include="Game\Playable\ArinLemon.cs" />
     <Compile Include="Game\SceneryObject.cs" />
-    <Compile Include="Game\Scene\Couch.cs" />
+    <Compile Include="Game\Scene\GrumpSpace\ArcadeMachine.cs" />
+    <Compile Include="Game\Scene\GrumpSpace\Couch.cs" />
+    <Compile Include="Game\Scene\GrumpSpace\Poster.cs" />
     <Compile Include="GGGame.cs" />
     <Compile Include="GameJolt\API\APIManager.cs" />
     <Compile Include="GameJolt\API\GameJoltRequest.cs" />

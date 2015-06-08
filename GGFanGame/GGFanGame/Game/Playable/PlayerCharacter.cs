@@ -96,7 +96,7 @@ namespace GGFanGame.Game.Level.Playable
             public delegate void DAttackAction(AttackDefinition attack);
             private DAttackAction _attackAction;
 
-            public AttackDefinition(Attack attack, int maxHits) : this(attack, maxHits, null) {  }
+            public AttackDefinition(Attack attack, int maxHits) : this(attack, maxHits, null) { }
 
             public AttackDefinition(Attack attack, int maxHits, DAttackAction attackAction)
             {

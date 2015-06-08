@@ -107,6 +107,7 @@ namespace GGFanGame.Game.Level
         private double _animationDelay = 0f;
         private double _shadowSize = 1;
         private bool _drawShadow = true;
+        private bool _faceAttack = true;
 
         protected Vector3 _autoMovement = new Vector3(0);
 
@@ -151,6 +152,16 @@ namespace GGFanGame.Game.Level
         {
             get { return _shadowSize; }
             set { _shadowSize = value; }
+        }
+
+        /// <summary>
+        /// When this is true, an attack makes this object face towards the attack.
+        /// </summary>
+        /// <returns></returns>
+        protected bool faceAttack
+        {
+            get { return _faceAttack; }
+            set { _faceAttack = value; }
         }
 
         public InteractableStageObject(GGGame game) : base(game)
@@ -377,13 +388,19 @@ namespace GGFanGame.Game.Level
 
             float knockbackValue = attack.strength + attack.origin.strength - weigth * 0.7f;
 
+            if (weigth * 0.7f >= attack.strength + attack.origin.strength)
+            {
+                knockbackValue = 0f;
+                _autoMovement.Y += 1.5f;
+            }
+
             if (state == ObjectState.Blocking)
             {
                 health -= (int)(attack.health / 4d);
                 if (attack.facing == ObjectFacing.Right)
-                    _autoMovement.X = knockbackValue;
+                    _autoMovement.X += knockbackValue;
                 else
-                    _autoMovement.X = -knockbackValue;
+                    _autoMovement.X += -knockbackValue;
             }
             else
             {
@@ -393,13 +410,13 @@ namespace GGFanGame.Game.Level
                 {
                     if (attack.facing == ObjectFacing.Right)
                     {
-                        _autoMovement.X = knockbackValue * 1.5f;
-                        _autoMovement.Y = knockbackValue;
+                        _autoMovement.X += knockbackValue * 1.5f;
+                        _autoMovement.Y += knockbackValue;
                     }
                     else
                     {
-                        _autoMovement.X = -(knockbackValue * 1.5f);
-                        _autoMovement.Y = knockbackValue;
+                        _autoMovement.X += -(knockbackValue * 1.5f);
+                        _autoMovement.Y += knockbackValue;
                     }
                 }
                 else
@@ -408,24 +425,24 @@ namespace GGFanGame.Game.Level
                     {
                         if (attack.facing == ObjectFacing.Right)
                         {
-                            _autoMovement.X = knockbackValue * 1.5f;
-                            _autoMovement.Y = knockbackValue;
+                            _autoMovement.X += knockbackValue * 1.5f;
+                            _autoMovement.Y += knockbackValue;
                         }
                         else
                         {
-                            _autoMovement.X = -(knockbackValue * 1.5f);
-                            _autoMovement.Y = knockbackValue;
+                            _autoMovement.X += -(knockbackValue * 1.5f);
+                            _autoMovement.Y += knockbackValue;
                         }
                     }
                     else
                     {
                         if (attack.facing == ObjectFacing.Right)
                         {
-                            _autoMovement.X = knockbackValue;
+                            _autoMovement.X += knockbackValue;
                         }
                         else
                         {
-                            _autoMovement.X = -knockbackValue;
+                            _autoMovement.X += -knockbackValue;
                         }
                     }
                 }
@@ -438,10 +455,13 @@ namespace GGFanGame.Game.Level
                     setState(ObjectState.Hurt);
             }
 
-            if (attack.facing == ObjectFacing.Left)
-                facing = ObjectFacing.Right;
-            else
-                facing = ObjectFacing.Left;
+            if (_faceAttack)
+            {
+                if (attack.facing == ObjectFacing.Left)
+                    facing = ObjectFacing.Right;
+                else
+                    facing = ObjectFacing.Left;
+            }
         }
     }
 }

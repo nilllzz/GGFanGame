@@ -26,7 +26,7 @@ namespace GGFanGame.Game.Level.Scene.GrumpSpace
             collision = true;
             canLandOn = true;
             canInteract = true;
-            weigth = 20;
+            weight = 20;
             faceAttack = false;
             facing = ObjectFacing.Right;
 

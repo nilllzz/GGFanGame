@@ -223,7 +223,7 @@ namespace GGFanGame.Game.Level.Playable
                 setToState = ObjectState.Dead;
             }
 
-            if (state == ObjectState.HurtFalling)
+            else if (state == ObjectState.HurtFalling)
             {
                 if (animationEnded())
                     if (health <= 0)
@@ -240,7 +240,7 @@ namespace GGFanGame.Game.Level.Playable
                 }
             }
 
-            if (state == ObjectState.Hurt)
+            else if (state == ObjectState.Hurt)
             {
                 if (animationEnded() && _autoMovement.X == 0f)
                 {
@@ -252,7 +252,7 @@ namespace GGFanGame.Game.Level.Playable
                 }
             }
 
-            if (state == ObjectState.StandingUp)
+            else if (state == ObjectState.StandingUp)
             {
                 if (animationEnded())
                     repeatAnimation = true;
@@ -261,8 +261,7 @@ namespace GGFanGame.Game.Level.Playable
             }
 
             //Attacking:
-
-            if (setToState == ObjectState.Idle)
+            else if (setToState == ObjectState.Idle)
             {
                 string comboAddition = "";
                 if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.X) && comboAddition == "")
@@ -387,6 +386,7 @@ namespace GGFanGame.Game.Level.Playable
                 }
             }
 
+            //Falling:
             if ((setToState == ObjectState.Walking || setToState == ObjectState.Idle) && Y > groundY)
             {
                 setToState = ObjectState.Falling;

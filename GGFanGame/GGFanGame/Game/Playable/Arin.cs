@@ -17,7 +17,7 @@ namespace GGFanGame.Game.Level.Playable
             drawShadow = true;
             shadowSize = 0.5d;
             strength = 4;
-            weigth = 4;
+            weight = 4;
             size = new Vector3(32, 50, 5);
 
             addAnimation(ObjectState.Idle, new Animation(8, Point.Zero, new Point(64, 64), 7));

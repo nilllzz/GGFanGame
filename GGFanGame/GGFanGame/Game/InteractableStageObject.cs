@@ -386,9 +386,9 @@ namespace GGFanGame.Game.Level
         {
             base.getHit(attack);
 
-            float knockbackValue = attack.strength + attack.origin.strength - weigth * 0.7f;
+            float knockbackValue = attack.strength + attack.origin.strength - weight * 0.7f;
 
-            if (weigth * 0.7f >= attack.strength + attack.origin.strength)
+            if (weight * 0.7f >= attack.strength + attack.origin.strength)
             {
                 knockbackValue = 0f;
                 _autoMovement.Y += 1.5f;

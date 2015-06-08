@@ -51,7 +51,7 @@ namespace GGFanGame.Game.Level
         private Color _objectColor = Color.Orange;
         private bool _collision;
         private int _health = 1; //1 is the default so every object has at least one health when spawned.
-        private float _weigth = 0;
+        private float _weight = 0;
         private bool _canInteract = false;
         private bool _canBeRemoved = false;
         private bool _canLandOn = false;
@@ -169,13 +169,13 @@ namespace GGFanGame.Game.Level
         }
 
         /// <summary>
-        /// The weigth of this object.
+        /// The weight of this object.
         /// </summary>
         /// <returns></returns>
-        public float weigth
+        public float weight
         {
-            get { return _weigth; }
-            set { _weigth = value; }
+            get { return _weight; }
+            set { _weight = value; }
         }
 
         /// <summary>

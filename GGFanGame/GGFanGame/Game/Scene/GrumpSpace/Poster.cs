@@ -8,7 +8,7 @@ namespace GGFanGame.Game.Level.Scene.GrumpSpace
 {
     class Poster : SceneryObject
     {
-        static string[] posters = new string[] { "Goose", "Brian", "Larry" };
+        static string[] posters = new string[] { "Brian", "Goose", "Horse", "Larry", "NoUse" };
 
         public Poster(GGGame game) : base(game)
         {
@@ -19,6 +19,7 @@ namespace GGFanGame.Game.Level.Scene.GrumpSpace
             collision = false;
             canInteract = false;
             canLandOn = false;
+            facing = ObjectFacing.Right;
 
             addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(23, 30), 100));
         }

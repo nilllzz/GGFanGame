@@ -8,7 +8,7 @@ namespace GGFanGame.Game.Level.Scene.GrumpSpace
 {
     class Poster : SceneryObject
     {
-        static string[] posters = new string[] { "Brian", "Goose", "Horse", "Larry", "NoUse" };
+        static string[] posters = new string[] { "Brian", "Goose", "Larry", "NoUse", "UpDog" };
 
         public Poster(GGGame game) : base(game)
         {

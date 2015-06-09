@@ -247,7 +247,19 @@ namespace GGFanGame.Game.Level
         /// <returns></returns>
         public float getGround(Vector3 position)
         {
+            var supporting = getSupporting(position);
+            return supporting.Item2;
+        }
+
+        /// <summary>
+        /// Returns the supporting object and its Y height for a position.
+        /// </summary>
+        /// <param name="position">The position to check the supporting object for.</param>
+        /// <returns></returns>
+        public Tuple<StageObject, float> getSupporting(Vector3 position)
+        {
             float returnY = 0f;
+            StageObject returnObj = null;
 
             Vector2 twoDimPoint = new Vector2(position.X, position.Z);
 
@@ -271,13 +283,16 @@ namespace GGFanGame.Game.Level
                             if (twoDimPlane.Contains(twoDimPoint))
                             {
                                 returnY = topY;
+                                returnObj = obj;
                             }
                         }
                     }
                 }
             }
 
-            return returnY;
+            //The first item is the actual object, the second item the Y position:
+            //The object is null when there's no object to stand on.
+            return new Tuple<StageObject, float>(returnObj, returnY);
         }
 
         /// <summary>

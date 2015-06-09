@@ -44,6 +44,16 @@ namespace GGFanGame.Game.Level
     /// </summary>
     abstract class StageObject : IComparable<StageObject>
     {
+        /// <summary>
+        /// An event that occures when the position of the object changed.
+        /// </summary>
+        public event OnPositionChangedEventHandler OnPositionChanged;
+        /// <summary>
+        /// The event handler for the position changed event.
+        /// </summary>
+        /// <param name="previousPosition">The position before the event occured.</param>
+        public delegate void OnPositionChangedEventHandler(StageObject obj, Vector3 previousPosition);
+
         private GGGame _game;
         private Vector3 _position;
         private Vector3 _size;
@@ -85,7 +95,14 @@ namespace GGFanGame.Game.Level
         public Vector3 position
         {
             get { return _position; }
-            set { _position = value; }
+            set
+            {
+                Vector3 prePosition = _position;
+                _position = value;
+
+                if (OnPositionChanged != null)
+                    OnPositionChanged(this, prePosition);
+            }
         }
 
         /// <summary>
@@ -95,7 +112,14 @@ namespace GGFanGame.Game.Level
         public float X
         {
             get { return _position.X; }
-            set { _position.X = value; }
+            set
+            {
+                Vector3 prePosition = _position;
+                _position.X = value;
+
+                if (OnPositionChanged != null)
+                    OnPositionChanged(this, prePosition);
+            }
         }
 
         /// <summary>
@@ -105,7 +129,14 @@ namespace GGFanGame.Game.Level
         public float Y
         {
             get { return _position.Y; }
-            set { _position.Y = value; }
+            set
+            {
+                Vector3 prePosition = _position;
+                _position.Y = value;
+
+                if (OnPositionChanged != null)
+                    OnPositionChanged(this, prePosition);
+            }
         }
 
         /// <summary>
@@ -115,7 +146,14 @@ namespace GGFanGame.Game.Level
         public float Z
         {
             get { return _position.Z; }
-            set { _position.Z = value; }
+            set
+            {
+                Vector3 prePosition = _position;
+                _position.Z = value;
+
+                if (OnPositionChanged != null)
+                    OnPositionChanged(this, prePosition);
+            }
         }
 
         /// <summary>

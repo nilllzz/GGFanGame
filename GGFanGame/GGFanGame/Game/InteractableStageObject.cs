@@ -109,6 +109,8 @@ namespace GGFanGame.Game.Level
         private bool _drawShadow = true;
         private bool _faceAttack = true;
 
+        private StageObject _supportingObject = null;
+
         protected Vector3 _autoMovement = new Vector3(0);
 
         #region Properties
@@ -212,7 +214,10 @@ namespace GGFanGame.Game.Level
 
         public override void update()
         {
-            updateAutoMovement();
+            //Item1 is the actual object and Item2 is the Y position:
+            var supporting = Stage.activeStage().getSupporting(getFeetPosition());
+            updateSupporting(supporting.Item1);
+            updateAutoMovement(supporting.Item2);
 
             if (getAnimation().frames.Length > 1)
             {
@@ -233,6 +238,24 @@ namespace GGFanGame.Game.Level
                     }
                     _animationDelay = getAnimation().frames[_animationFrame].frameLength;
                 }
+            }
+        }
+
+        private void updateSupporting(StageObject supportingObject)
+        {
+            //We get the supporting object here.
+            //This is important, because when the supporting object (aka the object this object stands on) changes its position,
+            //this one gets dragged along with it.
+            //When the supporting object changed, we unsubscribe from its position changed event and subscribe to the new one.
+            if (supportingObject != _supportingObject)
+            {
+                if (_supportingObject != null)
+                    _supportingObject.OnPositionChanged -= supportingObjectPositionChanged;
+
+                _supportingObject = supportingObject;
+
+                if (_supportingObject != null)
+                    _supportingObject.OnPositionChanged += supportingObjectPositionChanged;
             }
         }
 
@@ -269,10 +292,8 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// Updates the auto movement of the object. This also updates falling.
         /// </summary>
-        private void updateAutoMovement()
+        private void updateAutoMovement(float groundY)
         {
-            float groundY = Stage.activeStage().getGround(getFeetPosition());
-
             if (_autoMovement.X > 0f)
             {
                 _autoMovement.X -= 0.5f;
@@ -462,6 +483,18 @@ namespace GGFanGame.Game.Level
                 else
                     facing = ObjectFacing.Left;
             }
+        }
+
+        /// <summary>
+        /// This updates this object's position when its supporting object gets moved around.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="previousPosition"></param>
+        private void supportingObjectPositionChanged(StageObject obj, Vector3 previousPosition)
+        {
+            //Get the difference in position and apply this difference to the position of this object:
+            Vector3 difference = obj.position - previousPosition;
+            position += difference;
         }
     }
 }

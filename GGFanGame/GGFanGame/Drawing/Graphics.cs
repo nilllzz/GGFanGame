@@ -102,6 +102,218 @@ namespace GGFanGame.Drawing
             drawRectangle(new Rectangle(rectangle.X, rectangle.Y, thickness, rectangle.Height - thickness), color);
         }
 
+
+        #region Shadows
+
+        private static Texture2D generateTexture(bool[] spriteTransparency, Point spriteOffset, Rectangle boundingRect, Rectangle projShadowRect, 
+                                            Rectangle topShadowRect, Rectangle groundShadowRect)
+        {
+            Color[] colorArr = new Color[boundingRect.Width * boundingRect.Height];
+
+            // Fill color array
+            ellipseTex(spriteTransparency, spriteOffset, colorArr, topShadowRect, topShadowRect.Y - boundingRect.Y); // TODO: Can optimize - don't have to draw bottom half of ellipse
+            ellipseTex(spriteTransparency, spriteOffset, colorArr, groundShadowRect, groundShadowRect.Y - boundingRect.Y);  // TODO: Can optimize - don't have to draw top half of ellipse
+            rectTex(spriteTransparency, spriteOffset, colorArr, projShadowRect, projShadowRect.Y - boundingRect.Y);
+
+            // Create texture
+            Texture2D texture = new Texture2D(_device, boundingRect.Width, boundingRect.Height);
+            texture.SetData(colorArr);
+            return texture;
+        }
+
+        /// <summary>
+        /// Fills the points in the color array with an ellipse inside the given rectangle
+        /// </summary>
+        private static Color[] ellipseTex(bool[] spriteTransparency, Point spriteOffset, Color[] colorArr, Rectangle rectangle, int yLoc)
+        {
+            Point center = new Point(rectangle.Width / 2, rectangle.Height / 2);
+            double xRadius = rectangle.Width / 2d;
+            double yRadius = rectangle.Height / 2d;
+
+            for (int x = 0; x < rectangle.Width; x++)
+            {
+                for (int y = yLoc; y < rectangle.Height + yLoc; y++)
+                {
+                    int index = y * rectangle.Width + x;
+
+                    // TODO: Need to implement spriteTransparency if statement
+
+                    //if (x < spriteOffset.X)
+
+                    //if (inBounds(x, y, spriteTransparency.Length, spriteOffset))
+                    //{
+                        Point normalized = new Point(x - center.X, y - yLoc - center.Y);
+
+                        if (((normalized.X * normalized.X) / (xRadius * xRadius)) + ((normalized.Y * normalized.Y) / (yRadius * yRadius)) <= 1.0)
+                            colorArr[index] = Color.White;
+                        else
+                            colorArr[index] = Color.Transparent;
+                    /*}
+                    else
+                    {
+                        colorArr[index] = Color.Transparent;
+                    }*/
+                }
+            }
+
+            return colorArr;
+        }
+
+        /// <summary>
+        /// Fills the points in the color array with an rectangle inside the given rectangle
+        /// </summary>
+        private static Color[] rectTex(bool[] spriteTransparency, Point spriteOffset, Color[] colorArr, Rectangle rectangle, int yLoc)
+        {
+            for (int x = 0; x < rectangle.Width; x++)
+            {
+                for (int y = yLoc; y < rectangle.Height + yLoc; y++)
+                {
+                    int index = y * rectangle.Width + x;
+
+                    // TODO: Need to implement spriteTransparency if statement
+
+                    colorArr[index] = Color.White;
+                }
+            }
+            return colorArr;
+        }
+
+        /// <summary>
+        /// Draws a shadow on a supporting object, fitting it's sprite shape.
+        /// </summary>
+        public static void drawSupportingShadow(Game.Level.StageObject supportingObject, Texture2D spriteSheet, Rectangle frame,
+                                            float X, float Z, double shadowWidth, double shadowHeight, float groundPosition, double scale)
+        {
+            // Create top and bottom elliptical shadow bounds
+            Rectangle topShadowRect = createTopShadowRectangle(X, Z, shadowWidth, shadowHeight, groundPosition, 1d);
+            Rectangle groundShadowRect = createGroundShadowRectangle(X, Z, shadowWidth, shadowHeight, 1d);    
+            
+            // Create projection rectangle bounds
+            Rectangle projShadowRect = new Rectangle((int)((X - shadowWidth / 2d)),
+                                           topShadowRect.Y + (int)(shadowHeight / 2d),
+                                           (int)(shadowWidth),
+                                           groundShadowRect.Y - topShadowRect.Y);
+
+            // Rectangle bounds of the entire texture
+            Rectangle boundingRect = new Rectangle(projShadowRect.X, projShadowRect.Y - (int)(topShadowRect.Height / 2d), projShadowRect.Width, projShadowRect.Height + topShadowRect.Height);
+
+
+            // Get spriteSheet transparency color data for just that frame. This will be used to check transparency when creating the final texture.
+            bool[] spriteTransparency;
+
+            if (spriteSheet != null)           
+                spriteTransparency = getSpriteColorData(spriteSheet, frame);
+            else
+                spriteTransparency = new bool[frame.Width * frame.Height]; // TODO: These need to be all true or false depending on the _objectColor
+
+            // Create sprite frame offset with shadow
+            Point spriteOffset = new Point((int)(supportingObject.X - boundingRect.X), (int)(Z - supportingObject.Z)); // TODO: This is wrong
+
+            Console.WriteLine("spriteOffset: (" + spriteOffset.X + ", " + spriteOffset.Y + ")");
+            //Console.WriteLine("boundingRect.X = " + boundingRect.X + ", supportingObject.X = " + supportingObject.X +
+            //    ", boundingRect.Y = " + boundingRect.Y + ", supportingObject.Y = " + supportingObject.Y +
+            //    ", supportingObject.Z = " + supportingObject.Z + ", Z = " + Z);
+
+
+            // Create texture
+            Texture2D texture = generateTexture(spriteTransparency, spriteOffset, boundingRect, projShadowRect, topShadowRect, groundShadowRect);
+
+
+            // Create final bounding rectangle with scale
+            Rectangle rect = new Rectangle((int)((X - shadowWidth / 2d) * scale), (int)(boundingRect.Y * scale),
+                                           (int)(boundingRect.Width * scale), (int)(boundingRect.Height * scale));
+
+            // Finally, draw:
+            if (_initialized)
+                _spriteBatch.Draw(texture, rect, Game.Level.Stage.activeStage().ambientColor);
+
+
+            // TODO: Draw ground shadow inverted alpha masked with the spriteSheet
+
+
+        }
+
+
+        // TODO: Create a dictionary and transparency configuration so you don't have to generate this everytime
+
+        /// <summary>
+        /// Get spriteSheet frame's transparency data.
+        /// </summary>
+        private static bool[] getSpriteColorData(Texture2D spriteSheet, Rectangle frame)
+        {
+            // Get entire spriteSheet color data (can optimize for just frame?):      
+            int width = spriteSheet.Width;
+            int height = spriteSheet.Height;
+            Color[] spriteData = new Color[width * height];
+            spriteSheet.GetData<Color>(spriteData, 0, spriteData.Length);
+
+            // Create frame sprite transprency array:
+            bool[] spriteTransparency = new bool[frame.Width * frame.Height];
+            
+            //Console.WriteLine("TRANSPARENCY DATA");
+            for (int x = 0; x < frame.Width; x++)
+            {
+                for (int y = 0; y < frame.Height; y++)
+                {
+                    int dataIndex = (y + frame.Y) * spriteSheet.Width + x + frame.X;
+                    int transparencyIndex = y * frame.Width + x;
+
+                    if (spriteData[dataIndex].Equals(Color.Transparent))
+                        spriteTransparency[transparencyIndex] = false;
+                    else
+                        spriteTransparency[transparencyIndex] = true;
+
+                    
+                    // Debugging (THIS WILL BE SIDEWAYS)
+                    //if (spriteTransparency[transparencyIndex]) Console.Write("X");
+                    //else Console.Write(" ");
+                }
+                //Console.WriteLine();
+            }
+
+
+            return spriteTransparency;
+        }
+
+        //private static bool inBounds(int index, int arrayLength, Point offset)
+        //{
+        //    return true;
+        //}
+
+        /// <summary>
+        /// Draws a simple ground shadow.
+        /// </summary>
+        public static void drawGroundShadow(float X, float Z, double shadowWidth, double shadowHeight, float groundPosition, double scale)
+        {
+            drawEllipse(createGroundShadowRectangle(X, Z, shadowWidth, shadowHeight, scale),
+                            Game.Level.Stage.activeStage().ambientColor, scale); //TODO: maybe, we have the shadow fade away when the player jumps?
+        }
+
+        /// <summary>
+        /// Creates the rectangle bounds for a shadow on top of an object.
+        /// </summary>
+        private static Rectangle createTopShadowRectangle(float X, float Z, double shadowWidth, double shadowHeight, float groundPosition, double scale)
+        {
+            return new Rectangle((int)((X - shadowWidth / 2d) * scale),
+                                 (int)((Z - shadowHeight / 2d - groundPosition) * scale),
+                                 (int)(shadowWidth * scale),
+                                 (int)(shadowHeight * scale));
+        }
+
+        /// <summary>
+        /// Creates the rectangle bounds for a shadow on the ground.
+        /// </summary>
+        private static Rectangle createGroundShadowRectangle(float X, float Z, double shadowWidth, double shadowHeight, double scale)
+        {
+            return new Rectangle((int)((X - shadowWidth / 2d) * scale),
+                                 (int)((Z - shadowHeight / 2d) * scale),
+                                 (int)(shadowWidth * scale),
+                                 (int)(shadowHeight * scale));
+        }
+
+        #endregion
+
+
         #region Gradients
 
         //We'd also like to draw simple gradients here.

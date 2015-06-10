@@ -15,7 +15,7 @@ namespace GGFanGame.Game.Level.Playable
         {
             spriteSheet = gameInstance.textureManager.load(@"Sprites\Arin");
             drawShadow = true;
-            shadowSize = 0.5d;
+            shadowSize = 0.46d;
             strength = 4;
             weight = 4;
             size = new Vector3(32, 50, 5);

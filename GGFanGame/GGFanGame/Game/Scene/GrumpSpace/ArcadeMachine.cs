@@ -34,5 +34,12 @@ namespace GGFanGame.Game.Level.Scene.GrumpSpace
             addAnimation(ObjectState.Hurt, new Animation(1, Point.Zero, new Point(31, 59), 100));
             addAnimation(ObjectState.HurtFalling, new Animation(1, Point.Zero, new Point(31, 59), 100));
         }
+
+        // FOR TESTING PURPOSES
+        public override void update()
+        {
+            X -= 0.16f;
+            base.update();
+        }
     }
 }

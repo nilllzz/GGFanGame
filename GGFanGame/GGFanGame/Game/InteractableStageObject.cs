@@ -114,11 +114,11 @@ namespace GGFanGame.Game.Level
         protected Vector3 _autoMovement = new Vector3(0);
 
         #region Properties
-
-        protected Texture2D spriteSheet
+        
+        public Texture2D spriteSheet
         {
             get { return _spriteSheet; }
-            set { _spriteSheet = value; }
+            protected set { _spriteSheet = value; }
         }
 
         public ObjectState state
@@ -189,14 +189,35 @@ namespace GGFanGame.Game.Level
 
             if (_drawShadow)
             {
-                int shadowWidth = (int)(frame.Width * _shadowSize);
-                int shadowHeight = (int)(frame.Height * _shadowSize * (1d / 4d));
+                int shadowWidth = (int)(frame.Width * shadowSize);
+                int shadowHeight = (int)(frame.Height * shadowSize * (1d / 4d));
+                
+                // Draw shadow casting down supporting object
+                if (_supportingObject != null)
+                {
+                    Texture2D supportingSpriteSheet = null;
 
-                Drawing.Graphics.drawEllipse(new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
-                                (int)((Z - shadowHeight / 2d - Stage.activeStage().getGround(position)) * stageScale),
-                                (int)(shadowWidth * stageScale),
-                                (int)(shadowHeight * stageScale)),
-                                Stage.activeStage().ambientColor, stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
+                    InteractableStageObject obj = _supportingObject as InteractableStageObject;
+                    if (obj != null)
+                    {
+                        supportingSpriteSheet = obj.spriteSheet;
+                        Rectangle supportingFrame = obj.getAnimation().getFrameRec(obj.animationFrame);
+
+                        // Draw shadow
+                        Drawing.Graphics.drawSupportingShadow(_supportingObject, supportingSpriteSheet, supportingFrame, X, Z,
+                                                        shadowWidth, shadowHeight, Stage.activeStage().getGround(position), stageScale);
+                    }
+                    else
+                    {
+                        // TODO: StageObject shadow
+                    }
+
+                }
+                // Draw normal floor shadow
+                else
+                {
+                    Drawing.Graphics.drawGroundShadow(X, Z, shadowWidth, shadowHeight, Stage.activeStage().getGround(position), stageScale);
+                }
             }
 
             SpriteEffects effect = SpriteEffects.None;

@@ -58,6 +58,7 @@
     <Compile Include="Game\Scene\GrumpSpace\ArcadeMachine.cs" />
     <Compile Include="Game\Scene\GrumpSpace\Couch.cs" />
     <Compile Include="Game\Scene\GrumpSpace\Poster.cs" />
+    <Compile Include="Game\Scene\SplatBall.cs" />
     <Compile Include="GGGame.cs" />
     <Compile Include="GameJolt\API\APIManager.cs" />
     <Compile Include="GameJolt\API\GameJoltRequest.cs" />

@@ -211,9 +211,9 @@ namespace GGFanGame.Game.Level.Playable
             }
 
             //TEST:
-            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.Y))
+            if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.Y))
             {
-                Stage.activeStage().addObject(new Scene.GroundSplat(gameInstance, objectColor) { position = position });
+                Stage.activeStage().addObject(new Scene.SplatBall(gameInstance, objectColor, facing) { position = new Vector3(X, Y + 26, Z) });
             }
 
             base.update();

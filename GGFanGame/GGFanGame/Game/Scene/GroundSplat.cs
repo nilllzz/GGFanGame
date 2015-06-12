@@ -8,12 +8,41 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GGFanGame.Game.Level.Scene
 {
     class GroundSplat : InteractableStageObject
-    { 
+    {
+        private SpriteEffects _effect = SpriteEffects.None;
+        private int alpha = 255;
+
         public GroundSplat(GGGame game, Color color) : base(game)
         {
-            spriteSheet = game.textureManager.load(@"Levels\Splat");
+            List<Rectangle> ellipses = new List<Rectangle>();
+            List<Color> colors = new List<Color>();
+
+            for (int i = 0; i < 8; i++)
+            {
+                int width = game.random.Next(8, 31);
+                int height = game.random.Next(8, 31);
+                int x = game.random.Next(0, 64 - width);
+                int y = game.random.Next(0, 64 - height);
+
+                ellipses.Add(new Rectangle(x, y, width, height));
+                colors.Add(color);
+            }
+
+            spriteSheet = Drawing.Graphics.createJoinedEllipse(
+                64,
+                64,
+                ellipses.ToArray(),
+                colors.ToArray()
+            );
+
             objectColor = color;
             sortLowest = true;
+            canInteract = false;
+
+            if (gameInstance.random.Next(0, 2) == 0)
+            {
+                _effect = SpriteEffects.FlipHorizontally;
+            }
 
             addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(128, 128), 100));
         }
@@ -27,9 +56,21 @@ namespace GGFanGame.Game.Level.Scene
             int shadowHeight = (int)(spriteSheet.Height * (1d / 4d));
 
             gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
-                            (int)((Z - shadowHeight / 2d - Stage.activeStage().getGround(position)) * stageScale),
+                            (int)((Z - shadowHeight / 2d - Y) * stageScale),
                             (int)(shadowWidth * stageScale),
-                            (int)(shadowHeight * stageScale)), null, objectColor);
+                            (int)(shadowHeight * stageScale)), null, new Color(255, 255, 255, alpha), 0f, Vector2.Zero, _effect, 0f);
+        }
+
+        public override void update()
+        {
+            base.update();
+
+            alpha--;
+            if (alpha < 0)
+            {
+                alpha = 0;
+                canBeRemoved = true;
+            }
         }
     }
 }

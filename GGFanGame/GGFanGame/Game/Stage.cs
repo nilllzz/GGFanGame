@@ -117,6 +117,8 @@ namespace GGFanGame.Game.Level
             _twoStatus.draw();
             _threeStatus.draw();
             _fourStatus.draw();
+
+            _gameInstance.spriteBatch.DrawString(_gameInstance.fontManager.load(@"Fonts\CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
         }
 
         public StageObject[] getObjects()
@@ -261,29 +263,32 @@ namespace GGFanGame.Game.Level
             float returnY = 0f;
             StageObject returnObj = null;
 
-            Vector2 twoDimPoint = new Vector2(position.X, position.Z);
-
-            foreach (StageObject obj in _objects)
+            if (position.Y > 0f)
             {
-                if (obj.canLandOn)
+                Vector2 twoDimPoint = new Vector2(position.X, position.Z);
+
+                foreach (StageObject obj in _objects)
                 {
-                    BoundingBox[] boxes = obj.boundingBoxes;
-
-                    //When the object does not have defined bounding boxes, take the default bounding box.
-                    if (boxes.Length == 0)
-                        boxes = new BoundingBox[] { obj.boundingBox };
-
-                    foreach (BoundingBox box in boxes)
+                    if (obj.canLandOn)
                     {
-                        float topY = box.Max.Y;
-                        Rectangle twoDimPlane = new Rectangle((int)box.Min.X, (int)box.Min.Z, (int)(box.Max.X - box.Min.X), (int)(box.Max.Z - box.Min.Z));
+                        BoundingBox[] boxes = obj.boundingBoxes;
 
-                        if (topY <= position.Y && topY > returnY)
+                        //When the object does not have defined bounding boxes, take the default bounding box.
+                        if (boxes.Length == 0)
+                            boxes = new BoundingBox[] { obj.boundingBox };
+
+                        foreach (BoundingBox box in boxes)
                         {
-                            if (twoDimPlane.Contains(twoDimPoint))
+                            float topY = box.Max.Y;
+                            Rectangle twoDimPlane = new Rectangle((int)box.Min.X, (int)box.Min.Z, (int)(box.Max.X - box.Min.X), (int)(box.Max.Z - box.Min.Z));
+
+                            if (topY <= position.Y && topY > returnY)
                             {
-                                returnY = topY;
-                                returnObj = obj;
+                                if (twoDimPlane.Contains(twoDimPoint))
+                                {
+                                    returnY = topY;
+                                    returnObj = obj;
+                                }
                             }
                         }
                     }

@@ -285,7 +285,9 @@ namespace GGFanGame.Drawing
 
             public EllipseConfiguration(int width, int height)
             {
-                _texture = generateTexture(width, height);
+                Texture2D texture = new Texture2D(_device, width, height);
+                texture.SetData(generateTextureData(width, height));
+                _texture = texture;
             }
 
             /// <summary>
@@ -298,7 +300,7 @@ namespace GGFanGame.Drawing
                 batch.Draw(_texture, rectangle, color);
             }
 
-            private static Texture2D generateTexture(int width, int height)
+            public static Color[] generateTextureData(int width, int height)
             {
                 //width and height are x and y diameter.
 
@@ -324,9 +326,7 @@ namespace GGFanGame.Drawing
                     }
                 }
 
-                Texture2D texture = new Texture2D(_device, width, height);
-                texture.SetData(colorArr);
-                return texture;
+                return colorArr;
             }
 
             /// <summary>
@@ -370,7 +370,7 @@ namespace GGFanGame.Drawing
         {
             drawEllipse(_spriteBatch, rectangle, color, 1d);
         }
-        
+
         /// <summary>
         /// Draws an ellipse with a specified color - Original call overloaded with scale.
         /// </summary>
@@ -395,13 +395,54 @@ namespace GGFanGame.Drawing
         {
             drawCircle(_spriteBatch, position, radius, color, 1d);
         }
-        
+
         /// <summary>
         /// Draws a circle with specified radius and color - Original call overloaded with scale.
         /// </summary>
         public static void drawCircle(Vector2 position, int radius, Color color, double scale)
         {
             drawCircle(_spriteBatch, position, radius, color, scale);
+        }
+
+        #endregion
+
+        #region JoinedShapes
+
+        public static Texture2D createJoinedEllipse(int outerWidth, int outerHeight, Rectangle[] ellipses, Color[] colors)
+        {
+            Color[] colorArr = new Color[outerWidth * outerHeight];
+            Texture2D returnTexture = new Texture2D(_device, outerWidth, outerHeight); 
+
+            for (int i = 0; i < colorArr.Length; i++)
+            {
+                colorArr[i] = Color.Transparent;
+            }
+
+            for (int i = 0; i < ellipses.Length; i++)
+            {
+                var ellipse = ellipses[i];
+                var color = colors[i];
+
+                var ellipseTextureData = EllipseConfiguration.generateTextureData(ellipse.Width, ellipse.Height);
+
+                for (int x = 0; x < ellipse.Width; x++)
+                {
+                    for (int y = 0; y < ellipse.Height; y++)
+                    {
+                        int index = y * ellipse.Width + x;
+                        int colIndex = (y + ellipse.Y) * outerWidth + (x + ellipse.X);
+
+                        if (ellipseTextureData[index] != Color.Transparent)
+                        {
+                            colorArr[colIndex] = color;
+                        }
+                    }
+                }
+            }
+
+            returnTexture.SetData(colorArr);
+
+            return returnTexture;
         }
 
         #endregion

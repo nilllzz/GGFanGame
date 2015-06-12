@@ -29,6 +29,8 @@ namespace GGFanGame.Game.Level.Playable
             addAnimation(ObjectState.Jumping, new Animation(6, new Point(0, 192), new Point(64, 64), 4));
             addAnimation(ObjectState.Falling, new Animation(2, new Point(0, 256), new Point(64, 64), 4));
             addAnimation(ObjectState.Blocking, new Animation(1, new Point(576, 0), new Point(64, 64), 1));
+            addAnimation(ObjectState.Dashing, new Animation(6, new Point(0, 576), new Point(64, 64), 3));
+            addAnimation(ObjectState.JumpAttacking, new Animation(3, new Point(448, 192), new Point(64, 64), 3));
 
             var B1 = new AttackCombo(new Animation(5, new Point(0, 320), new Point(64, 64), 5, 1), new Vector2(6f, 0f));
             B1.addAttack(2, new AttackDefinition(new Attack(this, false, 5, strength, new Vector3(15), new Vector3(20, 10, 0)), 2));

@@ -108,6 +108,7 @@ namespace GGFanGame.Game.Level
         private double _shadowSize = 1;
         private bool _drawShadow = true;
         private bool _faceAttack = true;
+        private bool _gravityAffected = true;
 
         private StageObject _supportingObject = null;
 
@@ -154,6 +155,12 @@ namespace GGFanGame.Game.Level
         {
             get { return _shadowSize; }
             set { _shadowSize = value; }
+        }
+
+        protected bool gravityAffected
+        {
+            get { return _gravityAffected; }
+            set { _gravityAffected = value; }
         }
 
         /// <summary>
@@ -315,9 +322,13 @@ namespace GGFanGame.Game.Level
             }
             else
             {
-                if (Y > groundY)
+                if (Y > groundY && _gravityAffected)
                 {
                     _autoMovement.Y--;
+                }
+                if (_autoMovement.Y < 0f && !_gravityAffected)
+                {
+                    _autoMovement.Y = 0f;
                 }
             }
 

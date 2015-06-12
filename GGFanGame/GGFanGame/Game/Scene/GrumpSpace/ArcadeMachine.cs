@@ -21,8 +21,8 @@ namespace GGFanGame.Game.Level.Scene.GrumpSpace
 
             spriteSheet = game.textureManager.load(@"Levels\GrumpSpace\Arcade" + ((int)_arcadeType).ToString());
 
-            size = new Vector3(31, 59, 8);
-            drawShadow = true;
+            size = new Vector3(30, 65, 8);
+            drawShadow = false;
             collision = true;
             canLandOn = true;
             canInteract = true;
@@ -30,9 +30,9 @@ namespace GGFanGame.Game.Level.Scene.GrumpSpace
             faceAttack = false;
             facing = ObjectFacing.Right;
 
-            addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(31, 59), 100));
-            addAnimation(ObjectState.Hurt, new Animation(1, Point.Zero, new Point(31, 59), 100));
-            addAnimation(ObjectState.HurtFalling, new Animation(1, Point.Zero, new Point(31, 59), 100));
+            addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(30, 65), 100));
+            addAnimation(ObjectState.Hurt, new Animation(1, Point.Zero, new Point(30, 65), 100));
+            addAnimation(ObjectState.HurtFalling, new Animation(1, Point.Zero, new Point(30, 65), 100));
         }
     }
 }

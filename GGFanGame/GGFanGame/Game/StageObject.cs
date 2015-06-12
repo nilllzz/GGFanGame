@@ -26,7 +26,9 @@ namespace GGFanGame.Game.Level
         StandingUp,
         Dead,
 
-        Attacking
+        Attacking,
+        JumpAttacking,
+        Dashing
     }
 
 
@@ -70,6 +72,7 @@ namespace GGFanGame.Game.Level
 
         private static int _currentSortingPriority = 0; //Keeps track of all the sorting priorities added so that every object has a different one.
         private int _sortingPriority = 0;
+        private bool _sortLowest = false;
 
         #region Properties
 
@@ -246,6 +249,16 @@ namespace GGFanGame.Game.Level
             set { _canLandOn = value; }
         }
 
+        /// <summary>
+        /// If this object should be sorted to appear as closest to the ground.
+        /// </summary>
+        /// <returns></returns>
+        protected bool sortLowest
+        {
+            get { return _sortLowest; }
+            set { _sortLowest = value; }
+        }
+
         #endregion
 
         public StageObject(GGGame game)
@@ -334,20 +347,20 @@ namespace GGFanGame.Game.Level
 
         //Needed in order to sort the list of objects and arrange them in an order
         //so that the objects in the foreground are overlaying those in the background.
-        public int CompareTo(StageObject obj)
+        public virtual int CompareTo(StageObject obj)
         {
-            if (Z < obj.Z)
+            //When something should be rendered lowest (most likely a floor tile), we put it at the end:
+            //When both are lowest, return that with the lowest sorting priority:
+            if (_sortLowest && !obj.sortLowest)
             {
                 return -1;
             }
-            else if (Z > obj.Z)
+            else if (!_sortLowest && obj.sortLowest)
             {
                 return 1;
             }
-            else
+            else if (_sortLowest && obj.sortLowest)
             {
-                //When they are on the same Z plane, compare their sorting priority.
-                //This is very unlikely to happen, but eh.
                 if (_sortingPriority < obj._sortingPriority)
                 {
                     return -1;
@@ -359,6 +372,34 @@ namespace GGFanGame.Game.Level
                 else
                 {
                     return 0;
+                }
+            }
+            else
+            {
+                if (Z < obj.Z)
+                {
+                    return -1;
+                }
+                else if (Z > obj.Z)
+                {
+                    return 1;
+                }
+                else
+                {
+                    //When they are on the same Z plane, compare their sorting priority.
+                    //This is very unlikely to happen, but eh.
+                    if (_sortingPriority < obj._sortingPriority)
+                    {
+                        return -1;
+                    }
+                    else if (_sortingPriority > obj._sortingPriority)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
             }
         }

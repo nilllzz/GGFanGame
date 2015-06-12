@@ -210,6 +210,12 @@ namespace GGFanGame.Game.Level.Playable
                 }
             }
 
+            //TEST:
+            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.Y))
+            {
+                Stage.activeStage().addObject(new Scene.GroundSplat(gameInstance, objectColor) { position = position });
+            }
+
             base.update();
         }
 
@@ -217,13 +223,14 @@ namespace GGFanGame.Game.Level.Playable
         {
             ObjectState setToState = ObjectState.Idle;
             float groundY = Stage.activeStage().getGround(getFeetPosition());
+            gravityAffected = true;
 
             if (state == ObjectState.Dead)
             {
                 setToState = ObjectState.Dead;
             }
 
-            else if (state == ObjectState.HurtFalling)
+            if (state == ObjectState.HurtFalling)
             {
                 if (animationEnded())
                     if (health <= 0)
@@ -240,7 +247,7 @@ namespace GGFanGame.Game.Level.Playable
                 }
             }
 
-            else if (state == ObjectState.Hurt)
+            if (state == ObjectState.Hurt)
             {
                 if (animationEnded() && _autoMovement.X == 0f)
                 {
@@ -252,7 +259,7 @@ namespace GGFanGame.Game.Level.Playable
                 }
             }
 
-            else if (state == ObjectState.StandingUp)
+            if (state == ObjectState.StandingUp)
             {
                 if (animationEnded())
                     repeatAnimation = true;
@@ -260,8 +267,64 @@ namespace GGFanGame.Game.Level.Playable
                     setToState = ObjectState.StandingUp;
             }
 
+            if (state == ObjectState.Dashing)
+            {
+                getAnimation().frames[3].frameLength = 1;
+
+                if (_autoMovement.X != 0f)
+                {
+                    if (animationFrame == 3)
+                        animationFrame = 2;
+
+                    setToState = ObjectState.Dashing;
+                    gravityAffected = false;
+                }
+                else
+                {
+                    if (animationEnded())
+                    {
+                        repeatAnimation = true;
+                    }
+                    else
+                    {
+                        setToState = ObjectState.Dashing;
+                    }
+                }
+            }
+
+            if (state == ObjectState.JumpAttacking)
+            {
+                if (Y == groundY)
+                {
+                    repeatAnimation = true;
+                }
+                else
+                {
+                    setToState = ObjectState.JumpAttacking;
+                }
+            }
+
+            //Jump attacking:
+            if (setToState == ObjectState.Idle && Y > groundY && (state == ObjectState.Falling || state == ObjectState.Jumping))
+            {
+                if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.X) || Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.A))
+                {
+                    setToState = ObjectState.JumpAttacking;
+                    repeatAnimation = false;
+                    if (facing == ObjectFacing.Left)
+                        _autoMovement.X -= 10f;
+                    else
+                        _autoMovement.X += 10f;
+
+                    if (_autoMovement.Y < 5f)
+                    {
+                        _autoMovement.Y = 5f;
+                    }
+                }
+            }
+
             //Attacking:
-            else if (setToState == ObjectState.Idle)
+            if (setToState == ObjectState.Idle)
             {
                 string comboAddition = "";
                 if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.X) && comboAddition == "")
@@ -311,6 +374,22 @@ namespace GGFanGame.Game.Level.Playable
                         repeatAnimation = true;
                     }
                 }
+            }
+
+            //Dashing in both directions:
+            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.RightTrigger) && setToState == ObjectState.Idle)
+            {
+                setToState = ObjectState.Dashing;
+                repeatAnimation = false;
+                _autoMovement.X = 14;
+                facing = ObjectFacing.Right;
+            }
+            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.LeftTrigger) && setToState == ObjectState.Idle)
+            {
+                setToState = ObjectState.Dashing;
+                repeatAnimation = false;
+                _autoMovement.X = -14;
+                facing = ObjectFacing.Left;
             }
 
             //Jumping and landing:
@@ -387,7 +466,7 @@ namespace GGFanGame.Game.Level.Playable
             }
 
             //Falling:
-            if ((setToState == ObjectState.Walking || setToState == ObjectState.Idle) && Y > groundY)
+            if ((setToState == ObjectState.Walking || setToState == ObjectState.Idle) && Y > groundY && gravityAffected)
             {
                 setToState = ObjectState.Falling;
             }

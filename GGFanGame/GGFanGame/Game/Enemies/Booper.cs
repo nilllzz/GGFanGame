@@ -33,6 +33,7 @@ namespace GGFanGame.Game.Level.Enemies
         {
             base.update();
 
+            //This enemy always faces the player:
             if (state == ObjectState.Idle)
             {
                 if (Stage.activeStage().onePlayer.X < X)

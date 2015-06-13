@@ -25,7 +25,10 @@ namespace GGFanGame.Game.Level.HUD
 
         private SpriteFont _font;
 
-        private class Ellipse
+        /// <summary>
+        /// Class to represent the bubbles in the HUD.
+        /// </summary>
+        private class Bubble
         {
             public Vector2 position;
             public float size;
@@ -35,7 +38,7 @@ namespace GGFanGame.Game.Level.HUD
 
             Random rnd = new Random();
 
-            public Ellipse(Vector2 position, float size)
+            public Bubble(Vector2 position, float size)
             {
                 this.position = position;
                 this.size = size;
@@ -47,6 +50,9 @@ namespace GGFanGame.Game.Level.HUD
                     sinking = false;
             }
 
+            /// <summary>
+            /// Update size/position.
+            /// </summary>
             public void update()
             {
                 if (growing)
@@ -77,7 +83,7 @@ namespace GGFanGame.Game.Level.HUD
             }
         }
 
-        private List<Ellipse> ellipses = new List<Ellipse>();
+        private List<Bubble> bubbles = new List<Bubble>();
 
         /// <summary>
         /// Creates a new instance of the PlayerStatus class.
@@ -95,7 +101,7 @@ namespace GGFanGame.Game.Level.HUD
 
             for (int i = 0; i < 42; i++)
             {
-                ellipses.Add(new Ellipse(new Vector2(_gameInstance.random.Next(-20, 125), _gameInstance.random.Next(-15, 4)),
+                bubbles.Add(new Bubble(new Vector2(_gameInstance.random.Next(-20, 125), _gameInstance.random.Next(-15, 4)),
                                          _gameInstance.random.Next(15, 45)));
             }
         }
@@ -131,7 +137,7 @@ namespace GGFanGame.Game.Level.HUD
             int xOffset = 34 + 320 * (int)_playerIndex;
 
             Drawing.Graphics.drawRectangle(new Rectangle(xOffset + 75, 65, 130, 20), Drawing.Colors.getColor(_playerIndex));
-            foreach (var ell in ellipses)
+            foreach (var ell in bubbles)
             {
                 Drawing.Graphics.drawCircle(new Vector2(xOffset + 75, 56) + ell.position, (int)ell.size, Drawing.Colors.getColor(_playerIndex), 1d);
                 ell.update();

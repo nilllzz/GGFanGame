@@ -6,6 +6,9 @@ using System.Runtime.Serialization;
 
 namespace GGFanGame.DataModel.Json.Game
 {
+    /// <summary>
+    /// The data model for a <see cref="GameSession"/>.
+    /// </summary>
     [DataContract]
     class GameSessionModel : JsonDataModel
     {

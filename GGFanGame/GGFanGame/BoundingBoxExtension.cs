@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework;
 
 namespace GGFanGame
 {
+    //An extension class for methods that extend BoundingBox.
+
     static class BoundingBoxExtension
     {
         /// <summary>

@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GGFanGame.Game.Level.Scene
 {
+    /// <summary>
+    /// A ball shot by a gun that splats on the ground upon contact.
+    /// </summary>
     class SplatBall : InteractableStageObject
     {
         public SplatBall(GGGame game, Color color, ObjectFacing setFacing) : base(game) 

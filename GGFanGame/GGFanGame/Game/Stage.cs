@@ -14,6 +14,8 @@ namespace GGFanGame.Game.Level
     /// </summary>
     class Stage
     {
+        #region ActiveStage
+
         //We store a single stage as active so that objects can easily access the current stage.
         private static Stage _activeStage = null;
 
@@ -33,6 +35,8 @@ namespace GGFanGame.Game.Level
         {
             _activeStage = this;
         }
+
+        #endregion
 
         private GGGame _gameInstance;
         private List<StageObject> _objects;
@@ -73,6 +77,10 @@ namespace GGFanGame.Game.Level
             get { return _onePlayer; }
         }
 
+        /// <summary>
+        /// Creates a new instance of the Stage class.
+        /// </summary>
+        /// <param name="game"></param>
         public Stage(GGGame game)
         {
             _gameInstance = game;
@@ -107,6 +115,9 @@ namespace GGFanGame.Game.Level
             _objects.Add(new Scene.GrumpSpace.ArcadeMachine(game, Scene.GrumpSpace.ArcadeType.Ninja) { X = 400, Y = 25, Z = 300 });
         }
 
+        /// <summary>
+        /// Renders the objects in this stage.
+        /// </summary>
         public void draw()
         {
             foreach (StageObject obj in _objects)
@@ -114,19 +125,28 @@ namespace GGFanGame.Game.Level
                 obj.draw();
             }
 
+            //TODO: This needs to be moved to the appropriate screen cause we might not want to render these for the Grump Space.
             _oneStatus.draw();
             _twoStatus.draw();
             _threeStatus.draw();
             _fourStatus.draw();
 
-            _gameInstance.spriteBatch.DrawString(_gameInstance.fontManager.load(@"Fonts\CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
+            //TEST: Object counter.
+            //_gameInstance.spriteBatch.DrawString(_gameInstance.fontManager.load(@"Fonts\CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
         }
 
+        /// <summary>
+        /// Returns the list of objects in this stage.
+        /// </summary>
+        /// <returns></returns>
         public StageObject[] getObjects()
         {
             return _objects.ToArray();
         }
 
+        /// <summary>
+        /// Updates and sorts the objects in this stage.
+        /// </summary>
         public void update()
         {
             _objects.Sort();
@@ -148,6 +168,9 @@ namespace GGFanGame.Game.Level
             }
         }
 
+        /// <summary>
+        /// Adds an object the stage's object list.
+        /// </summary>
         public void addObject(StageObject obj)
         {
             _objects.Add(obj);

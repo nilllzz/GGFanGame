@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 namespace GGFanGame.Game.Level.Playable
 {
     /// <summary>
-    /// A playable character in the grump space.
+    /// A playable character.
     /// </summary>
     abstract class PlayerCharacter : InteractableStageObject
     {

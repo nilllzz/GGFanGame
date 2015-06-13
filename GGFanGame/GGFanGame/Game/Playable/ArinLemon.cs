@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace GGFanGame.Game.Level.Playable
 {
+    /// <summary>
+    /// The Lemon projectile Arin throws in his ABA combo.
+    /// </summary>
     class ArinLemon : InteractableStageObject
     {
         private int _ticksAlive = 0;

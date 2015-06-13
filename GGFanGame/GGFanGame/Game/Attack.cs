@@ -7,6 +7,9 @@ using GGFanGame.Game.Level;
 
 namespace GGFanGame.Game
 {
+    /// <summary>
+    /// Represents an attack used by an enemy or player.
+    /// </summary>
     class Attack
     {
         private StageObject _origin;

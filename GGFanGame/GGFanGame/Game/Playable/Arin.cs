@@ -67,6 +67,10 @@ namespace GGFanGame.Game.Level.Playable
             playerSpeed = 4f;
         }
 
+        /// <summary>
+        /// Callback void to throw a bomb in the AAA combo.
+        /// </summary>
+        /// <param name="attack"></param>
         private void throwBomb(AttackDefinition attack)
         {
             float xDirection = 5;
@@ -76,6 +80,10 @@ namespace GGFanGame.Game.Level.Playable
             Stage.activeStage().addObject(new ArinBomb(gameInstance, new Vector3(xDirection, 12, 0), new Vector3(X, Y + 10, Z), facing));
         }
 
+        /// <summary>
+        /// Callback void to throw a lemon in the ABA combo.
+        /// </summary>
+        /// <param name="attack"></param>
         private void throwLemon(AttackDefinition attack)
         {
             float xOffset = 16;

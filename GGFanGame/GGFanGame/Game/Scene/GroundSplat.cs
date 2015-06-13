@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GGFanGame.Game.Level.Scene
 {
+    /// <summary>
+    /// A splat on the ground.
+    /// </summary>
     class GroundSplat : InteractableStageObject
     {
         private SpriteEffects _effect = SpriteEffects.None;

@@ -87,6 +87,10 @@ namespace GGFanGame.Game.Level
             get { return _game; }
         }
 
+        /// <summary>
+        /// The main color associated with this object.
+        /// </summary>
+        /// <returns></returns>
         public Color objectColor
         {
             get { return _objectColor; }

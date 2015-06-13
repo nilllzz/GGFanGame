@@ -22,6 +22,9 @@ namespace GGFanGame.Game
         private static Random wordRnd = new Random();
         private static Dictionary<WordType, string[]> _wordGroups;
 
+        /// <summary>
+        /// This initializes the possible word arrays.
+        /// </summary>
         private static void initializeWords()
         {
             if (_wordGroups == null)
@@ -34,6 +37,11 @@ namespace GGFanGame.Game
             }
         }
 
+        /// <summary>
+        /// Returns a random word string for a specific word type.
+        /// </summary>
+        /// <param name="wordType"></param>
+        /// <returns></returns>
         public static string getWordText(WordType wordType)
         {
             initializeWords();

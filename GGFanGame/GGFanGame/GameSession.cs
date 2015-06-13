@@ -22,12 +22,20 @@ namespace GGFanGame
             set { _dataModel.name = value; }
         }
 
+        /// <summary>
+        /// The progress (in %) the player has made.
+        /// </summary>
+        /// <returns></returns>
         public decimal progress
         {
             get { return _dataModel.progress; }
             set { _dataModel.progress = value; }
         }
 
+        /// <summary>
+        /// The last grump used for this save.
+        /// </summary>
+        /// <returns></returns>
         public string lastGrump
         {
             get { return _dataModel.lastGrump; }

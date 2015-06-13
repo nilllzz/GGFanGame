@@ -116,47 +116,79 @@ namespace GGFanGame.Game.Level
 
         #region Properties
 
+        /// <summary>
+        /// The sprite sheet to render.
+        /// </summary>
+        /// <returns></returns>
         protected Texture2D spriteSheet
         {
             get { return _spriteSheet; }
             set { _spriteSheet = value; }
         }
 
+        /// <summary>
+        /// The current state of this object.
+        /// </summary>
+        /// <returns></returns>
         public ObjectState state
         {
             get { return _state; }
             set { _state = value; }
         }
 
+        /// <summary>
+        /// The frame index the current animation is at.
+        /// </summary>
+        /// <returns></returns>
         protected int animationFrame
         {
             get { return _animationFrame; }
             set { _animationFrame = value; }
         }
 
+        /// <summary>
+        /// Indicates wether the animation should loop once finished.
+        /// </summary>
+        /// <returns></returns>
         protected bool repeatAnimation
         {
             get { return _repeatAnimation; }
             set { _repeatAnimation = value; }
         }
 
+        /// <summary>
+        /// The delay between frames of animation.
+        /// </summary>
+        /// <returns></returns>
         protected double animationDelay
         {
             get { return _animationDelay; }
         }
 
+        /// <summary>
+        /// If the default draw void should draw a shadow.
+        /// </summary>
+        /// <returns></returns>
         protected bool drawShadow
         {
             get { return _drawShadow; }
             set { _drawShadow = value; }
         }
 
+        /// <summary>
+        /// The size of the default shadow, relative to 1.
+        /// </summary>
+        /// <returns></returns>
         protected double shadowSize
         {
             get { return _shadowSize; }
             set { _shadowSize = value; }
         }
 
+        /// <summary>
+        /// If this object falls when in the air.
+        /// </summary>
+        /// <returns></returns>
         protected bool gravityAffected
         {
             get { return _gravityAffected; }

@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GGFanGame.Screens.Menu
 {
+    /// <summary>
+    /// The Load Save screen to either load a save or create a new one.
+    /// </summary>
     class LoadSaveScreen : MainMenuScreen
     {
         /// <summary>

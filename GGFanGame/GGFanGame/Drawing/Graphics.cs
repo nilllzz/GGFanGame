@@ -408,16 +408,28 @@ namespace GGFanGame.Drawing
 
         #region JoinedShapes
 
+        /// <summary>
+        /// Creates a joined texture from multiple ellipses.
+        /// </summary>
+        /// <param name="outerWidth">The full width of the joined texture.</param>
+        /// <param name="outerHeight">The full height of the joined texture.</param>
+        /// <param name="ellipses">Rectangles enclosing the ellipses.</param>
+        /// <param name="colors">The colors of the ellipses.</param>
+        /// <returns></returns>
         public static Texture2D createJoinedEllipse(int outerWidth, int outerHeight, Rectangle[] ellipses, Color[] colors)
         {
+            //The objects at the same index in the ellipses and colors arrays are corresponding.
+
             Color[] colorArr = new Color[outerWidth * outerHeight];
             Texture2D returnTexture = new Texture2D(_device, outerWidth, outerHeight); 
 
+            //By default, the return texture is entirely transparent:
             for (int i = 0; i < colorArr.Length; i++)
             {
                 colorArr[i] = Color.Transparent;
             }
 
+            //Loop through the ellipses and fill the color array with the ellipse colors:
             for (int i = 0; i < ellipses.Length; i++)
             {
                 var ellipse = ellipses[i];
@@ -432,6 +444,7 @@ namespace GGFanGame.Drawing
                         int index = y * ellipse.Width + x;
                         int colIndex = (y + ellipse.Y) * outerWidth + (x + ellipse.X);
 
+                        //Only fill in when the ellipse's color is not transparent:
                         if (ellipseTextureData[index] != Color.Transparent)
                         {
                             colorArr[colIndex] = color;

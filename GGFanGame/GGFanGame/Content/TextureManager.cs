@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GGFanGame.Content
 {
+    /// <summary>
+    /// The resource manager for <see cref="Texture2D"/> objects.
+    /// </summary>
     class TextureManager : ResourceManager<Texture2D>
     {
         public TextureManager(GGGame game) : base(game)

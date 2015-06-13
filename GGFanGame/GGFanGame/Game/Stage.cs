@@ -46,6 +46,7 @@ namespace GGFanGame.Game.Level
         public double scale
         {
             get { return _scale; }
+            set { _scale = value; }
         }
 
         /// <summary>

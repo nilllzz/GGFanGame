@@ -19,7 +19,6 @@ namespace GGFanGame.Game.Level.Scene.GrumpSpace
             collision = false;
             canInteract = false;
             canLandOn = false;
-            facing = ObjectFacing.Right;
 
             addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(23, 30), 100));
         }

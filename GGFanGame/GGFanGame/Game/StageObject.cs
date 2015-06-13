@@ -59,7 +59,7 @@ namespace GGFanGame.Game.Level
         private GGGame _game;
         private Vector3 _position;
         private Vector3 _size;
-        private ObjectFacing _facing;
+        private ObjectFacing _facing = ObjectFacing.Right;
         private Color _objectColor = Color.Orange;
         private bool _collision;
         private int _health = 1; //1 is the default so every object has at least one health when spawned.
@@ -73,6 +73,8 @@ namespace GGFanGame.Game.Level
         private static int _currentSortingPriority = 0; //Keeps track of all the sorting priorities added so that every object has a different one.
         private int _sortingPriority = 0;
         private bool _sortLowest = false;
+
+        private float _zSortingOffset = 0f;
 
         #region Properties
 
@@ -157,6 +159,16 @@ namespace GGFanGame.Game.Level
                 if (OnPositionChanged != null)
                     OnPositionChanged(this, prePosition);
             }
+        }
+
+        /// <summary>
+        /// The Z offset position used in sorting - for isometrically drawn objects that have Z depth.
+        /// </summary>
+        /// <returns></returns>
+        protected float zSortingOffset
+        {
+            get { return _zSortingOffset; }
+            set { _zSortingOffset = value; }
         }
 
         /// <summary>
@@ -376,11 +388,16 @@ namespace GGFanGame.Game.Level
             }
             else
             {
-                if (Z < obj.Z)
+                // TODO: Right facing objects: 
+                // The offset fixes the sorting position if an object is on the left side, but is wrong if it is on the right side.
+                // We need to reverse the sorting if the object is to the right (and if the object is not standing on the object).
+                // This entire process is the opposite when doing Left facing objects.
+                
+                if (Z < obj.Z + obj.zSortingOffset)
                 {
                     return -1;
                 }
-                else if (Z > obj.Z)
+                else if (Z > obj.Z + obj.zSortingOffset)
                 {
                     return 1;
                 }

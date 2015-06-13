@@ -393,11 +393,11 @@ namespace GGFanGame.Game.Level
                 // We need to reverse the sorting if the object is to the right (and if the object is not standing on the object).
                 // This entire process is the opposite when doing Left facing objects.
                 
-                if (Z < obj.Z + obj.zSortingOffset)
+                if (Z + _zSortingOffset < obj.Z + obj.zSortingOffset)
                 {
                     return -1;
                 }
-                else if (Z > obj.Z + obj.zSortingOffset)
+                else if (Z + _zSortingOffset > obj.Z + obj.zSortingOffset)
                 {
                     return 1;
                 }

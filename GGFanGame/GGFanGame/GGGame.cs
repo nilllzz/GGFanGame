@@ -191,5 +191,13 @@ namespace GGFanGame
 
             base.Draw(gameTime);
         }
+
+        /// <summary>
+        /// Resets the render target to the default.
+        /// </summary>
+        public void resetRenderTarget()
+        {
+            GraphicsDevice.SetRenderTarget(_target);
+        }
     }
 }

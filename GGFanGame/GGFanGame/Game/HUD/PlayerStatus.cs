@@ -24,6 +24,7 @@ namespace GGFanGame.Game.Level.HUD
         private Texture2D _barTexture;
 
         private SpriteFont _font;
+        private SpriteFont _fontLarge;
 
         /// <summary>
         /// Class to represent the bubbles in the HUD.
@@ -98,6 +99,7 @@ namespace GGFanGame.Game.Level.HUD
             _barTexture = _gameInstance.textureManager.load(@"UI\HUD\Bars");
             _headTexture = _gameInstance.textureManager.load(@"UI\HUD\" + _player.name);
             _font = _gameInstance.fontManager.load(@"Fonts\CartoonFontSmall");
+            _fontLarge = _gameInstance.fontManager.load(@"Fonts\CartoonFont");
 
             for (int i = 0; i < 42; i++)
             {
@@ -136,14 +138,20 @@ namespace GGFanGame.Game.Level.HUD
 
             int xOffset = 34 + 320 * (int)_playerIndex;
 
-            Drawing.Graphics.drawRectangle(new Rectangle(xOffset + 75, 65, 130, 20), Drawing.Colors.getColor(_playerIndex));
+            Drawing.Graphics.drawRectangle(new Rectangle(xOffset + 75, 65, 120, 20), Drawing.Colors.getColor(_playerIndex));
             foreach (var ell in bubbles)
             {
                 Drawing.Graphics.drawCircle(new Vector2(xOffset + 75, 56) + ell.position, (int)ell.size, Drawing.Colors.getColor(_playerIndex), 1d);
                 ell.update();
             }
 
-            _gameInstance.spriteBatch.DrawString(_font, _player.name + "    x3", new Vector2(xOffset + 86, 56), Color.White);
+            var textColor = Color.White;
+            if (_playerIndex == PlayerIndex.One || _playerIndex == PlayerIndex.Two)
+            {
+                textColor = Color.Black;
+            }
+
+            _gameInstance.spriteBatch.DrawString(_font, _player.name + "    x3", new Vector2(xOffset + 86, 56), textColor);
 
             _gameInstance.spriteBatch.Draw(_barTexture, new Rectangle(xOffset + 80, 74, 172, 16), new Rectangle(0, 12, 86, 8), Color.White);
             _gameInstance.spriteBatch.Draw(_barTexture, new Rectangle(xOffset + 80, 74, _drawHealthWidth * 2, 16), new Rectangle(0, 0, _drawHealthWidth, 8), Color.White);
@@ -156,6 +164,72 @@ namespace GGFanGame.Game.Level.HUD
                 _gameInstance.spriteBatch.Draw(_headTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(96, 0, 48, 48), Color.White);
             else
                 _gameInstance.spriteBatch.Draw(_headTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(0, 0, 48, 48), Color.White);
+
+            drawCombo(xOffset);
+        }
+
+        RenderTarget2D _target;
+        SpriteBatch _comboBatch;
+
+        string _lastComboDrawn = "";
+        bool _drawGrowingNumber = true;
+        float _growingNumberSize = 1f;
+
+        /// <summary>
+        /// Renders the combo meter.
+        /// </summary>
+        /// <param name="xOffset"></param>
+        private void drawCombo(int xOffset)
+        {
+            if (_player.comboChain > 0 && _player.comboDelay > 0)
+            {
+                //Initialize things:
+                if (_target == null)
+                {
+                    var pp = _gameInstance.GraphicsDevice.PresentationParameters;
+                    _target = new RenderTarget2D(_gameInstance.GraphicsDevice, 120, 120, true, _gameInstance.GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
+                    _comboBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
+                }
+
+                Color playerColor = Drawing.Colors.getColor(_playerIndex);
+
+                _gameInstance.spriteBatch.DrawString(_fontLarge, "x" + _player.comboChain, new Vector2(xOffset, 100), Color.White, -0.2f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+
+                //We change the render target here to render the colored in combo text to a texture:
+                _gameInstance.GraphicsDevice.SetRenderTarget(_target);
+                _gameInstance.GraphicsDevice.Clear(Color.Transparent);
+
+                _comboBatch.Begin();
+                _comboBatch.DrawString(_fontLarge, "x" + _player.comboChain, Vector2.Zero, Color.White);
+                _comboBatch.End();
+
+                _gameInstance.resetRenderTarget();
+
+                var fontWidth = _fontLarge.MeasureString("x" + _player.comboChain).X * (_player.comboDelay / 100f);
+
+                _gameInstance.spriteBatch.Draw(_target, new Rectangle(xOffset, 100, (int)(fontWidth * 1f), _target.Height * 1), new Rectangle(0, 0, (int)fontWidth, _target.Height), playerColor, -0.2f, Vector2.Zero, SpriteEffects.None, 0f);
+
+                //When the player adds to the combo, draw a growing number:
+                if (_lastComboDrawn != _player.comboChain.ToString())
+                {
+                    _lastComboDrawn = _player.comboChain.ToString();
+                    _growingNumberSize = 1f;
+                    _drawGrowingNumber = true;
+                }
+                if (_drawGrowingNumber)
+                {
+                    _growingNumberSize += 0.1f;
+
+                    var normalSize = _fontLarge.MeasureString("x" + _player.comboChain);
+                    var growingSize = _fontLarge.MeasureString("x" + _player.comboChain) * _growingNumberSize;
+
+                    _gameInstance.spriteBatch.DrawString(_fontLarge, "x" + _player.comboChain, new Vector2(xOffset - (growingSize.X - normalSize.X) / 2f, 100 - (growingSize.Y - normalSize.Y) / 2f), new Color(255, 255, 255, (int)(255 * (2f - _growingNumberSize))), -0.2f, Vector2.Zero, _growingNumberSize + 0.5f, SpriteEffects.None, 0f);
+                    _gameInstance.spriteBatch.DrawString(_fontLarge, "x" + _player.comboChain, new Vector2(xOffset - (growingSize.X - normalSize.X) / 2f + 5, 100 - (growingSize.Y - normalSize.Y) / 2f + 5), new Color(playerColor.R, playerColor.G, playerColor.B, (int)(255 * (2f - _growingNumberSize))), -0.2f, Vector2.Zero, _growingNumberSize, SpriteEffects.None, 0f);
+
+                    if (_growingNumberSize >= 2f)
+                        _drawGrowingNumber = false;
+                }
+            }
         }
     }
 }

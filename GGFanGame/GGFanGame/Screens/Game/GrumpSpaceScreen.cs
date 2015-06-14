@@ -35,17 +35,17 @@ namespace GGFanGame.Screens.Game
             {
                 ScreenManager.getInstance().setScreen(new Debug.BoundingBoxTestScreen(gameInstance));
             }
-            // Zoom out: [
-            if (Input.KeyboardHandler.keyPressed(Microsoft.Xna.Framework.Input.Keys.OemOpenBrackets) && _stage.scale > 0.2)
+            // Zoom out: Y
+            if (Input.KeyboardHandler.keyDown(Microsoft.Xna.Framework.Input.Keys.Y) && _stage.scale > 0.2)
             {
-                _stage.scale -= 0.1;
+                _stage.scale -= 0.01;
             }
-            // Zoom in: ]
-            if (Input.KeyboardHandler.keyPressed(Microsoft.Xna.Framework.Input.Keys.OemCloseBrackets))
+            // Zoom in: X
+            if (Input.KeyboardHandler.keyDown(Microsoft.Xna.Framework.Input.Keys.X))
             {
-                _stage.scale += 0.1;
+                _stage.scale += 0.01;
             }
-            // Zoom default: \
+            // Zoom default: C
             if (Input.KeyboardHandler.keyPressed(Microsoft.Xna.Framework.Input.Keys.OemPipe))
             {
                 _stage.scale = 2;

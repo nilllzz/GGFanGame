@@ -32,36 +32,36 @@ namespace GGFanGame.Game.Level.Playable
             addAnimation(ObjectState.Dashing, new Animation(6, new Point(0, 576), new Point(64, 64), 3));
             addAnimation(ObjectState.JumpAttacking, new Animation(3, new Point(448, 192), new Point(64, 64), 3));
 
-            var B1 = new AttackCombo(new Animation(5, new Point(0, 320), new Point(64, 64), 5, 1), new Vector2(6f, 0f));
+            var B1 = new PlayerAttack(new Animation(5, new Point(0, 320), new Point(64, 64), 5, 1), new Vector2(6f, 0f));
             B1.addAttack(2, new AttackDefinition(new Attack(this, false, 5, strength, new Vector3(15), new Vector3(20, 10, 0)), 2));
 
-            var B2 = new AttackCombo(new Animation(3, new Point(320, 320), new Point(64, 64), 5), new Vector2(6f, 0f));
+            var B2 = new PlayerAttack(new Animation(3, new Point(320, 320), new Point(64, 64), 5), new Vector2(6f, 0f));
             B2.addAttack(1, new AttackDefinition(new Attack(this, true, 5, strength * 1.3f, new Vector3(15), new Vector3(20, 10, 0)), 2));
 
-            addCombo("B", B1);
-            addCombo("BB", B2);
+            addAttack("B", B1);
+            addAttack("BB", B2);
 
-            var A1 = new AttackCombo(new Animation(4, new Point(0, 384), new Point(64, 64), 5, 1), new Vector2(6f, 0f));
+            var A1 = new PlayerAttack(new Animation(4, new Point(0, 384), new Point(64, 64), 5, 1), new Vector2(6f, 0f));
             A1.addAttack(2, new AttackDefinition(new Attack(this, false, 3, strength, new Vector3(15), new Vector3(20, 10, 0)), 1));
 
-            var A2 = new AttackCombo(new Animation(4, new Point(256, 384), new Point(64, 64), 5, 1), new Vector2(6f, 7f));
+            var A2 = new PlayerAttack(new Animation(4, new Point(256, 384), new Point(64, 64), 5, 1), new Vector2(6f, 7f));
             A2.addAttack(1, new AttackDefinition(new Attack(this, true, 3, strength * 1.3f, new Vector3(15), new Vector3(20, 10, 0)), 1));
 
-            var A3 = new AttackCombo(new Animation(6, new Point(0, 448), new Point(64, 64), 9), new Vector2(-5f, 0f));
+            var A3 = new PlayerAttack(new Animation(6, new Point(0, 448), new Point(64, 64), 9), new Vector2(-5f, 0f));
             A3.addAttack(3, new AttackDefinition(null, 0, new AttackDefinition.DAttackAction(throwBomb)));
 
-            addCombo("A", A1);
-            addCombo("AA", A2);
-            addCombo("AAA", A3);
+            addAttack("A", A1);
+            addAttack("AA", A2);
+            addAttack("AAA", A3);
 
-            var B4 = new AttackCombo(new Animation(4, new Point(0, 512), new Point(64, 64), 6, 1), new Vector2(3f, 0f));
+            var B4 = new PlayerAttack(new Animation(4, new Point(0, 512), new Point(64, 64), 6, 1), new Vector2(3f, 0f));
             B4.addAttack(2, new AttackDefinition(new Attack(this, true, 5, strength, new Vector3(15), new Vector3(24, 10, 0)), 1));
 
-            var A4 = new AttackCombo(new Animation(1, new Point(320, 512), new Point(64, 64), 5, 3), new Vector2(-3f, 0f));
+            var A4 = new PlayerAttack(new Animation(1, new Point(320, 512), new Point(64, 64), 5, 3), new Vector2(-3f, 0f));
             A4.addAttack(1, new AttackDefinition(null, 0, new AttackDefinition.DAttackAction(throwLemon)));
 
-            addCombo("AB", B4);
-            addCombo("ABA", A4);
+            addAttack("AB", B4);
+            addAttack("ABA", A4);
 
             health = 100;
             playerSpeed = 4f;

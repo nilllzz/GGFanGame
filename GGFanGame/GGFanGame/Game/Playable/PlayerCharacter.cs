@@ -13,18 +13,18 @@ namespace GGFanGame.Game.Level.Playable
     /// </summary>
     abstract class PlayerCharacter : InteractableStageObject
     {
-        #region Combo
+        #region Attacking
 
         /// <summary>
-        /// Defines a single part of a combo chain.
+        /// Defines a single part of an attack chain.
         /// </summary>
-        protected struct AttackCombo
+        protected struct PlayerAttack
         {
             Animation _animation;
             Dictionary<int, AttackDefinition> _attacks;
             Vector2 _movement;
 
-            public AttackCombo(Animation animation, Vector2 movement)
+            public PlayerAttack(Animation animation, Vector2 movement)
             {
                 _animation = animation;
                 _movement = movement;
@@ -133,16 +133,19 @@ namespace GGFanGame.Game.Level.Playable
             }
         }
 
-        private Dictionary<string, AttackCombo> _combos = new Dictionary<string, AttackCombo>();
+        private Dictionary<string, PlayerAttack> _attacks = new Dictionary<string, PlayerAttack>();
 
-        protected void addCombo(string comboChain, AttackCombo combo)
+        protected void addAttack(string comboChain, PlayerAttack combo)
         {
-            _combos.Add(comboChain, combo);
+            _attacks.Add(comboChain, combo);
         }
 
-        private string _nextComboItem = "";
-        private string _comboChain = ""; //The current combo chain.
-        private double _comboDelay = 0d; //The time period after an attack to chain a combo.
+        private string _nextAttackItem = "";
+        private string _attackChain = ""; //The current combo chain.
+        private double _attackDelay = 0d; //The time period after an attack to chain a combo.
+
+        private int _comboChain = 0; //The amount of hits in this combo.
+        private int _comboDelay = 0; //The amount of time until the combo resets.
 
         #endregion
 
@@ -150,15 +153,41 @@ namespace GGFanGame.Game.Level.Playable
         private float _playerSpeed = 4f;
         private string _name = "";
 
+        /// <summary>
+        /// The speed of this player character.
+        /// </summary>
+        /// <returns></returns>
         protected float playerSpeed
         {
             get { return _playerSpeed; }
             set { _playerSpeed = value; }
         }
 
+        /// <summary>
+        /// The name of this player character.
+        /// </summary>
+        /// <returns></returns>
         public string name
         {
             get { return _name; }
+        }
+
+        /// <summary>
+        /// The amount of hits in this combo.
+        /// </summary>
+        /// <returns></returns>
+        public int comboChain
+        {
+            get { return _comboChain; }
+        }
+
+        /// <summary>
+        /// The amount of time until the combo resets.
+        /// </summary>
+        /// <returns></returns>
+        public int comboDelay
+        {
+            get { return _comboDelay; }
         }
 
         /// <summary>
@@ -192,9 +221,9 @@ namespace GGFanGame.Game.Level.Playable
 
             if (state == ObjectState.Attacking && getAnimation().frames[animationFrame].frameLength == animationDelay)
             {
-                if (_combos[_comboChain].hasAttackForFrame(animationFrame))
+                if (_attacks[_attackChain].hasAttackForFrame(animationFrame))
                 {
-                    AttackDefinition def = _combos[_comboChain].getAttackForFrame(animationFrame);
+                    AttackDefinition def = _attacks[_attackChain].getAttackForFrame(animationFrame);
 
                     Attack attack = def.attack;
 
@@ -202,7 +231,13 @@ namespace GGFanGame.Game.Level.Playable
                     if (attack != null)
                     {
                         attack.facing = facing;
-                        Stage.activeStage().applyAttack(attack, position, def.maxHits);
+                        int hits = Stage.activeStage().applyAttack(attack, position, def.maxHits);
+
+                        if (hits > 0)
+                        {
+                            _comboChain += hits;
+                            _comboDelay = 100;
+                        }
                     }
 
                     //Activate the attack def's special:
@@ -210,13 +245,22 @@ namespace GGFanGame.Game.Level.Playable
                 }
             }
 
-            //TEST:
-            if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.Y))
-            {
-                Stage.activeStage().addObject(new Scene.SplatBall(gameInstance, objectColor, facing) { position = new Vector3(X, Y + 26, Z) });
-            }
+            updateCombo();
 
             base.update();
+        }
+
+        private void updateCombo()
+        {
+            if (_comboChain > 0 && _comboDelay > 0)
+            {
+                _comboDelay--;
+                if (_comboDelay <= 0)
+                {
+                    _comboDelay = 0;
+                    _comboChain = 0;
+                }
+            }
         }
 
         private void updateState()
@@ -336,29 +380,29 @@ namespace GGFanGame.Game.Level.Playable
                 {
                     setToState = ObjectState.Attacking;
                     repeatAnimation = false;
-                    if (_nextComboItem == "")
-                        _nextComboItem = comboAddition;
+                    if (_nextAttackItem == "")
+                        _nextAttackItem = comboAddition;
                 }
-                else if ((state == ObjectState.Attacking && animationEnded() && _comboDelay > 0) || state != ObjectState.Attacking)
+                else if ((state == ObjectState.Attacking && animationEnded() && _attackDelay > 0) || state != ObjectState.Attacking)
                 {
-                    _comboDelay--;
+                    _attackDelay--;
 
-                    if (_nextComboItem != "" && comboAddition == "")
+                    if (_nextAttackItem != "" && comboAddition == "")
                     {
-                        comboAddition = _nextComboItem;
-                        _nextComboItem = "";
+                        comboAddition = _nextAttackItem;
+                        _nextAttackItem = "";
                     }
 
-                    if (comboAddition != "" && _combos.Keys.Contains(_comboChain + comboAddition))
+                    if (comboAddition != "" && _attacks.Keys.Contains(_attackChain + comboAddition))
                     {
-                        _comboChain += comboAddition;
-                        _comboDelay = 12d;
+                        _attackChain += comboAddition;
+                        _attackDelay = 12d;
 
                         setToState = ObjectState.Attacking;
                         repeatAnimation = false;
                         animationFrame = 0;
 
-                        AttackCombo combo = _combos[_comboChain];
+                        PlayerAttack combo = _attacks[_attackChain];
 
                         if (facing == ObjectFacing.Left)
                             _autoMovement.X -= combo.xMovement;
@@ -369,8 +413,8 @@ namespace GGFanGame.Game.Level.Playable
                     }
                     else
                     {
-                        _comboChain = "";
-                        _comboDelay = 0;
+                        _attackChain = "";
+                        _attackDelay = 0;
                         repeatAnimation = true;
                     }
                 }
@@ -478,7 +522,7 @@ namespace GGFanGame.Game.Level.Playable
         {
             if (state == ObjectState.Attacking)
             {
-                return _combos[_comboChain].animation;
+                return _attacks[_attackChain].animation;
             }
 
             return base.getAnimation();

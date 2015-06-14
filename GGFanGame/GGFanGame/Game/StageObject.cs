@@ -68,6 +68,7 @@ namespace GGFanGame.Game.Level
         private bool _canBeRemoved = false;
         private bool _canLandOn = false;
         private float _strength = 0;
+        private bool _canClick = false;
         private List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
 
         private static int _currentSortingPriority = 0; //Keeps track of all the sorting priorities added so that every object has a different one.
@@ -275,6 +276,16 @@ namespace GGFanGame.Game.Level
             set { _sortLowest = value; }
         }
 
+        /// <summary>
+        /// If the player can use a button on the gamepad to interact with this object.
+        /// </summary>
+        /// <returns></returns>
+        public bool canClick
+        {
+            get { return _canClick; }
+            set { _canClick = value; }
+        }
+
         #endregion
 
         public StageObject(GGGame game)
@@ -360,6 +371,11 @@ namespace GGFanGame.Game.Level
         {
             return _position;
         }
+
+        /// <summary>
+        /// The player clicked on this object.
+        /// </summary>
+        public virtual void onPlayerClick() { }
 
         //Needed in order to sort the list of objects and arrange them in an order
         //so that the objects in the foreground are overlaying those in the background.

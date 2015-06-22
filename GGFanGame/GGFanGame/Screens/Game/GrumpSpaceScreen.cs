@@ -36,19 +36,19 @@ namespace GGFanGame.Screens.Game
                 ScreenManager.getInstance().setScreen(new Debug.BoundingBoxTestScreen(gameInstance));
             }
             // Zoom out: Y
-            if (Input.KeyboardHandler.keyDown(Microsoft.Xna.Framework.Input.Keys.Y) && _stage.scale > 0.2)
+            if (Input.KeyboardHandler.keyDown(Microsoft.Xna.Framework.Input.Keys.Y) && _stage.camera.scale > 0.2)
             {
-                _stage.scale -= 0.01;
+                _stage.camera.scale -= 0.01;
             }
             // Zoom in: X
             if (Input.KeyboardHandler.keyDown(Microsoft.Xna.Framework.Input.Keys.X))
             {
-                _stage.scale += 0.01;
+                _stage.camera.scale += 0.01;
             }
             // Zoom default: C
             if (Input.KeyboardHandler.keyPressed(Microsoft.Xna.Framework.Input.Keys.OemPipe))
             {
-                _stage.scale = 2;
+                _stage.camera.scale = 2;
             }
         }
     }

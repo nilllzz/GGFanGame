@@ -355,7 +355,7 @@ namespace GGFanGame.Drawing
             }
             else
             {
-                ellipse = new EllipseConfiguration((int)(rectangle.Width / scale), (int)(rectangle.Height / scale));
+                ellipse = new EllipseConfiguration((int)Math.Ceiling(rectangle.Width / scale), (int)Math.Ceiling(rectangle.Height / scale));
                 _ellipseConfigs.Add(checksum, ellipse);
             }
 

@@ -12,17 +12,39 @@ namespace GGFanGame.Game.Level.Scene
     /// </summary>
     class SplatBall : InteractableStageObject
     {
+        public SplatBall(GGGame game, Color color, Vector3 movement) : base(game)
+        {
+            initialize(color, movement);
+        }
+
         public SplatBall(GGGame game, Color color, ObjectFacing setFacing) : base(game) 
+        {
+            float xMovement = (float)game.random.Next(10, 20);
+            float yMovement = game.random.Next(0, 10);
+            float zMovement = game.random.Next(-5, 5);
+            if (setFacing == ObjectFacing.Left)
+            {
+                _autoMovement.X = -xMovement;
+            }
+            else
+            {
+                _autoMovement.X = xMovement;
+            }
+
+            initialize(color, new Vector3(xMovement, yMovement, zMovement));
+        }
+
+        private void initialize( Color color, Vector3 movement)
         {
             List<Rectangle> ellipses = new List<Rectangle>();
             List<Color> colors = new List<Color>();
 
             for (int i = 0; i < 3; i++)
             {
-                int width = game.random.Next(4, 8);
-                int height = game.random.Next(4, 8);
-                int x = game.random.Next(0, 16 - width);
-                int y = game.random.Next(0, 16 - height);
+                int width = gameInstance.random.Next(4, 8);
+                int height = gameInstance.random.Next(4, 8);
+                int x = gameInstance.random.Next(0, 16 - width);
+                int y = gameInstance.random.Next(0, 16 - height);
 
                 ellipses.Add(new Rectangle(x, y, width, height));
                 colors.Add(color);
@@ -40,19 +62,7 @@ namespace GGFanGame.Game.Level.Scene
 
             addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(16, 16), 100));
 
-            float xMovement = (float)game.random.Next(10, 20);
-            float yMovement = game.random.Next(0, 10);
-            float zMovement = game.random.Next(-5, 5);
-            if (setFacing == ObjectFacing.Left)
-            {
-                _autoMovement.X = -xMovement;
-            }
-            else
-            {
-                _autoMovement.X = xMovement;
-            }
-            _autoMovement.Y = yMovement;
-            _autoMovement.Z = zMovement;
+            _autoMovement = movement;
         }
 
         public override void update()

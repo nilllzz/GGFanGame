@@ -60,6 +60,9 @@ namespace GGFanGame.Screens.Menu
                     Drawing.Graphics.drawRectangle(new Rectangle((int)(diffX / 2), 0, (int)(GGGame.RENDER_WIDTH - diffX) + 1, (int)(diffY / 2) + 1 + addSide), Color.Black);
                     Drawing.Graphics.drawRectangle(new Rectangle((int)(diffX / 2), GGGame.RENDER_HEIGHT - (int)Math.Floor(diffY / 2) - 2 - addSide, (int)(GGGame.RENDER_WIDTH - diffX), (int)(diffY / 2) + 2 + addSide), Color.Black);
                 }
+
+                //Draw slightly fading rectangle.
+                Drawing.Graphics.drawRectangle(gameInstance.clientRectangle, new Color(0, 0, 0, (int)(255 * (1f - _overlaySize / 2f)))); 
             }
             else
             {

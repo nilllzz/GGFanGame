@@ -110,6 +110,11 @@ namespace GGFanGame.Game.Level
         private bool _faceAttack = true;
         private bool _gravityAffected = true;
 
+        private bool _hasAction = true;
+        private string _actionHintText = "TEST";
+        private bool _renderActionHint = true;
+        private int _actionHintTextAlpha = 0;
+
         private StageObject _supportingObject = null;
 
         protected Vector3 _autoMovement = new Vector3(0);
@@ -205,13 +210,31 @@ namespace GGFanGame.Game.Level
             set { _faceAttack = value; }
         }
 
+        public bool hasAction
+        {
+            get { return _hasAction; }
+            set { _hasAction = value; }
+        }
+
+        protected string actionHintText
+        {
+            get { return _actionHintText; }
+            set { _actionHintText = value; }
+        }
+
+        protected bool renderActionHint
+        {
+            get { return _renderActionHint; }
+            set { _renderActionHint = value; }
+        }
+
+        #endregion
+
         public InteractableStageObject(GGGame game) : base(game)
         {
             setState(ObjectState.Idle);
             canInteract = true;
         }
-
-        #endregion
 
         /// <summary>
         /// Adds an animation for a specific object state.
@@ -224,7 +247,7 @@ namespace GGFanGame.Game.Level
         public override void draw()
         {
             Rectangle frame = getAnimation().getFrameRec(animationFrame);
-            double stageScale = Stage.activeStage().scale;
+            double stageScale = Stage.activeStage().camera.scale;
 
             if (_drawShadow)
             {
@@ -232,10 +255,10 @@ namespace GGFanGame.Game.Level
                 int shadowHeight = (int)(frame.Height * _shadowSize * (1d / 4d));
 
                 Drawing.Graphics.drawEllipse(new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
-                                (int)((Z - shadowHeight / 2d - Stage.activeStage().getGround(position)) * stageScale),
-                                (int)(shadowWidth * stageScale),
-                                (int)(shadowHeight * stageScale)),
-                                Stage.activeStage().ambientColor, stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
+                           (int)((Z - shadowHeight / 2d - Stage.activeStage().getGround(position)) * stageScale),
+                           (int)(shadowWidth * stageScale),
+                           (int)(shadowHeight * stageScale)),
+                           Stage.activeStage().ambientColor, stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
             }
 
             SpriteEffects effect = SpriteEffects.None;
@@ -249,6 +272,62 @@ namespace GGFanGame.Game.Level
                                                                      (int)(frame.Width * stageScale),
                                                                      (int)(frame.Height * stageScale)),
                                                        frame, Color.White, 0f, Vector2.Zero, effect, 0f);
+
+            drawActionHint();
+        }
+
+        /// <summary>
+        /// Draws the action hint of this object.
+        /// </summary>
+        private void drawActionHint()
+        {
+            if ((_hasAction && _renderActionHint))
+            {
+                //Test if player is in range and get smallest range:
+                float smallestPlayerDistance = -1f;
+
+                foreach (StageObject obj in Stage.activeStage().getObjects())
+                {
+                    if (obj.GetType().IsSubclassOf(typeof(Playable.PlayerCharacter)) && obj != this)
+                    {
+                        float distance = Vector3.Distance(position, obj.position);
+
+                        if (distance < smallestPlayerDistance || smallestPlayerDistance < 0f)
+                        {
+                            smallestPlayerDistance = distance;
+                        }
+                    }
+                }
+
+                if (smallestPlayerDistance >= 0f && smallestPlayerDistance <= 12f)
+                {
+                    if (_actionHintTextAlpha < 255)
+                    {
+                        _actionHintTextAlpha += 11;
+                        if (_actionHintTextAlpha >= 255)
+                        {
+                            _actionHintTextAlpha = 255;
+                        }
+                    }
+                }
+                else
+                {
+                    if (_actionHintTextAlpha > 0)
+                    {
+                        _actionHintTextAlpha -= 11;
+                        if (_actionHintTextAlpha <= 0)
+                        {
+                            _actionHintTextAlpha = 0;
+                        }
+                    }
+                }
+
+                if (_actionHintTextAlpha > 0)
+                {
+                    //TODO: Render properly.
+                    gameInstance.spriteBatch.DrawString(gameInstance.fontManager.load(@"Fonts\CartoonFont"), _actionHintText, new Vector2(X, Z - Y) * (float)Stage.activeStage().camera.scale, new Color(255, 255, 255, _actionHintTextAlpha));
+                }
+            }
         }
 
         public override void update()
@@ -428,7 +507,7 @@ namespace GGFanGame.Game.Level
         {
             //Returns the drawing size of the current frame:
             Rectangle frame = getAnimation().getFrameRec(animationFrame);
-            double stageScale = Stage.activeStage().scale;
+            double stageScale = Stage.activeStage().camera.scale;
             return new Point((int)(frame.Width * stageScale), (int)(frame.Height * stageScale));
         }
 

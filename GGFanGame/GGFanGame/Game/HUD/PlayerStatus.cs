@@ -221,9 +221,10 @@ namespace GGFanGame.Game.Level.HUD
                     _growingNumberSize += 0.1f;
 
                     var normalSize = _fontLarge.MeasureString("x" + _player.comboChain);
-                    var growingSize = _fontLarge.MeasureString("x" + _player.comboChain) * _growingNumberSize;
+                    var growingSize = normalSize * _growingNumberSize;
+                    var largestSize = normalSize * _growingNumberSize * 2f;
 
-                    _gameInstance.spriteBatch.DrawString(_fontLarge, "x" + _player.comboChain, new Vector2(xOffset - (growingSize.X - normalSize.X) / 2f, 100 - (growingSize.Y - normalSize.Y) / 2f), new Color(255, 255, 255, (int)(255 * (2f - _growingNumberSize))), -0.2f, Vector2.Zero, _growingNumberSize + 0.5f, SpriteEffects.None, 0f);
+                    _gameInstance.spriteBatch.DrawString(_fontLarge, "x" + _player.comboChain, new Vector2(xOffset - (largestSize.X - normalSize.X) / 2f + 5, 100 - (largestSize.Y - normalSize.Y) / 2f + 5), new Color(255, 255, 255, (int)(255 * (2f - _growingNumberSize))), -0.2f, Vector2.Zero, _growingNumberSize  * 2f, SpriteEffects.None, 0f);
                     _gameInstance.spriteBatch.DrawString(_fontLarge, "x" + _player.comboChain, new Vector2(xOffset - (growingSize.X - normalSize.X) / 2f + 5, 100 - (growingSize.Y - normalSize.Y) / 2f + 5), new Color(playerColor.R, playerColor.G, playerColor.B, (int)(255 * (2f - _growingNumberSize))), -0.2f, Vector2.Zero, _growingNumberSize, SpriteEffects.None, 0f);
 
                     if (_growingNumberSize >= 2f)

@@ -53,7 +53,7 @@ namespace GGFanGame.Game.Level.Scene
         public override void draw()
         {
             Rectangle frame = getAnimation().getFrameRec(animationFrame);
-            double stageScale = Stage.activeStage().scale;
+            double stageScale = Stage.activeStage().camera.scale;
 
             int shadowWidth = (int)(spriteSheet.Width);
             int shadowHeight = (int)(spriteSheet.Height * (1d / 4d));

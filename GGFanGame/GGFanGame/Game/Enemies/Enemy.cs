@@ -12,6 +12,10 @@ namespace GGFanGame.Game.Level.Enemies
     /// </summary>
     abstract class Enemy : InteractableStageObject
     {
+        public event OnDeathEventHandler OnDeath;
+
+        public delegate void OnDeathEventHandler(StageObject obj);
+
         public Enemy(GGGame game) : base(game)
         {
             
@@ -37,6 +41,9 @@ namespace GGFanGame.Game.Level.Enemies
                 if (animationEnded())
                 {
                     canBeRemoved = true;
+
+                    if (OnDeath != null)
+                        OnDeath(this);
                 }
             }
 

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -25,10 +26,10 @@ namespace GGFanGame.Screens.Menu
         public TitleScreen(GGGame game) : base(Identification.Title, game)
         {
             _logoTexture = game.textureManager.load(@"UI\Logos\GameGrumps");
-            _grumpFont = game.fontManager.load(@"Fonts\CartoonFontLarge");
+            _grumpFont = game.fontManager.load(@"CartoonFontLarge");
 
-            //MediaPlayer.Play(game.musicManager.getResource(@"Music\Smash 2"));
             //MediaPlayer.IsRepeating = true;
+            //MediaPlayer.Play(game.musicManager.load(@"Music\Smash 2"));
         }
 
         public override void draw()

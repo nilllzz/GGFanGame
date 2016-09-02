@@ -14,82 +14,47 @@ namespace GGFanGame
         public const int RENDER_WIDTH = 1280;
         public const int RENDER_HEIGHT = 720;
         public const string GAME_TITLE = "Hard Dudes";
-
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        private SpriteBatch _fontBatch;
-
-        private MusicManager _musicManager;
-        private TextureManager _textureManager;
-        private FontManager _fontManager;
-
-        private Random _random = new Random();
-
-        private RenderTarget2D _target; //The target each frame renders to.
-
-        public Random random
-        {
-            get { return _random; }
-        }
         
+        private RenderTarget2D _target; //The target each frame renders to.
+        
+        /// <summary>
+        /// The global randomizer of the game.
+        /// </summary>
+        public Random random { get; private set; } = new Random();
+
         /// <summary>
         /// The texture manager for this game.
         /// </summary>
-        /// <returns></returns>
-        public TextureManager textureManager
-        {
-            get { return _textureManager; }
-        }
+        public TextureManager textureManager { get; private set; }
 
         /// <summary>
         /// The music manager for this game.
         /// </summary>
-        /// <returns></returns>
-        public MusicManager musicManager
-        {
-            get { return _musicManager; }
-        }
+        public MusicManager musicManager { get; private set; }
 
         /// <summary>
         /// The font manager for this game.
         /// </summary>
-        /// <returns></returns>
-        public FontManager fontManager
-        {
-            get { return _fontManager; }
-        }
+        public FontManager fontManager { get; private set;}
 
         /// <summary>
         /// The active main sprite batch of the game.
         /// </summary>
-        /// <returns></returns>
-        public SpriteBatch spriteBatch
-        {
-            get { return _spriteBatch; }
-        }
-
+        public SpriteBatch spriteBatch { get; private set; }
+        
         /// <summary>
         /// The active font sprite batch of the game.
         /// </summary>
-        /// <returns></returns>
-        public SpriteBatch fontBatch
-        {
-            get { return _fontBatch; }
-        }
+        public SpriteBatch fontBatch { get; private set; }
 
         /// <summary>
         /// The video card manager.
         /// </summary>
-        /// <returns></returns>
-        public GraphicsDeviceManager graphics
-        {
-            get { return _graphics; }
-        }
+        public GraphicsDeviceManager graphics { get; private set; }
 
         /// <summary>
         /// Returns a rectangle representing the game's drawing area relative to the window position.
         /// </summary>
-        /// <returns></returns>
         public Rectangle clientRectangle
         {
             get { return new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height); }
@@ -97,12 +62,12 @@ namespace GGFanGame
         
         public GGGame() : base()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            _musicManager = new MusicManager(this);
-            _textureManager = new TextureManager(this);
-            _fontManager = new FontManager(this);
+            musicManager = new MusicManager(this);
+            textureManager = new TextureManager(this);
+            fontManager = new FontManager(this);
         }
 
         /// <summary>
@@ -113,8 +78,6 @@ namespace GGFanGame
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             //Just testing the screen manager here and setting the main menu as first screen.
             //I guess we will implement a splash screen of some sort later.
             Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.TitleScreen(this));
@@ -133,22 +96,13 @@ namespace GGFanGame
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _fontBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            fontBatch = new SpriteBatch(GraphicsDevice);
 
-            Drawing.Graphics.initialize(GraphicsDevice, _spriteBatch);
+            Drawing.Graphics.initialize(GraphicsDevice, spriteBatch);
             _target = new RenderTarget2D(GraphicsDevice, RENDER_WIDTH, RENDER_HEIGHT);
         }
-
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-        }
-
+        
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -175,19 +129,19 @@ namespace GGFanGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.SetRenderTarget(_target);
 
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-            _fontBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.AnisotropicClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            fontBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.AnisotropicClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
             Screens.ScreenManager.getInstance().drawScreen(gameTime);
 
-            _spriteBatch.End();
-            _fontBatch.End();
+            spriteBatch.End();
+            fontBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
 
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-            _spriteBatch.Draw(_target, clientRectangle, Color.White);
-            _spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            spriteBatch.Draw(_target, clientRectangle, Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
@@ -198,6 +152,34 @@ namespace GGFanGame
         public void resetRenderTarget()
         {
             GraphicsDevice.SetRenderTarget(_target);
+        }
+
+        /// <summary>
+        /// Begins to render the screen to a render target.
+        /// </summary>
+        public RenderTarget2D beginRenderScreenToTarget()
+        {
+            RenderTarget2D target = new RenderTarget2D(GraphicsDevice, RENDER_WIDTH, RENDER_HEIGHT);
+
+            //End the sprite batch, render to current target.
+            //Then, set to new render target and begin the batch.
+            spriteBatch.End();
+            GraphicsDevice.SetRenderTarget(target);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+
+            return target;
+        }
+
+        /// <summary>
+        /// Ends rendering the screen to a render target.
+        /// </summary>
+        public void endRenderScreenToTarget()
+        {
+            //Ends the sprite batch for the current target, resets the target, and starts the sprite batch for the default target.
+            spriteBatch.End();
+            resetRenderTarget();
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
         }
     }
 }

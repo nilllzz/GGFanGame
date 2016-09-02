@@ -41,7 +41,6 @@ namespace GGFanGame.Game.Level
         private GGGame _gameInstance;
         private List<StageObject> _objects;
         private Color _ambientColor = new Color(0, 0, 0, 100); //Used for shadow color
-        private StageCamera _camera;
 
         /// <summary>
         /// The ambient shadow color in this stage.
@@ -56,25 +55,17 @@ namespace GGFanGame.Game.Level
         /// The camera of the level.
         /// </summary>
         /// <returns></returns>
-        public StageCamera camera
-        {
-            get { return _camera; }
-        }
-
-        private PlayerCharacter _onePlayer;
-        private PlayerCharacter _twoPlayer;
-        private PlayerCharacter _threePlayer;
-        private PlayerCharacter _fourPlayer;
-
+        public StageCamera camera { get; private set; }
+        
         private PlayerStatus _oneStatus;
         private PlayerStatus _twoStatus;
         private PlayerStatus _threeStatus;
         private PlayerStatus _fourStatus;
 
-        public PlayerCharacter onePlayer
-        {
-            get { return _onePlayer; }
-        }
+        public PlayerCharacter onePlayer { get; set; }
+        public PlayerCharacter twoPlayer { get; set; }
+        public PlayerCharacter threePlayer { get; set; }
+        public PlayerCharacter fourPlayer { get; set; }
 
         /// <summary>
         /// Creates a new instance of the Stage class.
@@ -83,36 +74,39 @@ namespace GGFanGame.Game.Level
         public Stage(GGGame game)
         {
             _gameInstance = game;
-            _camera = new StageCamera();
+            camera = new StageCamera();
 
             _objects = new List<StageObject>();
 
-            _onePlayer = new Arin(game, PlayerIndex.One) { X = 320, Z = 200 };
-            _twoPlayer = new Arin(game, PlayerIndex.Two) { X = 320, Z = 230 };
-            _threePlayer = new Arin(game, PlayerIndex.Three) { X = 50, Z = 230 };
-            _fourPlayer = new Arin(game, PlayerIndex.Four) { X = 50, Z = 200 };
+            onePlayer = new Arin(game, PlayerIndex.One) { X = 320, Z = 200 };
+            twoPlayer = new Arin(game, PlayerIndex.Two) { X = 320, Z = 230 };
+            threePlayer = new Arin(game, PlayerIndex.Three) { X = 50, Z = 230 };
+            fourPlayer = new Arin(game, PlayerIndex.Four) { X = 50, Z = 200 };
 
-            _objects.Add(_onePlayer);
-            _objects.Add(_twoPlayer);
-            _objects.Add(_threePlayer);
-            _objects.Add(_fourPlayer);
+            _objects.Add(onePlayer);
+            _objects.Add(twoPlayer);
+            _objects.Add(threePlayer);
+            _objects.Add(fourPlayer);
 
-            _oneStatus = new PlayerStatus(game, _onePlayer, PlayerIndex.One);
-            _twoStatus = new PlayerStatus(game, _twoPlayer, PlayerIndex.Two);
-            _threeStatus = new PlayerStatus(game, _threePlayer, PlayerIndex.Three);
-            _fourStatus = new PlayerStatus(game, _fourPlayer, PlayerIndex.Four);
+            _oneStatus = new PlayerStatus(game, onePlayer, PlayerIndex.One);
+            _twoStatus = new PlayerStatus(game, twoPlayer, PlayerIndex.Two);
+            _threeStatus = new PlayerStatus(game, threePlayer, PlayerIndex.Three);
+            _fourStatus = new PlayerStatus(game, fourPlayer, PlayerIndex.Four);
+            
+            for (int x = 0; x < 12; x++)
+            {
+                _objects.Add(new Scene.Level1_1.BridgeRailing(game) { X = x * 64, Y = 0, Z = 264 });
+                _objects.Add(new Scene.Level1_1.BridgeRailing(game) { X = x * 64, Y = 0, Z = 168 });
 
-            _objects.Add(new Enemies.Booper(game) { X = 100, Z = 120 });
-            _objects.Add(new Scene.GrumpSpace.Couch(game) { X = 300, Z = 300 });
-            _objects.Add(new Enemies.Booper(game) { X = 300, Z = 200 });
-            _objects.Add(new Enemies.Booper(game) { X = 500, Z = 150 });
-            _objects.Add(new Enemies.Booper(game) { X = 50, Z = 200 });
-
-            _objects.Add(new Scene.GrumpSpace.Poster(game) { X = 300, Y = 25, Z = 150 });
-            _objects.Add(new Scene.GrumpSpace.Poster(game) { X = 350, Y = 25, Z = 150 });
-            _objects.Add(new Scene.GrumpSpace.Poster(game) { X = 400, Y = 25, Z = 150 });
-
-            _objects.Add(new Scene.GrumpSpace.ArcadeMachine(game, Scene.GrumpSpace.ArcadeType.Ninja) { X = 400, Y = 25, Z = 300 });
+                for (int y = 0; y < 3; y++)
+                {
+                    _objects.Add(new Scene.Level1_1.Street(game) { X = x * 64 - y * 32, Y = 0, Z = 200 + y * 32 });
+                }
+            }
+            for (int x = 0; x < 12; x++)
+            {
+                _objects.Add(new Scene.Level1_1.BridgeBottom(game) { X = x * 64, Y = 0, Z = 328 });
+            }
         }
 
         /// <summary>
@@ -166,6 +160,8 @@ namespace GGFanGame.Game.Level
                     }
                 }
             }
+
+            camera.update(this);
         }
 
         /// <summary>
@@ -200,7 +196,7 @@ namespace GGFanGame.Game.Level
                         obj.getHit(attack);
 
                         Vector3 wordPosition = obj.getFeetPosition();
-                        wordPosition.Y += (float)(obj.size.Y / 2d * _camera.scale);
+                        wordPosition.Y += (float)(obj.size.Y / 2d * camera.scale);
 
                         _objects.Add(new ActionWord(_gameInstance, ActionWord.getWordText(ActionWord.WordType.HurtEnemy), obj.objectColor, 1f, wordPosition));
                     }
@@ -222,7 +218,7 @@ namespace GGFanGame.Game.Level
         /// <param name="radius">The radius of the explosion.</param>
         /// <param name="health">The health to take away from hit targets.</param>
         /// <param name="strength">The strength of the explosion.</param>
-        public void applyExplosion(StageObject origin, Vector3 center,  float radius, int health, float strength)
+        public void applyExplosion(StageObject origin, Vector3 center, float radius, int health, float strength)
         {
             //For explosions, we are using a sphere to detect collision because why not.
             var explosionSphere = new BoundingSphere(center, radius);
@@ -330,7 +326,7 @@ namespace GGFanGame.Game.Level
         /// <returns></returns>
         public bool intersects(StageObject chkObj, Vector3 desiredPosition)
         {
-            return 
+            return
                 checkCollision(chkObj, desiredPosition) != null;
         }
 

@@ -143,7 +143,7 @@ namespace GGFanGame.Screens.Menu
 
             _saves.Add(new SaveContainer(game, saveIndex, null) { newGameButton = true });
 
-            _grumpFont = game.fontManager.load(@"Fonts\CartoonFont");
+            _grumpFont = game.fontManager.load(@"CartoonFont");
         }
 
         public override void update()
@@ -163,7 +163,8 @@ namespace GGFanGame.Screens.Menu
 
                 if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.A))
                 {
-                    ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new Game.GrumpSpaceScreen(gameInstance)));
+                    //ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new Game.GrumpSpaceScreen(gameInstance)));
+                    ScreenManager.getInstance().setScreen(new PlayerSelectScreen(gameInstance));
                 }
             }
 

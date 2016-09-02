@@ -11,7 +11,6 @@ namespace GGFanGame.Networking
         /// Encodes an URL string.
         /// </summary>
         /// <param name="str">The url to encode.</param>
-        /// <returns></returns>
         public static string encode(string str)
         {
             if (str == null)

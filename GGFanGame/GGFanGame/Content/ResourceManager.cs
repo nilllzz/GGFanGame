@@ -13,30 +13,31 @@ namespace GGFanGame.Content
     {
         private GGGame _gameInstance = null;
 
-        private Dictionary<string, T> _resources = new Dictionary<string, T>();
-        /// <summary>
-        /// The loaded resources.
-        /// </summary>
-        /// <returns></returns>
-        protected Dictionary<string, T> resources
-        {
-            get { return _resources; }
-        }
+        protected Dictionary<string, T> resources { get; } = new Dictionary<string, T>();
+
+        protected string defaultFolder { get; set; } = "";
 
         protected ResourceManager(GGGame game)
         {
             _gameInstance = game;
         }
 
+        private string createIdentifier(string identifier)
+        {
+            if (string.IsNullOrEmpty(defaultFolder))
+                return identifier.ToLowerInvariant();
+            else
+                return $"{defaultFolder}\\{identifier}".ToLowerInvariant();
+        }
+
         /// <summary>
         /// Returns if a specific resource exists.
         /// </summary>
         /// <param name="identifier">The identifier of the resource.</param>
-        /// <returns></returns>
         public bool resourceExists(string identifier)
         {
-            string internalIdentifier = identifier.ToLower();
-            if (_resources.Keys.Contains(internalIdentifier))
+            string internalIdentifier = createIdentifier(identifier);
+            if (resources.Keys.Contains(internalIdentifier))
                 return true;
             else
             {
@@ -53,16 +54,15 @@ namespace GGFanGame.Content
         /// Requests a resource from the resource manager.
         /// </summary>
         /// <param name="identifier">The identifier of the resource.</param>
-        /// <returns></returns>
         public T load(string identifier)
         {
-            string internalIdentifier = identifier.ToLower();
+            string internalIdentifier = createIdentifier(identifier);
 
-            if (!_resources.Keys.Contains(internalIdentifier))
+            if (!resources.Keys.Contains(internalIdentifier))
             {
                 try
                 {
-                    _resources.Add(internalIdentifier, _gameInstance.Content.Load<T>(internalIdentifier));
+                    resources.Add(internalIdentifier, _gameInstance.Content.Load<T>(internalIdentifier));
                 }
                 catch (Exception)
                 {
@@ -70,15 +70,7 @@ namespace GGFanGame.Content
                 }
             }
 
-            return _resources[internalIdentifier];
-        }
-
-        /// <summary>
-        /// Clears all loaded resources.
-        /// </summary>
-        public void clear()
-        {
-            _resources.Clear();
+            return resources[internalIdentifier];
         }
     }
 }

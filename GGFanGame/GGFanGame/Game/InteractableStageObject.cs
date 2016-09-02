@@ -110,9 +110,9 @@ namespace GGFanGame.Game.Level
         private bool _faceAttack = true;
         private bool _gravityAffected = true;
 
-        private bool _hasAction = true;
+        private bool _hasAction = false;
         private string _actionHintText = "TEST";
-        private bool _renderActionHint = true;
+        private bool _renderActionHint = false;
         private int _actionHintTextAlpha = 0;
 
         private StageObject _supportingObject = null;
@@ -325,7 +325,7 @@ namespace GGFanGame.Game.Level
                 if (_actionHintTextAlpha > 0)
                 {
                     //TODO: Render properly.
-                    gameInstance.spriteBatch.DrawString(gameInstance.fontManager.load(@"Fonts\CartoonFont"), _actionHintText, new Vector2(X, Z - Y) * (float)Stage.activeStage().camera.scale, new Color(255, 255, 255, _actionHintTextAlpha));
+                    gameInstance.spriteBatch.DrawString(gameInstance.fontManager.load(@"CartoonFont"), _actionHintText, new Vector2(X, Z - Y) * (float)Stage.activeStage().camera.scale, new Color(255, 255, 255, _actionHintTextAlpha));
                 }
             }
         }

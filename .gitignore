@@ -219,3 +219,10 @@ pip-log.txt
 
 #Translations
 *.mo
+
+
+#############
+## NuGet
+#############
+
+packages/

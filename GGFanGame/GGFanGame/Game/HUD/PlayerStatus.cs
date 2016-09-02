@@ -98,8 +98,8 @@ namespace GGFanGame.Game.Level.HUD
 
             _barTexture = _gameInstance.textureManager.load(@"UI\HUD\Bars");
             _headTexture = _gameInstance.textureManager.load(@"UI\HUD\" + _player.name);
-            _font = _gameInstance.fontManager.load(@"Fonts\CartoonFontSmall");
-            _fontLarge = _gameInstance.fontManager.load(@"Fonts\CartoonFont");
+            _font = _gameInstance.fontManager.load(@"CartoonFontSmall");
+            _fontLarge = _gameInstance.fontManager.load(@"CartoonFont");
 
             for (int i = 0; i < 42; i++)
             {

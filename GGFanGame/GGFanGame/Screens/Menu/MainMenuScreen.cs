@@ -20,7 +20,7 @@ namespace GGFanGame.Screens.Menu
 
         //The size reference of the dots in the background
         const int DOT_SIZE = 16;
-
+        
         public MainMenuScreen(Identification identification, GGGame game) : this(identification, game, Vector2.Zero)
         {  /* Empty constructor */ }
 
@@ -35,10 +35,24 @@ namespace GGFanGame.Screens.Menu
             drawBackground();
         }
 
+        private Drawing.BlurHandler _blurHander;
+
         private void drawBackground()
         {
+            if (_blurHander == null)
+                _blurHander = new Drawing.BlurHandler(gameInstance, GGGame.RENDER_WIDTH, GGGame.RENDER_HEIGHT);
+
+            var target = gameInstance.beginRenderScreenToTarget();
+
             //Draws the black-orange background gradient:
-            Drawing.Graphics.drawGradient(gameInstance.clientRectangle, Color.Black, new Color(164, 108, 46), false, 1d);
+            //Drawing.Graphics.drawGradient(gameInstance.clientRectangle, Color.Black, new Color(164, 108, 46), false, 1d);
+            Drawing.Graphics.drawGradient(gameInstance.clientRectangle, new Color(235, 148, 48), new Color(242, 167, 76), false, 1d);
+
+            Color dotFromColor = new Color(236, 130, 47);
+            Color dotToColor = new Color(242, 153, 90);
+            Color dotColorDiff = new Color(dotToColor.R - dotFromColor.R,
+                                           dotToColor.G - dotFromColor.G,
+                                           dotToColor.B - dotFromColor.B);
 
             //Draw the background dots:
             for (int x = -6; x < 32; x++)
@@ -50,9 +64,9 @@ namespace GGFanGame.Screens.Menu
 
                     //We shift their color from top to bottom, so we take the different between the height of the screen and the dot's position:
                     double colorShift = (double)posY / gameInstance.clientRectangle.Height;
-                    double cR = 4 * colorShift;
-                    double cG = 35 * colorShift;
-                    double cB = 20 * colorShift;
+                    double cR = ((double)dotColorDiff.R) * colorShift;
+                    double cG = ((double)dotColorDiff.G) * colorShift;
+                    double cB = ((double)dotColorDiff.B) * colorShift;
 
                     //When they approach the sides of the screen, make them fade out:
                     double cA = 255; //alpha value
@@ -79,10 +93,16 @@ namespace GGFanGame.Screens.Menu
                     //When the dot is inside the rendering area, draw it.
                     if (posX + DOT_SIZE * 2 >= 0 && posX < gameInstance.clientRectangle.Width && posY + DOT_SIZE * 2 >= 0 && posY < gameInstance.clientRectangle.Height)
                     {
-                        Drawing.Graphics.drawCircle(new Vector2(posX, posY), DOT_SIZE * 2, new Color((int)(241 + cR), (int)(118 + cG), (int)(50 + cB), (int)cA));
+                        Drawing.Graphics.drawCircle(new Vector2(posX, posY), DOT_SIZE * 2, new Color((int)(dotFromColor.R + cR), 
+                                                                                                     (int)(dotFromColor.G + cG), 
+                                                                                                     (int)(dotFromColor.B + cB), 255));
                     }
                 }
             }
+            gameInstance.endRenderScreenToTarget();
+            
+            _blurHander.draw(target);
+            target.Dispose();
         }
 
         public override void update()

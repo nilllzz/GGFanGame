@@ -13,6 +13,7 @@ namespace GGFanGame.Content
     {
         public FontManager(GGGame game) : base(game)
         {
+            defaultFolder = "Fonts";
         }
     }
 }

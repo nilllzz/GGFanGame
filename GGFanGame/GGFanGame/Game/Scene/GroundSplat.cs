@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level.Scene
 {
@@ -15,17 +16,17 @@ namespace GGFanGame.Game.Level.Scene
         private SpriteEffects _effect = SpriteEffects.None;
         private int alpha = 255;
 
-        public GroundSplat(GGGame game, Color color) : base(game)
+        public GroundSplat(Color color) : base()
         {
             List<Rectangle> ellipses = new List<Rectangle>();
             List<Color> colors = new List<Color>();
 
             for (int i = 0; i < 8; i++)
             {
-                int width = game.random.Next(8, 31);
-                int height = game.random.Next(8, 31);
-                int x = game.random.Next(0, 64 - width);
-                int y = game.random.Next(0, 64 - height);
+                int width = gameInstance.random.Next(8, 31);
+                int height = gameInstance.random.Next(8, 31);
+                int x = gameInstance.random.Next(0, 64 - width);
+                int y = gameInstance.random.Next(0, 64 - height);
 
                 ellipses.Add(new Rectangle(x, y, width, height));
                 colors.Add(color);

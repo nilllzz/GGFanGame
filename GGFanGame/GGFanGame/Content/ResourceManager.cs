@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Content
 {
@@ -11,16 +12,12 @@ namespace GGFanGame.Content
     /// <typeparam name="T">The type of resource.</typeparam>
     abstract class ResourceManager<T>
     {
-        private GGGame _gameInstance = null;
-
         protected Dictionary<string, T> resources { get; } = new Dictionary<string, T>();
 
         protected string defaultFolder { get; set; } = "";
 
-        protected ResourceManager(GGGame game)
-        {
-            _gameInstance = game;
-        }
+        protected ResourceManager()
+        { }
 
         private string createIdentifier(string identifier)
         {
@@ -62,7 +59,7 @@ namespace GGFanGame.Content
             {
                 try
                 {
-                    resources.Add(internalIdentifier, _gameInstance.Content.Load<T>(internalIdentifier));
+                    resources.Add(internalIdentifier, gameInstance.Content.Load<T>(internalIdentifier));
                 }
                 catch (Exception)
                 {

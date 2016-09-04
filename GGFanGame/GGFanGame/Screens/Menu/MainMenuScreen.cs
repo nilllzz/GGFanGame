@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -21,10 +22,10 @@ namespace GGFanGame.Screens.Menu
         //The size reference of the dots in the background
         const int DOT_SIZE = 16;
         
-        public MainMenuScreen(Identification identification, GGGame game) : this(identification, game, Vector2.Zero)
+        public MainMenuScreen(Identification identification) : this(identification, Vector2.Zero)
         {  /* Empty constructor */ }
 
-        public MainMenuScreen(Identification identification, GGGame game, Vector2 initialDotOffset) : base(identification ,game)
+        public MainMenuScreen(Identification identification, Vector2 initialDotOffset) : base(identification)
         {
             _offsetX = initialDotOffset.X;
             _offsetY = initialDotOffset.Y;
@@ -40,7 +41,7 @@ namespace GGFanGame.Screens.Menu
         private void drawBackground()
         {
             if (_blurHander == null)
-                _blurHander = new Drawing.BlurHandler(gameInstance, GGGame.RENDER_WIDTH, GGGame.RENDER_HEIGHT);
+                _blurHander = new Drawing.BlurHandler(GGGame.RENDER_WIDTH, GGGame.RENDER_HEIGHT);
 
             var target = gameInstance.beginRenderScreenToTarget();
 

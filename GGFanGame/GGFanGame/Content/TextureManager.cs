@@ -11,7 +11,7 @@ namespace GGFanGame.Content
     /// </summary>
     class TextureManager : ResourceManager<Texture2D>
     {
-        public TextureManager(GGGame game) : base(game)
+        public TextureManager() : base()
         {
 
         }

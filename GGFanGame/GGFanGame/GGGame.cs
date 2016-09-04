@@ -14,7 +14,23 @@ namespace GGFanGame
         public const int RENDER_WIDTH = 1280;
         public const int RENDER_HEIGHT = 720;
         public const string GAME_TITLE = "Hard Dudes";
-        
+
+        private static GGGame _instance;
+
+        /// <summary>
+        /// The active game instance.
+        /// </summary>
+        public static GGGame instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new GGGame();
+
+                return _instance;
+            }
+        }
+
         private RenderTarget2D _target; //The target each frame renders to.
         
         /// <summary>
@@ -60,14 +76,14 @@ namespace GGFanGame
             get { return new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height); }
         }
         
-        public GGGame() : base()
+        private GGGame() : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            musicManager = new MusicManager(this);
-            textureManager = new TextureManager(this);
-            fontManager = new FontManager(this);
+            musicManager = new MusicManager();
+            textureManager = new TextureManager();
+            fontManager = new FontManager();
         }
 
         /// <summary>
@@ -80,7 +96,7 @@ namespace GGFanGame
         {
             //Just testing the screen manager here and setting the main menu as first screen.
             //I guess we will implement a splash screen of some sort later.
-            Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.TitleScreen(this));
+            Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.TitleScreen());
 
             graphics.PreferredBackBufferWidth = RENDER_WIDTH;
             graphics.PreferredBackBufferHeight = RENDER_HEIGHT;

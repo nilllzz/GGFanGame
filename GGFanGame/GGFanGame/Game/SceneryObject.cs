@@ -12,7 +12,7 @@ namespace GGFanGame.Game
     /// </summary>
     abstract class SceneryObject : Level.InteractableStageObject
     {
-        public SceneryObject(GGGame game) : base(game)
+        public SceneryObject() : base()
         {
             canLandOn = true;
             state = ObjectState.Idle;

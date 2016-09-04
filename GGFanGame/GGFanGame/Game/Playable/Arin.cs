@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level.Playable
 {
@@ -11,7 +12,7 @@ namespace GGFanGame.Game.Level.Playable
     /// </summary>
     class Arin : PlayerCharacter
     {
-        public Arin(GGGame game, PlayerIndex playerIndex) : base(game, playerIndex, "Arin")
+        public Arin(PlayerIndex playerIndex) : base(playerIndex, "Arin")
         {
             spriteSheet = gameInstance.textureManager.load(@"Sprites\Arin");
             drawShadow = true;
@@ -76,7 +77,7 @@ namespace GGFanGame.Game.Level.Playable
             if (facing == ObjectFacing.Left)
                 xDirection = -5;
 
-            Stage.activeStage().addObject(new ArinBomb(gameInstance, new Vector3(xDirection, 12, 0), new Vector3(X, Y + 10, Z), facing));
+            Stage.activeStage().addObject(new ArinBomb(new Vector3(xDirection, 12, 0), new Vector3(X, Y + 10, Z), facing));
         }
 
         /// <summary>
@@ -90,7 +91,7 @@ namespace GGFanGame.Game.Level.Playable
                 xOffset = -16;
             }
 
-            Stage.activeStage().addObject(new ArinLemon(gameInstance, new Vector3(X + xOffset, Y + 27, Z), facing));
+            Stage.activeStage().addObject(new ArinLemon(new Vector3(X + xOffset, Y + 27, Z), facing));
         }
     }
 }

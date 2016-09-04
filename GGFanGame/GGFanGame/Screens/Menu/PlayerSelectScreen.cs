@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -28,9 +29,9 @@ namespace GGFanGame.Screens.Menu
 
         private SpriteFont _grumpFont = null;
 
-        public PlayerSelectScreen(GGGame game) : base(Identification.PlayerSelect, game)
+        public PlayerSelectScreen() : base(Identification.PlayerSelect)
         {
-            _grumpFont = game.fontManager.load("CartoonFont");
+            _grumpFont = gameInstance.fontManager.load("CartoonFont");
 
             loadGrumpTexture(0, "Arin");
             loadGrumpTexture(1, "Danny");
@@ -40,7 +41,7 @@ namespace GGFanGame.Screens.Menu
 
             for (int i = 0; i < 4; i++)
             {
-                _menuElements[i] = game.textureManager.load(@"UI\GrumpCade\" + (i + 1).ToString() + "Up");
+                _menuElements[i] = gameInstance.textureManager.load(@"UI\GrumpCade\" + (i + 1).ToString() + "Up");
             }
 
             //Set start selections:

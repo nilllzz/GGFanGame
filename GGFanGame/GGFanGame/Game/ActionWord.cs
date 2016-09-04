@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game
 {
@@ -63,7 +64,7 @@ namespace GGFanGame.Game
 
         private SpriteFont _grumpFont;
 
-        public ActionWord(GGGame game, string text, Color color, float targetSize, Vector3 position) : base(game)
+        public ActionWord(string text, Color color, float targetSize, Vector3 position) : base()
         {
             _grumpFont = gameInstance.fontManager.load(@"CartoonFont");
 

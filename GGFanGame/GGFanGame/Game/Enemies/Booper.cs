@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level.Enemies
 {
@@ -11,9 +12,9 @@ namespace GGFanGame.Game.Level.Enemies
     /// </summary>
     class Booper : Enemy
     {
-        public Booper(GGGame game) : base(game)
+        public Booper() : base()
         {
-            spriteSheet = game.textureManager.load(@"Sprites\Booper");
+            spriteSheet = gameInstance.textureManager.load(@"Sprites\Booper");
             drawShadow = true;
             shadowSize = 0.6d;
             strength = 0f;
@@ -51,7 +52,7 @@ namespace GGFanGame.Game.Level.Enemies
 
         private void onDeath(StageObject obj)
         {
-            Stage.activeStage().addObject(new Scene.GroundSplat(gameInstance, new Color(255, 128, 255)) { position = position });
+            Stage.activeStage().addObject(new Scene.GroundSplat(new Color(255, 128, 255)) { position = position });
 
             for (int i = 0; i < 3; i++)
             {
@@ -68,7 +69,7 @@ namespace GGFanGame.Game.Level.Enemies
                     G = 174;
                 }
 
-                Stage.activeStage().addObject(new Scene.SplatBall(gameInstance, new Color(255, G, 255), new Vector3(xMovement, 3f, zMovement)) { position = position });
+                Stage.activeStage().addObject(new Scene.SplatBall(new Color(255, G, 255), new Vector3(xMovement, 3f, zMovement)) { position = position });
             }
         }
     }

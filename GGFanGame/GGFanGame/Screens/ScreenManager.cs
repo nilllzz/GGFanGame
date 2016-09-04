@@ -12,20 +12,17 @@ namespace GGFanGame.Screens
     class ScreenManager
     {
         //We only ever need a single ScreenManager, so we do a singleton here:
-        private static ScreenManager _singleton = null;
+        private static ScreenManager _instance = null;
 
         /// <summary>
         /// Returns the singleton instance of the APIManager.
         /// </summary>
-        /// <returns></returns>
         public static ScreenManager getInstance()
         {
-            if (_singleton == null)
-            {
-                _singleton = new ScreenManager();
-            }
+            if (_instance == null)
+                _instance = new ScreenManager();
 
-            return _singleton;
+            return _instance;
         }
 
         //The currently active screen instance.
@@ -48,7 +45,6 @@ namespace GGFanGame.Screens
         /// <summary>
         /// The currently active screen instance.
         /// </summary>
-        /// <returns></returns>
         public Screen currentScreen
         {
             get { return _currentScreen; }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -23,9 +24,9 @@ namespace GGFanGame.Screens.Menu
         //out screen is the current one, inscreen the new one.
         private Screen _outScreen, _inScreen;
 
-        public TransitionScreen(GGGame game, Screen outScreen, Screen inScreen) : base(Identification.Transition, game)
+        public TransitionScreen(Screen outScreen, Screen inScreen) : base(Identification.Transition)
         {
-            _gg_overlay = game.textureManager.load(@"UI\Logos\GameGrumpsTransition");
+            _gg_overlay = gameInstance.textureManager.load(@"UI\Logos\GameGrumpsTransition");
             _outScreen = outScreen;
             _inScreen = inScreen;
         }

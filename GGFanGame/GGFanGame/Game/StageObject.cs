@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level
 {
@@ -21,8 +22,7 @@ namespace GGFanGame.Game.Level
         /// </summary>
         /// <param name="previousPosition">The position before the event occured.</param>
         public delegate void OnPositionChangedEventHandler(StageObject obj, Vector3 previousPosition);
-
-        private GGGame _game;
+        
         private Vector3 _position;
         private List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
 
@@ -30,12 +30,7 @@ namespace GGFanGame.Game.Level
         private int _sortingPriority = 0;
         
         #region Properties
-
-        /// <summary>
-        /// The game instance to refer to.
-        /// </summary>
-        protected GGGame gameInstance => _game;
-
+        
         /// <summary>
         /// The main color associated with this object.
         /// </summary>
@@ -163,10 +158,8 @@ namespace GGFanGame.Game.Level
 
         #endregion
 
-        public StageObject(GGGame game)
+        public StageObject()
         {
-            _game = game;
-
             _sortingPriority = _currentSortingPriority;
             _currentSortingPriority++;
         }

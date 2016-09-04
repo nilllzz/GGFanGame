@@ -12,7 +12,7 @@ namespace GGFanGame.Game.Level.Playable
     /// </summary>
     class Danny : PlayerCharacter
     {
-        public Danny(GGGame game, PlayerIndex playerIndex) : base(game, playerIndex, "Danny")
+        public Danny(PlayerIndex playerIndex) : base( playerIndex, "Danny")
         {
             //texture = gameInstance.textureManager.getResource(@"Sprites\Danny");
 

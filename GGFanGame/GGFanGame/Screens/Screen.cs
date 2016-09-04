@@ -28,36 +28,23 @@ namespace GGFanGame.Screens
     abstract class Screen
     {
         private Identification _identification;
-        private GGGame _game;
 
-        public Screen(Identification identification, GGGame game)
+        public Screen(Identification identification)
         {
             _identification = identification;
-            _game = game;
         }
 
         /// <summary>
         /// The identification of this screen.
         /// </summary>
-        /// <returns></returns>
         public Identification identification
         {
             get { return _identification; }
         }
-
-        /// <summary>
-        /// The game instance.
-        /// </summary>
-        /// <returns></returns>
-        protected GGGame gameInstance
-        {
-            get { return _game; }
-        }
-
+        
         /// <summary>
         /// If this screen is the currently active screen.
         /// </summary>
-        /// <returns></returns>
         protected bool isCurrentScreen
         {
             get

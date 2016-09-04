@@ -193,7 +193,7 @@ namespace GGFanGame.Game.Level.Playable
         /// <summary>
         /// Creates a new instance of the player character class.
         /// </summary>
-        protected PlayerCharacter(GGGame game, PlayerIndex playerIndex, string name) : base(game)
+        protected PlayerCharacter(PlayerIndex playerIndex, string name) : base()
         {
             _playerIndex = playerIndex;
             _name = name;

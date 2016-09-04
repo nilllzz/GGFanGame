@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -23,10 +24,10 @@ namespace GGFanGame.Screens.Menu
 
         private SpriteFont _grumpFont = null;
 
-        public TitleScreen(GGGame game) : base(Identification.Title, game)
+        public TitleScreen() : base(Identification.Title)
         {
-            _logoTexture = game.textureManager.load(@"UI\Logos\GameGrumps");
-            _grumpFont = game.fontManager.load(@"CartoonFontLarge");
+            _logoTexture = gameInstance.textureManager.load(@"UI\Logos\GameGrumps");
+            _grumpFont = gameInstance.fontManager.load(@"CartoonFontLarge");
 
             //MediaPlayer.IsRepeating = true;
             //MediaPlayer.Play(game.musicManager.load(@"Music\Smash 2"));
@@ -84,7 +85,7 @@ namespace GGFanGame.Screens.Menu
             //When a button is pressed, open the next screen:
             if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.A))
             {
-                ScreenManager.getInstance().setScreen(new LoadSaveScreen(gameInstance, new Vector2(_offsetX, _offsetY)));
+                ScreenManager.getInstance().setScreen(new LoadSaveScreen(new Vector2(_offsetX, _offsetY)));
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level.Playable
 {
@@ -13,9 +14,9 @@ namespace GGFanGame.Game.Level.Playable
     {
         private int _ticksAlive = 0;
 
-        public ArinLemon(GGGame game, Vector3 startPosition, ObjectFacing facing) : base(game)
+        public ArinLemon(Vector3 startPosition, ObjectFacing facing) : base()
         {
-            spriteSheet = game.textureManager.load(@"Sprites\ArinLemon");
+            spriteSheet = gameInstance.textureManager.load(@"Sprites\ArinLemon");
             this.facing = facing;
             size = new Vector3(4f, 4f, 8f);
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using GGFanGame.Game.Level;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Screens.Game
 {
@@ -14,9 +15,9 @@ namespace GGFanGame.Screens.Game
     {
         private Stage _stage;
 
-        public GrumpSpaceScreen(GGGame game) : base(Identification.InGame, game)
+        public GrumpSpaceScreen() : base(Identification.InGame)
         {
-            _stage = new Stage(game);
+            _stage = new Stage();
             _stage.setActiveStage();
         }
 
@@ -33,7 +34,7 @@ namespace GGFanGame.Screens.Game
             //TEST CODE: When pressed P, rendering switches to 3D bounding box test stage:
             if (Input.KeyboardHandler.keyPressed(Microsoft.Xna.Framework.Input.Keys.P))
             {
-                ScreenManager.getInstance().setScreen(new Debug.BoundingBoxTestScreen(gameInstance));
+                ScreenManager.getInstance().setScreen(new Debug.BoundingBoxTestScreen());
             }
             // Zoom out: Y
             if (Input.KeyboardHandler.keyDown(Microsoft.Xna.Framework.Input.Keys.Y) && _stage.camera.scale > 0.2)

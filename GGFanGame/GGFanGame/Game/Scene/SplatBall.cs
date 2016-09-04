@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level.Scene
 {
@@ -12,16 +13,16 @@ namespace GGFanGame.Game.Level.Scene
     /// </summary>
     class SplatBall : InteractableStageObject
     {
-        public SplatBall(GGGame game, Color color, Vector3 movement) : base(game)
+        public SplatBall(Color color, Vector3 movement) : base()
         {
             initialize(color, movement);
         }
 
-        public SplatBall(GGGame game, Color color, ObjectFacing setFacing) : base(game) 
+        public SplatBall(Color color, ObjectFacing setFacing) : base() 
         {
-            float xMovement = (float)game.random.Next(10, 20);
-            float yMovement = game.random.Next(0, 10);
-            float zMovement = game.random.Next(-5, 5);
+            float xMovement = gameInstance.random.Next(10, 20);
+            float yMovement = gameInstance.random.Next(0, 10);
+            float zMovement = gameInstance.random.Next(-5, 5);
             if (setFacing == ObjectFacing.Left)
             {
                 _autoMovement.X = -xMovement;
@@ -74,7 +75,7 @@ namespace GGFanGame.Game.Level.Scene
             if (Y <= groundY)
             {
                 canBeRemoved = true;
-                Stage.activeStage().addObject(new GroundSplat(gameInstance, objectColor) { position = position });
+                Stage.activeStage().addObject(new GroundSplat(objectColor) { position = position });
             }
         }
     }

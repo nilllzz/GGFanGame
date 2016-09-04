@@ -11,7 +11,7 @@ namespace GGFanGame.Content
     /// </summary>
     class MusicManager : ResourceManager<Song>
     {
-        public MusicManager(GGGame game) : base(game)
+        public MusicManager() : base()
         {
 
         }

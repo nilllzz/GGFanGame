@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GGFanGame.Game.Level.Playable;
 using GGFanGame.Game.Level.HUD;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level
 {
@@ -37,8 +38,7 @@ namespace GGFanGame.Game.Level
         }
 
         #endregion
-
-        private GGGame _gameInstance;
+        
         private List<StageObject> _objects;
         private Color _ambientColor = new Color(0, 0, 0, 100); //Used for shadow color
         private float _yDefaultKillPlane = -10f;
@@ -70,44 +70,43 @@ namespace GGFanGame.Game.Level
         /// Creates a new instance of the Stage class.
         /// </summary>
         /// <param name="game"></param>
-        public Stage(GGGame game)
+        public Stage()
         {
-            _gameInstance = game;
             camera = new StageCamera();
 
             _objects = new List<StageObject>();
 
-            onePlayer = new Arin(game, PlayerIndex.One) { X = 320, Z = 200 };
-            twoPlayer = new Arin(game, PlayerIndex.Two) { X = 320, Z = 230 };
-            threePlayer = new Arin(game, PlayerIndex.Three) { X = 50, Z = 230 };
-            fourPlayer = new Arin(game, PlayerIndex.Four) { X = 50, Z = 200 };
+            onePlayer = new Arin(PlayerIndex.One) { X = 320, Z = 200 };
+            twoPlayer = new Arin(PlayerIndex.Two) { X = 320, Z = 230 };
+            threePlayer = new Arin(PlayerIndex.Three) { X = 50, Z = 230 };
+            fourPlayer = new Arin(PlayerIndex.Four) { X = 50, Z = 200 };
 
             _objects.Add(onePlayer);
             _objects.Add(twoPlayer);
             _objects.Add(threePlayer);
             _objects.Add(fourPlayer);
 
-            _oneStatus = new PlayerStatus(game, onePlayer, PlayerIndex.One);
-            _twoStatus = new PlayerStatus(game, twoPlayer, PlayerIndex.Two);
-            _threeStatus = new PlayerStatus(game, threePlayer, PlayerIndex.Three);
-            _fourStatus = new PlayerStatus(game, fourPlayer, PlayerIndex.Four);
+            _oneStatus = new PlayerStatus(gameInstance, onePlayer, PlayerIndex.One);
+            _twoStatus = new PlayerStatus(gameInstance, twoPlayer, PlayerIndex.Two);
+            _threeStatus = new PlayerStatus(gameInstance, threePlayer, PlayerIndex.Three);
+            _fourStatus = new PlayerStatus(gameInstance, fourPlayer, PlayerIndex.Four);
             
             for (int x = 0; x < 12; x++)
             {
-                _objects.Add(new Scene.Level1_1.BridgeRailing(game) { X = x * 64, Y = 0, Z = 264 });
-                _objects.Add(new Scene.Level1_1.BridgeRailing(game) { X = x * 64, Y = 0, Z = 168 });
+                _objects.Add(new Scene.Level1_1.BridgeRailing() { X = x * 64, Y = 0, Z = 264 });
+                _objects.Add(new Scene.Level1_1.BridgeRailing() { X = x * 64, Y = 0, Z = 168 });
 
                 for (int y = 0; y < 3; y++)
                 {
-                    _objects.Add(new Scene.Level1_1.Street(game) { X = x * 64 - y * 32, Y = 0, Z = 200 + y * 32 });
+                    _objects.Add(new Scene.Level1_1.Street() { X = x * 64 - y * 32, Y = 0, Z = 200 + y * 32 });
                 }
             }
             for (int x = 0; x < 12; x++)
             {
-                _objects.Add(new Scene.Level1_1.BridgeBottom(game) { X = x * 64, Y = 0, Z = 328 });
+                _objects.Add(new Scene.Level1_1.BridgeBottom() { X = x * 64, Y = 0, Z = 328 });
             }
 
-            _objects.Add(new Scene.GrumpSpace.Couch(game) { X = 110, Y = 0, Z = 320 });
+            _objects.Add(new Scene.GrumpSpace.Couch() { X = 110, Y = 0, Z = 320 });
         }
 
         /// <summary>
@@ -127,7 +126,7 @@ namespace GGFanGame.Game.Level
             _fourStatus.draw();
 
             //TEST: Object counter.
-            _gameInstance.spriteBatch.DrawString(_gameInstance.fontManager.load(@"CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
+            gameInstance.spriteBatch.DrawString(gameInstance.fontManager.load(@"CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
         }
 
         /// <summary>
@@ -198,7 +197,7 @@ namespace GGFanGame.Game.Level
                         Vector3 wordPosition = obj.getFeetPosition();
                         wordPosition.Y += (float)(obj.size.Y / 2d * camera.scale);
 
-                        _objects.Add(new ActionWord(_gameInstance, ActionWord.getWordText(ActionWord.WordType.HurtEnemy), obj.objectColor, 1f, wordPosition));
+                        _objects.Add(new ActionWord(ActionWord.getWordText(ActionWord.WordType.HurtEnemy), obj.objectColor, 1f, wordPosition));
                     }
                 }
 

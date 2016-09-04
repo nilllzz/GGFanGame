@@ -1,8 +1,4 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-#endregion
+﻿using System;
 
 namespace GGFanGame
 {
@@ -18,7 +14,7 @@ namespace GGFanGame
         [STAThread]
         static void Main()
         {
-            using (var game = new GGGame())
+            using (var game = GGGame.instance)
                 game.Run();
         }
     }

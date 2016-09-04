@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level
 {
@@ -47,7 +48,6 @@ namespace GGFanGame.Game.Level
             /// Returns a rectangle depicting one of the animation's frames in the sprite sheet.
             /// </summary>
             /// <param name="animationFrame">The frame index</param>
-            /// <returns></returns>
             public Rectangle getFrameRec(int animationFrame)
             {
                 return _frames[animationFrame].getRect();
@@ -72,7 +72,6 @@ namespace GGFanGame.Game.Level
             /// <summary>
             /// The coordinates of this frame in the sprite sheet.
             /// </summary>
-            /// <returns></returns>
             public Point startPosition
             {
                 get { return _startPosition; }
@@ -82,7 +81,6 @@ namespace GGFanGame.Game.Level
             /// <summary>
             /// The length this frame appears on screen in frames.
             /// </summary>
-            /// <returns></returns>
             public double frameLength
             {
                 get { return _frameLength; }
@@ -92,7 +90,6 @@ namespace GGFanGame.Game.Level
             /// <summary>
             /// Returns the rectangle this frame represents in the sprite sheet.
             /// </summary>
-            /// <returns></returns>
             public Rectangle getRect()
             {
                 return new Rectangle(_startPosition.X, _startPosition.Y, _frameSize.X, _frameSize.Y);
@@ -230,7 +227,7 @@ namespace GGFanGame.Game.Level
 
         #endregion
 
-        public InteractableStageObject(GGGame game) : base(game)
+        public InteractableStageObject() : base()
         {
             setState(ObjectState.Idle);
             canInteract = true;
@@ -486,7 +483,7 @@ namespace GGFanGame.Game.Level
             {
                 Y = groundY;
                 //Spawn an action word for where the player landed.
-                Stage.activeStage().addObject(new ActionWord(gameInstance, ActionWord.getWordText(ActionWord.WordType.Landing), objectColor, 0.3f, position));
+                Stage.activeStage().addObject(new ActionWord(ActionWord.getWordText(ActionWord.WordType.Landing), objectColor, 0.3f, position));
 
                 if (_autoMovement.Y < -17f && state == ObjectState.HurtFalling)
                 {

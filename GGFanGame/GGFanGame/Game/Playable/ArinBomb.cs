@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level.Playable
 {
@@ -13,9 +14,9 @@ namespace GGFanGame.Game.Level.Playable
     {
         private Vector3 _movement;
 
-        public ArinBomb(GGGame game, Vector3 movement, Vector3 startPosition, ObjectFacing facing) : base(game)
+        public ArinBomb(Vector3 movement, Vector3 startPosition, ObjectFacing facing) : base()
         {
-            spriteSheet = game.textureManager.load(@"Sprites\ArinBomb");
+            spriteSheet = gameInstance.textureManager.load(@"Sprites\ArinBomb");
             shadowSize = 0.8f;
             this.facing = facing;
 

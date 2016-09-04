@@ -5,12 +5,13 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Screens.Menu
 {
     class TestScreen : Screen
     {
-        public TestScreen(GGGame game) : base(Identification.Test, game) { }
+        public TestScreen() : base(Identification.Test) { }
 
         float ggoffsetX = 0;
         float ggoffsetY = 0;

@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Drawing
 {
@@ -12,9 +13,7 @@ namespace GGFanGame.Drawing
     {
         private const int BLUR_RADIUS = 7;
         private const float BLUR_AMOUNT = 2.0f;
-
-        private GGGame _game;
-
+        
         private SpriteBatch _spriteBatch;
         private GaussianBlur _blurCore;
 
@@ -26,26 +25,24 @@ namespace GGFanGame.Drawing
         /// <param name="game">The active game instance.</param>
         /// <param name="width">The width of the target texture.</param>
         /// <param name="height">The height of the target texture.</param>
-        public BlurHandler(GGGame game, int width, int height)
+        public BlurHandler(int width, int height)
         {
-            _game = game;
+            _spriteBatch = new SpriteBatch(gameInstance.GraphicsDevice);
 
-            _spriteBatch = new SpriteBatch(game.GraphicsDevice);
-
-            _blurCore = new GaussianBlur(_game);
+            _blurCore = new GaussianBlur(gameInstance);
             _blurCore.ComputeKernel(BLUR_RADIUS, BLUR_AMOUNT);
 
             int renderTargetWidth = width / 2;
             int renderTargetHeight = height / 2;
 
-            _rt1 = new RenderTarget2D(game.GraphicsDevice,
+            _rt1 = new RenderTarget2D(gameInstance.GraphicsDevice,
                 renderTargetWidth, renderTargetHeight, false,
-                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                gameInstance.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.None);
 
-            _rt2 = new RenderTarget2D(game.GraphicsDevice,
+            _rt2 = new RenderTarget2D(gameInstance.GraphicsDevice,
                 renderTargetWidth, renderTargetHeight, false,
-                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                gameInstance.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.None);
 
             _blurCore.ComputeOffsets(renderTargetWidth, renderTargetHeight);
@@ -58,8 +55,8 @@ namespace GGFanGame.Drawing
         {
             Texture2D result = _blurCore.PerformGaussianBlur(drawTexture, _rt1, _rt2, _spriteBatch);
 
-            _game.GraphicsDevice.Clear(Color.White);
-            _game.spriteBatch.Draw(result, new Rectangle(0, 0, drawTexture.Width, drawTexture.Height), Color.White);
+            gameInstance.GraphicsDevice.Clear(Color.White);
+            gameInstance.spriteBatch.Draw(result, new Rectangle(0, 0, drawTexture.Width, drawTexture.Height), Color.White);
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -17,8 +18,6 @@ namespace GGFanGame.Screens.Menu
         /// </summary>
         private class SaveContainer
         {
-            GGGame _gameInstance;
-
             int _index;
             GameSession _save;
             int _gradientState = 0;
@@ -28,10 +27,8 @@ namespace GGFanGame.Screens.Menu
 
             Texture2D _grumpFaceTexture;
 
-            public SaveContainer(GGGame game, int index, GameSession save)
+            public SaveContainer(int index, GameSession save)
             {
-                _gameInstance = game;
-
                 _save = save;
                 _index = index;
 
@@ -39,7 +36,7 @@ namespace GGFanGame.Screens.Menu
                 {
                     if (_save.loadedCorrectly)
                     {
-                        _grumpFaceTexture = _gameInstance.textureManager.load(@"UI\HUD\" + _save.lastGrump);
+                        _grumpFaceTexture = gameInstance.textureManager.load(@"UI\HUD\" + _save.lastGrump);
                     }
                 }
             }
@@ -61,24 +58,24 @@ namespace GGFanGame.Screens.Menu
             {
                 if (selected)
                 {
-                    _gameInstance.spriteBatch.Draw(_gameInstance.textureManager.load(@"UI\saveBack"), targetRect, new Color(0, 0, 0, (int)(255 * alphaDelta)));
+                    gameInstance.spriteBatch.Draw(gameInstance.textureManager.load(@"UI\saveBack"), targetRect, new Color(0, 0, 0, (int)(255 * alphaDelta)));
                 }
                 else
                 {
-                    _gameInstance.spriteBatch.Draw(_gameInstance.textureManager.load(@"UI\saveBack"), targetRect, new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                    gameInstance.spriteBatch.Draw(gameInstance.textureManager.load(@"UI\saveBack"), targetRect, new Color(255, 255, 255, (int)(255 * alphaDelta)));
                 }
 
                 if (_newGameButton)
                 {
-                    _gameInstance.spriteBatch.DrawString(font, "+ Create new game", new Vector2(targetRect.X + 64, targetRect.Y + 50), new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                    gameInstance.spriteBatch.DrawString(font, "+ Create new game", new Vector2(targetRect.X + 64, targetRect.Y + 50), new Color(255, 255, 255, (int)(255 * alphaDelta)));
                 }
                 else
                 {
                     if (_save.loadedCorrectly)
                     {
-                        _gameInstance.spriteBatch.Draw(_grumpFaceTexture, new Rectangle(targetRect.X + 16, targetRect.Y + 16, 96, 96), new Rectangle(0, 0, 48, 48), new Color(255, 255, 255, (int)(255 * alphaDelta)));
-                        _gameInstance.spriteBatch.DrawString(font, _save.name, new Vector2(targetRect.X + 128, targetRect.Y + 24), new Color(255, 255, 255, (int)(255 * alphaDelta)));
-                        _gameInstance.spriteBatch.DrawString(font, Math.Round(_targetPercent, 2) + "%", new Vector2(targetRect.X + 456, targetRect.Y + 70), new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                        gameInstance.spriteBatch.Draw(_grumpFaceTexture, new Rectangle(targetRect.X + 16, targetRect.Y + 16, 96, 96), new Rectangle(0, 0, 48, 48), new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                        gameInstance.spriteBatch.DrawString(font, _save.name, new Vector2(targetRect.X + 128, targetRect.Y + 24), new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                        gameInstance.spriteBatch.DrawString(font, Math.Round(_targetPercent, 2) + "%", new Vector2(targetRect.X + 456, targetRect.Y + 70), new Color(255, 255, 255, (int)(255 * alphaDelta)));
 
                         Drawing.Graphics.drawRectangle(new Rectangle(targetRect.X + 128, targetRect.Y + 70, 300, 32), new Color(0, 0, 0, (int)(255 * alphaDelta)));
 
@@ -131,19 +128,19 @@ namespace GGFanGame.Screens.Menu
 
         private SpriteFont _grumpFont = null;
 
-        public LoadSaveScreen(GGGame game, Vector2 initialDotOffset) : base(Identification.LoadSave, game, initialDotOffset)
+        public LoadSaveScreen(Vector2 initialDotOffset) : base(Identification.LoadSave, initialDotOffset)
         {
             int saveIndex = 0;
             foreach (string file in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"\Saves\", "*.json", System.IO.SearchOption.TopDirectoryOnly))
             {
-                _saves.Add(new SaveContainer(game, saveIndex, new GameSession(file)));
+                _saves.Add(new SaveContainer(saveIndex, new GameSession(file)));
 
                 saveIndex++;
             }
 
-            _saves.Add(new SaveContainer(game, saveIndex, null) { newGameButton = true });
+            _saves.Add(new SaveContainer(saveIndex, null) { newGameButton = true });
 
-            _grumpFont = game.fontManager.load(@"CartoonFont");
+            _grumpFont = gameInstance.fontManager.load(@"CartoonFont");
         }
 
         public override void update()
@@ -163,8 +160,8 @@ namespace GGFanGame.Screens.Menu
 
                 if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.A))
                 {
-                    ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new Game.GrumpSpaceScreen(gameInstance)));
-                    //ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new PlayerSelectScreen(gameInstance)));
+                    ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new Game.GrumpSpaceScreen()));
+                    //ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new PlayerSelectScreen()));
                 }
             }
 

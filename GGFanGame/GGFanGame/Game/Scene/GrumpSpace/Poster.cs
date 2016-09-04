@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level.Scene.GrumpSpace
 {
@@ -10,7 +11,7 @@ namespace GGFanGame.Game.Level.Scene.GrumpSpace
     {
         static string[] posters = new string[] { "Brian", "Goose", "Larry", "NoUse", "UpDog" };
 
-        public Poster(GGGame game) : base(game)
+        public Poster() : base()
         {
             setRandomPoster();
             size = new Vector3(23, 30, 2);

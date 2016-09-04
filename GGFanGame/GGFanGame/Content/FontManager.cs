@@ -11,7 +11,7 @@ namespace GGFanGame.Content
     /// </summary>
     class FontManager : ResourceManager<SpriteFont>
     {
-        public FontManager(GGGame game) : base(game)
+        public FontManager() : base()
         {
             defaultFolder = "Fonts";
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Drawing
 {
@@ -59,7 +60,7 @@ namespace GGFanGame.Drawing
         /// <param name="originalTexture">The original texture that the palette should get applied to.</param>
         /// <param name="paletteTexture">The palette texture to apply.</param>
         /// <returns></returns>
-        public static Texture2D applyPalette(GGGame game, Texture2D originalTexture, Texture2D paletteTexture)
+        public static Texture2D applyPalette(Texture2D originalTexture, Texture2D paletteTexture)
         {
             if (paletteTexture.Height != 2)
                 throw new PaletteTextureSizeException(paletteTexture);
@@ -70,7 +71,7 @@ namespace GGFanGame.Drawing
             Color[] originalColorData = new Color[originalTexture.Width * originalTexture.Height];
 
             //Create a resulting texture we return and a corresponding color array to store the data in.
-            Texture2D resultTexture = new Texture2D(game.GraphicsDevice, originalTexture.Width, originalTexture.Height);
+            Texture2D resultTexture = new Texture2D(gameInstance.GraphicsDevice, originalTexture.Width, originalTexture.Height);
             Color[] resultColorData = new Color[resultTexture.Width * resultTexture.Height];
 
             //We get the color data from the palette and original texture here and store them in arrays.

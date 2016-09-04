@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level.Scene.GrumpSpace
 {
@@ -15,11 +16,11 @@ namespace GGFanGame.Game.Level.Scene.GrumpSpace
     {
         private ArcadeType _arcadeType;
 
-        public ArcadeMachine(GGGame game, ArcadeType arcadeType) : base(game)
+        public ArcadeMachine(ArcadeType arcadeType) : base()
         {
             _arcadeType = arcadeType;
 
-            spriteSheet = game.textureManager.load(@"Levels\GrumpSpace\Arcade" + ((int)_arcadeType).ToString());
+            spriteSheet = gameInstance.textureManager.load(@"Levels\GrumpSpace\Arcade" + ((int)_arcadeType).ToString());
 
             size = new Vector3(30, 60, 11);
             drawShadow = false;

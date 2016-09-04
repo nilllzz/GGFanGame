@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level.Scene.GrumpSpace
 {
     class Couch : SceneryObject
     {
-        public Couch(GGGame game) : base(game)
+        public Couch() : base()
         {
-            spriteSheet = game.textureManager.load(@"Levels\GrumpSpace\Couch");
+            spriteSheet = gameInstance.textureManager.load(@"Levels\GrumpSpace\Couch");
             size = new Vector3(80, 16, 5);
             drawShadow = true;
             collision = true;

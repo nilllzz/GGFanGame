@@ -53,6 +53,7 @@
     <Compile Include="Drawing\Colors.cs" />
     <Compile Include="Drawing\GaussianBlur.cs" />
     <Compile Include="Drawing\Palette.cs" />
+    <Compile Include="GameProvider.cs" />
     <Compile Include="GameSession.cs" />
     <Compile Include="Game\ActionWord.cs" />
     <Compile Include="Game\Attack.cs" />

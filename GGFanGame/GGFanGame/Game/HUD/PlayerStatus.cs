@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GGFanGame.Game.Level.Playable;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level.HUD
 {
@@ -89,22 +90,20 @@ namespace GGFanGame.Game.Level.HUD
         /// <summary>
         /// Creates a new instance of the PlayerStatus class.
         /// </summary>
-        public PlayerStatus(GGGame game, PlayerCharacter player, PlayerIndex playerIndex)
+        public PlayerStatus(PlayerCharacter player, PlayerIndex playerIndex)
         {
-            _gameInstance = game;
-
             _player = player;
             _playerIndex = playerIndex;
 
-            _barTexture = _gameInstance.textureManager.load(@"UI\HUD\Bars");
-            _headTexture = _gameInstance.textureManager.load(@"UI\HUD\" + _player.name);
-            _font = _gameInstance.fontManager.load(@"CartoonFontSmall");
-            _fontLarge = _gameInstance.fontManager.load(@"CartoonFont");
+            _barTexture = gameInstance.textureManager.load(@"UI\HUD\Bars");
+            _headTexture = gameInstance.textureManager.load(@"UI\HUD\" + _player.name);
+            _font = gameInstance.fontManager.load(@"CartoonFontSmall");
+            _fontLarge = gameInstance.fontManager.load(@"CartoonFont");
 
             for (int i = 0; i < 42; i++)
             {
-                bubbles.Add(new Bubble(new Vector2(_gameInstance.random.Next(-20, 125), _gameInstance.random.Next(-15, 4)),
-                                         _gameInstance.random.Next(15, 45)));
+                bubbles.Add(new Bubble(new Vector2(gameInstance.random.Next(-20, 125), gameInstance.random.Next(-15, 4)),
+                                         gameInstance.random.Next(15, 45)));
             }
         }
 

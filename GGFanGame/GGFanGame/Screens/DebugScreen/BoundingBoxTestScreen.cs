@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using GGFanGame.Game.Level;
+using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Screens.Debug
 {
@@ -18,9 +19,9 @@ namespace GGFanGame.Screens.Debug
         Matrix _view;
         Matrix _projection;
 
-        public BoundingBoxTestScreen(GGGame game) : base(Identification.InGame, game)
+        public BoundingBoxTestScreen() : base(Identification.InGame)
         {
-            _projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(80f), game.GraphicsDevice.Viewport.AspectRatio, 0.1f, 1000f);
+            _projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(80f), gameInstance.GraphicsDevice.Viewport.AspectRatio, 0.1f, 1000f);
             createMatrix();
         }
 

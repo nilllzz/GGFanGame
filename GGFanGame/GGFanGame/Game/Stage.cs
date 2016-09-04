@@ -41,11 +41,11 @@ namespace GGFanGame.Game.Level
         private GGGame _gameInstance;
         private List<StageObject> _objects;
         private Color _ambientColor = new Color(0, 0, 0, 100); //Used for shadow color
+        private float _yDefaultKillPlane = -10f;
 
         /// <summary>
         /// The ambient shadow color in this stage.
         /// </summary>
-        /// <returns></returns>
         public Color ambientColor
         {
             get { return _ambientColor; }
@@ -54,7 +54,6 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// The camera of the level.
         /// </summary>
-        /// <returns></returns>
         public StageCamera camera { get; private set; }
         
         private PlayerStatus _oneStatus;
@@ -107,6 +106,8 @@ namespace GGFanGame.Game.Level
             {
                 _objects.Add(new Scene.Level1_1.BridgeBottom(game) { X = x * 64, Y = 0, Z = 328 });
             }
+
+            _objects.Add(new Scene.GrumpSpace.Couch(game) { X = 110, Y = 0, Z = 320 });
         }
 
         /// <summary>
@@ -126,13 +127,12 @@ namespace GGFanGame.Game.Level
             _fourStatus.draw();
 
             //TEST: Object counter.
-            //_gameInstance.spriteBatch.DrawString(_gameInstance.fontManager.load(@"Fonts\CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
+            _gameInstance.spriteBatch.DrawString(_gameInstance.fontManager.load(@"CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
         }
 
         /// <summary>
         /// Returns the list of objects in this stage.
         /// </summary>
-        /// <returns></returns>
         public StageObject[] getObjects()
         {
             return _objects.ToArray();
@@ -266,7 +266,6 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// Returns the altitute of the ground for a specific position.
         /// </summary>
-        /// <returns></returns>
         public float getGround(Vector3 position)
         {
             var supporting = getSupporting(position);
@@ -277,7 +276,6 @@ namespace GGFanGame.Game.Level
         /// Returns the supporting object and its Y height for a position.
         /// </summary>
         /// <param name="position">The position to check the supporting object for.</param>
-        /// <returns></returns>
         public Tuple<StageObject, float> getSupporting(Vector3 position)
         {
             float returnY = 0f;

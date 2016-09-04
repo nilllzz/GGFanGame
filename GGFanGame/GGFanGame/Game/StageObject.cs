@@ -7,44 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GGFanGame.Game.Level
 {
-
-    /// <summary>
-    /// The states of an object.
-    /// </summary>
-    public enum ObjectState
-    {
-        Idle,
-        Walking,
-        Jumping,
-        Falling,
-
-        Blocking,
-
-        Hurt,
-        HurtFalling,
-        OnBack,
-        StandingUp,
-        Dead,
-
-        Attacking,
-        JumpAttacking,
-        Dashing
-    }
-
-
-    /// <summary>
-    /// The ways an object can face.
-    /// </summary>
-    enum ObjectFacing
-    {
-        Left,
-        Right
-    }
-
     /// <summary>
     /// The base object for all things that appear in a stage.
     /// </summary>
-    abstract class StageObject : IComparable<StageObject>
+    abstract internal class StageObject : IComparable<StageObject>
     {
         /// <summary>
         /// An event that occures when the position of the object changed.
@@ -58,50 +24,26 @@ namespace GGFanGame.Game.Level
 
         private GGGame _game;
         private Vector3 _position;
-        private Vector3 _size;
-        private ObjectFacing _facing = ObjectFacing.Right;
-        private Color _objectColor = Color.Orange;
-        private bool _collision;
-        private int _health = 1; //1 is the default so every object has at least one health when spawned.
-        private float _weight = 0;
-        private bool _canInteract = false;
-        private bool _canBeRemoved = false;
-        private bool _canLandOn = false;
-        private float _strength = 0;
-        private bool _canClick = false;
         private List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
 
         private static int _currentSortingPriority = 0; //Keeps track of all the sorting priorities added so that every object has a different one.
         private int _sortingPriority = 0;
-        private bool _sortLowest = false;
-
-        private float _zSortingOffset = 0f;
-
+        
         #region Properties
 
         /// <summary>
         /// The game instance to refer to.
         /// </summary>
-        /// <returns></returns>
-        protected GGGame gameInstance
-        {
-            get { return _game; }
-        }
+        protected GGGame gameInstance => _game;
 
         /// <summary>
         /// The main color associated with this object.
         /// </summary>
-        /// <returns></returns>
-        public Color objectColor
-        {
-            get { return _objectColor; }
-            protected set { _objectColor = value; }
-        }
+        public Color objectColor { get; protected set; } = Color.Orange;
 
         /// <summary>
         /// The absolute position of this object in the level.
         /// </summary>
-        /// <returns></returns>
         public Vector3 position
         {
             get { return _position; }
@@ -110,15 +52,13 @@ namespace GGFanGame.Game.Level
                 Vector3 prePosition = _position;
                 _position = value;
 
-                if (OnPositionChanged != null)
-                    OnPositionChanged(this, prePosition);
+                OnPositionChanged?.Invoke(this, prePosition);
             }
         }
 
         /// <summary>
         /// The X position.
         /// </summary>
-        /// <returns></returns>
         public float X
         {
             get { return _position.X; }
@@ -127,15 +67,13 @@ namespace GGFanGame.Game.Level
                 Vector3 prePosition = _position;
                 _position.X = value;
 
-                if (OnPositionChanged != null)
-                    OnPositionChanged(this, prePosition);
+                OnPositionChanged?.Invoke(this, prePosition);
             }
         }
 
         /// <summary>
         /// The Y position.
         /// </summary>
-        /// <returns></returns>
         public float Y
         {
             get { return _position.Y; }
@@ -144,15 +82,13 @@ namespace GGFanGame.Game.Level
                 Vector3 prePosition = _position;
                 _position.Y = value;
 
-                if (OnPositionChanged != null)
-                    OnPositionChanged(this, prePosition);
+                OnPositionChanged?.Invoke(this, prePosition);
             }
         }
 
         /// <summary>
         /// The Z position.
         /// </summary>
-        /// <returns></returns>
         public float Z
         {
             get { return _position.Z; }
@@ -161,130 +97,69 @@ namespace GGFanGame.Game.Level
                 Vector3 prePosition = _position;
                 _position.Z = value;
 
-                if (OnPositionChanged != null)
-                    OnPositionChanged(this, prePosition);
+                OnPositionChanged?.Invoke(this, prePosition);
             }
         }
 
         /// <summary>
         /// The Z offset position used in sorting - for isometrically drawn objects that have Z depth.
         /// </summary>
-        /// <returns></returns>
-        protected float zSortingOffset
-        {
-            get { return _zSortingOffset; }
-            set { _zSortingOffset = value; }
-        }
+        protected float zSortingOffset { get; set; } = 0f;
 
         /// <summary>
         /// The size of this object.
         /// </summary>
-        /// <returns></returns>
-        public Vector3 size
-        {
-            get { return _size; }
-            set { _size = value; }
-        }
+        public Vector3 size { get; set; }
 
         /// <summary>
         /// The way this object is facing.
         /// </summary>
-        /// <returns></returns>
-        public ObjectFacing facing
-        {
-            get { return _facing; }
-            set { _facing = value; }
-        }
+        public ObjectFacing facing { get; set; } = ObjectFacing.Right;
 
         /// <summary>
         /// If other objects can collide with this one.
         /// </summary>
-        /// <returns></returns>
-        public bool collision
-        {
-            get { return _collision; }
-            set { _collision = value; }
-        }
+        public bool collision { get; set; } = false;
 
         /// <summary>
         /// The health of this object.
         /// </summary>
-        /// <returns></returns>
-        public int health
-        {
-            get { return _health; }
-            set { _health = value; }
-        }
+        public int health { get; set; } = 1; //1 is the default so every object has at least one health when spawned.
 
         /// <summary>
         /// The strength of this object.
         /// </summary>
-        /// <returns></returns>
-        public float strength
-        {
-            get { return _strength; }
-            set { _strength = value; }
-        }
+        public float strength { get; set; } = 0;
 
         /// <summary>
         /// The weight of this object.
         /// </summary>
-        /// <returns></returns>
-        public float weight
-        {
-            get { return _weight; }
-            set { _weight = value; }
-        }
-
-        /// <summary>
-        /// If anything can interact with this object.
-        /// </summary>
-        /// <returns></returns>
-        public bool canInteract
-        {
-            get { return _canInteract; }
-            protected set { _canInteract = value; }
-        }
+        public float weight { get; set; } = 0;
 
         /// <summary>
         /// A check to indicate wether this object can be removed from a stage.
         /// </summary>
-        /// <returns></returns>
-        public bool canBeRemoved
-        {
-            get { return _canBeRemoved; }
-            set { _canBeRemoved = value; }
-        }
+        public bool canBeRemoved { get; protected set; } = false;
+
+        /// <summary>
+        /// If anything can interact with this object.
+        /// </summary>
+        public bool canInteract { get; protected set; } = false;
 
         /// <summary>
         /// If an object can land on this object.
         /// </summary>
-        /// <returns></returns>
-        public bool canLandOn
-        {
-            get { return _canLandOn; }
-            set { _canLandOn = value; }
-        }
+        public bool canLandOn { get; set; } = false;
 
         /// <summary>
         /// If this object should be sorted to appear as closest to the ground.
         /// </summary>
-        /// <returns></returns>
-        protected bool sortLowest
-        {
-            get { return _sortLowest; }
-            set { _sortLowest = value; }
-        }
+        protected bool sortLowest { get; set; } = false;
 
         /// <summary>
         /// If the player can use a button on the gamepad to interact with this object.
         /// </summary>
-        /// <returns></returns>
-        public bool canClick
-        {
-            get { return _canClick; }
-            set { _canClick = value; }
-        }
+        public bool canClick { get; set; } = false;
 
         #endregion
 
@@ -336,8 +211,8 @@ namespace GGFanGame.Game.Level
         {
             get
             {
-                return new BoundingBox(new Vector3(_position.X - _size.X / 2f, _position.Y, _position.Z - _size.Z / 2),
-                                       new Vector3(_position.X + _size.X / 2f, _position.Y + _size.Y, _position.Z + _size.Z / 2));
+                return new BoundingBox(new Vector3(_position.X - size.X / 2f, _position.Y, _position.Z - size.Z / 2),
+                                       new Vector3(_position.X + size.X / 2f, _position.Y + size.Y, _position.Z + size.Z / 2));
             }
         }
 
@@ -383,15 +258,15 @@ namespace GGFanGame.Game.Level
         {
             //When something should be rendered lowest (most likely a floor tile), we put it at the end:
             //When both are lowest, return that with the lowest sorting priority:
-            if (_sortLowest && !obj.sortLowest)
+            if (sortLowest && !obj.sortLowest)
             {
                 return -1;
             }
-            else if (!_sortLowest && obj.sortLowest)
+            else if (!sortLowest && obj.sortLowest)
             {
                 return 1;
             }
-            else if (_sortLowest && obj.sortLowest)
+            else if (sortLowest && obj.sortLowest)
             {
                 if (_sortingPriority < obj._sortingPriority)
                 {
@@ -413,11 +288,11 @@ namespace GGFanGame.Game.Level
                 // We need to reverse the sorting if the object is to the right (and if the object is not standing on the object).
                 // This entire process is the opposite when doing Left facing objects.
                 
-                if (Z + _zSortingOffset < obj.Z + obj.zSortingOffset)
+                if (Z + zSortingOffset < obj.Z + obj.zSortingOffset)
                 {
                     return -1;
                 }
-                else if (Z + _zSortingOffset > obj.Z + obj.zSortingOffset)
+                else if (Z + zSortingOffset > obj.Z + obj.zSortingOffset)
                 {
                     return 1;
                 }

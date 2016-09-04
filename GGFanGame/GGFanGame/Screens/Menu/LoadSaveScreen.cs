@@ -163,8 +163,8 @@ namespace GGFanGame.Screens.Menu
 
                 if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.A))
                 {
-                    //ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new Game.GrumpSpaceScreen(gameInstance)));
-                    ScreenManager.getInstance().setScreen(new PlayerSelectScreen(gameInstance));
+                    ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new Game.GrumpSpaceScreen(gameInstance)));
+                    //ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new PlayerSelectScreen(gameInstance)));
                 }
             }
 

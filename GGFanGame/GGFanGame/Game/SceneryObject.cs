@@ -15,7 +15,7 @@ namespace GGFanGame.Game
         public SceneryObject(GGGame game) : base(game)
         {
             canLandOn = true;
-            state = Level.ObjectState.Idle;
+            state = ObjectState.Idle;
             canInteract = false;
         }
     }

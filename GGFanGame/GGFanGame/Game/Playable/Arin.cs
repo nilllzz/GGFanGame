@@ -70,7 +70,6 @@ namespace GGFanGame.Game.Level.Playable
         /// <summary>
         /// Callback void to throw a bomb in the AAA combo.
         /// </summary>
-        /// <param name="attack"></param>
         private void throwBomb(AttackDefinition attack)
         {
             float xDirection = 5;
@@ -83,7 +82,6 @@ namespace GGFanGame.Game.Level.Playable
         /// <summary>
         /// Callback void to throw a lemon in the ABA combo.
         /// </summary>
-        /// <param name="attack"></param>
         private void throwLemon(AttackDefinition attack)
         {
             float xOffset = 16;

@@ -15,7 +15,6 @@ namespace GGFanGame
         /// <summary>
         /// The name of this save game as it appears in the menu.
         /// </summary>
-        /// <returns></returns>
         public string name
         {
             get { return _dataModel.name; }
@@ -25,7 +24,6 @@ namespace GGFanGame
         /// <summary>
         /// The progress (in %) the player has made.
         /// </summary>
-        /// <returns></returns>
         public decimal progress
         {
             get { return _dataModel.progress; }
@@ -35,7 +33,6 @@ namespace GGFanGame
         /// <summary>
         /// The last grump used for this save.
         /// </summary>
-        /// <returns></returns>
         public string lastGrump
         {
             get { return _dataModel.lastGrump; }
@@ -46,7 +43,6 @@ namespace GGFanGame
         /// <summary>
         /// Indicates wether this game session has been loaded correctly.
         /// </summary>
-        /// <returns></returns>
         public bool loadedCorrectly
         {
             get { return _loadedCorrectly; }

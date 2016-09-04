@@ -181,7 +181,6 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// Returns the array of defined bounding boxes for this object.
         /// </summary>
-        /// <returns></returns>
         public BoundingBox[] boundingBoxes
         {
             get
@@ -199,7 +198,6 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// The default bounding box of this object based on its position and size.
         /// </summary>
-        /// <returns></returns>
         public virtual BoundingBox boundingBox
         {
             get
@@ -234,7 +232,6 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// Returns the lower center of this object.
         /// </summary>
-        /// <returns></returns>
         public virtual Vector3 getFeetPosition()
         {
             return _position;

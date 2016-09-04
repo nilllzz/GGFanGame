@@ -15,7 +15,6 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// The zoom of the camera.
         /// </summary>
-        /// <returns></returns>
         public double scale
         {
             get { return _scale; }
@@ -25,7 +24,6 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// The offset of the camera.
         /// </summary>
-        /// <returns></returns>
         public Vector2 offset
         {
             get { return _offset; }

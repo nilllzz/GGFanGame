@@ -27,8 +27,6 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if a specific key is pressed.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
         public static bool keyPressed(Keys key)
         {
             return (!_oldState.IsKeyDown(key) && _currentState.IsKeyDown(key));
@@ -37,8 +35,6 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if a specific key is being held down.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
         public static bool keyDown(Keys key)
         {
             return _currentState.IsKeyDown(key);
@@ -47,7 +43,6 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns all keys that pressed right now.
         /// </summary>
-        /// <returns></returns>
         public static Keys[] getPressedKeys()
         {
             return _currentState.GetPressedKeys();

@@ -19,7 +19,7 @@ namespace GGFanGame.Screens.Debug
         Matrix _view;
         Matrix _projection;
 
-        public BoundingBoxTestScreen() : base(Identification.InGame)
+        public BoundingBoxTestScreen() : base()
         {
             _projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(80f), gameInstance.GraphicsDevice.Viewport.AspectRatio, 0.1f, 1000f);
             createMatrix();

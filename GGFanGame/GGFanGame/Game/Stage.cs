@@ -23,7 +23,6 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// The currently active stage.
         /// </summary>
-        /// <returns></returns>
         public static Stage activeStage()
         {
             return _activeStage;
@@ -69,7 +68,6 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// Creates a new instance of the Stage class.
         /// </summary>
-        /// <param name="game"></param>
         public Stage()
         {
             camera = new StageCamera();
@@ -86,10 +84,10 @@ namespace GGFanGame.Game.Level
             _objects.Add(threePlayer);
             _objects.Add(fourPlayer);
 
-            _oneStatus = new PlayerStatus(gameInstance, onePlayer, PlayerIndex.One);
-            _twoStatus = new PlayerStatus(gameInstance, twoPlayer, PlayerIndex.Two);
-            _threeStatus = new PlayerStatus(gameInstance, threePlayer, PlayerIndex.Three);
-            _fourStatus = new PlayerStatus(gameInstance, fourPlayer, PlayerIndex.Four);
+            _oneStatus = new PlayerStatus(onePlayer, PlayerIndex.One);
+            _twoStatus = new PlayerStatus(twoPlayer, PlayerIndex.Two);
+            _threeStatus = new PlayerStatus(threePlayer, PlayerIndex.Three);
+            _fourStatus = new PlayerStatus(fourPlayer, PlayerIndex.Four);
             
             for (int x = 0; x < 12; x++)
             {
@@ -197,7 +195,7 @@ namespace GGFanGame.Game.Level
                         Vector3 wordPosition = obj.getFeetPosition();
                         wordPosition.Y += (float)(obj.size.Y / 2d * camera.scale);
 
-                        _objects.Add(new ActionWord(ActionWord.getWordText(ActionWord.WordType.HurtEnemy), obj.objectColor, 1f, wordPosition));
+                        _objects.Add(new ActionWord(ActionWord.getWordText(ActionWordType.HurtEnemy), obj.objectColor, 1f, wordPosition));
                     }
                 }
 
@@ -320,7 +318,6 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// Checks if an object intersects with something in the stage.
         /// </summary>
-        /// <returns></returns>
         public bool intersects(StageObject chkObj, Vector3 desiredPosition)
         {
             return
@@ -330,9 +327,6 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// Checks if a desired position for an object collides with space occupied by another object.
         /// </summary>
-        /// <param name="chkObj"></param>
-        /// <param name="desiredPosition"></param>
-        /// <returns></returns>
         public StageObject checkCollision(StageObject chkObj, Vector3 desiredPosition)
         {
             //Create bounding box out of the desired position to check for collision with other bounding boxes.

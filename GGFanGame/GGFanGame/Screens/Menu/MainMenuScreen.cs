@@ -22,10 +22,10 @@ namespace GGFanGame.Screens.Menu
         //The size reference of the dots in the background
         const int DOT_SIZE = 16;
         
-        public MainMenuScreen(Identification identification) : this(identification, Vector2.Zero)
+        public MainMenuScreen() : this(Vector2.Zero)
         {  /* Empty constructor */ }
 
-        public MainMenuScreen(Identification identification, Vector2 initialDotOffset) : base(identification)
+        public MainMenuScreen(Vector2 initialDotOffset) : base()
         {
             _offsetX = initialDotOffset.X;
             _offsetY = initialDotOffset.Y;

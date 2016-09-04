@@ -42,7 +42,6 @@ namespace GGFanGame.Game.Level.Playable
             /// <summary>
             /// If this combo has an attack defined for a specific frame.
             /// </summary>
-            /// <returns></returns>
             public bool hasAttackForFrame(int frame)
             {
                 return _attacks.Keys.Contains(frame);
@@ -51,7 +50,6 @@ namespace GGFanGame.Game.Level.Playable
             /// <summary>
             /// Returns an attack for a specific frame.
             /// </summary>
-            /// <returns></returns>
             public AttackDefinition getAttackForFrame(int frame)
             {
                 return _attacks[frame];
@@ -60,7 +58,6 @@ namespace GGFanGame.Game.Level.Playable
             /// <summary>
             /// The animation for this combo.
             /// </summary>
-            /// <returns></returns>
             public Animation animation
             {
                 get { return _animation; }
@@ -69,7 +66,6 @@ namespace GGFanGame.Game.Level.Playable
             /// <summary>
             /// The auto movement in X direction.
             /// </summary>
-            /// <returns></returns>
             public float xMovement
             {
                 get { return _movement.X; }
@@ -78,7 +74,6 @@ namespace GGFanGame.Game.Level.Playable
             /// <summary>
             /// The auto movement in Y direction.
             /// </summary>
-            /// <returns></returns>
             public float yMovement
             {
                 get { return _movement.Y; }
@@ -108,7 +103,6 @@ namespace GGFanGame.Game.Level.Playable
             /// <summary>
             /// The attack in this definition.
             /// </summary>
-            /// <returns></returns>
             public Attack attack
             {
                 get { return _attack; }
@@ -117,7 +111,6 @@ namespace GGFanGame.Game.Level.Playable
             /// <summary>
             /// The max amount of objects to be hit with this attack.
             /// </summary>
-            /// <returns></returns>
             public int maxHits
             {
                 get { return _maxHits; }
@@ -156,7 +149,6 @@ namespace GGFanGame.Game.Level.Playable
         /// <summary>
         /// The speed of this player character.
         /// </summary>
-        /// <returns></returns>
         protected float playerSpeed
         {
             get { return _playerSpeed; }
@@ -166,7 +158,6 @@ namespace GGFanGame.Game.Level.Playable
         /// <summary>
         /// The name of this player character.
         /// </summary>
-        /// <returns></returns>
         public string name
         {
             get { return _name; }
@@ -175,7 +166,6 @@ namespace GGFanGame.Game.Level.Playable
         /// <summary>
         /// The amount of hits in this combo.
         /// </summary>
-        /// <returns></returns>
         public int comboChain
         {
             get { return _comboChain; }
@@ -184,7 +174,6 @@ namespace GGFanGame.Game.Level.Playable
         /// <summary>
         /// The amount of time until the combo resets.
         /// </summary>
-        /// <returns></returns>
         public int comboDelay
         {
             get { return _comboDelay; }

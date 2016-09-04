@@ -128,7 +128,7 @@ namespace GGFanGame.Screens.Menu
 
         private SpriteFont _grumpFont = null;
 
-        public LoadSaveScreen(Vector2 initialDotOffset) : base(Identification.LoadSave, initialDotOffset)
+        public LoadSaveScreen(Vector2 initialDotOffset) : base(initialDotOffset)
         {
             int saveIndex = 0;
             foreach (string file in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"\Saves\", "*.json", System.IO.SearchOption.TopDirectoryOnly))
@@ -160,7 +160,7 @@ namespace GGFanGame.Screens.Menu
 
                 if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.A))
                 {
-                    ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new Game.GrumpSpaceScreen()));
+                    ScreenManager.getInstance().setScreen(new TransitionScreen(this, new Game.GrumpSpaceScreen()));
                     //ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new PlayerSelectScreen()));
                 }
             }

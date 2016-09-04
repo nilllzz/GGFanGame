@@ -11,7 +11,6 @@
         /// <summary>
         /// Returns the singleton instance of the APIManager.
         /// </summary>
-        /// <returns></returns>
         public static APIManager getInstance()
         {
             if (_singleton == null)

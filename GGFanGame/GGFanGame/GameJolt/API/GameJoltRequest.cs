@@ -7,42 +7,8 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Threading;
 
-
 namespace GGFanGame.GameJolt.API
 {
-    #region Enums
-
-    /// <summary>
-    /// The formats a request can return data in.
-    /// </summary>
-    enum RequestFormat
-    {
-        Json,
-        KeyPair,
-        Dump,
-        Xml
-    }
-
-    /// <summary>
-    /// Which http request type the request uses.
-    /// </summary>
-    enum RequestType
-    {
-        GET,
-        POST
-    }
-
-    /// <summary>
-    /// The return status of a request.
-    /// </summary>
-    enum RequestStatus
-    {
-        Success,
-        Failure
-    }
-
-    #endregion
-
     /// <summary>
     /// A request to the GameJolt API.
     /// </summary>
@@ -71,8 +37,6 @@ namespace GGFanGame.GameJolt.API
         /// <summary>
         /// Adds an URL parameter to the parameter dictionary.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
         private void addUrlParameter(string key, string value)
         {
             _urlParameters.Add(key, value);
@@ -100,8 +64,6 @@ namespace GGFanGame.GameJolt.API
         /// <summary>
         /// Executes the constructed API request.
         /// </summary>
-        /// <param name="returnFormat"></param>
-        /// <returns></returns>
         public RequestResult execute(RequestFormat returnFormat)
         {
             _returnFormat = returnFormat;
@@ -114,7 +76,6 @@ namespace GGFanGame.GameJolt.API
         /// <summary>
         /// Executes the constructed API request asynchronously.
         /// </summary>
-        /// <param name="returnFormat"></param>
         public void executeAsync(RequestFormat returnFormat)
         {
             _returnFormat = returnFormat;
@@ -261,7 +222,6 @@ namespace GGFanGame.GameJolt.API
         /// <summary>
         /// The result data of the request.
         /// </summary>
-        /// <returns></returns>
         public string data
         {
             get { return _requestData; }
@@ -270,7 +230,6 @@ namespace GGFanGame.GameJolt.API
         /// <summary>
         /// The status of the request.
         /// </summary>
-        /// <returns></returns>
         public RequestStatus status
         {
             get { return _requestStatus; }
@@ -279,7 +238,6 @@ namespace GGFanGame.GameJolt.API
         /// <summary>
         /// The type of the request.
         /// </summary>
-        /// <returns></returns>
         public RequestType requestType
         {
             get { return _requestType; }
@@ -288,7 +246,6 @@ namespace GGFanGame.GameJolt.API
         /// <summary>
         /// An exception that might have occured during the request. This is null when the request was a success.
         /// </summary>
-        /// <returns></returns>
         public RequestException exception
         {
             get { return _exception; }

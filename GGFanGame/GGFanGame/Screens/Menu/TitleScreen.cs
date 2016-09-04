@@ -24,7 +24,7 @@ namespace GGFanGame.Screens.Menu
 
         private SpriteFont _grumpFont = null;
 
-        public TitleScreen() : base(Identification.Title)
+        public TitleScreen() : base()
         {
             _logoTexture = gameInstance.textureManager.load(@"UI\Logos\GameGrumps");
             _grumpFont = gameInstance.fontManager.load(@"CartoonFontLarge");

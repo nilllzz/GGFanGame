@@ -293,8 +293,6 @@ namespace GGFanGame.Drawing
             /// <summary>
             /// Renders the ellipse.
             /// </summary>
-            /// <param name="position"></param>
-            /// <param name="color"></param>
             public void draw(SpriteBatch batch, Rectangle rectangle, Color color)
             {
                 batch.Draw(_texture, rectangle, color);
@@ -332,9 +330,6 @@ namespace GGFanGame.Drawing
             /// <summary>
             /// Generates a checksum for the given variables.
             /// </summary>
-            /// <param name="width"></param>
-            /// <param name="height"></param>
-            /// <returns></returns>
             public static string generateChecksum(int width, int height)
             {
                 return width.ToString() + "," + height.ToString();
@@ -415,7 +410,6 @@ namespace GGFanGame.Drawing
         /// <param name="outerHeight">The full height of the joined texture.</param>
         /// <param name="ellipses">Rectangles enclosing the ellipses.</param>
         /// <param name="colors">The colors of the ellipses.</param>
-        /// <returns></returns>
         public static Texture2D createJoinedEllipse(int outerWidth, int outerHeight, Rectangle[] ellipses, Color[] colors)
         {
             //The objects at the same index in the ellipses and colors arrays are corresponding.

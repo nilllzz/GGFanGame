@@ -13,15 +13,8 @@ namespace GGFanGame.Game
     /// </summary>
     sealed class ActionWord : Level.StageObject
     {
-        public enum WordType
-        {
-            HurtEnemy,
-            HurtPlayer,
-            Landing
-        }
-
         private static Random wordRnd = new Random();
-        private static Dictionary<WordType, string[]> _wordGroups;
+        private static Dictionary<ActionWordType, string[]> _wordGroups;
 
         /// <summary>
         /// This initializes the possible word arrays.
@@ -30,20 +23,18 @@ namespace GGFanGame.Game
         {
             if (_wordGroups == null)
             {
-                _wordGroups = new Dictionary<WordType, string[]>();
+                _wordGroups = new Dictionary<ActionWordType, string[]>();
 
-                _wordGroups.Add(WordType.HurtEnemy, new string[] { "Uhh", "Ahh", "Arg", "Huu", "Ehh" });
-                _wordGroups.Add(WordType.HurtPlayer, new string[] { "Ech", "Shiet", "Damn", "Dammit", "Urg", "Ahh", "Garg" });
-                _wordGroups.Add(WordType.Landing, new string[] { "Tud" });
+                _wordGroups.Add(ActionWordType.HurtEnemy, new string[] { "Uhh", "Ahh", "Arg", "Huu", "Ehh" });
+                _wordGroups.Add(ActionWordType.HurtPlayer, new string[] { "Ech", "Shiet", "Damn", "Dammit", "Urg", "Ahh", "Garg" });
+                _wordGroups.Add(ActionWordType.Landing, new string[] { "Tud" });
             }
         }
 
         /// <summary>
         /// Returns a random word string for a specific word type.
         /// </summary>
-        /// <param name="wordType"></param>
-        /// <returns></returns>
-        public static string getWordText(WordType wordType)
+        public static string getWordText(ActionWordType wordType)
         {
             initializeWords();
 

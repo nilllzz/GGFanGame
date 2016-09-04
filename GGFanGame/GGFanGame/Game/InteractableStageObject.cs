@@ -13,107 +13,9 @@ namespace GGFanGame.Game.Level
     /// </summary>
     abstract class InteractableStageObject : StageObject
     {
-        /// <summary>
-        /// An animation for the object, which is a collection of frames.
-        /// </summary>
-        protected struct Animation
-        {
-            private AnimationFrame[] _frames;
-
-            public AnimationFrame[] frames
-            {
-                get { return _frames; }
-            }
-
-            public Animation(int frameCount, Point startPosition, Point frameSize, double frameLength) : this(frameCount, startPosition, frameSize, frameLength, 0)
-            { }
-
-            public Animation(int frameCount, Point startPosition, Point frameSize, double frameLength, int repeatLastFrameCount)
-            {
-                _frames = new AnimationFrame[frameCount + repeatLastFrameCount];
-                for (int i = 0; i < frameCount; i++)
-                {
-                    _frames[i] = new AnimationFrame() { frameLength = frameLength, startPosition = startPosition + new Point(i * frameSize.X, 0), frameSize = frameSize };
-                }
-                if (repeatLastFrameCount > 0)
-                {
-                    for (int i = 0; i < repeatLastFrameCount; i++)
-                    {
-                        _frames[frameCount + i] = _frames[frameCount - 1];
-                    }
-                }
-            }
-
-            /// <summary>
-            /// Returns a rectangle depicting one of the animation's frames in the sprite sheet.
-            /// </summary>
-            /// <param name="animationFrame">The frame index</param>
-            public Rectangle getFrameRec(int animationFrame)
-            {
-                return _frames[animationFrame].getRect();
-            }
-        }
-
-        /// <summary>
-        /// A single frame of an animation.
-        /// </summary>
-        protected struct AnimationFrame
-        {
-            private Point _frameSize;
-            private Point _startPosition;
-            private double _frameLength;
-
-            public Point frameSize
-            {
-                get { return _frameSize; }
-                set { _frameSize = value; }
-            }
-
-            /// <summary>
-            /// The coordinates of this frame in the sprite sheet.
-            /// </summary>
-            public Point startPosition
-            {
-                get { return _startPosition; }
-                set { _startPosition = value; }
-            }
-
-            /// <summary>
-            /// The length this frame appears on screen in frames.
-            /// </summary>
-            public double frameLength
-            {
-                get { return _frameLength; }
-                set { _frameLength = value; }
-            }
-
-            /// <summary>
-            /// Returns the rectangle this frame represents in the sprite sheet.
-            /// </summary>
-            public Rectangle getRect()
-            {
-                return new Rectangle(_startPosition.X, _startPosition.Y, _frameSize.X, _frameSize.Y);
-            }
-        }
-
-        private Texture2D _spriteSheet;
-        private ObjectState _state;
         private Dictionary<ObjectState, Animation> _animations = new Dictionary<ObjectState, Animation>();
-        private int _animationFrame = 0;
-        private bool _repeatAnimation = true;
-        private double _animationDelay = 0f;
-        private double _shadowSize = 1;
-        private bool _drawShadow = true;
-        private bool _faceAttack = true;
-        private bool _gravityAffected = true;
-
-        private bool _hasAction = false;
-        private string _actionHintText = "TEST";
-        private bool _renderActionHint = false;
         private int _actionHintTextAlpha = 0;
-
         private StageObject _supportingObject = null;
-
         protected Vector3 _autoMovement = new Vector3(0);
 
         #region Properties
@@ -121,109 +23,53 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// The sprite sheet to render.
         /// </summary>
-        /// <returns></returns>
-        protected Texture2D spriteSheet
-        {
-            get { return _spriteSheet; }
-            set { _spriteSheet = value; }
-        }
+        protected Texture2D spriteSheet { get; set; }
 
         /// <summary>
         /// The current state of this object.
         /// </summary>
-        /// <returns></returns>
-        public ObjectState state
-        {
-            get { return _state; }
-            set { _state = value; }
-        }
+        public ObjectState state { get; set; }
 
         /// <summary>
         /// The frame index the current animation is at.
         /// </summary>
-        /// <returns></returns>
-        protected int animationFrame
-        {
-            get { return _animationFrame; }
-            set { _animationFrame = value; }
-        }
+        protected int animationFrame { get; set; } = 0;
 
         /// <summary>
         /// Indicates wether the animation should loop once finished.
         /// </summary>
-        /// <returns></returns>
-        protected bool repeatAnimation
-        {
-            get { return _repeatAnimation; }
-            set { _repeatAnimation = value; }
-        }
+        protected bool repeatAnimation { get; set; } = true;
 
         /// <summary>
         /// The delay between frames of animation.
         /// </summary>
-        /// <returns></returns>
-        protected double animationDelay
-        {
-            get { return _animationDelay; }
-        }
+        protected double animationDelay { get; private set; } = 0f;
 
         /// <summary>
         /// If the default draw void should draw a shadow.
         /// </summary>
-        /// <returns></returns>
-        protected bool drawShadow
-        {
-            get { return _drawShadow; }
-            set { _drawShadow = value; }
-        }
+        protected bool drawShadow { get; set; } = true;
 
         /// <summary>
         /// The size of the default shadow, relative to 1.
         /// </summary>
-        /// <returns></returns>
-        protected double shadowSize
-        {
-            get { return _shadowSize; }
-            set { _shadowSize = value; }
-        }
+        protected double shadowSize { get; set; } = 1f;
 
         /// <summary>
         /// If this object falls when in the air.
         /// </summary>
-        /// <returns></returns>
-        protected bool gravityAffected
-        {
-            get { return _gravityAffected; }
-            set { _gravityAffected = value; }
-        }
+        protected bool gravityAffected { get; set; } = true;
 
         /// <summary>
         /// When this is true, an attack makes this object face towards the attack.
         /// </summary>
-        /// <returns></returns>
-        protected bool faceAttack
-        {
-            get { return _faceAttack; }
-            set { _faceAttack = value; }
-        }
+        protected bool faceAttack { get; set; } = true;
 
-        public bool hasAction
-        {
-            get { return _hasAction; }
-            set { _hasAction = value; }
-        }
+        public bool hasAction { get; set; } = false;
 
-        protected string actionHintText
-        {
-            get { return _actionHintText; }
-            set { _actionHintText = value; }
-        }
+        protected string actionHintText { get; set; } = "TEST";
 
-        protected bool renderActionHint
-        {
-            get { return _renderActionHint; }
-            set { _renderActionHint = value; }
-        }
+        protected bool renderActionHint { get; set; } = false;
 
         #endregion
 
@@ -246,10 +92,10 @@ namespace GGFanGame.Game.Level
             Rectangle frame = getAnimation().getFrameRec(animationFrame);
             double stageScale = Stage.activeStage().camera.scale;
 
-            if (_drawShadow)
+            if (drawShadow)
             {
-                int shadowWidth = (int)(frame.Width * _shadowSize);
-                int shadowHeight = (int)(frame.Height * _shadowSize * (1d / 4d));
+                int shadowWidth = (int)(frame.Width * shadowSize);
+                int shadowHeight = (int)(frame.Height * shadowSize * (1d / 4d));
 
                 Drawing.Graphics.drawEllipse(new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
                            (int)((Z - shadowHeight / 2d - Stage.activeStage().getGround(position)) * stageScale),
@@ -278,7 +124,7 @@ namespace GGFanGame.Game.Level
         /// </summary>
         private void drawActionHint()
         {
-            if ((_hasAction && _renderActionHint))
+            if ((hasAction && renderActionHint))
             {
                 //Test if player is in range and get smallest range:
                 float smallestPlayerDistance = -1f;
@@ -322,7 +168,7 @@ namespace GGFanGame.Game.Level
                 if (_actionHintTextAlpha > 0)
                 {
                     //TODO: Render properly.
-                    gameInstance.spriteBatch.DrawString(gameInstance.fontManager.load(@"CartoonFont"), _actionHintText, new Vector2(X, Z - Y) * (float)Stage.activeStage().camera.scale, new Color(255, 255, 255, _actionHintTextAlpha));
+                    gameInstance.spriteBatch.DrawString(gameInstance.fontManager.load(@"CartoonFont"), actionHintText, new Vector2(X, Z - Y) * (float)Stage.activeStage().camera.scale, new Color(255, 255, 255, _actionHintTextAlpha));
                 }
             }
         }
@@ -336,22 +182,22 @@ namespace GGFanGame.Game.Level
 
             if (getAnimation().frames.Length > 1)
             {
-                _animationDelay--;
-                if (_animationDelay <= 0d)
+                animationDelay--;
+                if (animationDelay <= 0d)
                 {
-                    _animationFrame++;
-                    if (_animationFrame == getAnimation().frames.Length)
+                    animationFrame++;
+                    if (animationFrame == getAnimation().frames.Length)
                     {
-                        if (_repeatAnimation)
+                        if (repeatAnimation)
                         {
-                            _animationFrame = 0;
+                            animationFrame = 0;
                         }
                         else
                         {
-                            _animationFrame--;
+                            animationFrame--;
                         }
                     }
-                    _animationDelay = getAnimation().frames[_animationFrame].frameLength;
+                    animationDelay = getAnimation().frames[animationFrame].frameLength;
                 }
             }
         }
@@ -377,10 +223,9 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// Returns if the set animation ended. This happens after the animation is over and repeatAnimation is false.
         /// </summary>
-        /// <returns></returns>
         protected bool animationEnded()
         {
-            return _animationFrame == getAnimation().frames.Length - 1;
+            return animationFrame == getAnimation().frames.Length - 1;
         }
 
         /// <summary>
@@ -388,7 +233,7 @@ namespace GGFanGame.Game.Level
         /// </summary>
         protected virtual Animation getAnimation()
         {
-            return _animations[_state];
+            return _animations[state];
         }
 
         /// <summary>
@@ -396,11 +241,11 @@ namespace GGFanGame.Game.Level
         /// </summary>
         protected void setState(ObjectState newState)
         {
-            if (newState != _state)
+            if (newState != state)
             {
-                _state = newState;
-                _animationFrame = 0;
-                _animationDelay = getAnimation().frames[0].frameLength;
+                state = newState;
+                animationFrame = 0;
+                animationDelay = getAnimation().frames[0].frameLength;
             }
         }
 
@@ -430,11 +275,11 @@ namespace GGFanGame.Game.Level
             }
             else
             {
-                if (Y > groundY && _gravityAffected)
+                if (Y > groundY && gravityAffected)
                 {
                     _autoMovement.Y--;
                 }
-                if (_autoMovement.Y < 0f && !_gravityAffected)
+                if (_autoMovement.Y < 0f && !gravityAffected)
                 {
                     _autoMovement.Y = 0f;
                 }
@@ -483,7 +328,7 @@ namespace GGFanGame.Game.Level
             {
                 Y = groundY;
                 //Spawn an action word for where the player landed.
-                Stage.activeStage().addObject(new ActionWord(ActionWord.getWordText(ActionWord.WordType.Landing), objectColor, 0.3f, position));
+                Stage.activeStage().addObject(new ActionWord(ActionWord.getWordText(ActionWordType.Landing), objectColor, 0.3f, position));
 
                 if (_autoMovement.Y < -17f && state == ObjectState.HurtFalling)
                 {
@@ -598,7 +443,7 @@ namespace GGFanGame.Game.Level
                     setState(ObjectState.Hurt);
             }
 
-            if (_faceAttack)
+            if (faceAttack)
             {
                 if (attack.facing == ObjectFacing.Left)
                     facing = ObjectFacing.Right;
@@ -610,8 +455,6 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// This updates this object's position when its supporting object gets moved around.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="previousPosition"></param>
         private void supportingObjectPositionChanged(StageObject obj, Vector3 previousPosition)
         {
             //Get the difference in position and apply this difference to the position of this object:

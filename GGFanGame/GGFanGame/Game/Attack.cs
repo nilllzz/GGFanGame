@@ -37,7 +37,6 @@ namespace GGFanGame.Game
         /// <summary>
         /// The origin object of this attack.
         /// </summary>
-        /// <returns></returns>
         public StageObject origin
         {
             get { return _origin; }
@@ -46,7 +45,6 @@ namespace GGFanGame.Game
         /// <summary>
         /// If this attack has a strong knockback that hits to the ground.
         /// </summary>
-        /// <returns></returns>
         public bool knockback
         {
             get { return _knockback; }
@@ -55,7 +53,6 @@ namespace GGFanGame.Game
         /// <summary>
         /// The health this attack depletes.
         /// </summary>
-        /// <returns></returns>
         public int health
         {
             get { return _health; }
@@ -64,7 +61,6 @@ namespace GGFanGame.Game
         /// <summary>
         /// The strength of this attack.
         /// </summary>
-        /// <returns></returns>
         public float strength
         {
             get { return _strength; }
@@ -73,7 +69,6 @@ namespace GGFanGame.Game
         /// <summary>
         /// When an object gets hit, this is the facing to set to.
         /// </summary>
-        /// <returns></returns>
         public ObjectFacing facing
         {
             get { return _facing; }
@@ -84,7 +79,6 @@ namespace GGFanGame.Game
         /// Returns the hitbox of this attack relativ to the position of the user.
         /// </summary>
         /// <param name="relPosition">The position of the user of this attack.</param>
-        /// <returns></returns>
         public BoundingBox getHitbox(Vector3 relPosition)
         {
             float X = relPosition.X;

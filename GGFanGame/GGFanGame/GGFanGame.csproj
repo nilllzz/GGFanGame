@@ -53,9 +53,15 @@
     <Compile Include="Drawing\Colors.cs" />
     <Compile Include="Drawing\GaussianBlur.cs" />
     <Compile Include="Drawing\Palette.cs" />
+    <Compile Include="GameJolt\API\RequestFormat.cs" />
+    <Compile Include="GameJolt\API\RequestStatus.cs" />
+    <Compile Include="GameJolt\API\RequestType.cs" />
     <Compile Include="GameProvider.cs" />
     <Compile Include="GameSession.cs" />
     <Compile Include="Game\ActionWord.cs" />
+    <Compile Include="Game\ActionWordType.cs" />
+    <Compile Include="Game\Animation.cs" />
+    <Compile Include="Game\AnimationFrame.cs" />
     <Compile Include="Game\Attack.cs" />
     <Compile Include="Game\Enemies\Booper.cs" />
     <Compile Include="Game\ObjectFacing.cs" />
@@ -63,6 +69,7 @@
     <Compile Include="Game\Playable\ArinBomb.cs" />
     <Compile Include="Game\Playable\ArinLemon.cs" />
     <Compile Include="Game\SceneryObject.cs" />
+    <Compile Include="Game\Scene\GrumpSpace\ArcadeType.cs" />
     <Compile Include="Game\Scene\Level1_1\BridgeBottom.cs" />
     <Compile Include="Game\Scene\Level1_1\Street.cs" />
     <Compile Include="Game\Scene\Level1_1\BridgeRailing.cs" />
@@ -79,8 +86,13 @@
     <Compile Include="GameJolt\API\GameJoltRequests_Definitions.cs" />
     <Compile Include="Input\ControlsHandler.cs" />
     <Compile Include="Input\GamePadHandler.cs" />
+    <Compile Include="Input\InputControlType.cs" />
+    <Compile Include="Input\InputDirection.cs" />
+    <Compile Include="Input\InputDirectionType.cs" />
     <Compile Include="Input\KeyboardHandler.cs" />
+    <Compile Include="Input\MouseButton.cs" />
     <Compile Include="Input\MouseHandler.cs" />
+    <Compile Include="Input\ThumbStick.cs" />
     <Compile Include="Networking\UrlEncoder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

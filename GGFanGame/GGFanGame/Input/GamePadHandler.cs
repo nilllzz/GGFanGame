@@ -8,15 +8,6 @@ using Microsoft.Xna.Framework;
 namespace GGFanGame.Input
 {
     /// <summary>
-    /// The thumbsticks on a GamePad.
-    /// </summary>
-    enum ThumbStick
-    {
-        Left,
-        Right
-    }
-
-    /// <summary>
     /// Handles GamePad input.
     /// </summary>
     class GamePadHandler
@@ -43,9 +34,6 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if a specific button on a GamePad is pressed.
         /// </summary>
-        /// <param name="button"></param>
-        /// <param name="playerIndex"></param>
-        /// <returns></returns>
         public static bool buttonPressed(PlayerIndex playerIndex, Buttons button)
         {
             int index = (int)playerIndex;
@@ -55,9 +43,6 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns is a button is currently being held down on a GamePad.
         /// </summary>
-        /// <param name="button"></param>
-        /// <param name="playerIndex"></param>
-        /// <returns></returns>
         public static bool buttonDown(PlayerIndex playerIndex, Buttons button)
         {
             int index = (int)playerIndex;
@@ -67,8 +52,6 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if the GamePad at the given player index is connected.
         /// </summary>
-        /// <param name="playerIndex"></param>
-        /// <returns></returns>
         public static bool isConnected(PlayerIndex playerIndex)
         {
             int index = (int)playerIndex;
@@ -78,10 +61,6 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns a value from 0 to 1 how much a thumbstick is pressed in one direction.
         /// </summary>
-        /// <param name="playerIndex"></param>
-        /// <param name="thumbStick"></param>
-        /// <param name="direction"></param>
-        /// <returns></returns>
         public static float thumbStickDirection(PlayerIndex playerIndex, ThumbStick thumbStick, InputDirection direction)
         {
             Vector2 v;

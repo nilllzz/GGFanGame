@@ -8,16 +8,6 @@ using Microsoft.Xna.Framework;
 namespace GGFanGame.Input
 {
     /// <summary>
-    /// Buttons on a mouse.
-    /// </summary>
-    enum MouseButton
-    {
-        Left,
-        Right,
-        Middle
-    }
-
-    /// <summary>
     /// Handles mouse input.
     /// </summary>
     class MouseHandler
@@ -37,8 +27,6 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if a specific mouse button is pressed.
         /// </summary>
-        /// <param name="button"></param>
-        /// <returns></returns>
         public static bool buttonPressed(MouseButton button)
         {
             switch (button)
@@ -56,8 +44,6 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if a specific mouse button is being held down.
         /// </summary>
-        /// <param name="button"></param>
-        /// <returns></returns>
         public static bool buttonDown(MouseButton button)
         {
             switch (button)
@@ -75,7 +61,6 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns the position of the mouse in the window.
         /// </summary>
-        /// <returns></returns>
         public static Point mousePosition()
         {
             return new Point(_currentState.X, _currentState.Y);

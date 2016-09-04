@@ -15,7 +15,7 @@ namespace GGFanGame.Screens.Game
     {
         private Stage _stage;
 
-        public GrumpSpaceScreen() : base(Identification.InGame)
+        public GrumpSpaceScreen() : base()
         {
             _stage = new Stage();
             _stage.setActiveStage();

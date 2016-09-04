@@ -7,11 +7,6 @@ using static GGFanGame.GameProvider;
 
 namespace GGFanGame.Game.Level.Scene.GrumpSpace
 {
-    public enum ArcadeType
-    {
-        Ninja = 0
-    }
-
     class ArcadeMachine : InteractableStageObject
     {
         private ArcadeType _arcadeType;

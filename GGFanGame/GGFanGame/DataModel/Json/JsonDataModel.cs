@@ -22,7 +22,6 @@ namespace GGFanGame.DataModel.Json
         /// </summary>
         /// <typeparam name="T">The data model type.</typeparam>
         /// <param name="input">The input Json string.</param>
-        /// <returns></returns>
         public static T fromString<T>(string input)
         {
             //We create a new Json serializer of the given type and a corresponding memory stream here.
@@ -52,7 +51,6 @@ namespace GGFanGame.DataModel.Json
         /// <summary>
         /// Returns the Json representation of this object.
         /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             //We create a new Json serializer of the given type and a corresponding memory stream:

@@ -37,7 +37,6 @@ namespace GGFanGame.Drawing
             /// <summary>
             /// The color on the original texture.
             /// </summary>
-            /// <returns></returns>
             public Color originalColor
             {
                 get { return _originalColor; }
@@ -46,7 +45,6 @@ namespace GGFanGame.Drawing
             /// <summary>
             /// The replacement for the original color.
             /// </summary>
-            /// <returns></returns>
             public Color newColor
             {
                 get { return _newColor; }
@@ -59,7 +57,6 @@ namespace GGFanGame.Drawing
         /// <param name="game">The game instance.</param>
         /// <param name="originalTexture">The original texture that the palette should get applied to.</param>
         /// <param name="paletteTexture">The palette texture to apply.</param>
-        /// <returns></returns>
         public static Texture2D applyPalette(Texture2D originalTexture, Texture2D paletteTexture)
         {
             if (paletteTexture.Height != 2)

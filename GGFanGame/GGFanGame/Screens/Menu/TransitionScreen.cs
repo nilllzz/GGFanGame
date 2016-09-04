@@ -24,7 +24,7 @@ namespace GGFanGame.Screens.Menu
         //out screen is the current one, inscreen the new one.
         private Screen _outScreen, _inScreen;
 
-        public TransitionScreen(Screen outScreen, Screen inScreen) : base(Identification.Transition)
+        public TransitionScreen(Screen outScreen, Screen inScreen) : base()
         {
             _gg_overlay = gameInstance.textureManager.load(@"UI\Logos\GameGrumpsTransition");
             _outScreen = outScreen;

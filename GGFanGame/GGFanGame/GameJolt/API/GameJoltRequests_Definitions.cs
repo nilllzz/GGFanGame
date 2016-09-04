@@ -41,9 +41,6 @@ namespace GGFanGame.GameJolt.API
         /// <summary>
         /// Verifies if the input username and token are a correct username/user_token pair. 
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
         public static GameJoltRequest verifyUser(string username, string token)
         {
             GameJoltRequest request = new GameJoltRequest(RequestType.GET, "/users/auth/");
@@ -57,8 +54,6 @@ namespace GGFanGame.GameJolt.API
         /// <summary>
         /// Fetches data for a user from the server.
         /// </summary>
-        /// <param name="username"></param>
-        /// <returns></returns>
         public static GameJoltRequest fetchUserData(string username)
         {
             GameJoltRequest request = new GameJoltRequest(RequestType.GET, "/users/");
@@ -71,8 +66,6 @@ namespace GGFanGame.GameJolt.API
         /// <summary>
         /// Fetches data for a user from the server by their GameJolt Id.
         /// </summary>
-        /// <param name="gameJoltId"></param>
-        /// <returns></returns>
         public static GameJoltRequest fetchUserDataById(string gameJoltId)
         {
             GameJoltRequest request = new GameJoltRequest(RequestType.GET, "/users/");

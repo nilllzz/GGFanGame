@@ -152,6 +152,9 @@ namespace GGFanGame.Game
         /// </summary>
         public bool canClick { get; set; } = false;
 
+        /// <summary>
+        /// The relation of this object to the ground.
+        /// </summary>
         protected GroundRelation groundRelation { get; set; } = GroundRelation.Upright;
 
         #endregion
@@ -244,58 +247,34 @@ namespace GGFanGame.Game
         /// The player clicked on this object.
         /// </summary>
         public virtual void onPlayerClick() { }
-        
+
         //Needed in order to sort the list of objects and arrange them in an order
         //so that the objects in the foreground are overlaying those in the background.
         public virtual int CompareTo(StageObject obj)
         {
-            //if (obj.groundRelation == GroundRelation.Flat)
-            //{
-            //    return 1;
-            //}
-            //else if (groundRelation == GroundRelation.Flat)
-            //{
-            //    return -1;
-            //}
-            //else
-            //{
-            //    if (Z > obj.Z)
-            //    {
-            //        return 1;
-            //    }
-            //    else if (Z < obj.Z)
-            //    {
-            //        return -1;
-            //    }
-            //    else
-            //    {
-            //        return 0;
-            //    }
-            //}
+            var obj1Z = this.Z + this.zSortingOffset;
+            var obj2Z = obj.Z + obj.zSortingOffset;
 
-            var z = Z;
-            var objZ = obj.Z;
+            // if the object is laying flat on the ground, have other objects on top of it
+            // until the object is behind the first object (I hope no one needs to read this ever).
 
-            if (groundRelation == GroundRelation.Flat)
-            {
-                z -= size.Z;
-            }
+            if (this.groundRelation == GroundRelation.Flat)
+                obj1Z -= this.size.Z;
             if (obj.groundRelation == GroundRelation.Flat)
-            {
-                objZ -= obj.size.Z;
-            }
+                obj2Z -= obj.size.Z;
 
-            if (z > objZ)
-            {
+            if (obj1Z > obj2Z)
                 return 1;
-            }
-            else if (z < objZ)
-            {
+            else if (obj1Z < obj2Z)
                 return -1;
-            }
             else
             {
-                return 0;
+                if (this._sortingPriority > obj._sortingPriority)
+                    return 1;
+                else if (this._sortingPriority < obj._sortingPriority)
+                    return -1;
+                else
+                    return 0;
             }
         }
     }

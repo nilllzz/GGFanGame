@@ -90,6 +90,7 @@ namespace GGFanGame.Game
             _fourStatus = new PlayerStatus(fourPlayer, PlayerIndex.Four);
             
             _objects.Add(new Scene.GrumpSpace.Couch() { X = 110, Y = 0, Z = 320 });
+            _objects.Add(new Scene.GrumpSpace.ArcadeMachine(Scene.GrumpSpace.ArcadeType.Ninja) { X = 310, Y = 0, Z = 320 });
 
             _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 64, Y = 0, Z = 158 });
             _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 64, Y = 0, Z = 190 });

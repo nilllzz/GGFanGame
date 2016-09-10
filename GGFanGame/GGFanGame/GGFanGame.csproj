@@ -64,6 +64,7 @@
     <Compile Include="Game\AnimationFrame.cs" />
     <Compile Include="Game\Attack.cs" />
     <Compile Include="Game\Enemies\Booper.cs" />
+    <Compile Include="Game\GroundRelation.cs" />
     <Compile Include="Game\ObjectFacing.cs" />
     <Compile Include="Game\ObjectState.cs" />
     <Compile Include="Game\Playable\ArinBomb.cs" />

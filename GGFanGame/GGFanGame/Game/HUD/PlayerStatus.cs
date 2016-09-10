@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GGFanGame.Game.Level.Playable;
-using static GGFanGame.GameProvider;
+using GGFanGame.Game.Playable;
+using static GameProvider;
 
-namespace GGFanGame.Game.Level.HUD
+namespace GGFanGame.Game.HUD
 {
     /// <summary>
     /// HUD element to display player status.

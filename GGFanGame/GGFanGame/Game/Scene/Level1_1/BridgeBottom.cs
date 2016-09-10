@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using static GGFanGame.GameProvider;
+using static GameProvider;
 
-namespace GGFanGame.Game.Level.Scene.Level1_1
+namespace GGFanGame.Game.Scene.Level1_1
 {
     class BridgeBottom : SceneryObject
     {
@@ -14,8 +14,8 @@ namespace GGFanGame.Game.Level.Scene.Level1_1
             spriteSheet = gameInstance.textureManager.load(@"Levels\Stage1-1\BridgeBottom");
             size = new Vector3(128, 64, 64);
             drawShadow = false;
-            collision = false;
-            canLandOn = false;
+            collision = true;
+            canLandOn = true;
             sortLowest = true;
             gravityAffected = false;
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using static GGFanGame.GameProvider;
+using static GameProvider;
 
-namespace GGFanGame.Game.Level.Playable
+namespace GGFanGame.Game.Playable
 {
     /// <summary>
     /// Playable Arin character.

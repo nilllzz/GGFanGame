@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GGFanGame.GameProvider;
+using static GameProvider;
 
 namespace GGFanGame.Screens.Menu
 {

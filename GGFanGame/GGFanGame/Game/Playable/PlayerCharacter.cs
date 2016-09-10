@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace GGFanGame.Game.Level.Playable
+namespace GGFanGame.Game.Playable
 {
     /// <summary>
     /// A playable character.

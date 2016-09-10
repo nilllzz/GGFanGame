@@ -20,19 +20,16 @@ namespace GGFanGame
         /// <summary>
         /// The active game instance.
         /// </summary>
-        public static GGGame instance
+        public static GGGame getInstance()
         {
-            get
-            {
-                if (_instance == null)
-                    _instance = new GGGame();
+            if (_instance == null)
+                _instance = new GGGame();
 
-                return _instance;
-            }
+            return _instance;
         }
 
         private RenderTarget2D _target; //The target each frame renders to.
-        
+
         /// <summary>
         /// The global randomizer of the game.
         /// </summary>
@@ -51,13 +48,13 @@ namespace GGFanGame
         /// <summary>
         /// The font manager for this game.
         /// </summary>
-        public FontManager fontManager { get; private set;}
+        public FontManager fontManager { get; private set; }
 
         /// <summary>
         /// The active main sprite batch of the game.
         /// </summary>
         public SpriteBatch spriteBatch { get; private set; }
-        
+
         /// <summary>
         /// The active font sprite batch of the game.
         /// </summary>
@@ -75,7 +72,7 @@ namespace GGFanGame
         {
             get { return new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height); }
         }
-        
+
         private GGGame() : base()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -118,7 +115,7 @@ namespace GGFanGame
             Drawing.Graphics.initialize(GraphicsDevice, spriteBatch);
             _target = new RenderTarget2D(GraphicsDevice, RENDER_WIDTH, RENDER_HEIGHT);
         }
-        
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.

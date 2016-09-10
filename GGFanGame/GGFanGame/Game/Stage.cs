@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GGFanGame.Game.Level.Playable;
-using GGFanGame.Game.Level.HUD;
-using static GGFanGame.GameProvider;
+using GGFanGame.Game.Playable;
+using GGFanGame.Game.HUD;
+using static GameProvider;
 
-namespace GGFanGame.Game.Level
+namespace GGFanGame.Game
 {
     /// <summary>
     /// Represents a level in the game.
@@ -40,7 +40,7 @@ namespace GGFanGame.Game.Level
         
         private List<StageObject> _objects;
         private Color _ambientColor = new Color(0, 0, 0, 100); //Used for shadow color
-        private float _yDefaultKillPlane = -10f;
+        private float _yDefaultKillPlane = -0f;
 
         /// <summary>
         /// The ambient shadow color in this stage.
@@ -89,22 +89,23 @@ namespace GGFanGame.Game.Level
             _threeStatus = new PlayerStatus(threePlayer, PlayerIndex.Three);
             _fourStatus = new PlayerStatus(fourPlayer, PlayerIndex.Four);
             
-            for (int x = 0; x < 12; x++)
-            {
-                _objects.Add(new Scene.Level1_1.BridgeRailing() { X = x * 64, Y = 0, Z = 264 });
-                _objects.Add(new Scene.Level1_1.BridgeRailing() { X = x * 64, Y = 0, Z = 168 });
-
-                for (int y = 0; y < 3; y++)
-                {
-                    _objects.Add(new Scene.Level1_1.Street() { X = x * 64 - y * 32, Y = 0, Z = 200 + y * 32 });
-                }
-            }
-            for (int x = 0; x < 12; x++)
-            {
-                _objects.Add(new Scene.Level1_1.BridgeBottom() { X = x * 64, Y = 0, Z = 328 });
-            }
-
             _objects.Add(new Scene.GrumpSpace.Couch() { X = 110, Y = 0, Z = 320 });
+
+            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 64, Y = 0, Z = 158 });
+            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 64, Y = 0, Z = 190 });
+            _objects.Add(new Scene.Level1_1.Street() { X = 64, Y = 0, Z = 190 });
+            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 128, Y = 10, Z = 158 });
+            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 128, Y = 10, Z = 190 });
+            _objects.Add(new Scene.Level1_1.Street() { X = 128, Y = 10, Z = 190 });
+            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 192, Y = 20, Z = 158 });
+            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 192, Y = 20, Z = 190 });
+            _objects.Add(new Scene.Level1_1.Street() { X = 192, Y = 20, Z = 190 });
+            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 256, Y = 30, Z = 158 });
+            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 256, Y = 30, Z = 190 });
+            _objects.Add(new Scene.Level1_1.Street() { X = 256, Y = 30, Z = 190 });
+            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 320, Y = 40, Z = 158 });
+            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 320, Y = 40, Z = 190 });
+            _objects.Add(new Scene.Level1_1.Street() { X = 320, Y = 40, Z = 190 });
         }
 
         /// <summary>
@@ -134,14 +135,14 @@ namespace GGFanGame.Game.Level
         {
             return _objects.ToArray();
         }
-
+        
         /// <summary>
         /// Updates and sorts the objects in this stage.
         /// </summary>
         public void update()
         {
             _objects.Sort();
-
+            
             for (int i = 0; i < _objects.Count; i++)
             {
                 if (i <= _objects.Count - 1)
@@ -275,7 +276,7 @@ namespace GGFanGame.Game.Level
         /// <param name="position">The position to check the supporting object for.</param>
         public Tuple<StageObject, float> getSupporting(Vector3 position)
         {
-            float returnY = 0f;
+            float returnY = _yDefaultKillPlane;
             StageObject returnObj = null;
 
             if (position.Y > 0f)

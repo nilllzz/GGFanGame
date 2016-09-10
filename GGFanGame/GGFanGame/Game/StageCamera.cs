@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GGFanGame.Game.Level
+namespace GGFanGame.Game
 {
     class StageCamera
     {
@@ -52,7 +52,7 @@ namespace GGFanGame.Game.Level
                 right = (rightPosition.X + offset.X + 100) * _scale;
             }
 
-            System.Diagnostics.Debug.Print(right.ToString());
+            //System.Diagnostics.Debug.Print(right.ToString());
         }
     }
 }

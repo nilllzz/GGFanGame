@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GGFanGame.GameProvider;
+using static GameProvider;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -75,7 +75,7 @@ namespace GGFanGame.Screens.Menu
         {
             if (_outro)
             {
-                _overlaySize = MathHelper.Lerp(0f, _overlaySize, 0.90f);
+                _overlaySize = MathHelper.Lerp(0f, _overlaySize, 0.9f);
                 _rotation -= 0.08f;
                 _outScreen.update();
 

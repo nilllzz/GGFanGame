@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GGFanGame.Game.Level.Playable
+namespace GGFanGame.Game.Playable
 {
     /// <summary>
     /// Playable Dan character.

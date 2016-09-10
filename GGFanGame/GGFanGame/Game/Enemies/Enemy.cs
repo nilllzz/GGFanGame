@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GGFanGame.Game.Level.Enemies
+namespace GGFanGame.Game.Enemies
 {
     /// <summary>
     /// The base enemy class.

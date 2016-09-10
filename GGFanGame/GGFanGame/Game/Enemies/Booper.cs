@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using static GGFanGame.GameProvider;
+using static GameProvider;
 
-namespace GGFanGame.Game.Level.Enemies
+namespace GGFanGame.Game.Enemies
 {
     /// <summary>
     /// An enemy for a dojo stage.

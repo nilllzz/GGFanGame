@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GGFanGame.GameProvider;
+using static GameProvider;
 
-namespace GGFanGame.Game.Level
+namespace GGFanGame.Game
 {
     /// <summary>
     /// A class that represents an interactable object, the base for all players, enemies and other complex objects.
@@ -323,7 +324,7 @@ namespace GGFanGame.Game.Level
                     }
                 }
             }
-
+            
             if (Y < groundY)
             {
                 Y = groundY;

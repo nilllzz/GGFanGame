@@ -14,7 +14,7 @@ namespace GGFanGame
         [STAThread]
         static void Main()
         {
-            using (var game = GGGame.instance)
+            using (var game = GGGame.getInstance())
                 game.Run();
         }
     }

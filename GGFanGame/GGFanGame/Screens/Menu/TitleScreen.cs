@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using static GGFanGame.GameProvider;
+using static GameProvider;
 
 namespace GGFanGame.Screens.Menu
 {

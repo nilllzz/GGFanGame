@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using static GGFanGame.GameProvider;
 
-namespace GGFanGame.Game.Level
+namespace GGFanGame.Game
 {
     /// <summary>
     /// The base object for all things that appear in a stage.
@@ -22,15 +18,15 @@ namespace GGFanGame.Game.Level
         /// </summary>
         /// <param name="previousPosition">The position before the event occured.</param>
         public delegate void OnPositionChangedEventHandler(StageObject obj, Vector3 previousPosition);
-        
+
         private Vector3 _position;
         private List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
 
         private static int _currentSortingPriority = 0; //Keeps track of all the sorting priorities added so that every object has a different one.
         private int _sortingPriority = 0;
-        
+
         #region Properties
-        
+
         /// <summary>
         /// The main color associated with this object.
         /// </summary>
@@ -156,6 +152,8 @@ namespace GGFanGame.Game.Level
         /// </summary>
         public bool canClick { get; set; } = false;
 
+        protected GroundRelation groundRelation { get; set; } = GroundRelation.Upright;
+
         #endregion
 
         public StageObject()
@@ -202,8 +200,16 @@ namespace GGFanGame.Game.Level
         {
             get
             {
-                return new BoundingBox(new Vector3(_position.X - size.X / 2f, _position.Y, _position.Z - size.Z / 2),
-                                       new Vector3(_position.X + size.X / 2f, _position.Y + size.Y, _position.Z + size.Z / 2));
+                if (groundRelation == GroundRelation.Upright)
+                {
+                    return new BoundingBox(new Vector3(_position.X - size.X / 2f, _position.Y, _position.Z - size.Z / 2f),
+                                           new Vector3(_position.X + size.X / 2f, _position.Y + size.Y, _position.Z + size.Z / 2f));
+                }
+                else
+                {
+                    return new BoundingBox(new Vector3(_position.X - size.X / 2f, _position.Y, _position.Z - size.Z),
+                                           new Vector3(_position.X + size.X / 2f, _position.Y + size.Y, _position.Z));
+                }
             }
         }
 
@@ -232,77 +238,64 @@ namespace GGFanGame.Game.Level
         /// <summary>
         /// Returns the lower center of this object.
         /// </summary>
-        public virtual Vector3 getFeetPosition()
-        {
-            return _position;
-        }
+        public virtual Vector3 getFeetPosition() => _position;
 
         /// <summary>
         /// The player clicked on this object.
         /// </summary>
         public virtual void onPlayerClick() { }
-
+        
         //Needed in order to sort the list of objects and arrange them in an order
         //so that the objects in the foreground are overlaying those in the background.
         public virtual int CompareTo(StageObject obj)
         {
-            //When something should be rendered lowest (most likely a floor tile), we put it at the end:
-            //When both are lowest, return that with the lowest sorting priority:
-            if (sortLowest && !obj.sortLowest)
+            //if (obj.groundRelation == GroundRelation.Flat)
+            //{
+            //    return 1;
+            //}
+            //else if (groundRelation == GroundRelation.Flat)
+            //{
+            //    return -1;
+            //}
+            //else
+            //{
+            //    if (Z > obj.Z)
+            //    {
+            //        return 1;
+            //    }
+            //    else if (Z < obj.Z)
+            //    {
+            //        return -1;
+            //    }
+            //    else
+            //    {
+            //        return 0;
+            //    }
+            //}
+
+            var z = Z;
+            var objZ = obj.Z;
+
+            if (groundRelation == GroundRelation.Flat)
             {
-                return -1;
+                z -= size.Z;
             }
-            else if (!sortLowest && obj.sortLowest)
+            if (obj.groundRelation == GroundRelation.Flat)
+            {
+                objZ -= obj.size.Z;
+            }
+
+            if (z > objZ)
             {
                 return 1;
             }
-            else if (sortLowest && obj.sortLowest)
+            else if (z < objZ)
             {
-                if (_sortingPriority < obj._sortingPriority)
-                {
-                    return -1;
-                }
-                else if (_sortingPriority > obj._sortingPriority)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+                return -1;
             }
             else
             {
-                // TODO: Right facing objects: 
-                // The offset fixes the sorting position if an object is on the left side, but is wrong if it is on the right side.
-                // We need to reverse the sorting if the object is to the right (and if the object is not standing on the object).
-                // This entire process is the opposite when doing Left facing objects.
-                
-                if (Z + zSortingOffset < obj.Z + obj.zSortingOffset)
-                {
-                    return -1;
-                }
-                else if (Z + zSortingOffset > obj.Z + obj.zSortingOffset)
-                {
-                    return 1;
-                }
-                else
-                {
-                    //When they are on the same Z plane, compare their sorting priority.
-                    //This is very unlikely to happen, but eh.
-                    if (_sortingPriority < obj._sortingPriority)
-                    {
-                        return -1;
-                    }
-                    else if (_sortingPriority > obj._sortingPriority)
-                    {
-                        return 1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
+                return 0;
             }
         }
     }

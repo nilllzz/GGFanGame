@@ -10,7 +10,7 @@ namespace GGFanGame.Game
     /// <summary>
     /// The generic class for scenery stuff.
     /// </summary>
-    abstract class SceneryObject : Level.InteractableStageObject
+    abstract class SceneryObject : InteractableStageObject
     {
         public SceneryObject() : base()
         {

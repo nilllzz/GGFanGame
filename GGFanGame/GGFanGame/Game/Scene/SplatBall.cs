@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GGFanGame.GameProvider;
+using static GameProvider;
 
-namespace GGFanGame.Game.Level.Scene
+namespace GGFanGame.Game.Scene
 {
     /// <summary>
     /// A ball shot by a gun that splats on the ground upon contact.

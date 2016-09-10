@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static GGFanGame.GameProvider;
+using static GameProvider;
 
 namespace GGFanGame.Content
 {

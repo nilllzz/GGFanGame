@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using GGFanGame.Game.Level;
+using GGFanGame.Game;
 
 namespace GGFanGame.Game
 {

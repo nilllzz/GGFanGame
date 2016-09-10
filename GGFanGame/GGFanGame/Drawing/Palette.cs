@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GGFanGame.GameProvider;
+using static GameProvider;
 
 namespace GGFanGame.Drawing
 {

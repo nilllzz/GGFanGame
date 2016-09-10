@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using static GGFanGame.GameProvider;
+using static GameProvider;
 
-namespace GGFanGame.Game.Level.Scene.Level1_1
+namespace GGFanGame.Game.Scene.Level1_1
 {
     class BridgeRailing : SceneryObject
     {
@@ -16,6 +16,7 @@ namespace GGFanGame.Game.Level.Scene.Level1_1
             drawShadow = false;
             collision = true;
             canLandOn = true;
+            gravityAffected = false;
 
             addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(64, 32), 100));
 

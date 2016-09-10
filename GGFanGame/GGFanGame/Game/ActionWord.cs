@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GGFanGame.GameProvider;
+using static GameProvider;
 
 namespace GGFanGame.Game
 {
     /// <summary>
     /// This class displays action words on the stage screen.
     /// </summary>
-    sealed class ActionWord : Level.StageObject
+    sealed class ActionWord : StageObject
     {
         private static Random wordRnd = new Random();
         private static Dictionary<ActionWordType, string[]> _wordGroups;

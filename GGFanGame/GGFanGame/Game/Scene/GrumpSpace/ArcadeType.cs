@@ -1,4 +1,4 @@
-﻿namespace GGFanGame.Game.Level.Scene.GrumpSpace
+﻿namespace GGFanGame.Game.Scene.GrumpSpace
 {
     enum ArcadeType
     {

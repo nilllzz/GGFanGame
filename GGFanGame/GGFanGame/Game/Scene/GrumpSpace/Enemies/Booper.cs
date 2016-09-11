@@ -30,7 +30,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace.Enemies
 
             health = 50;
 
-            OnDeath += new OnDeathEventHandler(onDeath);
+            OnDeath += onDeath;
         }
 
         public override void update()
@@ -53,7 +53,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace.Enemies
 
         private void onDeath(StageObject obj)
         {
-            Stage.activeStage().addObject(new Scene.GroundSplat(new Color(255, 128, 255)) { position = position });
+            Stage.activeStage().addObject(new GroundSplat(new Color(255, 128, 255)) { position = position });
 
             for (int i = 0; i < 3; i++)
             {
@@ -70,7 +70,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace.Enemies
                     G = 174;
                 }
 
-                Stage.activeStage().addObject(new Scene.SplatBall(new Color(255, G, 255), new Vector3(xMovement, 3f, zMovement)) { position = position });
+                Stage.activeStage().addObject(new SplatBall(new Color(255, G, 255), new Vector3(xMovement, 3f, zMovement)) { position = position });
             }
         }
     }

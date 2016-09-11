@@ -12,10 +12,8 @@ namespace GGFanGame.Game
     /// </summary>
     abstract class Enemy : InteractableStageObject
     {
-        public event OnDeathEventHandler OnDeath;
-
-        public delegate void OnDeathEventHandler(StageObject obj);
-
+        public event Action<StageObject> OnDeath;
+        
         public Enemy()
         { }
 
@@ -40,8 +38,7 @@ namespace GGFanGame.Game
                 {
                     canBeRemoved = true;
 
-                    if (OnDeath != null)
-                        OnDeath(this);
+                    OnDeath?.Invoke(this);
                 }
             }
 

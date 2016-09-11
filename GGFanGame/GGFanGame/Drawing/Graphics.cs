@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,7 +8,7 @@ namespace GGFanGame.Drawing
     /// <summary>
     /// This class is used across the game to render basic forms like rectangles.
     /// </summary>
-    static class Graphics
+    internal static class Graphics
     {
         //Stores a single pixel to draw forms with:
         private static Texture2D _canvas = null;
@@ -81,7 +79,7 @@ namespace GGFanGame.Drawing
         {
             if (_initialized)
             {
-                double angle = Math.Atan2(end.Y - start.Y, end.X - start.X);
+                var angle = Math.Atan2(end.Y - start.Y, end.X - start.X);
                 double length = Vector2.Distance(start, end);
 
                 batch.Draw(_canvas, start, null, color, (float)angle, Vector2.Zero, new Vector2((float)length, (float)width), SpriteEffects.None, 0);
@@ -106,7 +104,7 @@ namespace GGFanGame.Drawing
 
         //We'd also like to draw simple gradients here.
 
-        private static Dictionary<string, GradientConfiguration> _gradientConfigs = new Dictionary<string, GradientConfiguration>();
+        private static readonly Dictionary<string, GradientConfiguration> _gradientConfigs = new Dictionary<string, GradientConfiguration>();
 
         /// <summary>
         /// Used to store gradient configurations.
@@ -118,7 +116,7 @@ namespace GGFanGame.Drawing
             //If we don't want to do this every frame we render the gradient, we store the generated texture in a configuration.
 
             //This where we store the generated texture:
-            private Texture2D _texture;
+            private readonly Texture2D _texture;
 
             public GradientConfiguration(int width, int height, Color fromColor, Color toColor, bool horizontal, int steps)
             {
@@ -136,32 +134,29 @@ namespace GGFanGame.Drawing
 
             private static Texture2D generateTexture(int width, int height, Color fromColor, Color toColor, bool horizontal, int steps)
             {
-                int uSize = height;
+                var uSize = height;
                 if (horizontal)
                     uSize = width;
 
-                double diffR, diffG, diffB, diffA;
-
-                diffR = (int)toColor.R - (int)fromColor.R;
-                diffG = (int)toColor.G - (int)fromColor.G;
-                diffB = (int)toColor.B - (int)fromColor.B;
-                diffA = (int)toColor.A - (int)fromColor.A;
+                double diffR = (int)toColor.R - (int)fromColor.R;
+                double diffG = (int)toColor.G - (int)fromColor.G;
+                double diffB = (int)toColor.B - (int)fromColor.B;
+                double diffA = (int)toColor.A - (int)fromColor.A;
 
                 double stepCount = steps;
                 if (stepCount < 0)
                     stepCount = uSize;
 
-                float stepSize = (float)Math.Ceiling((float)(uSize / stepCount));
+                var stepSize = (float)Math.Ceiling((float)(uSize / stepCount));
 
-                Color[] colorArr = new Color[width * height];
+                var colorArr = new Color[width * height];
 
-                int cR, cG, cB, cA;
-                for (int cStep = 1; cStep <= stepCount; cStep++)
+                for (var cStep = 1; cStep <= stepCount; cStep++)
                 {
-                    cR = (int)(((diffR / stepCount) * cStep) + (int)fromColor.R);
-                    cG = (int)(((diffG / stepCount) * cStep) + (int)fromColor.G);
-                    cB = (int)(((diffB / stepCount) * cStep) + (int)fromColor.B);
-                    cA = (int)(((diffA / stepCount) * cStep) + (int)fromColor.A);
+                    var cR = (int)(((diffR / stepCount) * cStep) + (int)fromColor.R);
+                    var cG = (int)(((diffG / stepCount) * cStep) + (int)fromColor.G);
+                    var cB = (int)(((diffB / stepCount) * cStep) + (int)fromColor.B);
+                    var cA = (int)(((diffA / stepCount) * cStep) + (int)fromColor.A);
 
                     if (cR < 0)
                         cR += 255;
@@ -174,39 +169,39 @@ namespace GGFanGame.Drawing
 
                     if (horizontal)
                     {
-                        Color c = new Color(cR, cG, cB, cA);
+                        var c = new Color(cR, cG, cB, cA);
 
-                        int length = (int)Math.Ceiling(stepSize);
-                        int start = (int)((cStep - 1) * stepSize);
+                        var length = (int)Math.Ceiling(stepSize);
+                        var start = (int)((cStep - 1) * stepSize);
 
-                        for (int x = start; x < start + length; x++)
+                        for (var x = start; x < start + length; x++)
                         {
-                            for (int y = 0; y < height; y++)
+                            for (var y = 0; y < height; y++)
                             {
-                                int i = x + y * width;
+                                var i = x + y * width;
                                 colorArr[i] = c;
                             }
                         }
                     } //if
                     else
                     {
-                        Color c = new Color(cR, cG, cB, cA);
+                        var c = new Color(cR, cG, cB, cA);
 
-                        int length = (int)Math.Ceiling(stepSize);
-                        int start = (int)((cStep - 1) * stepSize);
+                        var length = (int)Math.Ceiling(stepSize);
+                        var start = (int)((cStep - 1) * stepSize);
 
-                        for (int y = start; y < start + length; y++)
+                        for (var y = start; y < start + length; y++)
                         {
-                            for (int x = 0; x < width; x++)
+                            for (var x = 0; x < width; x++)
                             {
-                                int i = x + y * width;
+                                var i = x + y * width;
                                 colorArr[i] = c;
                             }
                         }
                     } //else
                 } //for
 
-                Texture2D texture = new Texture2D(_device, width, height);
+                var texture = new Texture2D(_device, width, height);
                 texture.SetData(colorArr);
                 return texture;
             }
@@ -250,7 +245,7 @@ namespace GGFanGame.Drawing
             if (rectangle.Width > 0 && rectangle.Height > 0)
             {
                 GradientConfiguration gradient;
-                string checksum = GradientConfiguration.generateChecksum(rectangle.Width, rectangle.Height, fromColor, toColor, horizontal, steps);
+                var checksum = GradientConfiguration.generateChecksum(rectangle.Width, rectangle.Height, fromColor, toColor, horizontal, steps);
 
                 if (_gradientConfigs.ContainsKey(checksum))
                 {
@@ -281,11 +276,11 @@ namespace GGFanGame.Drawing
         /// </summary>
         private struct EllipseConfiguration
         {
-            private Texture2D _texture;
+            private readonly Texture2D _texture;
 
             public EllipseConfiguration(int width, int height)
             {
-                Texture2D texture = new Texture2D(_device, width, height);
+                var texture = new Texture2D(_device, width, height);
                 texture.SetData(generateTextureData(width, height));
                 _texture = texture;
             }
@@ -302,20 +297,20 @@ namespace GGFanGame.Drawing
             {
                 //width and height are x and y diameter.
 
-                Color[] colorArr = new Color[width * height];
+                var colorArr = new Color[width * height];
 
-                Point center = new Point(width / 2, height / 2);
+                var center = new Point(width / 2, height / 2);
 
-                double xRadius = width / 2d;
-                double yRadius = height / 2d;
+                var xRadius = width / 2d;
+                var yRadius = height / 2d;
 
-                for (int x = 0; x < width; x++)
+                for (var x = 0; x < width; x++)
                 {
-                    for (int y = 0; y < height; y++)
+                    for (var y = 0; y < height; y++)
                     {
-                        int index = y * width + x;
+                        var index = y * width + x;
 
-                        Point normalized = new Point(x - center.X, y - center.Y);
+                        var normalized = new Point(x - center.X, y - center.Y);
 
                         if (((normalized.X * normalized.X) / (xRadius * xRadius)) + ((normalized.Y * normalized.Y) / (yRadius * yRadius)) <= 1.0)
                             colorArr[index] = Color.White;
@@ -342,7 +337,7 @@ namespace GGFanGame.Drawing
         public static void drawEllipse(SpriteBatch batch, Rectangle rectangle, Color color, double scale)
         {
             EllipseConfiguration ellipse;
-            string checksum = EllipseConfiguration.generateChecksum(rectangle.Width, rectangle.Height);
+            var checksum = EllipseConfiguration.generateChecksum(rectangle.Width, rectangle.Height);
 
             if (_ellipseConfigs.ContainsKey(checksum))
             {
@@ -414,29 +409,29 @@ namespace GGFanGame.Drawing
         {
             //The objects at the same index in the ellipses and colors arrays are corresponding.
 
-            Color[] colorArr = new Color[outerWidth * outerHeight];
-            Texture2D returnTexture = new Texture2D(_device, outerWidth, outerHeight); 
+            var colorArr = new Color[outerWidth * outerHeight];
+            var returnTexture = new Texture2D(_device, outerWidth, outerHeight);
 
             //By default, the return texture is entirely transparent:
-            for (int i = 0; i < colorArr.Length; i++)
+            for (var i = 0; i < colorArr.Length; i++)
             {
                 colorArr[i] = Color.Transparent;
             }
 
             //Loop through the ellipses and fill the color array with the ellipse colors:
-            for (int i = 0; i < ellipses.Length; i++)
+            for (var i = 0; i < ellipses.Length; i++)
             {
                 var ellipse = ellipses[i];
                 var color = colors[i];
 
                 var ellipseTextureData = EllipseConfiguration.generateTextureData(ellipse.Width, ellipse.Height);
 
-                for (int x = 0; x < ellipse.Width; x++)
+                for (var x = 0; x < ellipse.Width; x++)
                 {
-                    for (int y = 0; y < ellipse.Height; y++)
+                    for (var y = 0; y < ellipse.Height; y++)
                     {
-                        int index = y * ellipse.Width + x;
-                        int colIndex = (y + ellipse.Y) * outerWidth + (x + ellipse.X);
+                        var index = y * ellipse.Width + x;
+                        var colIndex = (y + ellipse.Y) * outerWidth + (x + ellipse.X);
 
                         //Only fill in when the ellipse's color is not transparent:
                         if (ellipseTextureData[index] != Color.Transparent)

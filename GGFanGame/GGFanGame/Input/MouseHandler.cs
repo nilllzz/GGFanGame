@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
 namespace GGFanGame.Input
@@ -10,7 +6,7 @@ namespace GGFanGame.Input
     /// <summary>
     /// Handles mouse input.
     /// </summary>
-    class MouseHandler
+    internal static class MouseHandler
     {
         private static MouseState _oldState;
         private static MouseState _currentState;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
@@ -11,7 +7,7 @@ namespace GGFanGame.Game.Playable
     /// <summary>
     /// The Lemon projectile Arin throws in his ABA combo.
     /// </summary>
-    class ArinLemon : InteractableStageObject
+    internal class ArinLemon : InteractableStageObject
     {
         private int _ticksAlive = 0;
 
@@ -38,7 +34,7 @@ namespace GGFanGame.Game.Playable
                 X += 5f;
             }
 
-            int hits = Stage.activeStage().applyAttack(new Attack(this, false, 8, 4f, size, Vector3.Zero, facing), position, 1);
+            var hits = Stage.activeStage.applyAttack(new Attack(this, false, 8, 4f, size, Vector3.Zero, facing), position, 1);
 
             if (hits > 0)
             {
@@ -48,7 +44,7 @@ namespace GGFanGame.Game.Playable
             {
                 //When this didn't hit anything, check if it collides with things.
                 //If it does, remove it from the stage:
-                if (Stage.activeStage().intersects(this, position))
+                if (Stage.activeStage.intersects(this, position))
                 {
                     canBeRemoved = true;
                 }

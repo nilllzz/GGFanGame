@@ -3,7 +3,7 @@
     /// <summary>
     /// Input types to control accept/dismiss actions.
     /// </summary>
-    enum InputControlType
+    internal enum InputControlType
     {
         Keyboard,
         GamePad

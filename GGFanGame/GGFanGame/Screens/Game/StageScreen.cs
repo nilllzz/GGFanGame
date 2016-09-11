@@ -15,8 +15,8 @@ namespace GGFanGame.Screens.Game
     /// </summary>
     internal class StageScreen : Screen
     {
-        private Stage _stage;
-        private PlayerStatus _oneStatus, _twoStatus, _threeStatus, _fourStatus;
+        private readonly Stage _stage;
+        private readonly PlayerStatus _oneStatus, _twoStatus, _threeStatus, _fourStatus;
 
         public StageScreen()
         {

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework.Input;
 
 namespace GGFanGame.Input
 {
     /// <summary>
     /// Handles keyboard input.
     /// </summary>
-    class KeyboardHandler
+    internal static class KeyboardHandler
     {
         private static KeyboardState _oldState;
         private static KeyboardState _currentState;

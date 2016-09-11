@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
 namespace GGFanGame.Screens
@@ -11,9 +10,9 @@ namespace GGFanGame.Screens
     /// <summary>
     /// The base class for all screens in the game.
     /// </summary>
-    abstract internal class Screen : IDisposable
+    internal abstract class Screen : IDisposable
     {
-        protected ContentManager content { get; set; } = null;
+        protected ContentManager content { get; private set; }
 
         /// <summary>
         /// Initializes the <see cref="ContentManager"/> for this screen.
@@ -79,7 +78,7 @@ namespace GGFanGame.Screens
             {
                 if (disposing)
                 {
-                    if (content != null) content.Dispose();
+                    content?.Dispose();
                 }
 
                 content = null;

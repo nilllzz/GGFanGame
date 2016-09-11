@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
 namespace GGFanGame
@@ -39,7 +34,7 @@ namespace GGFanGame
         /// </summary>
         internal static RenderTarget2D beginRenderScreenToTarget()
         {
-            RenderTarget2D target = createScreenTarget();
+            var target = createScreenTarget();
 
             //End the sprite batch, render to current target.
             //Then, set to new render target and begin the batch.

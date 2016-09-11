@@ -1,6 +1,9 @@
 ﻿namespace GGFanGame.Game.Scene.GrumpSpace
 {
-    enum ArcadeType
+    /// <summary>
+    /// Different types of <see cref="ArcadeMachine"/>s.
+    /// </summary>
+    internal enum ArcadeType
     {
         Ninja = 0
     }

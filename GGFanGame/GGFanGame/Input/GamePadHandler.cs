@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
 namespace GGFanGame.Input
@@ -10,17 +6,17 @@ namespace GGFanGame.Input
     /// <summary>
     /// Handles GamePad input.
     /// </summary>
-    class GamePadHandler
+    internal static class GamePadHandler
     {
-        private static GamePadState[] _oldStates = new GamePadState[4];
-        private static GamePadState[] _currentStates = new GamePadState[4];
+        private static readonly GamePadState[] _oldStates = new GamePadState[4];
+        private static readonly GamePadState[] _currentStates = new GamePadState[4];
 
         /// <summary>
         /// Updates the GamePadHandler's states.
         /// </summary>
         public static void update()
         {
-            for (int i = 0; i < _oldStates.Length; i++)
+            for (var i = 0; i < _oldStates.Length; i++)
             {
                 _oldStates[i] = _currentStates[i];
             }
@@ -36,7 +32,7 @@ namespace GGFanGame.Input
         /// </summary>
         public static bool buttonPressed(PlayerIndex playerIndex, Buttons button)
         {
-            int index = (int)playerIndex;
+            var index = (int)playerIndex;
             return (!_oldStates[index].IsButtonDown(button) && _currentStates[index].IsButtonDown(button));
         }
 
@@ -45,7 +41,7 @@ namespace GGFanGame.Input
         /// </summary>
         public static bool buttonDown(PlayerIndex playerIndex, Buttons button)
         {
-            int index = (int)playerIndex;
+            var index = (int)playerIndex;
             return _currentStates[index].IsButtonDown(button);
         }
 
@@ -54,7 +50,7 @@ namespace GGFanGame.Input
         /// </summary>
         public static bool isConnected(PlayerIndex playerIndex)
         {
-            int index = (int)playerIndex;
+            var index = (int)playerIndex;
             return _currentStates[index].IsConnected;
         }
 
@@ -64,8 +60,8 @@ namespace GGFanGame.Input
         public static float thumbStickDirection(PlayerIndex playerIndex, ThumbStick thumbStick, InputDirection direction)
         {
             Vector2 v;
-            float result = 0f;
-            int index = (int)playerIndex;
+            var result = 0f;
+            var index = (int)playerIndex;
 
             if (thumbStick == ThumbStick.Left)
                 v = _currentStates[index].ThumbSticks.Left;

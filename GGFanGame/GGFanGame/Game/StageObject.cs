@@ -8,7 +8,7 @@ namespace GGFanGame.Game
     /// <summary>
     /// The base object for all things that appear in a stage.
     /// </summary>
-    abstract internal class StageObject : IComparable<StageObject>
+    internal abstract class StageObject : IComparable<StageObject>
     {
         /// <summary>
         /// An event that occures when the position of the object changed.
@@ -21,15 +21,15 @@ namespace GGFanGame.Game
         public delegate void OnPositionChangedEventHandler(StageObject obj, Vector3 previousPosition);
 
         private Vector3 _position;
-        private List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
+        private readonly List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
 
         private static int _currentSortingPriority = 0; //Keeps track of all the sorting priorities added so that every object has a different one.
-        private int _sortingPriority = 0;
+        private readonly int _sortingPriority = 0;
         private int _maxHealth;
 
         #region Properties
 
-        protected ContentManager content => Stage.activeStage().content;
+        protected static ContentManager content => Stage.activeStage.content;
 
         /// <summary>
         /// The main color associated with this object.
@@ -44,7 +44,7 @@ namespace GGFanGame.Game
             get { return _position; }
             set
             {
-                Vector3 prePosition = _position;
+                var prePosition = _position;
                 _position = value;
 
                 OnPositionChanged?.Invoke(this, prePosition);
@@ -59,7 +59,7 @@ namespace GGFanGame.Game
             get { return _position.X; }
             set
             {
-                Vector3 prePosition = _position;
+                var prePosition = _position;
                 _position.X = value;
 
                 OnPositionChanged?.Invoke(this, prePosition);
@@ -74,7 +74,7 @@ namespace GGFanGame.Game
             get { return _position.Y; }
             set
             {
-                Vector3 prePosition = _position;
+                var prePosition = _position;
                 _position.Y = value;
 
                 OnPositionChanged?.Invoke(this, prePosition);
@@ -89,7 +89,7 @@ namespace GGFanGame.Game
             get { return _position.Z; }
             set
             {
-                Vector3 prePosition = _position;
+                var prePosition = _position;
                 _position.Z = value;
 
                 OnPositionChanged?.Invoke(this, prePosition);
@@ -176,7 +176,7 @@ namespace GGFanGame.Game
 
         #endregion
 
-        public StageObject()
+        protected StageObject()
         {
             _sortingPriority = _currentSortingPriority;
             _currentSortingPriority++;
@@ -205,10 +205,10 @@ namespace GGFanGame.Game
         {
             get
             {
-                BoundingBox[] boxes = new BoundingBox[_boundingBoxes.Count];
+                var boxes = new BoundingBox[_boundingBoxes.Count];
 
                 //Add this object's position to each bounding box as offset:
-                for (int i = 0; i < _boundingBoxes.Count; i++)
+                for (var i = 0; i < _boundingBoxes.Count; i++)
                     boxes[i] = _boundingBoxes[i].Offset(_position);
 
                 return boxes;

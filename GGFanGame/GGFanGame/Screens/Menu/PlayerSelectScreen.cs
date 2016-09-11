@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,22 +9,22 @@ namespace GGFanGame.Screens.Menu
     /// <summary>
     /// Enables the player(s) to select a character.
     /// </summary>
-    class PlayerSelectScreen : Screen
+    internal class PlayerSelectScreen : Screen
     {
-        private int[] _selections = new int[4]; //These save the selected grump (index) for each player select display.
-        private bool[] _activatedPlayers = new bool[4]; //These save if a specific player select display has choosen a character.
-        private Texture2D[] _menuElements = new Texture2D[4]; //Stores the "1Up" etc. textures.
-        private int[] _selectedAnimations = new int[4]; //Stores the animation progress for when the player selects a character.
-        private int[] _switchedAnimations = new int[4]; //Stores the animation progress for when the player switches characters.
-        private int[] _randomCharacters = new int[4]; //When the player selects "random character", this will count down until they get their character.
+        private readonly int[] _selections = new int[4]; //These save the selected grump (index) for each player select display.
+        private readonly bool[] _activatedPlayers = new bool[4]; //These save if a specific player select display has choosen a character.
+        private readonly Texture2D[] _menuElements = new Texture2D[4]; //Stores the "1Up" etc. textures.
+        private readonly int[] _selectedAnimations = new int[4]; //Stores the animation progress for when the player selects a character.
+        private readonly int[] _switchedAnimations = new int[4]; //Stores the animation progress for when the player switches characters.
+        private readonly int[] _randomCharacters = new int[4]; //When the player selects "random character", this will count down until they get their character.
 
         //These store the grumps, grump overlays and grump name textures:
         //The grump overlays are white copies of the normal textures and used to overlay with an alpha over the normal grump texture when not selected.
-        private Texture2D[] _grumps = new Texture2D[5];
-        private Texture2D[] _grumps_overlay = new Texture2D[5];
-        private Texture2D[] _grumps_names = new Texture2D[5];
+        private readonly Texture2D[] _grumps = new Texture2D[5];
+        private readonly Texture2D[] _grumps_overlay = new Texture2D[5];
+        private readonly Texture2D[] _grumps_names = new Texture2D[5];
 
-        private SpriteFont _grumpFont = null;
+        private readonly SpriteFont _grumpFont = null;
 
         public PlayerSelectScreen()
         {
@@ -39,13 +36,13 @@ namespace GGFanGame.Screens.Menu
             loadGrumpTexture(3, "Ross");
             loadGrumpTexture(4, "Suzy");
 
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 _menuElements[i] = gameInstance.Content.Load<Texture2D>(@"UI\GrumpCade\" + (i + 1).ToString() + "Up");
             }
 
             //Set start selections:
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 _selections[i] = i;
             }
@@ -70,8 +67,8 @@ namespace GGFanGame.Screens.Menu
             //We draw the selections here:
 
             //Drawing the selections at the center of the screen:
-            int startX = (gameInstance.clientRectangle.Width - 1030) / 2;
-            int startY = 50;
+            var startX = (gameInstance.clientRectangle.Width - 1030) / 2;
+            var startY = 50;
 
             drawGrumpSelect(0, new Vector2(startX, startY), Drawing.Colors.oneUpColor);
             drawGrumpSelect(1, new Vector2(startX + 260, startY), Drawing.Colors.twoUpColor);
@@ -83,8 +80,8 @@ namespace GGFanGame.Screens.Menu
 
             if (_activatedPlayers[0])
             {
-                string text = "Press START to Begin!";
-                Vector2 textSize = _grumpFont.MeasureString(text);
+                const string text = "Press START to Begin!";
+                var textSize = _grumpFont.MeasureString(text);
 
                 gameInstance.fontBatch.DrawString(_grumpFont, text,
                     new Vector2(gameInstance.clientRectangle.Width / 2 - textSize.X / 2,
@@ -102,7 +99,7 @@ namespace GGFanGame.Screens.Menu
         {
             //This value stores the added Y position of the sprite when switching characters.
             //It calculates from a sinus function and the switchedAnimations array.
-            float addedY = (float)Math.Sin(_switchedAnimations[index]) * 4f;
+            var addedY = (float)Math.Sin(_switchedAnimations[index]) * 4f;
 
             //Only when the player has chosen a character, draw the dash line and a shadow.
             if (_activatedPlayers[index])
@@ -130,8 +127,8 @@ namespace GGFanGame.Screens.Menu
             }
             else //otherwise...
             {
-                int alpha = 255;
-                int size = 0;
+                var alpha = 255;
+                var size = 0;
 
                 //While the animation is going on
                 if (_selectedAnimations[index] < 480)
@@ -158,9 +155,9 @@ namespace GGFanGame.Screens.Menu
         public override void update()
         {
             //Cycle through the connected GamePads:
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
-                PlayerIndex playerIndex = (PlayerIndex)i;
+                var playerIndex = (PlayerIndex)i;
 
                 //Only when the player has not selected a character, they can select a different one:
                 if (!_activatedPlayers[i] && _randomCharacters[i] == 0)

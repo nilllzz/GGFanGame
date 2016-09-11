@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace GGFanGame.Drawing
 {
     /// <summary>
     /// Color managemend for the players.
     /// </summary>
-    sealed class Colors
+    internal static class Colors
     {
         public static readonly Color oneUpColor = new Color(103, 204, 252);
         public static readonly Color twoUpColor = new Color(245, 204, 43);

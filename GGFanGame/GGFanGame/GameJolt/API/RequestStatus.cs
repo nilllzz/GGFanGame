@@ -3,7 +3,7 @@
     /// <summary>
     /// The return status of a request.
     /// </summary>
-    enum RequestStatus
+    internal enum RequestStatus
     {
         Success,
         Failure

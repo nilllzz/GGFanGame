@@ -1,79 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using GGFanGame.Game;
+﻿using Microsoft.Xna.Framework;
 
 namespace GGFanGame.Game
 {
     /// <summary>
     /// Represents an attack used by an enemy or player.
     /// </summary>
-    class Attack
+    internal class Attack
     {
-        private StageObject _origin;
-        private bool _knockback;
-        private int _health;
-        private Vector3 _size;
-        private Vector3 _offset;
-        private ObjectFacing _facing;
-        private float _strength;
+        private Vector3 _size, _offset;
 
-        public Attack(StageObject origin, bool knockback, int health, float strength, Vector3 size, Vector3 offset) :
-            this(origin, knockback, health, strength, size, offset, ObjectFacing.Left) { }
-
-        public Attack(StageObject origin, bool knockback, int health, float strength, Vector3 size, Vector3 offset, ObjectFacing facing)
+        public Attack(StageObject origin, bool knockback, int health, float strength, Vector3 size, Vector3 offset, ObjectFacing facing = ObjectFacing.Left)
         {
-            _origin = origin;
-            _knockback = knockback;
-            _health = health;
+            this.origin = origin;
+            this.knockback = knockback;
+            this.health = health;
+            this.facing = facing;
+            this.strength = strength;
+
             _size = size;
             _offset = offset;
-            _facing = facing;
-            _strength = strength;
         }
 
         /// <summary>
         /// The origin object of this attack.
         /// </summary>
-        public StageObject origin
-        {
-            get { return _origin; }
-        }
+        public StageObject origin { get; private set; }
 
         /// <summary>
         /// If this attack has a strong knockback that hits to the ground.
         /// </summary>
-        public bool knockback
-        {
-            get { return _knockback; }
-        }
+        public bool knockback { get; private set; }
 
         /// <summary>
         /// The health this attack depletes.
         /// </summary>
-        public int health
-        {
-            get { return _health; }
-        }
+        public int health { get; private set; }
 
         /// <summary>
         /// The strength of this attack.
         /// </summary>
-        public float strength
-        {
-            get { return _strength; }
-        }
+        public float strength { get; private set; }
 
         /// <summary>
         /// When an object gets hit, this is the facing to set to.
         /// </summary>
-        public ObjectFacing facing
-        {
-            get { return _facing; }
-            set { _facing = value; }
-        }
+        public ObjectFacing facing { get; set; }
 
         /// <summary>
         /// Returns the hitbox of this attack relativ to the position of the user.
@@ -81,13 +52,13 @@ namespace GGFanGame.Game
         /// <param name="relPosition">The position of the user of this attack.</param>
         public BoundingBox getHitbox(Vector3 relPosition)
         {
-            float X = relPosition.X;
-            float Y = relPosition.Y;
-            float Z = relPosition.Z;
+            var X = relPosition.X;
+            var Y = relPosition.Y;
+            var Z = relPosition.Z;
 
-            float xOffset = (_facing == ObjectFacing.Right) ? _offset.X : -_offset.X;
+            var xOffset = (facing == ObjectFacing.Right) ? _offset.X : -_offset.X;
 
-            BoundingBox hitbox = new BoundingBox(
+            var hitbox = new BoundingBox(
                   new Vector3(X - _size.X / 2f + xOffset,
                               Y - _size.Y / 2f + _offset.Y,
                               Z - _size.Z / 2f + _offset.Z),

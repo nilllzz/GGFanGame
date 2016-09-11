@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
@@ -11,7 +8,7 @@ namespace GGFanGame.Game
     /// <summary>
     /// This class displays action words on the stage screen.
     /// </summary>
-    sealed class ActionWord : StageObject
+    internal sealed class ActionWord : StageObject
     {
         private static Dictionary<ActionWordType, string[]> _wordGroups;
 
@@ -22,11 +19,12 @@ namespace GGFanGame.Game
         {
             if (_wordGroups == null)
             {
-                _wordGroups = new Dictionary<ActionWordType, string[]>();
-
-                _wordGroups.Add(ActionWordType.HurtEnemy, new string[] { "Uhh", "Ahh", "Arg", "Huu", "Ehh" });
-                _wordGroups.Add(ActionWordType.HurtPlayer, new string[] { "Ech", "Shiet", "Damn", "Dammit", "Urg", "Ahh", "Garg" });
-                _wordGroups.Add(ActionWordType.Landing, new string[] { "Tud" });
+                _wordGroups = new Dictionary<ActionWordType, string[]>
+                {
+                    {ActionWordType.HurtEnemy, new[] {"Uhh", "Ahh", "Arg", "Huu", "Ehh"}},
+                    {ActionWordType.HurtPlayer, new[] {"Ech", "Shiet", "Damn", "Dammit", "Urg", "Ahh", "Garg"}},
+                    {ActionWordType.Landing, new[] {"Tud"}}
+                };
             }
         }
 
@@ -37,22 +35,22 @@ namespace GGFanGame.Game
         {
             initializeWords();
 
-            string[] words = _wordGroups[wordType];
+            var words = _wordGroups[wordType];
             return words[gameInstance.random.Next(0, words.Length)];
         }
 
         //one-time values:
-        private string _text = "";
-        private Color _color;
+        private readonly string _text = "";
+        private readonly Color _color;
 
-        private float _targetSize;
+        private readonly float _targetSize;
 
         //changing:
         private float _size;
         private double _delay;
         private float _rotation = 0f;
 
-        private SpriteFont _grumpFont;
+        private readonly SpriteFont _grumpFont;
 
         public ActionWord(string text, Color color, float targetSize, Vector3 position)
         {
@@ -66,20 +64,20 @@ namespace GGFanGame.Game
 
         public override void draw()
         {
-            Vector2 fontSize = _grumpFont.MeasureString(_text) * _size;
+            var fontSize = _grumpFont.MeasureString(_text) * _size;
 
             gameInstance.spriteBatch.DrawString(_grumpFont, _text, new Vector2(X - fontSize.X / 2f, Z - Y - fontSize.Y / 2f), _color, 0f, Vector2.Zero, _size, SpriteEffects.None, 0f);
         }
 
         public override Point getDrawingSize()
         {
-            Vector2 textSize = _grumpFont.MeasureString(_text) * _size;
+            var textSize = _grumpFont.MeasureString(_text) * _size;
             return textSize.ToPoint();
         }
 
         public override Vector3 getFeetPosition()
         {
-            Vector2 fontSize = _grumpFont.MeasureString(_text) * _size;
+            var fontSize = _grumpFont.MeasureString(_text) * _size;
             return new Vector3(X + fontSize.X / 2f, Y, Z + fontSize.Y);
         }
 

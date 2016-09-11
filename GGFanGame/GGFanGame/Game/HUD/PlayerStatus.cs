@@ -1,36 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using GGFanGame.Game.Playable;
-using static GameProvider;
-using Microsoft.Xna.Framework.Content;
 using GGFanGame.Drawing;
+using GGFanGame.Game.Playable;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using static GameProvider;
 
 namespace GGFanGame.Game.HUD
 {
     /// <summary>
     /// HUD element to display player status.
     /// </summary>
-    class PlayerStatus
+    internal class PlayerStatus
     {
-        private ContentManager _content;
-
-        private PlayerCharacter _player;
-        private PlayerIndex _playerIndex;
-
-        private int _drawHealthWidth = 0;
-        private int _drawGrumpWidth = 0;
-        private double _grumpBarGlowAnimation = 0d;
-
-        private Texture2D _headTexture;
-        private Texture2D _barTexture;
-
-        private SpriteFont _font;
-        private SpriteFont _fontLarge;
-
         /// <summary>
         /// Class to represent the bubbles in the HUD.
         /// </summary>
@@ -39,8 +22,8 @@ namespace GGFanGame.Game.HUD
             public Vector2 position;
             public float size;
 
-            public bool sinking = true;
-            public bool growing = true;
+            private bool _sinking = true;
+            private bool _growing = true;
 
             private Random _rnd;
 
@@ -52,10 +35,10 @@ namespace GGFanGame.Game.HUD
                 _rnd = new Random(seed);
 
                 if (size > 13)
-                    growing = false;
+                    _growing = false;
 
                 if (position.X > 80)
-                    sinking = false;
+                    _sinking = false;
             }
 
             /// <summary>
@@ -63,36 +46,58 @@ namespace GGFanGame.Game.HUD
             /// </summary>
             public void update()
             {
-                if (growing)
+                if (_growing)
                 {
                     size += 0.75f;
                     if (size >= 45)
-                        growing = false;
+                        _growing = false;
                 }
                 else
                 {
                     size -= 0.75f;
                     if (size <= 15)
-                        growing = true;
+                        _growing = true;
                 }
 
-                if (sinking)
+                if (_sinking)
                 {
                     position.Y += 0.1f;
                     if (position.Y >= -2f)
-                        sinking = false;
+                        _sinking = false;
                 }
                 else
                 {
                     position.Y -= 0.1f;
                     if (position.Y <= -15f)
-                        sinking = true;
+                        _sinking = true;
                 }
             }
         }
 
-        private List<Bubble> _bubbles = new List<Bubble>();
-        
+        private readonly ContentManager _content;
+
+        private readonly PlayerCharacter _player;
+        private readonly PlayerIndex _playerIndex;
+
+        private int _drawHealthWidth = 0;
+        private int _drawGrumpWidth = 0;
+        private double _grumpBarGlowAnimation = 0d;
+
+        private readonly Texture2D _headTexture;
+        private readonly Texture2D _barTexture;
+
+        private readonly SpriteFont _font;
+        private readonly SpriteFont _fontLarge;
+
+        private readonly List<Bubble> _bubbles = new List<Bubble>();
+
+        private RenderTarget2D _target;
+        private SpriteBatch _comboBatch;
+
+        private string _lastComboDrawn = "";
+        private bool _drawGrowingNumber = true;
+        private float _growingNumberSize = 1f;
+
         /// <summary>
         /// Creates a new instance of the PlayerStatus class.
         /// </summary>
@@ -107,7 +112,7 @@ namespace GGFanGame.Game.HUD
             _font = _content.Load<SpriteFont>(@"Fonts\CartoonFontSmall");
             _fontLarge = _content.Load<SpriteFont>(@"Fonts\CartoonFont");
 
-            for (int i = 0; i < 42; i++)
+            for (var i = 0; i < 42; i++)
             {
                 _bubbles.Add(new Bubble(new Vector2(gameInstance.random.Next(-20, 125), gameInstance.random.Next(-15, 4)),
                                          gameInstance.random.Next(15, 45), (int)playerIndex + i));
@@ -119,9 +124,9 @@ namespace GGFanGame.Game.HUD
         /// </summary>
         public void draw()
         {
-            //TODO: get rid of hardcoded live count!
+            //TODO: get rid of hardcoded life count!
 
-            int healthWidth = (int)(_player.health / (double)_player.maxHealth * 86d);
+            var healthWidth = (int)(_player.health / (double)_player.maxHealth * 86d);
             // animate health bar change:
             if (healthWidth < _drawHealthWidth)
             {
@@ -140,7 +145,7 @@ namespace GGFanGame.Game.HUD
                 }
             }
             
-            int grumpWidth = (int)(_player.grumpPower / (double)_player.maxGrumpPower * 62d);
+            var grumpWidth = (int)(_player.grumpPower / (double)_player.maxGrumpPower * 62d);
             if (grumpWidth < _drawGrumpWidth)
             {
                 _drawGrumpWidth -= 2;
@@ -159,7 +164,7 @@ namespace GGFanGame.Game.HUD
             }
 
             //Render bars:
-            int xOffset = 34 + 320 * (int)_playerIndex;
+            var xOffset = 34 + 320 * (int)_playerIndex;
 
             Graphics.drawRectangle(new Rectangle(xOffset + 75, 65, 120, 20), Colors.getColor(_playerIndex));
             foreach (var ell in _bubbles)
@@ -200,13 +205,6 @@ namespace GGFanGame.Game.HUD
             drawCombo(xOffset);
         }
 
-        RenderTarget2D _target;
-        SpriteBatch _comboBatch;
-
-        string _lastComboDrawn = "";
-        bool _drawGrowingNumber = true;
-        float _growingNumberSize = 1f;
-
         /// <summary>
         /// Renders the combo meter.
         /// </summary>
@@ -221,7 +219,7 @@ namespace GGFanGame.Game.HUD
                     _comboBatch = new SpriteBatch(gameInstance.GraphicsDevice);
                 }
 
-                Color playerColor = Colors.getColor(_playerIndex);
+                var playerColor = Colors.getColor(_playerIndex);
 
                 gameInstance.spriteBatch.DrawString(_fontLarge, "x" + _player.comboChain, new Vector2(xOffset, 100), Color.White, -0.2f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 

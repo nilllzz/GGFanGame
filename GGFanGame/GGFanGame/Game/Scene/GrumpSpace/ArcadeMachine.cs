@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
 
 namespace GGFanGame.Game.Scene.GrumpSpace
 {
-    class ArcadeMachine : InteractableStageObject
+    internal class ArcadeMachine : InteractableStageObject
     {
-        private ArcadeType _arcadeType;
+        private readonly ArcadeType _arcadeType;
 
         public ArcadeMachine(ArcadeType arcadeType)
         {
             _arcadeType = arcadeType;
 
-            spriteSheet = content.Load<Texture2D>(@"Levels\GrumpSpace\Arcade" + ((int)_arcadeType).ToString());
+            spriteSheet = content.Load<Texture2D>($@"Levels\GrumpSpace\Arcade{(int)_arcadeType}");
 
             size = new Vector3(30, 60, 11);
             drawShadow = false;

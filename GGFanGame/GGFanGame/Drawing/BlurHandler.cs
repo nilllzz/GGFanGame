@@ -1,6 +1,5 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
@@ -18,12 +17,11 @@ namespace GGFanGame.Drawing
 
         private RenderTarget2D _rt1, _rt2;
 
-        public bool isDisposed { get; private set; } 
+        internal bool isDisposed { get; private set; } 
 
         /// <summary>
         /// Creates a new instance of the <see cref="BlurHandler"/> class.
         /// </summary>
-        /// <param name="game">The active game instance.</param>
         /// <param name="width">The width of the target texture.</param>
         /// <param name="height">The height of the target texture.</param>
         public BlurHandler(int width, int height)
@@ -31,8 +29,8 @@ namespace GGFanGame.Drawing
             _blurCore = new GaussianBlur();
             _blurCore.computeKernel(BLUR_RADIUS, BLUR_AMOUNT);
 
-            int renderTargetWidth = width / 2;
-            int renderTargetHeight = height / 2;
+            var renderTargetWidth = width / 2;
+            var renderTargetHeight = height / 2;
 
             _rt1 = new RenderTarget2D(gameInstance.GraphicsDevice,
                 renderTargetWidth, renderTargetHeight, false,
@@ -52,7 +50,7 @@ namespace GGFanGame.Drawing
         /// </summary>
         public void draw(Texture2D drawTexture)
         {
-            Texture2D result = _blurCore.performGaussianBlur(drawTexture, _rt1, _rt2);
+            var result = _blurCore.performGaussianBlur(drawTexture, _rt1, _rt2);
 
             gameInstance.GraphicsDevice.Clear(Color.White);
             gameInstance.spriteBatch.Draw(result, new Rectangle(0, 0, drawTexture.Width, drawTexture.Height), Color.White);

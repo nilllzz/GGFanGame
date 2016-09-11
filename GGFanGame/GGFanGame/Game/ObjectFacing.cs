@@ -3,7 +3,7 @@
     /// <summary>
     /// The ways an object can face.
     /// </summary>
-    enum ObjectFacing
+    internal enum ObjectFacing
     {
         Left,
         Right

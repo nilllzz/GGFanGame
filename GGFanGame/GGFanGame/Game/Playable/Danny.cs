@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 
 namespace GGFanGame.Game.Playable
 {
     /// <summary>
     /// Playable Dan character.
     /// </summary>
-    class Danny : PlayerCharacter
+    internal class Danny : PlayerCharacter
     {
         public override string name => "Danny";
         public override int maxGrumpPower => 100;

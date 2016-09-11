@@ -5,26 +5,20 @@ namespace GGFanGame.Screens
     /// <summary>
     /// A class to manage game states as screens.
     /// </summary>
-    class ScreenManager
+    internal class ScreenManager
     {
         //We only ever need a single ScreenManager, so we do a singleton here:
-        private static ScreenManager _instance = null;
+        private static ScreenManager _instance;
 
         /// <summary>
         /// Returns the singleton instance of the APIManager.
         /// </summary>
-        public static ScreenManager getInstance()
-        {
-            if (_instance == null)
-                _instance = new ScreenManager();
-
-            return _instance;
-        }
+        public static ScreenManager getInstance() => _instance ?? (_instance = new ScreenManager());
 
         /// <summary>
         /// The currently active screen instance.
         /// </summary>
-        public Screen currentScreen { get; private set; } = null;
+        public Screen currentScreen { get; private set; }
 
         /// <summary>
         /// Sets a new screen as active screen.

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
@@ -12,12 +8,11 @@ namespace GGFanGame.Game
     /// <summary>
     /// A class that represents an interactable object, the base for all players, enemies and other complex objects.
     /// </summary>
-    abstract class InteractableStageObject : StageObject
+    internal abstract class InteractableStageObject : StageObject
     {
-        private Dictionary<ObjectState, Animation> _animations = new Dictionary<ObjectState, Animation>();
-        private int _actionHintTextAlpha = 0;
-        private StageObject _supportingObject = null;
-        protected Vector3 _autoMovement = new Vector3(0);
+        private readonly Dictionary<ObjectState, Animation> _animations = new Dictionary<ObjectState, Animation>();
+        private int _actionHintTextAlpha;
+        private StageObject _supportingObject;
 
         #region Properties
 
@@ -66,6 +61,8 @@ namespace GGFanGame.Game
         /// </summary>
         protected bool faceAttack { get; set; } = true;
 
+        protected Vector3 autoMovement = new Vector3(0);
+
         public bool hasAction { get; set; } = false;
 
         protected string actionHintText { get; set; } = "TEST";
@@ -74,7 +71,7 @@ namespace GGFanGame.Game
 
         #endregion
 
-        public InteractableStageObject()
+        protected InteractableStageObject()
         {
             setState(ObjectState.Idle);
             canInteract = true;
@@ -90,22 +87,22 @@ namespace GGFanGame.Game
 
         public override void draw()
         {
-            Rectangle frame = getAnimation().getFrameRec(animationFrame);
-            double stageScale = Stage.activeStage().camera.scale;
+            var frame = getAnimation().getFrameRec(animationFrame);
+            var stageScale = Stage.activeStage.camera.scale;
 
             if (drawShadow)
             {
-                int shadowWidth = (int)(frame.Width * shadowSize);
-                int shadowHeight = (int)(frame.Height * shadowSize * (1d / 4d));
+                var shadowWidth = (int)(frame.Width * shadowSize);
+                var shadowHeight = (int)(frame.Height * shadowSize * (1d / 4d));
 
                 Drawing.Graphics.drawEllipse(new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
-                           (int)((Z - shadowHeight / 2d - Stage.activeStage().getGround(position)) * stageScale),
+                           (int)((Z - shadowHeight / 2d - Stage.activeStage.getGround(position)) * stageScale),
                            (int)(shadowWidth * stageScale),
                            (int)(shadowHeight * stageScale)),
-                           Stage.activeStage().ambientColor, stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
+                           Stage.activeStage.ambientColor, stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
             }
 
-            SpriteEffects effect = SpriteEffects.None;
+            var effect = SpriteEffects.None;
             if (facing == ObjectFacing.Left) //Flip the sprite if facing the other way.
             {
                 effect = SpriteEffects.FlipHorizontally;
@@ -128,13 +125,13 @@ namespace GGFanGame.Game
             if ((hasAction && renderActionHint))
             {
                 //Test if player is in range and get smallest range:
-                float smallestPlayerDistance = -1f;
+                var smallestPlayerDistance = -1f;
 
-                foreach (StageObject obj in Stage.activeStage().getObjects())
+                foreach (var obj in Stage.activeStage.getObjects())
                 {
                     if (obj.GetType().IsSubclassOf(typeof(Playable.PlayerCharacter)) && obj != this)
                     {
-                        float distance = Vector3.Distance(position, obj.position);
+                        var distance = Vector3.Distance(position, obj.position);
 
                         if (distance < smallestPlayerDistance || smallestPlayerDistance < 0f)
                         {
@@ -169,7 +166,7 @@ namespace GGFanGame.Game
                 if (_actionHintTextAlpha > 0)
                 {
                     //TODO: Render properly.
-                    gameInstance.spriteBatch.DrawString(gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont"), actionHintText, new Vector2(X, Z - Y) * (float)Stage.activeStage().camera.scale, new Color(255, 255, 255, _actionHintTextAlpha));
+                    gameInstance.spriteBatch.DrawString(gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont"), actionHintText, new Vector2(X, Z - Y) * (float)Stage.activeStage.camera.scale, new Color(255, 255, 255, _actionHintTextAlpha));
                 }
             }
         }
@@ -177,7 +174,7 @@ namespace GGFanGame.Game
         public override void update()
         {
             //Item1 is the actual object and Item2 is the Y position:
-            var supporting = Stage.activeStage().getSupporting(getFeetPosition());
+            var supporting = Stage.activeStage.getSupporting(getFeetPosition());
             updateSupporting(supporting.Item1);
             updateAutoMovement(supporting.Item2);
 
@@ -255,70 +252,70 @@ namespace GGFanGame.Game
         /// </summary>
         private void updateAutoMovement(float groundY)
         {
-            if (_autoMovement.X > 0f)
+            if (autoMovement.X > 0f)
             {
-                _autoMovement.X -= 0.5f;
-                if (_autoMovement.X < 0f)
-                    _autoMovement.X = 0f;
+                autoMovement.X -= 0.5f;
+                if (autoMovement.X < 0f)
+                    autoMovement.X = 0f;
             }
-            if (_autoMovement.X < 0f)
+            if (autoMovement.X < 0f)
             {
-                _autoMovement.X += 0.5f;
-                if (_autoMovement.X > 0f)
-                    _autoMovement.X = 0f;
+                autoMovement.X += 0.5f;
+                if (autoMovement.X > 0f)
+                    autoMovement.X = 0f;
             }
 
-            if (_autoMovement.Y > 0f)
+            if (autoMovement.Y > 0f)
             {
-                _autoMovement.Y -= 0.5f;
-                if (_autoMovement.Y < 0f)
-                    _autoMovement.Y = 0f;
+                autoMovement.Y -= 0.5f;
+                if (autoMovement.Y < 0f)
+                    autoMovement.Y = 0f;
             }
             else
             {
                 if (Y > groundY && gravityAffected)
                 {
-                    _autoMovement.Y--;
+                    autoMovement.Y--;
                 }
-                if (_autoMovement.Y < 0f && !gravityAffected)
+                if (autoMovement.Y < 0f && !gravityAffected)
                 {
-                    _autoMovement.Y = 0f;
+                    autoMovement.Y = 0f;
                 }
             }
 
-            if (_autoMovement.Z > 0f)
+            if (autoMovement.Z > 0f)
             {
-                _autoMovement.Z -= 0.5f;
-                if (_autoMovement.Z < 0f)
-                    _autoMovement.Z = 0f;
+                autoMovement.Z -= 0.5f;
+                if (autoMovement.Z < 0f)
+                    autoMovement.Z = 0f;
             }
-            if (_autoMovement.Z < 0f)
+            if (autoMovement.Z < 0f)
             {
-                _autoMovement.Z += 0.5f;
-                if (_autoMovement.Z > 0f)
-                    _autoMovement.Z = 0f;
+                autoMovement.Z += 0.5f;
+                if (autoMovement.Z > 0f)
+                    autoMovement.Z = 0f;
             }
 
-            Y += _autoMovement.Y;
+            Y += autoMovement.Y;
 
-            Vector3 desiredPos = new Vector3(X + _autoMovement.X, Y, Z + _autoMovement.Z);
+            var desiredPos = new Vector3(X + autoMovement.X, Y, Z + autoMovement.Z);
 
-            if (_autoMovement.X != 0f || _autoMovement.Z != 0f)
+            if (autoMovement.X != 0f || autoMovement.Z != 0f)
             {
-                if (!Stage.activeStage().intersects(this, desiredPos))
+                if (!Stage.activeStage.intersects(this, desiredPos))
                 {
                     position = desiredPos;
                 }
                 else
                 {
-                    Vector3 desiredPosX = new Vector3(X + _autoMovement.X, Y, Z);
-                    Vector3 desiredPosZ = new Vector3(X, Y, Z + _autoMovement.Z);
+                    var desiredPosX = new Vector3(X + autoMovement.X, Y, Z);
+                    var desiredPosZ = new Vector3(X, Y, Z + autoMovement.Z);
 
-                    if (!Stage.activeStage().intersects(this, desiredPosX))
+                    if (!Stage.activeStage.intersects(this, desiredPosX))
                     {
                         X = desiredPosX.X;
                     }
-                    if (!Stage.activeStage().intersects(this, desiredPosZ))
+                    if (!Stage.activeStage.intersects(this, desiredPosZ))
                     {
                         Z = desiredPosX.Z;
                     }
@@ -329,19 +326,19 @@ namespace GGFanGame.Game
             {
                 Y = groundY;
                 //Spawn an action word for where the player landed.
-                Stage.activeStage().addObject(new ActionWord(ActionWord.getWordText(ActionWordType.Landing), objectColor, 0.3f, position));
+                Stage.activeStage.addObject(new ActionWord(ActionWord.getWordText(ActionWordType.Landing), objectColor, 0.3f, position));
 
-                if (_autoMovement.Y < -17f && state == ObjectState.HurtFalling)
+                if (autoMovement.Y < -17f && state == ObjectState.HurtFalling)
                 {
-                    _autoMovement.Y = 8f;
+                    autoMovement.Y = 8f;
                     if (facing == ObjectFacing.Left)
-                        _autoMovement.X = 12f;
+                        autoMovement.X = 12f;
                     else
-                        _autoMovement.X = -12f;
+                        autoMovement.X = -12f;
                 }
                 else
                 {
-                    _autoMovement.Y = 0f;
+                    autoMovement.Y = 0f;
                 }
             }
         }
@@ -349,8 +346,8 @@ namespace GGFanGame.Game
         public override Point getDrawingSize()
         {
             //Returns the drawing size of the current frame:
-            Rectangle frame = getAnimation().getFrameRec(animationFrame);
-            double stageScale = Stage.activeStage().camera.scale;
+            var frame = getAnimation().getFrameRec(animationFrame);
+            var stageScale = Stage.activeStage.camera.scale;
             return new Point((int)(frame.Width * stageScale), (int)(frame.Height * stageScale));
         }
 
@@ -358,7 +355,7 @@ namespace GGFanGame.Game
         {
             base.getHit(movement, health, knockback);
 
-            _autoMovement = movement;
+            autoMovement = movement;
             this.health -= health;
 
             if (health <= 0 || knockback)
@@ -375,21 +372,21 @@ namespace GGFanGame.Game
         {
             base.getHit(attack);
 
-            float knockbackValue = attack.strength + attack.origin.strength - weight * 0.7f;
+            var knockbackValue = attack.strength + attack.origin.strength - weight * 0.7f;
 
             if (weight * 0.7f >= attack.strength + attack.origin.strength)
             {
                 knockbackValue = 0f;
-                _autoMovement.Y += 1.5f;
+                autoMovement.Y += 1.5f;
             }
 
             if (state == ObjectState.Blocking)
             {
                 health -= (int)(attack.health / 4d);
                 if (attack.facing == ObjectFacing.Right)
-                    _autoMovement.X += knockbackValue;
+                    autoMovement.X += knockbackValue;
                 else
-                    _autoMovement.X += -knockbackValue;
+                    autoMovement.X += -knockbackValue;
             }
             else
             {
@@ -399,13 +396,13 @@ namespace GGFanGame.Game
                 {
                     if (attack.facing == ObjectFacing.Right)
                     {
-                        _autoMovement.X += knockbackValue * 1.5f;
-                        _autoMovement.Y += knockbackValue;
+                        autoMovement.X += knockbackValue * 1.5f;
+                        autoMovement.Y += knockbackValue;
                     }
                     else
                     {
-                        _autoMovement.X += -(knockbackValue * 1.5f);
-                        _autoMovement.Y += knockbackValue;
+                        autoMovement.X += -(knockbackValue * 1.5f);
+                        autoMovement.Y += knockbackValue;
                     }
                 }
                 else
@@ -414,24 +411,24 @@ namespace GGFanGame.Game
                     {
                         if (attack.facing == ObjectFacing.Right)
                         {
-                            _autoMovement.X += knockbackValue * 1.5f;
-                            _autoMovement.Y += knockbackValue;
+                            autoMovement.X += knockbackValue * 1.5f;
+                            autoMovement.Y += knockbackValue;
                         }
                         else
                         {
-                            _autoMovement.X += -(knockbackValue * 1.5f);
-                            _autoMovement.Y += knockbackValue;
+                            autoMovement.X += -(knockbackValue * 1.5f);
+                            autoMovement.Y += knockbackValue;
                         }
                     }
                     else
                     {
                         if (attack.facing == ObjectFacing.Right)
                         {
-                            _autoMovement.X += knockbackValue;
+                            autoMovement.X += knockbackValue;
                         }
                         else
                         {
-                            _autoMovement.X += -knockbackValue;
+                            autoMovement.X += -knockbackValue;
                         }
                     }
                 }
@@ -459,7 +456,7 @@ namespace GGFanGame.Game
         private void supportingObjectPositionChanged(StageObject obj, Vector3 previousPosition)
         {
             //Get the difference in position and apply this difference to the position of this object:
-            Vector3 difference = obj.position - previousPosition;
+            var difference = obj.position - previousPosition;
             position += difference;
         }
     }

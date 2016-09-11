@@ -19,13 +19,7 @@ namespace GGFanGame
         /// <summary>
         /// The active game instance.
         /// </summary>
-        internal static GameController getInstance()
-        {
-            if (_instance == null)
-                _instance = new GameController();
-
-            return _instance;
-        }
+        internal static GameController getInstance() => _instance ?? (_instance = new GameController());
 
         /// <summary>
         /// The global randomizer of the game.
@@ -45,7 +39,7 @@ namespace GGFanGame
         /// <summary>
         /// The video card manager.
         /// </summary>
-        internal GraphicsDeviceManager graphics { get; private set; }
+        internal GraphicsDeviceManager graphics { get; }
 
         /// <summary>
         /// Returns a rectangle representing the game's drawing area relative to the window position.

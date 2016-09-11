@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
 namespace GGFanGame.Game.Scene.GrumpSpace
 {
-    class Poster : SceneryObject
+    internal class Poster : SceneryObject
     {
-        static string[] posters = new string[] { "Brian", "Goose", "Larry", "NoUse", "UpDog" };
+        static readonly string[] _posters = { "Brian", "Goose", "Larry", "NoUse", "UpDog" };
 
         public Poster()
         {
@@ -28,7 +24,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace
         private void setRandomPoster()
         {
             spriteSheet = content.Load<Texture2D>(@"Levels\GrumpSpace\Posters\" + 
-                posters[gameInstance.random.Next(0, posters.Length)]);
+                _posters[gameInstance.random.Next(0, _posters.Length)]);
         }
 
         public override void update()

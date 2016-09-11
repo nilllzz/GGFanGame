@@ -12,33 +12,27 @@ namespace GGFanGame.Game
     /// <summary>
     /// Represents a level in the game.
     /// </summary>
-    class Stage
+    internal class Stage
     {
         #region ActiveStage
-
-        //We store a single stage as active so that objects can easily access the current stage.
-        private static Stage _activeStage = null;
 
         /// <summary>
         /// The currently active stage.
         /// </summary>
-        public static Stage activeStage()
-        {
-            return _activeStage;
-        }
+        public static Stage activeStage { get; private set; }
 
         /// <summary>
         /// Sets the active stage to this instance.
         /// </summary>
         public void setActiveStage()
         {
-            _activeStage = this;
+            activeStage = this;
         }
 
         #endregion
         
         private List<StageObject> _objects;
-        private float _yDefaultKillPlane = -0f;
+        private readonly float _yDefaultKillPlane = -0f;
 
         internal ContentManager content { get; }
 
@@ -86,7 +80,7 @@ namespace GGFanGame.Game
         /// </summary>
         public void draw()
         {
-            foreach (StageObject obj in _objects)
+            foreach (var obj in _objects)
             {
                 obj.draw();
             }
@@ -102,7 +96,7 @@ namespace GGFanGame.Game
         {
             return _objects.ToArray();
         }
-        
+
         /// <summary>
         /// Updates and sorts the objects in this stage.
         /// </summary>
@@ -110,7 +104,7 @@ namespace GGFanGame.Game
         {
             _objects.Sort();
             
-            for (int i = 0; i < _objects.Count; i++)
+            for (var i = 0; i < _objects.Count; i++)
             {
                 if (i <= _objects.Count - 1)
                 {
@@ -144,14 +138,14 @@ namespace GGFanGame.Game
         /// <returns>This returns the amount of objects the attack hit.</returns>
         public int applyAttack(Attack attack, Vector3 relPosition, int maxHitCount)
         {
-            int objIndex = 0;
-            int hitCount = 0;
+            var objIndex = 0;
+            var hitCount = 0;
 
             var attackHitbox = attack.getHitbox(relPosition);
 
             while (objIndex < _objects.Count && hitCount < maxHitCount)
             {
-                StageObject obj = _objects[objIndex];
+                var obj = _objects[objIndex];
 
                 if (obj != attack.origin && obj.canInteract)
                 {
@@ -160,7 +154,7 @@ namespace GGFanGame.Game
                         hitCount++;
                         obj.getHit(attack);
 
-                        Vector3 wordPosition = obj.getFeetPosition();
+                        var wordPosition = obj.getFeetPosition();
                         wordPosition.Y += (float)(obj.size.Y / 2d * camera.scale);
 
                         _objects.Add(new ActionWord(ActionWord.getWordText(ActionWordType.HurtEnemy), obj.objectColor, 1f, wordPosition));
@@ -188,7 +182,7 @@ namespace GGFanGame.Game
             //For explosions, we are using a sphere to detect collision because why not.
             var explosionSphere = new BoundingSphere(center, radius);
 
-            foreach (StageObject obj in _objects)
+            foreach (var obj in _objects)
             {
                 if (obj != origin && obj.canInteract)
                 {
@@ -199,8 +193,8 @@ namespace GGFanGame.Game
                             //TODO: refine calculations
                             strength = Vector3.Distance(center, obj.position);
 
-                            float xAffection = radius - Math.Abs(center.X - obj.X);
-                            float zAffection = radius - Math.Abs(center.Z - obj.Z);
+                            var xAffection = radius - Math.Abs(center.X - obj.X);
+                            var zAffection = radius - Math.Abs(center.Z - obj.Z);
 
                             if (center.X > obj.X)
                             {
@@ -215,7 +209,7 @@ namespace GGFanGame.Game
                         }
                         else
                         {
-                            float xAffection = strength;
+                            var xAffection = strength;
                             if (center.X > obj.X)
                             {
                                 xAffection *= -1f;
@@ -243,27 +237,27 @@ namespace GGFanGame.Game
         /// <param name="position">The position to check the supporting object for.</param>
         public Tuple<StageObject, float> getSupporting(Vector3 position)
         {
-            float returnY = _yDefaultKillPlane;
+            var returnY = _yDefaultKillPlane;
             StageObject returnObj = null;
 
             if (position.Y > 0f)
             {
-                Vector2 twoDimPoint = new Vector2(position.X, position.Z);
+                var twoDimPoint = new Vector2(position.X, position.Z);
 
-                foreach (StageObject obj in _objects)
+                foreach (var obj in _objects)
                 {
                     if (obj.canLandOn)
                     {
-                        BoundingBox[] boxes = obj.boundingBoxes;
+                        var boxes = obj.boundingBoxes;
 
                         //When the object does not have defined bounding boxes, take the default bounding box.
                         if (boxes.Length == 0)
                             boxes = new BoundingBox[] { obj.boundingBox };
 
-                        foreach (BoundingBox box in boxes)
+                        foreach (var box in boxes)
                         {
-                            float topY = box.Max.Y;
-                            Rectangle twoDimPlane = new Rectangle((int)box.Min.X, (int)box.Min.Z, (int)(box.Max.X - box.Min.X), (int)(box.Max.Z - box.Min.Z));
+                            var topY = box.Max.Y;
+                            var twoDimPlane = new Rectangle((int)box.Min.X, (int)box.Min.Z, (int)(box.Max.X - box.Min.X), (int)(box.Max.Z - box.Min.Z));
 
                             if (topY <= position.Y && topY > returnY)
                             {
@@ -301,19 +295,19 @@ namespace GGFanGame.Game
             //We add 0.1 to the Y position so we don't get stuck in the floor.
             //The destination box is basically a line from the feet of the object with the height of its own height.
             //This way, it is consistent with the way we check for ground.
-            BoundingBox destinationBox = new BoundingBox(desiredPosition + new Vector3(0, 0.1f, 0), desiredPosition + new Vector3(0, 0.1f + (chkObj.boundingBox.Max.Y - chkObj.boundingBox.Min.Y), 0));
+            var destinationBox = new BoundingBox(desiredPosition + new Vector3(0, 0.1f, 0), desiredPosition + new Vector3(0, 0.1f + (chkObj.boundingBox.Max.Y - chkObj.boundingBox.Min.Y), 0));
 
-            foreach (StageObject obj in _objects)
+            foreach (var obj in _objects)
             {
                 if (obj != chkObj && obj.collision)
                 {
-                    BoundingBox[] boxes = obj.boundingBoxes;
+                    var boxes = obj.boundingBoxes;
 
                     //When the object does not have defined bounding boxes, take the default bounding box.
                     if (boxes.Length == 0)
                         boxes = new BoundingBox[] { obj.boundingBox };
 
-                    foreach (BoundingBox box in boxes)
+                    foreach (var box in boxes)
                     {
                         if (box.Intersects(destinationBox))
                         {

@@ -11,23 +11,23 @@ namespace GGFanGame.Screens.Menu
     {
         private const float SCREEN_SIZE_MULTIPLIER = 0.5f;
 
-        private StageScreen _preScreen;
+        private readonly StageScreen _preScreen;
 
-        private Texture2D _barry, _bubble;
-        private SpriteFont _font;
+        private readonly Texture2D _barry, _bubble;
+        private readonly SpriteFont _font;
         private RenderTarget2D _target;
         private MenuBackgroundRenderer _backgroundRenderer;
 
-        private float _preScreenSize = 0f;
-        private bool _closing = false;
+        private float _preScreenSize;
+        private bool _closing;
 
         public PauseScreen(StageScreen preScreen)
         {
             initializeContentManager();
 
             _preScreen = preScreen;
-            _backgroundRenderer = new MenuBackgroundRenderer(Color.Black, new Color(164, 108, 46), new Color(236, 130, 47), new Color(242, 153, 90));
-            _backgroundRenderer.applyTransparency = true;
+            _backgroundRenderer = new MenuBackgroundRenderer(Color.Black, new Color(164, 108, 46),
+                new Color(236, 130, 47), new Color(242, 153, 90)) {applyTransparency = true};
 
             _barry = content.Load<Texture2D>(@"UI\Pause\barry_pause");
             _bubble = content.Load<Texture2D>(@"UI\Pause\paused_bubble");
@@ -61,8 +61,8 @@ namespace GGFanGame.Screens.Menu
             _preScreen.drawHUD();
 
             // draw barry
-            int barryWidth = _barry.Width / 2;
-            int barryHeight = _barry.Height / 2;
+            var barryWidth = _barry.Width / 2;
+            var barryHeight = _barry.Height / 2;
             gameInstance.spriteBatch.Draw(texture: _barry,
                                         destinationRectangle: new Rectangle((int)(-barryWidth + barryWidth * _preScreenSize), 200, barryWidth, barryHeight),
                                         color: Color.White,

@@ -12,7 +12,7 @@ namespace GGFanGame.GameJolt.API
     /// <summary>
     /// A request to the GameJolt API.
     /// </summary>
-    sealed partial class GameJoltRequest
+    internal sealed partial class GameJoltRequest
     {
         const string GAMEID = ""; //TODO: Put Game Id from GameJolt here.
         const string GAMEKEY = ""; //TODO: Put Game key from GameJolt here.
@@ -26,13 +26,13 @@ namespace GGFanGame.GameJolt.API
         /// </summary>
         public event FinishedEventHandler Finished;
 
-        private RequestType _requestType;
-        private string _endPoint;
+        private readonly RequestType _requestType;
+        private readonly string _endPoint;
         private string _postData;
         private RequestFormat _returnFormat;
         private RequestResult _requestResult;
 
-        private Dictionary<string, string> _urlParameters;
+        private readonly Dictionary<string, string> _urlParameters;
 
         /// <summary>
         /// Adds an URL parameter to the parameter dictionary.
@@ -80,25 +80,24 @@ namespace GGFanGame.GameJolt.API
         {
             _returnFormat = returnFormat;
 
-            Thread t = new Thread(executeInternal);
-            t.IsBackground = true;
+            var t = new Thread(executeInternal) { IsBackground = true };
             t.Start();
         }
 
         private void executeInternal()
         {
-            string url = getURL();
+            var url = getURL();
 
             if (_requestType == RequestType.GET) //GET
             {
                 try
                 {
-                    HttpWebRequest getRequest = (HttpWebRequest)WebRequest.Create(url);
+                    var getRequest = (HttpWebRequest)WebRequest.Create(url);
                     getRequest.Method = "GET";
 
-                    HttpWebResponse getResponse = (HttpWebResponse)getRequest.GetResponse();
+                    var getResponse = (HttpWebResponse)getRequest.GetResponse();
 
-                    string resultData = new StreamReader(getResponse.GetResponseStream()).ReadToEnd();
+                    var resultData = new StreamReader(getResponse.GetResponseStream()).ReadToEnd();
 
                     _requestResult = new RequestResult(RequestType.GET, RequestStatus.Success, resultData);
                 }
@@ -111,22 +110,22 @@ namespace GGFanGame.GameJolt.API
             {
                 try
                 {
-                    string postContent = "data=" + _postData;
+                    var postContent = "data=" + _postData;
 
-                    HttpWebRequest postRequest = (HttpWebRequest)WebRequest.Create(url);
+                    var postRequest = (HttpWebRequest)WebRequest.Create(url);
                     postRequest.AllowWriteStreamBuffering = true;
                     postRequest.Method = "POST";
                     postRequest.ContentLength = postContent.Length;
                     postRequest.ContentType = "application/x-www-form-urlencoded";
                     postRequest.ServicePoint.Expect100Continue = true;
 
-                    StreamWriter postWriter = new StreamWriter(postRequest.GetRequestStream());
+                    var postWriter = new StreamWriter(postRequest.GetRequestStream());
                     postWriter.Write(postContent);
                     postWriter.Close();
 
-                    HttpWebResponse postResponse = (HttpWebResponse)postRequest.GetResponse();
+                    var postResponse = (HttpWebResponse)postRequest.GetResponse();
 
-                    string resultData = new StreamReader(postResponse.GetResponseStream()).ReadToEnd();
+                    var resultData = new StreamReader(postResponse.GetResponseStream()).ReadToEnd();
                     _requestResult = new RequestResult(RequestType.POST, RequestStatus.Success, resultData);
 
                 }
@@ -136,21 +135,20 @@ namespace GGFanGame.GameJolt.API
                 }
             }
 
-            if (Finished != null)
-                Finished(_requestResult);
+            Finished?.Invoke(_requestResult);
         }
 
         private string getURL()
         {
             //Construct URL first:
 
-            StringBuilder urlSB = new StringBuilder(HOST + API_VERSION + _endPoint);
+            var urlSB = new StringBuilder(HOST + API_VERSION + _endPoint);
 
             //Append format to url:
             addUrlParameter("format", _returnFormat.ToString().ToLower());
 
             //Append the url parameters to the string builder:
-            for (int i = 0; i < _urlParameters.Count; i++)
+            for (var i = 0; i < _urlParameters.Count; i++)
             {
                 if (i == 0)
                     urlSB.Append("?");
@@ -161,7 +159,7 @@ namespace GGFanGame.GameJolt.API
                                 Networking.UrlEncoder.encode(_urlParameters.Values.ElementAt(i)));
             }
 
-            string url = urlSB.ToString();
+            var url = urlSB.ToString();
 
             // append signature to URL:
             url += "&signature=" + getUrlSignature(url);
@@ -172,10 +170,10 @@ namespace GGFanGame.GameJolt.API
         private static string getUrlSignature(string url)
         {
             //compute hash for signature:
-            byte[] data = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(url + GAMEKEY));
-            StringBuilder signatureSB = new StringBuilder();
+            var data = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(url + GAMEKEY));
+            var signatureSB = new StringBuilder();
 
-            for (int i = 0; i < data.Length; i++)
+            for (var i = 0; i < data.Length; i++)
             {
                 signatureSB.Append(data[i].ToString("x2"));
             }
@@ -188,13 +186,13 @@ namespace GGFanGame.GameJolt.API
     /// <summary>
     /// A class that contains the result of an API request.
     /// </summary>
-    sealed class RequestResult
+    internal sealed class RequestResult
     {
-        private RequestStatus _requestStatus;
-        private string _requestData;
-        private RequestType _requestType;
+        private readonly RequestStatus _requestStatus;
+        private readonly string _requestData;
+        private readonly RequestType _requestType;
 
-        private RequestException _exception = null;
+        private readonly RequestException _exception;
 
         /// <summary>
         /// Creates a new instance of the RequestResult class.
@@ -222,40 +220,28 @@ namespace GGFanGame.GameJolt.API
         /// <summary>
         /// The result data of the request.
         /// </summary>
-        public string data
-        {
-            get { return _requestData; }
-        }
+        public string data => _requestData;
 
         /// <summary>
         /// The status of the request.
         /// </summary>
-        public RequestStatus status
-        {
-            get { return _requestStatus; }
-        }
+        public RequestStatus status => _requestStatus;
 
         /// <summary>
         /// The type of the request.
         /// </summary>
-        public RequestType requestType
-        {
-            get { return _requestType; }
-        }
+        public RequestType requestType => _requestType;
 
         /// <summary>
         /// An exception that might have occured during the request. This is null when the request was a success.
         /// </summary>
-        public RequestException exception
-        {
-            get { return _exception; }
-        }
+        public RequestException exception => _exception;
     }
 
     /// <summary>
     /// An exception that occured during an API request.
     /// </summary>
-    sealed class RequestException : Exception
+    internal sealed class RequestException : Exception
     {
         public RequestException(Exception innerException) : base("A problem occured while making a request to the GameJolt API.", innerException) { }
     }

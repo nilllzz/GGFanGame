@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using GGFanGame.Game;
 using static GameProvider;
 
@@ -11,9 +7,9 @@ namespace GGFanGame.Screens.Game
     /// <summary>
     /// The screen that is active during the Grump Space scenes.
     /// </summary>
-    class GrumpSpaceScreen : Screen
+    internal class GrumpSpaceScreen : Screen
     {
-        private Stage _stage;
+        private readonly Stage _stage;
 
         public GrumpSpaceScreen()
         {

@@ -3,7 +3,7 @@
     /// <summary>
     /// Buttons on a mouse.
     /// </summary>
-    enum MouseButton
+    internal enum MouseButton
     {
         Left,
         Right,

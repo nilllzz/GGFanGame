@@ -3,7 +3,7 @@
     /// <summary>
     /// Possible input types for directions.
     /// </summary>
-    enum InputDirectionType
+    internal enum InputDirectionType
     {
         /// <summary>
         /// The WASD keys.

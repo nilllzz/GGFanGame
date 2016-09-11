@@ -1,44 +1,48 @@
-﻿using System;
+﻿#region Copyright
+//-----------------------------------------------------------------------------
+// Copyright (c) 2008-2011 dhpoware. All Rights Reserved.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//-----------------------------------------------------------------------------
+#endregion
+
+using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
 namespace GGFanGame.Drawing
 {
+
     /// <summary>
-    /// A Gaussian blur filter kernel class. A Gaussian blur filter kernel is
-    /// perfectly symmetrical and linearly separable. This means we can split
-    /// the full 2D filter kernel matrix into two smaller horizontal and
-    /// vertical 1D filter kernel matrices and then perform the Gaussian blur
-    /// in two passes. Contrary to what you might think performing the Gaussian
-    /// blur in this way is actually faster than performing the Gaussian blur
-    /// in a single pass using the full 2D filter kernel matrix.
+    /// A Gaussian blur filter kernel class.
     /// </summary>
     internal class GaussianBlur : IDisposable
     {
-        //-----------------------------------------------------------------------------
-        // Copyright (c) 2008-2011 dhpoware. All Rights Reserved.
-        //
-        // Permission is hereby granted, free of charge, to any person obtaining a
-        // copy of this software and associated documentation files (the "Software"),
-        // to deal in the Software without restriction, including without limitation
-        // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-        // and/or sell copies of the Software, and to permit persons to whom the
-        // Software is furnished to do so, subject to the following conditions:
-        //
-        // The above copyright notice and this permission notice shall be included in
-        // all copies or substantial portions of the Software.
-        //
-        // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-        // OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-        // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-        // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-        // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-        // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-        // IN THE SOFTWARE.
-        //-----------------------------------------------------------------------------
-        
+        // A Gaussian blur filter kernel is
+        // perfectly symmetrical and linearly separable. This means we can split
+        // the full 2D filter kernel matrix into two smaller horizontal and
+        // vertical 1D filter kernel matrices and then perform the Gaussian blur
+        // in two passes. Contrary to what you might think performing the Gaussian
+        // blur in this way is actually faster than performing the Gaussian blur
+        // in a single pass using the full 2D filter kernel matrix.
+
         private Effect _effect;
         private SpriteBatch _spriteBatch;
         private int _radius;
@@ -76,21 +80,19 @@ namespace GGFanGame.Drawing
             _kernel = new float[_radius * 2 + 1];
             _sigma = _radius / _amount;
 
-            float twoSigmaSquare = 2.0f * _sigma * _sigma;
-            float sigmaRoot = (float)Math.Sqrt(twoSigmaSquare * Math.PI);
-            float total = 0.0f;
-            float distance = 0.0f;
-            int index = 0;
+            var twoSigmaSquare = 2.0f * _sigma * _sigma;
+            var sigmaRoot = (float)Math.Sqrt(twoSigmaSquare * Math.PI);
+            var total = 0.0f;
 
-            for (int i = -_radius; i <= _radius; ++i)
+            for (var i = -_radius; i <= _radius; ++i)
             {
-                distance = i * i;
-                index = i + _radius;
+                float distance = i * i;
+                var index = i + _radius;
                 _kernel[index] = (float)Math.Exp(-distance / twoSigmaSquare) / sigmaRoot;
                 total += _kernel[index];
             }
 
-            for (int i = 0; i < _kernel.Length; ++i)
+            for (var i = 0; i < _kernel.Length; ++i)
                 _kernel[i] /= total;
         }
 
@@ -113,13 +115,12 @@ namespace GGFanGame.Drawing
             _offsetsVert = null;
             _offsetsVert = new Vector2[_radius * 2 + 1];
 
-            int index = 0;
-            float xOffset = 1.0f / textureWidth;
-            float yOffset = 1.0f / textureHeight;
+            var xOffset = 1.0f / textureWidth;
+            var yOffset = 1.0f / textureHeight;
 
-            for (int i = -_radius; i <= _radius; ++i)
+            for (var i = -_radius; i <= _radius; ++i)
             {
-                index = i + _radius;
+                var index = i + _radius;
                 _offsetsHoriz[index] = new Vector2(i * xOffset, 0.0f);
                 _offsetsVert[index] = new Vector2(0.0f, i * yOffset);
             }
@@ -136,7 +137,6 @@ namespace GGFanGame.Drawing
         /// <param name="srcTexture">The source image to blur.</param>
         /// <param name="renderTarget1">Stores the output from the horizontal blur pass.</param>
         /// <param name="renderTarget2">Stores the output from the vertical blur pass.</param>
-        /// <param name="spriteBatch">Used to draw quads for the blur passes.</param>
         /// <returns>The resulting Gaussian blurred image.</returns>
         public Texture2D performGaussianBlur(Texture2D srcTexture,
                                              RenderTarget2D renderTarget1,
@@ -146,9 +146,9 @@ namespace GGFanGame.Drawing
                 throw new InvalidOperationException("GaussianBlur.fx effect not loaded.");
 
             Texture2D outputTexture = null;
-            Rectangle srcRect = new Rectangle(0, 0, srcTexture.Width, srcTexture.Height);
-            Rectangle destRect1 = new Rectangle(0, 0, renderTarget1.Width, renderTarget1.Height);
-            Rectangle destRect2 = new Rectangle(0, 0, renderTarget2.Width, renderTarget2.Height);
+            var srcRect = new Rectangle(0, 0, srcTexture.Width, srcTexture.Height);
+            var destRect1 = new Rectangle(0, 0, renderTarget1.Width, renderTarget1.Height);
+            var destRect2 = new Rectangle(0, 0, renderTarget2.Width, renderTarget2.Height);
 
             // Perform horizontal Gaussian blur.
 

@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace GGFanGame.Game
+﻿namespace GGFanGame.Game
 {
     /// <summary>
     /// The generic class for scenery stuff.
     /// </summary>
-    abstract class SceneryObject : InteractableStageObject
+    internal abstract class SceneryObject : InteractableStageObject
     {
-        public SceneryObject()
+        protected SceneryObject()
         {
             canLandOn = true;
             state = ObjectState.Idle;

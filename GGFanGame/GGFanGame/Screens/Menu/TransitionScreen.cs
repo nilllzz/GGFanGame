@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using GGFanGame.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
@@ -11,18 +9,18 @@ namespace GGFanGame.Screens.Menu
     /// <summary>
     /// The screen to display a Game Grumps transition for switching between screens.
     /// </summary>
-    class TransitionScreen : Screen
+    internal class TransitionScreen : Screen
     {
 
-        private Texture2D _gg_overlay = null;
+        private readonly Texture2D _gg_overlay;
         private float _overlaySize = 80f;
-        private float _rotation = 0f;
+        private float _rotation;
 
         //If the screen outro is playing, or the intro.
         private bool _outro = true;
 
         //out screen is the current one, inscreen the new one.
-        private Screen _outScreen, _inScreen;
+        private readonly Screen _outScreen, _inScreen;
 
         public TransitionScreen(Screen outScreen, Screen inScreen)
         {
@@ -48,26 +46,26 @@ namespace GGFanGame.Screens.Menu
                     null, Color.White, _rotation, new Vector2(_gg_overlay.Width / 2, _gg_overlay.Height / 2), SpriteEffects.None, 0f);
 
                 //Get the space between the edges of the screen and the logo.
-                float diffX = GameController.RENDER_WIDTH - (_gg_overlay.Width * _overlaySize);
-                float diffY = GameController.RENDER_HEIGHT - (_gg_overlay.Height * _overlaySize);
+                var diffX = GameController.RENDER_WIDTH - (_gg_overlay.Width * _overlaySize);
+                var diffY = GameController.RENDER_HEIGHT - (_gg_overlay.Height * _overlaySize);
 
-                int addSide = (int)(160 * _overlaySize);
+                var addSide = (int)(160 * _overlaySize);
 
                 //When needed, draw black rectangles at the side:
                 if (diffX + 50 > 0)
                 {
-                    Drawing.Graphics.drawRectangle(new Rectangle(0, 0, (int)(diffX * 0.5f) + addSide, GameController.RENDER_HEIGHT), Color.Black);
-                    Drawing.Graphics.drawRectangle(new Rectangle(GameController.RENDER_WIDTH - (int)Math.Floor(diffX / 2) - 2 - addSide, 0, (int)Math.Ceiling(diffX / 2) + 2 + addSide, GameController.RENDER_HEIGHT), Color.Black);
-                    Drawing.Graphics.drawRectangle(new Rectangle((int)(diffX / 2), 0, (int)(GameController.RENDER_WIDTH - diffX) + 1, (int)(diffY / 2) + 1 + addSide), Color.Black);
-                    Drawing.Graphics.drawRectangle(new Rectangle((int)(diffX / 2), GameController.RENDER_HEIGHT - (int)Math.Floor(diffY / 2) - 2 - addSide, (int)(GameController.RENDER_WIDTH - diffX), (int)(diffY / 2) + 2 + addSide), Color.Black);
+                    Graphics.drawRectangle(new Rectangle(0, 0, (int)(diffX * 0.5f) + addSide, GameController.RENDER_HEIGHT), Color.Black);
+                    Graphics.drawRectangle(new Rectangle(GameController.RENDER_WIDTH - (int)Math.Floor(diffX / 2) - 2 - addSide, 0, (int)Math.Ceiling(diffX / 2) + 2 + addSide, GameController.RENDER_HEIGHT), Color.Black);
+                    Graphics.drawRectangle(new Rectangle((int)(diffX / 2), 0, (int)(GameController.RENDER_WIDTH - diffX) + 1, (int)(diffY / 2) + 1 + addSide), Color.Black);
+                    Graphics.drawRectangle(new Rectangle((int)(diffX / 2), GameController.RENDER_HEIGHT - (int)Math.Floor(diffY / 2) - 2 - addSide, (int)(GameController.RENDER_WIDTH - diffX), (int)(diffY / 2) + 2 + addSide), Color.Black);
                 }
 
                 //Draw slightly fading rectangle.
-                Drawing.Graphics.drawRectangle(gameInstance.clientRectangle, new Color(0, 0, 0, (int)(255 * (1f - _overlaySize / 2f)))); 
+                Graphics.drawRectangle(gameInstance.clientRectangle, new Color(0, 0, 0, (int)(255 * (1f - _overlaySize / 2f))));
             }
             else
             {
-                Drawing.Graphics.drawRectangle(gameInstance.clientRectangle, Color.Black);
+                Graphics.drawRectangle(gameInstance.clientRectangle, Color.Black);
             }
         }
 

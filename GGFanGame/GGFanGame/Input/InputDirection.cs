@@ -3,7 +3,7 @@
     /// <summary>
     /// The four main directions for input.
     /// </summary>
-    enum InputDirection
+    internal enum InputDirection
     {
         Up,
         Left,

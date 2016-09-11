@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
 namespace GGFanGame.Game.Scene
@@ -11,7 +7,7 @@ namespace GGFanGame.Game.Scene
     /// <summary>
     /// A ball shot by a gun that splats on the ground upon contact.
     /// </summary>
-    class SplatBall : InteractableStageObject
+    internal class SplatBall : InteractableStageObject
     {
         public SplatBall(Color color, Vector3 movement)
         {
@@ -25,11 +21,11 @@ namespace GGFanGame.Game.Scene
             float zMovement = gameInstance.random.Next(-5, 5);
             if (setFacing == ObjectFacing.Left)
             {
-                _autoMovement.X = -xMovement;
+                autoMovement.X = -xMovement;
             }
             else
             {
-                _autoMovement.X = xMovement;
+                autoMovement.X = xMovement;
             }
 
             initialize(color, new Vector3(xMovement, yMovement, zMovement));
@@ -37,15 +33,15 @@ namespace GGFanGame.Game.Scene
 
         private void initialize( Color color, Vector3 movement)
         {
-            List<Rectangle> ellipses = new List<Rectangle>();
-            List<Color> colors = new List<Color>();
+            var ellipses = new List<Rectangle>();
+            var colors = new List<Color>();
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
-                int width = gameInstance.random.Next(4, 8);
-                int height = gameInstance.random.Next(4, 8);
-                int x = gameInstance.random.Next(0, 16 - width);
-                int y = gameInstance.random.Next(0, 16 - height);
+                var width = gameInstance.random.Next(4, 8);
+                var height = gameInstance.random.Next(4, 8);
+                var x = gameInstance.random.Next(0, 16 - width);
+                var y = gameInstance.random.Next(0, 16 - height);
 
                 ellipses.Add(new Rectangle(x, y, width, height));
                 colors.Add(color);
@@ -63,19 +59,19 @@ namespace GGFanGame.Game.Scene
 
             addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(16, 16), 100));
 
-            _autoMovement = movement;
+            autoMovement = movement;
         }
 
         public override void update()
         {
             base.update();
 
-            var groundY = Stage.activeStage().getGround(position);
+            var groundY = Stage.activeStage.getGround(position);
 
             if (Y <= groundY)
             {
                 canBeRemoved = true;
-                Stage.activeStage().addObject(new GroundSplat(objectColor) { position = position });
+                Stage.activeStage.addObject(new GroundSplat(objectColor) { position = position });
             }
         }
     }

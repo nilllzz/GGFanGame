@@ -3,7 +3,7 @@
     /// <summary>
     /// The states of an object.
     /// </summary>
-    public enum ObjectState
+    internal enum ObjectState
     {
         Idle,
         Walking,

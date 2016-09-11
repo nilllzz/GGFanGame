@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
 
 namespace GGFanGame.Game.Scene.Level1_1
 {
-    class BridgeBottom : SceneryObject
+    internal class BridgeBottom : SceneryObject
     {
         public BridgeBottom()
         {

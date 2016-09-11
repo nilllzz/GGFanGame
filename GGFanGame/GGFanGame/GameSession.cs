@@ -7,10 +7,10 @@ namespace GGFanGame
     /// <summary>
     /// This class represents a save game.
     /// </summary>
-    class GameSession
+    internal class GameSession
     {
         //This stores a data model that can be loaded from json data in a file.
-        private GameSessionModel _dataModel = null;
+        private GameSessionModel _dataModel;
 
         /// <summary>
         /// The name of this save game as it appears in the menu.
@@ -39,19 +39,16 @@ namespace GGFanGame
             set { _dataModel.lastGrump = value; }
         }
 
-        private bool _loadedCorrectly = false;
+        private bool _loadedCorrectly;
+
         /// <summary>
         /// Indicates wether this game session has been loaded correctly.
         /// </summary>
-        public bool loadedCorrectly
-        {
-            get { return _loadedCorrectly; }
-        }
-
+        public bool loadedCorrectly => _loadedCorrectly;
 
         public GameSession(string fileName)
         {
-            string jsonData = File.ReadAllText(fileName);
+            var jsonData = File.ReadAllText(fileName);
 
             try
             {

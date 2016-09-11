@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
@@ -11,7 +7,7 @@ namespace GGFanGame.Game.Playable
     /// <summary>
     /// Playable Arin character.
     /// </summary>
-    class Arin : PlayerCharacter
+    internal class Arin : PlayerCharacter
     {
         public override string name => "Arin";
         public override int maxGrumpPower => 100;
@@ -55,7 +51,7 @@ namespace GGFanGame.Game.Playable
             A2.addAttack(1, new AttackDefinition(new Attack(this, true, 3, strength * 1.3f, new Vector3(15), new Vector3(20, 10, 0)), 1));
 
             var A3 = new PlayerAttack(new Animation(6, new Point(0, 448), new Point(64, 64), 9), new Vector2(-5f, 0f));
-            A3.addAttack(3, new AttackDefinition(null, 0, new AttackDefinition.DAttackAction(throwBomb)));
+            A3.addAttack(3, new AttackDefinition(null, 0, throwBomb));
 
             addAttack("A", A1);
             addAttack("AA", A2);
@@ -65,7 +61,7 @@ namespace GGFanGame.Game.Playable
             B4.addAttack(2, new AttackDefinition(new Attack(this, true, 5, strength, new Vector3(15), new Vector3(24, 10, 0)), 1));
 
             var A4 = new PlayerAttack(new Animation(1, new Point(320, 512), new Point(64, 64), 5, 3), new Vector2(-3f, 0f));
-            A4.addAttack(1, new AttackDefinition(null, 0, new AttackDefinition.DAttackAction(throwLemon)));
+            A4.addAttack(1, new AttackDefinition(null, 0, throwLemon));
 
             addAttack("AB", B4);
             addAttack("ABA", A4);
@@ -80,7 +76,7 @@ namespace GGFanGame.Game.Playable
             if (facing == ObjectFacing.Left)
                 xDirection = -5;
 
-            Stage.activeStage().addObject(new ArinBomb(new Vector3(xDirection, 12, 0), new Vector3(X, Y + 10, Z), facing));
+            Stage.activeStage.addObject(new ArinBomb(new Vector3(xDirection, 12, 0), new Vector3(X, Y + 10, Z), facing));
         }
 
         /// <summary>
@@ -94,7 +90,7 @@ namespace GGFanGame.Game.Playable
                 xOffset = -16;
             }
 
-            Stage.activeStage().addObject(new ArinLemon(new Vector3(X + xOffset, Y + 27, Z), facing));
+            Stage.activeStage.addObject(new ArinLemon(new Vector3(X + xOffset, Y + 27, Z), facing));
         }
     }
 }

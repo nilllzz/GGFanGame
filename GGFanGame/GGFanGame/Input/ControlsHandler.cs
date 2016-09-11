@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
@@ -10,7 +7,7 @@ namespace GGFanGame.Input
     /// <summary>
     /// A class to handle all input methods.
     /// </summary>
-    class ControlsHandler
+    internal static class ControlsHandler
     {
         /// <summary>
         /// Updates all input handlers.
@@ -30,15 +27,15 @@ namespace GGFanGame.Input
         */
 
         //We have 4 element-long arrays because there can be four players connected. We initialize them with the standard values.
-        private static InputDirection[] _lastPressedDirection = new InputDirection[] { InputDirection.None, InputDirection.None, InputDirection.None, InputDirection.None };
-        private static float[] _pressedKeyDelay = new float[] { 0f, 0f, 0f, 0f };
+        private static readonly InputDirection[] _lastPressedDirection = { InputDirection.None, InputDirection.None, InputDirection.None, InputDirection.None };
+        private static readonly float[] _pressedKeyDelay = { 0f, 0f, 0f, 0f };
 
         /// <summary>
         /// Resets when no direction is pressed.
         /// </summary>
         private static void resetDirectionPressed(PlayerIndex playerIndex, InputDirection direction)
         {
-            int i = (int)playerIndex;
+            var i = (int)playerIndex;
             if (direction == _lastPressedDirection[i])
             {
                 _pressedKeyDelay[i] = 4f;
@@ -51,7 +48,7 @@ namespace GGFanGame.Input
         /// </summary>
         private static void changeDirectionPressed(PlayerIndex playerIndex, InputDirection direction)
         {
-            int i = (int)playerIndex;
+            var i = (int)playerIndex;
             if (_lastPressedDirection[i] != direction)
             {
                 _pressedKeyDelay[i] = 4f;
@@ -64,7 +61,7 @@ namespace GGFanGame.Input
         /// </summary>
         private static bool holdDownPressed(PlayerIndex playerIndex, InputDirection direction)
         {
-            int i = (int)playerIndex;
+            var i = (int)playerIndex;
             if (_lastPressedDirection[i] == direction)
             {
                 _pressedKeyDelay[i] -= 0.1f;
@@ -95,9 +92,9 @@ namespace GGFanGame.Input
         private static bool checkDirectionalPress(PlayerIndex playerIndex, InputDirection direction, Keys WASDKey, Keys arrowKey, Buttons thumbStickDirection, Buttons dPadDirection, InputDirectionType[] inputTypes)
         {
             //This keeps track if any direction key has been pressed. If not, it will reset the delay at the end.
-            bool hasInputDirection = false;
+            var hasInputDirection = false;
 
-            bool checkForAll = inputTypes.Contains(InputDirectionType.All);
+            var checkForAll = inputTypes.Contains(InputDirectionType.All);
 
             //The keyboard is always assigned to player one.
             //This might be changed later, if it does, we need to replace the PlayerIndex.One to the designated player.
@@ -203,7 +200,7 @@ namespace GGFanGame.Input
         {
             //When we should check for any input type, check if the handler's inputDown is pressed.
 
-            bool checkForAll = inputTypes.Contains(InputDirectionType.All);
+            var checkForAll = inputTypes.Contains(InputDirectionType.All);
 
             if ((inputTypes.Contains(InputDirectionType.WASD) || checkForAll) && playerIndex == PlayerIndex.One)
             {

@@ -8,7 +8,7 @@ namespace GGFanGame.Drawing
     /// <summary>
     /// A class to work with texture palettes.
     /// </summary>
-    class Palette
+    internal static class Palette
     {
         /* 
         As clarification on how palettes are supposed to work:
@@ -25,36 +25,26 @@ namespace GGFanGame.Drawing
         /// </summary>
         private struct PaletteColor
         {
-            private Color _originalColor;
-            private Color _newColor;
-
             public PaletteColor(Color originalColor, Color newColor)
             {
-                _originalColor = originalColor;
-                _newColor = newColor;
+                this.originalColor = originalColor;
+                this.newColor = newColor;
             }
 
             /// <summary>
             /// The color on the original texture.
             /// </summary>
-            public Color originalColor
-            {
-                get { return _originalColor; }
-            }
+            public Color originalColor { get; }
 
             /// <summary>
             /// The replacement for the original color.
             /// </summary>
-            public Color newColor
-            {
-                get { return _newColor; }
-            }
+            public Color newColor { get; }
         }
 
         /// <summary>
         /// Applies a palette to a texture.
         /// </summary>
-        /// <param name="game">The game instance.</param>
         /// <param name="originalTexture">The original texture that the palette should get applied to.</param>
         /// <param name="paletteTexture">The palette texture to apply.</param>
         public static Texture2D applyPalette(Texture2D originalTexture, Texture2D paletteTexture)
@@ -62,33 +52,33 @@ namespace GGFanGame.Drawing
             if (paletteTexture.Height != 2)
                 throw new PaletteTextureSizeException(paletteTexture);
 
-            PaletteColor[] paletteColors = new PaletteColor[paletteTexture.Width];
-            Color[] paletteTextureData = new Color[paletteTexture.Width * paletteTexture.Height];
+            var paletteColors = new PaletteColor[paletteTexture.Width];
+            var paletteTextureData = new Color[paletteTexture.Width * paletteTexture.Height];
 
-            Color[] originalColorData = new Color[originalTexture.Width * originalTexture.Height];
+            var originalColorData = new Color[originalTexture.Width * originalTexture.Height];
 
             //Create a resulting texture we return and a corresponding color array to store the data in.
-            Texture2D resultTexture = new Texture2D(gameInstance.GraphicsDevice, originalTexture.Width, originalTexture.Height);
-            Color[] resultColorData = new Color[resultTexture.Width * resultTexture.Height];
+            var resultTexture = new Texture2D(gameInstance.GraphicsDevice, originalTexture.Width, originalTexture.Height);
+            var resultColorData = new Color[resultTexture.Width * resultTexture.Height];
 
             //We get the color data from the palette and original texture here and store them in arrays.
             paletteTexture.GetData(paletteTextureData);
             originalTexture.GetData(originalColorData);
 
             //Loop through the palette texture and get all the replacement colors:
-            for (int x = 0; x < paletteTexture.Width; x++)
+            for (var x = 0; x < paletteTexture.Width; x++)
             {
-                Color originalColor = paletteTextureData[x];
-                Color newColor = paletteTextureData[x + paletteTexture.Width]; //the replacing color is below the original color.
+                var originalColor = paletteTextureData[x];
+                var newColor = paletteTextureData[x + paletteTexture.Width]; //the replacing color is below the original color.
 
                 paletteColors[x] = new PaletteColor(originalColor, newColor);
             }
 
             //Loop through the original texture and search if there's a replacement.
             //if not, just put the original color.
-            for (int i = 0; i < originalColorData.Length; i++)
+            for (var i = 0; i < originalColorData.Length; i++)
             {
-                bool foundReplacement = false;
+                var foundReplacement = false;
 
                 foreach (var color in paletteColors)
                 {
@@ -114,7 +104,7 @@ namespace GGFanGame.Drawing
     /// <summary>
     /// An exception for when the input palette has a wrong format.
     /// </summary>
-    class PaletteTextureSizeException : Exception
+    internal class PaletteTextureSizeException : Exception
     {
         const string MESSAGE = "The input palette didn't have the correct format. Its height is {0}, but is supposed to be 2.";
 

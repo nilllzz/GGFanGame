@@ -1,7 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-using System.IO;
 
 namespace GGFanGame.DataModel.Json
 {
@@ -9,7 +9,7 @@ namespace GGFanGame.DataModel.Json
     /// The JsonDataModel is the base class for all data models in the game.
     /// </summary>
     [DataContract]
-    abstract class JsonDataModel
+    internal abstract class JsonDataModel
     {
         //This class will manage the Json data models for this game.
         //Levels, saves etc. will be saved in the Json format.
@@ -25,11 +25,11 @@ namespace GGFanGame.DataModel.Json
         public static T fromString<T>(string input)
         {
             //We create a new Json serializer of the given type and a corresponding memory stream here.
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
-            MemoryStream memStream = new MemoryStream();
+            var serializer = new DataContractJsonSerializer(typeof(T));
+            var memStream = new MemoryStream();
 
             //Create StreamWriter to the memory stream, which writes the input string to the stream.
-            StreamWriter sw = new StreamWriter(memStream);
+            var sw = new StreamWriter(memStream);
             sw.Write(input);
             sw.Flush();
 
@@ -39,7 +39,7 @@ namespace GGFanGame.DataModel.Json
             try
             {
                 //Create and return the object:
-                T returnObj = (T)serializer.ReadObject(memStream);
+                var returnObj = (T)serializer.ReadObject(memStream);
                 return returnObj;
             }
             catch (Exception ex)
@@ -54,8 +54,8 @@ namespace GGFanGame.DataModel.Json
         public override string ToString()
         {
             //We create a new Json serializer of the given type and a corresponding memory stream:
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(this.GetType());
-            MemoryStream memStream = new MemoryStream();
+            var serializer = new DataContractJsonSerializer(this.GetType());
+            var memStream = new MemoryStream();
 
             //Write the data to the stream:
             serializer.WriteObject(memStream, this);
@@ -64,8 +64,8 @@ namespace GGFanGame.DataModel.Json
             memStream.Position = 0;
 
             //Create a stream reader, read string and return it:
-            StreamReader sr = new StreamReader(memStream);
-            string returnJson = sr.ReadToEnd();
+            var sr = new StreamReader(memStream);
+            var returnJson = sr.ReadToEnd();
 
             return returnJson;
         }
@@ -74,7 +74,7 @@ namespace GGFanGame.DataModel.Json
     /// <summary>
     /// The exception that occurs when the serialization of Json data failed.
     /// </summary>
-    class JsonDataLoadException : Exception
+    internal sealed class JsonDataLoadException : Exception
     {
         private const string MESSAGE = "An exception occured trying to read Json data into an internal format. Please check that the input data is correct.";
 

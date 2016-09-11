@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GGFanGame.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using static GameProvider;
 
 namespace GGFanGame.Screens.Menu
@@ -13,18 +9,18 @@ namespace GGFanGame.Screens.Menu
     /// <summary>
     /// The title screen for the game.
     /// </summary>
-    class TitleScreen : Screen
+    internal class TitleScreen : Screen
     {
         //The title screen will just feature the logo of the game and a prompt that says "press any button to start".
 
-        private Texture2D _logoTexture = null; //texture of the logo that appears on the screen.
+        private readonly Texture2D _logoTexture; //texture of the logo that appears on the screen.
 
-        float _logoAnimation = 20f;
-        float _gameTitleAnimation = 1f;
+        private float _logoAnimation = 20f;
+        private float _gameTitleAnimation = 1f;
 
-        private SpriteFont _grumpFont = null;
+        private readonly SpriteFont _grumpFont;
 
-        private MenuBackgroundRenderer _backgroundRenderer;
+        private readonly MenuBackgroundRenderer _backgroundRenderer;
 
         public TitleScreen()
         {
@@ -45,8 +41,8 @@ namespace GGFanGame.Screens.Menu
 
         private void drawTitle()
         {
-            int width = (int)(_logoTexture.Width / _logoAnimation);
-            int height = (int)(_logoTexture.Height / _logoAnimation);
+            var width = (int)(_logoTexture.Width / _logoAnimation);
+            var height = (int)(_logoTexture.Height / _logoAnimation);
 
             gameInstance.spriteBatch.Draw(_logoTexture, new Rectangle((int)(gameInstance.clientRectangle.Width / 2f), 200, width, height),
                                           null, Color.White,
@@ -86,7 +82,7 @@ namespace GGFanGame.Screens.Menu
             }
 
             //When a button is pressed, open the next screen:
-            if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.A))
+            if (GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.A))
             {
                 ScreenManager.getInstance().setScreen(new LoadSaveScreen(_backgroundRenderer));
             }

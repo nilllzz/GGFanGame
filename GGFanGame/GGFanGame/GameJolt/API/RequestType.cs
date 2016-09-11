@@ -3,7 +3,7 @@
     /// <summary>
     /// Which http request type the request uses.
     /// </summary>
-    enum RequestType
+    internal enum RequestType
     {
         GET,
         POST

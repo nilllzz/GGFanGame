@@ -3,7 +3,7 @@
     /// <summary>
     /// The formats a request can return data in.
     /// </summary>
-    enum RequestFormat
+    internal enum RequestFormat
     {
         Json,
         KeyPair,

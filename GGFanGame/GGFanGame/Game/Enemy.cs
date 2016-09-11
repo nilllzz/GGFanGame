@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GGFanGame.Game
 {
     /// <summary>
     /// The base enemy class.
     /// </summary>
-    abstract class Enemy : InteractableStageObject
+    internal abstract class Enemy : InteractableStageObject
     {
         public event Action<StageObject> OnDeath;
-        
-        public Enemy()
+
+        protected Enemy()
         { }
 
         public override void update()
@@ -29,7 +24,7 @@ namespace GGFanGame.Game
         /// </summary>
         private void updateState()
         {
-            ObjectState setToState = ObjectState.Idle;
+            var setToState = ObjectState.Idle;
 
             if (state == ObjectState.Dead)
             {

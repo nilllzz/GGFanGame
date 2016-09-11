@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
@@ -11,7 +7,7 @@ namespace GGFanGame.Game.Playable
     /// <summary>
     /// The bomb Arin throws in his AAA combo.
     /// </summary>
-    class ArinBomb : InteractableStageObject
+    internal class ArinBomb : InteractableStageObject
     {
         private Vector3 _movement;
 
@@ -30,13 +26,13 @@ namespace GGFanGame.Game.Playable
 
         public override void update()
         {
-            float groundY = Stage.activeStage().getGround(getFeetPosition());
+            var groundY = Stage.activeStage.getGround(getFeetPosition());
 
             X += _movement.X;
             Z += _movement.Z;
 
             //Check if the bomb hit something, then explode.
-            if (Stage.activeStage().intersects(this, position))
+            if (Stage.activeStage.intersects(this, position))
             {
                 explode();
             }
@@ -60,7 +56,7 @@ namespace GGFanGame.Game.Playable
         private void explode()
         {
             canBeRemoved = true;
-            Stage.activeStage().applyExplosion(this, position, 50f, 10, 9f);
+            Stage.activeStage.applyExplosion(this, position, 50f, 10, 9f);
         }
     }
 }

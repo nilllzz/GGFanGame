@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GGFanGame.Drawing;
+using GGFanGame.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -9,14 +7,9 @@ using static GameProvider;
 
 namespace GGFanGame.Screens.Menu
 {
-    class TestScreen : Screen
+    internal class TestScreen : Screen
     {
-        public TestScreen() { }
-
-        float ggoffsetX = 0;
-        float ggoffsetY = 0;
-        float stoffsetX = 0;
-        float stoffsetY = 0;
+        private float _ggoffsetX, _ggoffsetY, _stoffsetX, _stoffsetY;
 
         public override void draw()
         {
@@ -25,37 +18,37 @@ namespace GGFanGame.Screens.Menu
 
             //Steam train:
 
-            if (fadeLeft >= 0.5)
+            if (_fadeLeft >= 0.5)
             {
-                drawSteamTrain();
-                drawGrumps();
+                DrawSteamTrain();
+                DrawGrumps();
             }
             else
             {
-                drawGrumps();
-                drawSteamTrain();
+                DrawGrumps();
+                DrawSteamTrain();
             }
 
 
         }
 
-        private void drawGrumps()
+        private void DrawGrumps()
         {
-            int extraOffsetX = (int)((100 * fadeLeft) - (100 * fadeRight));
+            var extraOffsetX = (int)((100 * _fadeLeft) - (100 * _fadeRight));
 
-            Drawing.Graphics.drawGradient(new Rectangle(0, 0, 400 + extraOffsetX, 480), new Color(244, 131, 55), new Color(244, 170, 73), false, -1, 1d);
+            Graphics.drawGradient(new Rectangle(0, 0, 400 + extraOffsetX, 480), new Color(244, 131, 55), new Color(244, 170, 73), false, -1, 1d);
 
-            for (int x = -6; x < 19; x++)
+            for (var x = -6; x < 19; x++)
             {
-                for (int y = 0; y < 25; y++)
+                for (var y = 0; y < 25; y++)
                 {
-                    int posX = (int)(x * 24 + y * 8 + ggoffsetX);
-                    int posY = (int)(y * 24 - (x * 8) + ggoffsetY);
+                    var posX = (int)(x * 24 + y * 8 + _ggoffsetX);
+                    var posY = (int)(y * 24 - (x * 8) + _ggoffsetY);
 
-                    double colorShift = (double)posY / 480;
-                    double cR = 4 * colorShift;
-                    double cG = 35 * colorShift;
-                    double cB = 20 * colorShift;
+                    var colorShift = (double)posY / 480;
+                    var cR = 4 * colorShift;
+                    var cG = 35 * colorShift;
+                    var cB = 20 * colorShift;
 
                     double cA = 255;
                     if (posX > 270 + extraOffsetX)
@@ -69,32 +62,32 @@ namespace GGFanGame.Screens.Menu
 
                     if (posX + 16 >= 0 && posX < 400 + extraOffsetX && posY + 16 >= 0 && posY < 480)
                     {
-                        Drawing.Graphics.drawCircle(new Vector2(posX, posY), 16, new Color((int)(241 + cR), (int)(118 + cG), (int)(50 + cB), (int)cA));
+                        Graphics.drawCircle(new Vector2(posX, posY), 16, new Color((int)(241 + cR), (int)(118 + cG), (int)(50 + cB), (int)cA));
                     }
                 }
             }
             gameInstance.spriteBatch.Draw(gameInstance.Content.Load<Texture2D>(@"UI\Logos\GameGrumps"), new Rectangle(0 + extraOffsetX / 2, 100, 400, 225), Color.White);
-            Drawing.Graphics.drawRectangle(new Rectangle(0, 0, 400 + extraOffsetX, 480), new Color(0, 0, 0, (int)(130 * fadeRight)));
-            Drawing.Graphics.drawRectangle(new Rectangle(388 + extraOffsetX, 0, 12, 480), new Color(0, 0, 0, (int)(100 * fadeRight)));
+            Graphics.drawRectangle(new Rectangle(0, 0, 400 + extraOffsetX, 480), new Color(0, 0, 0, (int)(130 * _fadeRight)));
+            Graphics.drawRectangle(new Rectangle(388 + extraOffsetX, 0, 12, 480), new Color(0, 0, 0, (int)(100 * _fadeRight)));
         }
 
-        private void drawSteamTrain()
+        private void DrawSteamTrain()
         {
-            int extraOffsetX = (int)((100 * fadeLeft) - (100 * fadeRight));
+            var extraOffsetX = (int)((100 * _fadeLeft) - (100 * _fadeRight));
 
-            Drawing.Graphics.drawGradient(new Rectangle(400 + extraOffsetX, 0, 400 - extraOffsetX, 480), new Color(78, 143, 249), new Color(151, 186, 251), false, -1, 1d);
+            Graphics.drawGradient(new Rectangle(400 + extraOffsetX, 0, 400 - extraOffsetX, 480), new Color(78, 143, 249), new Color(151, 186, 251), false, -1, 1d);
 
-            for (int x = -9; x < 17; x++)
+            for (var x = -9; x < 17; x++)
             {
-                for (int y = -1; y < 24; y++)
+                for (var y = -1; y < 24; y++)
                 {
-                    int posX = (int)(x * 24 + y * 8 + stoffsetX) + 400;
-                    int posY = (int)(y * 24 - (x * 8) + stoffsetY);
+                    var posX = (int)(x * 24 + y * 8 + _stoffsetX) + 400;
+                    var posY = (int)(y * 24 - (x * 8) + _stoffsetY);
 
-                    double colorShift = (double)posY / 480;
-                    double cR = 79 * colorShift;
-                    double cG = 50 * colorShift;
-                    double cB = 6 * colorShift;
+                    var colorShift = (double)posY / 480;
+                    var cR = 79 * colorShift;
+                    var cG = 50 * colorShift;
+                    var cB = 6 * colorShift;
 
                     double cA = 255;
 
@@ -109,86 +102,86 @@ namespace GGFanGame.Screens.Menu
 
                     if (posX + 16 >= 400 + extraOffsetX && posX < 800  && posY + 16 >= 0 && posY < 480)
                     {
-                        Drawing.Graphics.drawCircle(new Vector2(posX, posY), 16, new Color((int)(71 + cR), (int)(133 + cG), (int)(244 + cB), (int)cA));
+                        Graphics.drawCircle(new Vector2(posX, posY), 16, new Color((int)(71 + cR), (int)(133 + cG), (int)(244 + cB), (int)cA));
                     }
                 }
             }
-            Drawing.Graphics.drawCircle(new Vector2(620 + extraOffsetX / 2, 345), 150, new Color(255, 255, 255, 130));
+            Graphics.drawCircle(new Vector2(620 + extraOffsetX / 2, 345), 150, new Color(255, 255, 255, 130));
 
-            Drawing.Graphics.drawCircle(new Vector2(400 + extraOffsetX / 2, 350), 400, Color.White);
+            Graphics.drawCircle(new Vector2(400 + extraOffsetX / 2, 350), 400, Color.White);
 
 
-            Drawing.Graphics.drawCircle(new Vector2(430 + extraOffsetX / 2, 360), 90, Color.White, 1d);
-            Drawing.Graphics.drawCircle(new Vector2(415 + extraOffsetX / 2, 345), 120, new Color(255, 255, 255, 130));
-            Drawing.Graphics.drawCircle(new Vector2(445 + extraOffsetX / 2, 375), 60, new Color(204, 218, 247));
-            Drawing.Graphics.drawCircle(new Vector2(452 + extraOffsetX / 2, 385), 40, Color.White);
+            Graphics.drawCircle(new Vector2(430 + extraOffsetX / 2, 360), 90, Color.White, 1d);
+            Graphics.drawCircle(new Vector2(415 + extraOffsetX / 2, 345), 120, new Color(255, 255, 255, 130));
+            Graphics.drawCircle(new Vector2(445 + extraOffsetX / 2, 375), 60, new Color(204, 218, 247));
+            Graphics.drawCircle(new Vector2(452 + extraOffsetX / 2, 385), 40, Color.White);
 
-            Drawing.Graphics.drawCircle(new Vector2(630 + extraOffsetX / 2, 410), 20, new Color(204, 218, 247));
+            Graphics.drawCircle(new Vector2(630 + extraOffsetX / 2, 410), 20, new Color(204, 218, 247));
 
-            Drawing.Graphics.drawCircle(new Vector2(670 + extraOffsetX / 2, 390), 30, new Color(204, 218, 247));
+            Graphics.drawCircle(new Vector2(670 + extraOffsetX / 2, 390), 30, new Color(204, 218, 247));
 
-            Drawing.Graphics.drawCircle(new Vector2(540 + extraOffsetX / 2, 375), 40, new Color(204, 218, 247));
+            Graphics.drawCircle(new Vector2(540 + extraOffsetX / 2, 375), 40, new Color(204, 218, 247));
 
-            Drawing.Graphics.drawCircle(new Vector2(580 + extraOffsetX / 2, 405), 60, new Color(204, 218, 247));
-            Drawing.Graphics.drawCircle(new Vector2(588 + extraOffsetX / 2, 415), 40, Color.White);
+            Graphics.drawCircle(new Vector2(580 + extraOffsetX / 2, 405), 60, new Color(204, 218, 247));
+            Graphics.drawCircle(new Vector2(588 + extraOffsetX / 2, 415), 40, Color.White);
 
             gameInstance.spriteBatch.Draw(gameInstance.Content.Load<Texture2D>(@"UI\Logos\SteamTrain"), new Rectangle(400 + extraOffsetX / 2, 100, 400, 225), Color.White);
-            Drawing.Graphics.drawRectangle(new Rectangle(400 + extraOffsetX, 0, 400 - extraOffsetX, 480), new Color(0, 0, 0, (int)(130 * fadeLeft)));
-            Drawing.Graphics.drawRectangle(new Rectangle(400 + extraOffsetX, 0, 12, 480), new Color(0, 0, 0, (int)(100 * fadeLeft)));
+            Graphics.drawRectangle(new Rectangle(400 + extraOffsetX, 0, 400 - extraOffsetX, 480), new Color(0, 0, 0, (int)(130 * _fadeLeft)));
+            Graphics.drawRectangle(new Rectangle(400 + extraOffsetX, 0, 12, 480), new Color(0, 0, 0, (int)(100 * _fadeLeft)));
         }
 
-        float fadeLeft = 1f;
-        float fadeRight = 0f;
-        bool selection = true;
+        private float _fadeLeft = 1f;
+        private float _fadeRight;
+        private bool _selection = true;
 
         public override void update()
         {
-            if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.DPadLeft) || Input.KeyboardHandler.keyPressed(Keys.Left))
+            if (GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.DPadLeft) || KeyboardHandler.keyPressed(Keys.Left))
             {
-                selection = true;
+                _selection = true;
             }
-            if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.DPadRight) || Input.KeyboardHandler.keyPressed(Keys.Right))
+            if (GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.DPadRight) || KeyboardHandler.keyPressed(Keys.Right))
             {
-                selection = false;
+                _selection = false;
             }
 
-            if (selection)
+            if (_selection)
             {
-                ggoffsetX -= 0.9f;
-                ggoffsetY += 0.3f;
+                _ggoffsetX -= 0.9f;
+                _ggoffsetY += 0.3f;
 
-                if (ggoffsetX <= -24f)
+                if (_ggoffsetX <= -24f)
                 {
-                    ggoffsetX = 0;
-                    ggoffsetY = 0;
+                    _ggoffsetX = 0;
+                    _ggoffsetY = 0;
                 }
 
-                if (fadeRight > 0f)
+                if (_fadeRight > 0f)
                 {
-                    fadeRight = MathHelper.Lerp(0f, fadeRight, 0.9f);
+                    _fadeRight = MathHelper.Lerp(0f, _fadeRight, 0.9f);
                 }
-                if (fadeLeft < 1f)
+                if (_fadeLeft < 1f)
                 {
-                    fadeLeft = MathHelper.Lerp(1f, fadeLeft, 0.9f);
+                    _fadeLeft = MathHelper.Lerp(1f, _fadeLeft, 0.9f);
                 }
             }
             else
             {
-                stoffsetX -= 0.9f;
-                stoffsetY += 0.3f;
+                _stoffsetX -= 0.9f;
+                _stoffsetY += 0.3f;
 
-                if (stoffsetX <= -24f)
+                if (_stoffsetX <= -24f)
                 {
-                    stoffsetX = 0;
-                    stoffsetY = 0;
+                    _stoffsetX = 0;
+                    _stoffsetY = 0;
                 }
-                if (fadeLeft > 0f)
+                if (_fadeLeft > 0f)
                 {
-                    fadeLeft = MathHelper.Lerp(0f, fadeLeft, 0.9f);
+                    _fadeLeft = MathHelper.Lerp(0f, _fadeLeft, 0.9f);
                 }
-                if (fadeRight < 1f)
+                if (_fadeRight < 1f)
                 {
-                    fadeRight = MathHelper.Lerp(1f, fadeRight, 0.9f);
+                    _fadeRight = MathHelper.Lerp(1f, _fadeRight, 0.9f);
                 }
             }
         }

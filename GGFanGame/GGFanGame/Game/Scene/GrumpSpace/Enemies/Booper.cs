@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
@@ -11,7 +7,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace.Enemies
     /// <summary>
     /// An enemy for a dojo stage.
     /// </summary>
-    class Booper : Enemy
+    internal class Booper : Enemy
     {
         public Booper()
         {
@@ -39,7 +35,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace.Enemies
             //This enemy always faces the player:
             if (state == ObjectState.Idle)
             {
-                if (Stage.activeStage().onePlayer.X < X)
+                if (Stage.activeStage.onePlayer.X < X)
                 {
                     facing = ObjectFacing.Left;
                 }
@@ -52,9 +48,9 @@ namespace GGFanGame.Game.Scene.GrumpSpace.Enemies
 
         private void onDeath(StageObject obj)
         {
-            Stage.activeStage().addObject(new GroundSplat(new Color(255, 128, 255)) { position = position });
+            Stage.activeStage.addObject(new GroundSplat(new Color(255, 128, 255)) { position = position });
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 float xMovement = gameInstance.random.Next(5, 10);
                 float zMovement = gameInstance.random.Next(-3, 4);
@@ -69,7 +65,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace.Enemies
                     G = 174;
                 }
 
-                Stage.activeStage().addObject(new SplatBall(new Color(255, G, 255), new Vector3(xMovement, 3f, zMovement)) { position = position });
+                Stage.activeStage.addObject(new SplatBall(new Color(255, G, 255), new Vector3(xMovement, 3f, zMovement)) { position = position });
             }
         }
     }

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GGFanGame.Game
+﻿namespace GGFanGame.Game
 {
-    public enum ActionWordType
+    internal enum ActionWordType
     {
         HurtEnemy,
         HurtPlayer,

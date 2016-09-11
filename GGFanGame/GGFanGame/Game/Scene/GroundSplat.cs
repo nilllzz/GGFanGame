@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
@@ -11,22 +8,22 @@ namespace GGFanGame.Game.Scene
     /// <summary>
     /// A splat on the ground.
     /// </summary>
-    class GroundSplat : InteractableStageObject
+    internal class GroundSplat : InteractableStageObject
     {
-        private SpriteEffects _effect = SpriteEffects.None;
-        private int alpha = 255;
+        private readonly SpriteEffects _effect = SpriteEffects.None;
+        private int _alpha = 255;
 
         public GroundSplat(Color color)
         {
-            List<Rectangle> ellipses = new List<Rectangle>();
-            List<Color> colors = new List<Color>();
+            var ellipses = new List<Rectangle>();
+            var colors = new List<Color>();
 
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
-                int width = gameInstance.random.Next(8, 31);
-                int height = gameInstance.random.Next(8, 31);
-                int x = gameInstance.random.Next(0, 64 - width);
-                int y = gameInstance.random.Next(0, 64 - height);
+                var width = gameInstance.random.Next(8, 31);
+                var height = gameInstance.random.Next(8, 31);
+                var x = gameInstance.random.Next(0, 64 - width);
+                var y = gameInstance.random.Next(0, 64 - height);
 
                 ellipses.Add(new Rectangle(x, y, width, height));
                 colors.Add(color);
@@ -53,26 +50,26 @@ namespace GGFanGame.Game.Scene
 
         public override void draw()
         {
-            Rectangle frame = getAnimation().getFrameRec(animationFrame);
-            double stageScale = Stage.activeStage().camera.scale;
+            var frame = getAnimation().getFrameRec(animationFrame);
+            var stageScale = Stage.activeStage.camera.scale;
 
-            int shadowWidth = (int)(spriteSheet.Width);
-            int shadowHeight = (int)(spriteSheet.Height * (1d / 4d));
+            var shadowWidth = (int)(spriteSheet.Width);
+            var shadowHeight = (int)(spriteSheet.Height * (1d / 4d));
 
             gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
                             (int)((Z - shadowHeight / 2d - Y) * stageScale),
                             (int)(shadowWidth * stageScale),
-                            (int)(shadowHeight * stageScale)), null, new Color(255, 255, 255, alpha), 0f, Vector2.Zero, _effect, 0f);
+                            (int)(shadowHeight * stageScale)), null, new Color(255, 255, 255, _alpha), 0f, Vector2.Zero, _effect, 0f);
         }
 
         public override void update()
         {
             base.update();
 
-            alpha--;
-            if (alpha < 0)
+            _alpha--;
+            if (_alpha < 0)
             {
-                alpha = 0;
+                _alpha = 0;
                 canBeRemoved = true;
             }
         }

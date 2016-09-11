@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GGFanGame.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,8 +9,8 @@ namespace GGFanGame.Screens.Menu
     internal class MenuBackgroundRenderer : IDisposable
     {
         //The offset of the dots:
-        private float _offsetX = 0f, 
-                      _offsetY = 0f;
+        private float _offsetX,
+                      _offsetY;
 
         //The size reference of the dots in the background in pixels
         private const int DOT_SIZE = 16;
@@ -81,23 +77,23 @@ namespace GGFanGame.Screens.Menu
             // draws the background gradient:
             Graphics.drawGradient(gameInstance.clientRectangle, _backgroundFromColor, _backgroundToColor, false, 1d);
             
-            Color dotColorDiff = new Color(_dotToColor.R - _dotFromColor.R,
+            var dotColorDiff = new Color(_dotToColor.R - _dotFromColor.R,
                                            _dotToColor.G - _dotFromColor.G,
                                            _dotToColor.B - _dotFromColor.B);
 
             //Draw the background dots:
-            for (int x = -6; x < 32; x++)
+            for (var x = -6; x < 32; x++)
             {
-                for (int y = 0; y < 21; y++)
+                for (var y = 0; y < 21; y++)
                 {
-                    int posX = (int)(x * DOT_SIZE * 3 + y * DOT_SIZE + _offsetX);
-                    int posY = (int)(y * DOT_SIZE * 3 - (x * DOT_SIZE) + _offsetY);
+                    var posX = (int)(x * DOT_SIZE * 3 + y * DOT_SIZE + _offsetX);
+                    var posY = (int)(y * DOT_SIZE * 3 - (x * DOT_SIZE) + _offsetY);
 
                     //We shift their color from top to bottom, so we take the different between the height of the screen and the dot's position:
-                    double colorShift = (double)posY / gameInstance.clientRectangle.Height;
-                    double cR = ((double)dotColorDiff.R) * colorShift;
-                    double cG = ((double)dotColorDiff.G) * colorShift;
-                    double cB = ((double)dotColorDiff.B) * colorShift;
+                    var colorShift = (double)posY / gameInstance.clientRectangle.Height;
+                    var cR = dotColorDiff.R * colorShift;
+                    var cG = dotColorDiff.G * colorShift;
+                    var cB = dotColorDiff.B * colorShift;
 
                     double cA = 255; //alpha value
                     if (applyTransparency)

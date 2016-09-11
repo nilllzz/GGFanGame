@@ -22,14 +22,13 @@ namespace GGFanGame.Game.Scene.GrumpSpace.Enemies
             weight = 4f;
             state = ObjectState.Idle;
             size = new Vector3(40, 48, 10);
+            maxHealth = 50;
 
             addAnimation(ObjectState.Idle, new Animation(6, Point.Zero, new Point(64, 64), 6));
             addAnimation(ObjectState.Hurt, new Animation(7, new Point(0, 64), new Point(64, 64), 4));
             addAnimation(ObjectState.HurtFalling, new Animation(7, new Point(0, 64), new Point(64, 64), 4));
             addAnimation(ObjectState.Dead, new Animation(6, new Point(0, 128), new Point(64, 64), 4));
-
-            health = 50;
-
+            
             OnDeath += onDeath;
         }
 

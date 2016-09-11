@@ -22,6 +22,8 @@ namespace GGFanGame.Game.HUD
         private PlayerIndex _playerIndex;
 
         private int _drawHealthWidth = 0;
+        private int _drawGrumpWidth = 0;
+        private double _grumpBarGlowAnimation = 0d;
 
         private Texture2D _headTexture;
         private Texture2D _barTexture;
@@ -117,9 +119,10 @@ namespace GGFanGame.Game.HUD
         /// </summary>
         public void draw()
         {
-            //TODO: get rid of hardcoded max health and live count!
+            //TODO: get rid of hardcoded live count!
 
-            int healthWidth = (int)(_player.health / 100d * 86d); //Determine bar width with health.
+            int healthWidth = (int)(_player.health / (double)_player.maxHealth * 86d);
+            // animate health bar change:
             if (healthWidth < _drawHealthWidth)
             {
                 _drawHealthWidth -= 2;
@@ -136,18 +139,35 @@ namespace GGFanGame.Game.HUD
                     _drawHealthWidth = healthWidth;
                 }
             }
+            
+            int grumpWidth = (int)(_player.grumpPower / (double)_player.maxGrumpPower * 62d);
+            if (grumpWidth < _drawGrumpWidth)
+            {
+                _drawGrumpWidth -= 2;
+                if (_drawGrumpWidth < grumpWidth)
+                {
+                    _drawGrumpWidth = grumpWidth;
+                }
+            }
+            else if (grumpWidth > _drawGrumpWidth)
+            {
+                _drawGrumpWidth += 2;
+                if (_drawGrumpWidth > grumpWidth)
+                {
+                    _drawGrumpWidth = grumpWidth;
+                }
+            }
 
             //Render bars:
-            //TODO: Implement grump meter correctly.
-
             int xOffset = 34 + 320 * (int)_playerIndex;
 
-            Graphics.drawRectangle(new Rectangle(xOffset + 75, 65, 120, 20), Drawing.Colors.getColor(_playerIndex));
+            Graphics.drawRectangle(new Rectangle(xOffset + 75, 65, 120, 20), Colors.getColor(_playerIndex));
             foreach (var ell in _bubbles)
             {
-                Graphics.drawCircle(new Vector2(xOffset + 75, 56) + ell.position, (int)ell.size, Drawing.Colors.getColor(_playerIndex), 1d);
+                Graphics.drawCircle(new Vector2(xOffset + 75, 56) + ell.position, (int)ell.size, Colors.getColor(_playerIndex), 1d);
                 ell.update();
             }
+            _grumpBarGlowAnimation += 0.2d;
 
             var textColor = Color.White;
             if (_playerIndex == PlayerIndex.One || _playerIndex == PlayerIndex.Two)
@@ -159,7 +179,15 @@ namespace GGFanGame.Game.HUD
 
             gameInstance.spriteBatch.Draw(_barTexture, new Rectangle(xOffset + 80, 74, 172, 16), new Rectangle(0, 12, 86, 8), Color.White);
             gameInstance.spriteBatch.Draw(_barTexture, new Rectangle(xOffset + 80, 74, _drawHealthWidth * 2, 16), new Rectangle(0, 0, _drawHealthWidth, 8), Color.White);
-            gameInstance.spriteBatch.Draw(_barTexture, new Rectangle(xOffset + 80, 90, 172, 8), new Rectangle(0, 8, 86, 4), Color.White);
+
+            gameInstance.spriteBatch.Draw(_barTexture, new Rectangle(xOffset + 80, 90, 124, 8), new Rectangle(0, 20, 62, 4), Color.White);
+            gameInstance.spriteBatch.Draw(_barTexture, new Rectangle(xOffset + 80, 90, _drawGrumpWidth * 2, 8), new Rectangle(0, 8, _drawGrumpWidth, 4), Color.White);
+
+            if (_player.grumpPower == _player.maxGrumpPower)
+            {
+                var alpha = (int)((Math.Sin(_grumpBarGlowAnimation) + 1d) / 2d * 160);
+                gameInstance.spriteBatch.Draw(_barTexture, new Rectangle(xOffset + 80, 90, _drawGrumpWidth * 2 - 2, 6), new Rectangle(0, 24, _drawGrumpWidth - 1, 3), new Color(255, 255, 255, alpha));
+            }
 
             //Render face depending on the player's state.
             if (_player.state == ObjectState.HurtFalling || _player.state == ObjectState.Hurt)

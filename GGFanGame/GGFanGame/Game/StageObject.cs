@@ -25,6 +25,7 @@ namespace GGFanGame.Game
 
         private static int _currentSortingPriority = 0; //Keeps track of all the sorting priorities added so that every object has a different one.
         private int _sortingPriority = 0;
+        private int _maxHealth;
 
         #region Properties
 
@@ -118,7 +119,20 @@ namespace GGFanGame.Game
         /// <summary>
         /// The health of this object.
         /// </summary>
-        public int health { get; set; } = 1; //1 is the default so every object has at least one health when spawned.
+        public int health { get; set; }
+
+        /// <summary>
+        /// The maximum amount of the health of this object.
+        /// </summary>
+        public int maxHealth
+        {
+            get { return _maxHealth; }
+            set
+            {
+                _maxHealth = value;
+                health = value;
+            }
+        }
 
         /// <summary>
         /// The strength of this object.
@@ -166,6 +180,8 @@ namespace GGFanGame.Game
         {
             _sortingPriority = _currentSortingPriority;
             _currentSortingPriority++;
+
+            maxHealth = 1; // 1 is the default so every object has at least one health when spawned.
         }
 
         /// <summary>

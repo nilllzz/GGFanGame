@@ -12,7 +12,10 @@ namespace GGFanGame.Game.Playable
     /// </summary>
     class Danny : PlayerCharacter
     {
-        public Danny(PlayerIndex playerIndex) : base( playerIndex, "Danny")
+        public override string name => "Danny";
+        public override int maxGrumpPower => 100;
+
+        public Danny(PlayerIndex playerIndex) : base(playerIndex)
         {
             //texture = gameInstance.textureManager.getResource(@"Sprites\Danny");
 

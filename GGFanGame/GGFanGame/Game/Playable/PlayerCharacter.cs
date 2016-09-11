@@ -136,56 +136,62 @@ namespace GGFanGame.Game.Playable
         private string _nextAttackItem = "";
         private string _attackChain = ""; //The current combo chain.
         private double _attackDelay = 0d; //The time period after an attack to chain a combo.
-
-        private int _comboChain = 0; //The amount of hits in this combo.
-        private int _comboDelay = 0; //The amount of time until the combo resets.
-
+        
         #endregion
 
         private PlayerIndex _playerIndex;
-        private float _playerSpeed = 4f;
-        private string _name = "";
+        private int _grumpPower = 0;
 
         /// <summary>
         /// The speed of this player character.
         /// </summary>
-        protected float playerSpeed
-        {
-            get { return _playerSpeed; }
-            set { _playerSpeed = value; }
-        }
+        protected float playerSpeed { get; set; } = 4f;
 
         /// <summary>
         /// The name of this player character.
         /// </summary>
-        public string name
-        {
-            get { return _name; }
-        }
+        public abstract string name { get; }
 
         /// <summary>
-        /// The amount of hits in this combo.
+        /// The amount of hits in the active combo.
         /// </summary>
-        public int comboChain
-        {
-            get { return _comboChain; }
-        }
+        public int comboChain { get; private set; }
 
         /// <summary>
         /// The amount of time until the combo resets.
         /// </summary>
-        public int comboDelay
+        public int comboDelay { get; private set; }
+
+        /// <summary>
+        /// The amount of grump power filling the grump meter of this character.
+        /// </summary>
+        public int grumpPower
         {
-            get { return _comboDelay; }
+            get
+            {
+                return _grumpPower;
+            }
+            set
+            {
+                _grumpPower = value;
+                if (_grumpPower < 0)
+                    _grumpPower = 0;
+                if (_grumpPower > maxGrumpPower)
+                    _grumpPower = maxGrumpPower;
+            }
         }
+
+        /// <summary>
+        /// The maximum amount of grump power.
+        /// </summary>
+        public abstract int maxGrumpPower { get; }
 
         /// <summary>
         /// Creates a new instance of the player character class.
         /// </summary>
-        protected PlayerCharacter(PlayerIndex playerIndex, string name)
+        protected PlayerCharacter(PlayerIndex playerIndex)
         {
             _playerIndex = playerIndex;
-            _name = name;
             canLandOn = false;
 
             objectColor = Drawing.Colors.getColor(playerIndex);
@@ -203,6 +209,7 @@ namespace GGFanGame.Game.Playable
         {
             updateState();
 
+            // TEST
             if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.DPadLeft))
             {
                 health -= 10;
@@ -224,8 +231,9 @@ namespace GGFanGame.Game.Playable
 
                         if (hits > 0)
                         {
-                            _comboChain += hits;
-                            _comboDelay = 100;
+                            comboChain += hits;
+                            comboDelay = 100;
+                            grumpPower += 1 + (int)(comboChain / 3d);
                         }
                     }
 
@@ -241,13 +249,13 @@ namespace GGFanGame.Game.Playable
 
         private void updateCombo()
         {
-            if (_comboChain > 0 && _comboDelay > 0)
+            if (comboChain > 0 && comboDelay > 0)
             {
-                _comboDelay--;
-                if (_comboDelay <= 0)
+                comboDelay--;
+                if (comboDelay <= 0)
                 {
-                    _comboDelay = 0;
-                    _comboChain = 0;
+                    comboDelay = 0;
+                    comboChain = 0;
                 }
             }
         }
@@ -457,7 +465,7 @@ namespace GGFanGame.Game.Playable
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    Vector3 desiredPosition = new Vector3(X + _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right), Y, Z);
+                    Vector3 desiredPosition = new Vector3(X + playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right), Y, Z);
 
                     if (!Stage.activeStage().intersects(this, desiredPosition))
                         X = desiredPosition.X;
@@ -469,7 +477,7 @@ namespace GGFanGame.Game.Playable
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    Vector3 desiredPosition = new Vector3(X - _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left), Y, Z);
+                    Vector3 desiredPosition = new Vector3(X - playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left), Y, Z);
 
                     if (!Stage.activeStage().intersects(this, desiredPosition))
                         X = desiredPosition.X;
@@ -481,7 +489,7 @@ namespace GGFanGame.Game.Playable
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    Vector3 desiredPosition = new Vector3(X, Y, Z - _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up));
+                    Vector3 desiredPosition = new Vector3(X, Y, Z - playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up));
 
                     if (!Stage.activeStage().intersects(this, desiredPosition))
                         Z = desiredPosition.Z;
@@ -491,7 +499,7 @@ namespace GGFanGame.Game.Playable
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    Vector3 desiredPosition = new Vector3(X, Y, Z + _playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down));
+                    Vector3 desiredPosition = new Vector3(X, Y, Z + playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down));
 
                     if (!Stage.activeStage().intersects(this, desiredPosition))
                         Z = desiredPosition.Z;

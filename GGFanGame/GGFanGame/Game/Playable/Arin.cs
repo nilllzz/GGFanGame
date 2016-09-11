@@ -13,7 +13,10 @@ namespace GGFanGame.Game.Playable
     /// </summary>
     class Arin : PlayerCharacter
     {
-        public Arin(PlayerIndex playerIndex) : base(playerIndex, "Arin")
+        public override string name => "Arin";
+        public override int maxGrumpPower => 100;
+
+        public Arin(PlayerIndex playerIndex) : base(playerIndex)
         {
             spriteSheet = gameInstance.Content.Load<Texture2D>(@"Sprites\Arin");
             drawShadow = true;
@@ -21,6 +24,8 @@ namespace GGFanGame.Game.Playable
             strength = 4;
             weight = 4;
             size = new Vector3(32, 50, 5);
+            maxHealth = 100;
+            playerSpeed = 4f;
 
             addAnimation(ObjectState.Idle, new Animation(8, Point.Zero, new Point(64, 64), 7));
             addAnimation(ObjectState.Walking, new Animation(6, new Point(0, 64), new Point(64, 64), 5));
@@ -64,9 +69,6 @@ namespace GGFanGame.Game.Playable
 
             addAttack("AB", B4);
             addAttack("ABA", A4);
-
-            health = 100;
-            playerSpeed = 4f;
         }
 
         /// <summary>

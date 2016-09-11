@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
 namespace GGFanGame.Game.Scene.Level1_1
@@ -11,7 +12,7 @@ namespace GGFanGame.Game.Scene.Level1_1
     {
         public BridgeRailing()
         {
-            spriteSheet = gameInstance.textureManager.load(@"Levels\Stage1-1\BridgeRailing");
+            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Levels\Stage1-1\BridgeRailing");
             size = new Vector3(64, 32, 5);
             drawShadow = false;
             collision = true;

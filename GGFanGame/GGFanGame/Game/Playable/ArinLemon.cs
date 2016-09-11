@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
 namespace GGFanGame.Game.Playable
@@ -16,7 +17,7 @@ namespace GGFanGame.Game.Playable
 
         public ArinLemon(Vector3 startPosition, ObjectFacing facing)
         {
-            spriteSheet = gameInstance.textureManager.load(@"Sprites\ArinLemon");
+            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Sprites\ArinLemon");
             this.facing = facing;
             size = new Vector3(4f, 4f, 8f);
 

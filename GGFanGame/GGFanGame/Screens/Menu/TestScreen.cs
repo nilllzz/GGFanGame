@@ -73,7 +73,7 @@ namespace GGFanGame.Screens.Menu
                     }
                 }
             }
-            gameInstance.spriteBatch.Draw(gameInstance.textureManager.load(@"UI\Logos\GameGrumps"), new Rectangle(0 + extraOffsetX / 2, 100, 400, 225), Color.White);
+            gameInstance.spriteBatch.Draw(gameInstance.Content.Load<Texture2D>(@"UI\Logos\GameGrumps"), new Rectangle(0 + extraOffsetX / 2, 100, 400, 225), Color.White);
             Drawing.Graphics.drawRectangle(new Rectangle(0, 0, 400 + extraOffsetX, 480), new Color(0, 0, 0, (int)(130 * fadeRight)));
             Drawing.Graphics.drawRectangle(new Rectangle(388 + extraOffsetX, 0, 12, 480), new Color(0, 0, 0, (int)(100 * fadeRight)));
         }
@@ -132,7 +132,7 @@ namespace GGFanGame.Screens.Menu
             Drawing.Graphics.drawCircle(new Vector2(580 + extraOffsetX / 2, 405), 60, new Color(204, 218, 247));
             Drawing.Graphics.drawCircle(new Vector2(588 + extraOffsetX / 2, 415), 40, Color.White);
 
-            gameInstance.spriteBatch.Draw(gameInstance.textureManager.load(@"UI\Logos\SteamTrain"), new Rectangle(400 + extraOffsetX / 2, 100, 400, 225), Color.White);
+            gameInstance.spriteBatch.Draw(gameInstance.Content.Load<Texture2D>(@"UI\Logos\SteamTrain"), new Rectangle(400 + extraOffsetX / 2, 100, 400, 225), Color.White);
             Drawing.Graphics.drawRectangle(new Rectangle(400 + extraOffsetX, 0, 400 - extraOffsetX, 480), new Color(0, 0, 0, (int)(130 * fadeLeft)));
             Drawing.Graphics.drawRectangle(new Rectangle(400 + extraOffsetX, 0, 12, 480), new Color(0, 0, 0, (int)(100 * fadeLeft)));
         }

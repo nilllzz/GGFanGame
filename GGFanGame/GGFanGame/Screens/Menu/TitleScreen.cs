@@ -29,8 +29,8 @@ namespace GGFanGame.Screens.Menu
         public TitleScreen()
         {
             _backgroundRenderer = new MenuBackgroundRenderer();
-            _logoTexture = gameInstance.textureManager.load(@"UI\Logos\GameGrumps");
-            _grumpFont = gameInstance.fontManager.load(@"CartoonFontLarge");
+            _logoTexture = gameInstance.Content.Load<Texture2D>(@"UI\Logos\GameGrumps");
+            _grumpFont = gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFontLarge");
 
             //MediaPlayer.IsRepeating = true;
             //MediaPlayer.Play(game.musicManager.load(@"Music\Smash 2"));

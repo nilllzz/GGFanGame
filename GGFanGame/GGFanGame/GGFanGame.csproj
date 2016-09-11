@@ -44,10 +44,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BoundingBoxExtension.cs" />
-    <Compile Include="Content\FontManager.cs" />
-    <Compile Include="Content\MusicManager.cs" />
-    <Compile Include="Content\ResourceManager.cs" />
-    <Compile Include="Content\TextureManager.cs" />
     <Compile Include="DataModel\Json\Game\GameSessionModel.cs" />
     <Compile Include="DataModel\Json\JsonDataModel.cs" />
     <Compile Include="Drawing\Colors.cs" />

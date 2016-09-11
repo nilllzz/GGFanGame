@@ -31,7 +31,7 @@ namespace GGFanGame.Screens.Menu
 
         public PlayerSelectScreen()
         {
-            _grumpFont = gameInstance.fontManager.load("CartoonFont");
+            _grumpFont = gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
 
             loadGrumpTexture(0, "Arin");
             loadGrumpTexture(1, "Danny");
@@ -41,7 +41,7 @@ namespace GGFanGame.Screens.Menu
 
             for (int i = 0; i < 4; i++)
             {
-                _menuElements[i] = gameInstance.textureManager.load(@"UI\GrumpCade\" + (i + 1).ToString() + "Up");
+                _menuElements[i] = gameInstance.Content.Load<Texture2D>(@"UI\GrumpCade\" + (i + 1).ToString() + "Up");
             }
 
             //Set start selections:
@@ -58,9 +58,9 @@ namespace GGFanGame.Screens.Menu
         /// <param name="name">The name of the grump.</param>
         private void loadGrumpTexture(int index, string name)
         {
-            _grumps[index] = gameInstance.textureManager.load(@"UI\GrumpCade\" + name);
-            _grumps_overlay[index] = gameInstance.textureManager.load(@"UI\GrumpCade\" + name + "_Overlay");
-            _grumps_names[index] = gameInstance.textureManager.load(@"UI\Names\" + name + "_name");
+            _grumps[index] = gameInstance.Content.Load<Texture2D>(@"UI\GrumpCade\" + name);
+            _grumps_overlay[index] = gameInstance.Content.Load<Texture2D>(@"UI\GrumpCade\" + name + "_Overlay");
+            _grumps_names[index] = gameInstance.Content.Load<Texture2D>(@"UI\Names\" + name + "_name");
         }
 
         public override void draw()

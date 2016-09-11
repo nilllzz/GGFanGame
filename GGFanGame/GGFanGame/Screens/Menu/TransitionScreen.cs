@@ -26,7 +26,7 @@ namespace GGFanGame.Screens.Menu
 
         public TransitionScreen(Screen outScreen, Screen inScreen)
         {
-            _gg_overlay = gameInstance.textureManager.load(@"UI\Logos\GameGrumpsTransition");
+            _gg_overlay = gameInstance.Content.Load<Texture2D>(@"UI\Logos\GameGrumpsTransition");
             _outScreen = outScreen;
             _inScreen = inScreen;
         }

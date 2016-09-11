@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
 namespace GGFanGame.Game.Enemies
@@ -14,7 +15,7 @@ namespace GGFanGame.Game.Enemies
     {
         public Booper()
         {
-            spriteSheet = gameInstance.textureManager.load(@"Sprites\Booper");
+            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Sprites\Booper");
             drawShadow = true;
             shadowSize = 0.6d;
             strength = 0f;

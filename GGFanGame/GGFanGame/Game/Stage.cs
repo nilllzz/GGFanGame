@@ -110,7 +110,7 @@ namespace GGFanGame.Game
             }
             
             //TEST: Object counter.
-            gameInstance.spriteBatch.DrawString(gameInstance.fontManager.load(@"CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
+            gameInstance.spriteBatch.DrawString(gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
         }
 
         /// <summary>

@@ -95,10 +95,10 @@ namespace GGFanGame.Game.HUD
             _player = player;
             _playerIndex = playerIndex;
 
-            _barTexture = gameInstance.textureManager.load(@"UI\HUD\Bars");
-            _headTexture = gameInstance.textureManager.load(@"UI\HUD\" + _player.name);
-            _font = gameInstance.fontManager.load(@"CartoonFontSmall");
-            _fontLarge = gameInstance.fontManager.load(@"CartoonFont");
+            _barTexture = gameInstance.Content.Load<Texture2D>(@"UI\HUD\Bars");
+            _headTexture = gameInstance.Content.Load<Texture2D>(@"UI\HUD\" + _player.name);
+            _font = gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFontSmall");
+            _fontLarge = gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
 
             for (int i = 0; i < 42; i++)
             {

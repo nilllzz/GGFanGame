@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
 namespace GGFanGame.Game.Scene.GrumpSpace
@@ -11,7 +12,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace
     {
         public Couch()
         {
-            spriteSheet = gameInstance.textureManager.load(@"Levels\GrumpSpace\Couch");
+            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Levels\GrumpSpace\Couch");
             size = new Vector3(80, 16, 5);
             drawShadow = true;
             collision = true;

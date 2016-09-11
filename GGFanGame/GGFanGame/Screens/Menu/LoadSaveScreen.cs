@@ -36,7 +36,7 @@ namespace GGFanGame.Screens.Menu
                 {
                     if (_save.loadedCorrectly)
                     {
-                        _grumpFaceTexture = gameInstance.textureManager.load(@"UI\HUD\" + _save.lastGrump);
+                        _grumpFaceTexture = gameInstance.Content.Load<Texture2D>(@"UI\HUD\" + _save.lastGrump);
                     }
                 }
             }
@@ -55,11 +55,11 @@ namespace GGFanGame.Screens.Menu
             {
                 if (selected)
                 {
-                    gameInstance.spriteBatch.Draw(gameInstance.textureManager.load(@"UI\saveBack"), targetRect, new Color(0, 0, 0, (int)(255 * alphaDelta)));
+                    gameInstance.spriteBatch.Draw(gameInstance.Content.Load<Texture2D>(@"UI\saveBack"), targetRect, new Color(0, 0, 0, (int)(255 * alphaDelta)));
                 }
                 else
                 {
-                    gameInstance.spriteBatch.Draw(gameInstance.textureManager.load(@"UI\saveBack"), targetRect, new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                    gameInstance.spriteBatch.Draw(gameInstance.Content.Load<Texture2D>(@"UI\saveBack"), targetRect, new Color(255, 255, 255, (int)(255 * alphaDelta)));
                 }
 
                 if (_newGameButton)
@@ -140,7 +140,7 @@ namespace GGFanGame.Screens.Menu
 
             _saves.Add(new SaveContainer(saveIndex, null) { newGameButton = true });
 
-            _grumpFont = gameInstance.fontManager.load(@"CartoonFont");
+            _grumpFont = gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
         }
 
         public override void update()

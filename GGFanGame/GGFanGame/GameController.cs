@@ -1,5 +1,4 @@
 ﻿using System;
-using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -32,22 +31,7 @@ namespace GGFanGame
         /// The global randomizer of the game.
         /// </summary>
         internal Random random { get; private set; } = new Random();
-
-        /// <summary>
-        /// The texture manager for this game.
-        /// </summary>
-        internal TextureManager textureManager { get; private set; }
-
-        /// <summary>
-        /// The music manager for this game.
-        /// </summary>
-        internal MusicManager musicManager { get; private set; }
-
-        /// <summary>
-        /// The font manager for this game.
-        /// </summary>
-        internal FontManager fontManager { get; private set; }
-
+        
         /// <summary>
         /// The active main sprite batch of the game.
         /// </summary>
@@ -72,10 +56,6 @@ namespace GGFanGame
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
-            musicManager = new MusicManager();
-            textureManager = new TextureManager();
-            fontManager = new FontManager();
         }
 
         /// <summary>

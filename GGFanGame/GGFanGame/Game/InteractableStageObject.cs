@@ -169,7 +169,7 @@ namespace GGFanGame.Game
                 if (_actionHintTextAlpha > 0)
                 {
                     //TODO: Render properly.
-                    gameInstance.spriteBatch.DrawString(gameInstance.fontManager.load(@"CartoonFont"), actionHintText, new Vector2(X, Z - Y) * (float)Stage.activeStage().camera.scale, new Color(255, 255, 255, _actionHintTextAlpha));
+                    gameInstance.spriteBatch.DrawString(gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont"), actionHintText, new Vector2(X, Z - Y) * (float)Stage.activeStage().camera.scale, new Color(255, 255, 255, _actionHintTextAlpha));
                 }
             }
         }

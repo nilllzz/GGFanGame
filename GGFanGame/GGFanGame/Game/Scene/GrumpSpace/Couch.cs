@@ -12,7 +12,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace
     {
         public Couch()
         {
-            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Levels\GrumpSpace\Couch");
+            spriteSheet = content.Load<Texture2D>(@"Levels\GrumpSpace\Couch");
             size = new Vector3(80, 16, 5);
             drawShadow = true;
             collision = true;

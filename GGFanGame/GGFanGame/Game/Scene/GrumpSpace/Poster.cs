@@ -27,7 +27,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace
 
         private void setRandomPoster()
         {
-            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Levels\GrumpSpace\Posters\" + 
+            spriteSheet = content.Load<Texture2D>(@"Levels\GrumpSpace\Posters\" + 
                 posters[gameInstance.random.Next(0, posters.Length)]);
         }
 

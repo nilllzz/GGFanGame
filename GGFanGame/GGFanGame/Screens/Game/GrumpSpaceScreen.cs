@@ -17,7 +17,9 @@ namespace GGFanGame.Screens.Game
 
         public GrumpSpaceScreen()
         {
-            _stage = new Stage();
+            initializeContentManager();
+
+            _stage = new Stage(content);
             _stage.setActiveStage();
         }
 

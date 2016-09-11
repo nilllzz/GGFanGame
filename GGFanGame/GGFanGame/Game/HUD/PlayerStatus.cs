@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GGFanGame.Game.Playable;
 using static GameProvider;
+using Microsoft.Xna.Framework.Content;
+using GGFanGame.Drawing;
 
 namespace GGFanGame.Game.HUD
 {
@@ -14,6 +16,8 @@ namespace GGFanGame.Game.HUD
     /// </summary>
     class PlayerStatus
     {
+        private ContentManager _content;
+
         private PlayerCharacter _player;
         private PlayerIndex _playerIndex;
 
@@ -85,24 +89,25 @@ namespace GGFanGame.Game.HUD
             }
         }
 
-        private List<Bubble> bubbles = new List<Bubble>();
-
+        private List<Bubble> _bubbles = new List<Bubble>();
+        
         /// <summary>
         /// Creates a new instance of the PlayerStatus class.
         /// </summary>
-        public PlayerStatus(PlayerCharacter player, PlayerIndex playerIndex)
+        public PlayerStatus(PlayerCharacter player, PlayerIndex playerIndex, ContentManager content)
         {
             _player = player;
             _playerIndex = playerIndex;
+            _content = content;
 
-            _barTexture = gameInstance.Content.Load<Texture2D>(@"UI\HUD\Bars");
-            _headTexture = gameInstance.Content.Load<Texture2D>(@"UI\HUD\" + _player.name);
-            _font = gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFontSmall");
-            _fontLarge = gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
+            _barTexture = _content.Load<Texture2D>(@"UI\HUD\Bars");
+            _headTexture = _content.Load<Texture2D>(@"UI\HUD\" + _player.name);
+            _font = _content.Load<SpriteFont>(@"Fonts\CartoonFontSmall");
+            _fontLarge = _content.Load<SpriteFont>(@"Fonts\CartoonFont");
 
             for (int i = 0; i < 42; i++)
             {
-                bubbles.Add(new Bubble(new Vector2(gameInstance.random.Next(-20, 125), gameInstance.random.Next(-15, 4)),
+                _bubbles.Add(new Bubble(new Vector2(gameInstance.random.Next(-20, 125), gameInstance.random.Next(-15, 4)),
                                          gameInstance.random.Next(15, 45), (int)playerIndex + i));
             }
         }
@@ -137,10 +142,10 @@ namespace GGFanGame.Game.HUD
 
             int xOffset = 34 + 320 * (int)_playerIndex;
 
-            Drawing.Graphics.drawRectangle(new Rectangle(xOffset + 75, 65, 120, 20), Drawing.Colors.getColor(_playerIndex));
-            foreach (var ell in bubbles)
+            Graphics.drawRectangle(new Rectangle(xOffset + 75, 65, 120, 20), Drawing.Colors.getColor(_playerIndex));
+            foreach (var ell in _bubbles)
             {
-                Drawing.Graphics.drawCircle(new Vector2(xOffset + 75, 56) + ell.position, (int)ell.size, Drawing.Colors.getColor(_playerIndex), 1d);
+                Graphics.drawCircle(new Vector2(xOffset + 75, 56) + ell.position, (int)ell.size, Drawing.Colors.getColor(_playerIndex), 1d);
                 ell.update();
             }
 
@@ -184,12 +189,11 @@ namespace GGFanGame.Game.HUD
                 //Initialize things:
                 if (_target == null)
                 {
-                    var pp = gameInstance.GraphicsDevice.PresentationParameters;
                     _target = new RenderTarget2D(gameInstance.GraphicsDevice, 120, 120, true, gameInstance.GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
                     _comboBatch = new SpriteBatch(gameInstance.GraphicsDevice);
                 }
 
-                Color playerColor = Drawing.Colors.getColor(_playerIndex);
+                Color playerColor = Colors.getColor(_playerIndex);
 
                 gameInstance.spriteBatch.DrawString(_fontLarge, "x" + _player.comboChain, new Vector2(xOffset, 100), Color.White, -0.2f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 

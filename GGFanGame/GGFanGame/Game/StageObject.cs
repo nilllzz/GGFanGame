@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace GGFanGame.Game
 {
@@ -26,6 +27,8 @@ namespace GGFanGame.Game
         private int _sortingPriority = 0;
 
         #region Properties
+
+        protected ContentManager content => Stage.activeStage().content;
 
         /// <summary>
         /// The main color associated with this object.

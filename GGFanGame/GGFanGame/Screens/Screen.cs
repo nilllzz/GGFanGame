@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
@@ -12,6 +13,17 @@ namespace GGFanGame.Screens
     /// </summary>
     abstract internal class Screen : IDisposable
     {
+        protected ContentManager content { get; set; } = null;
+
+        /// <summary>
+        /// Initializes the <see cref="ContentManager"/> for this screen.
+        /// Use only when the screen needs a seperate ContentManager.
+        /// </summary>
+        protected void initializeContentManager()
+        {
+            content = new ContentManager(gameInstance.Services, "Content");
+        }
+
         public bool isDisposed { get; protected set; }
 
         /// <summary>
@@ -32,7 +44,7 @@ namespace GGFanGame.Screens
         /// Draws the screen.
         /// </summary>
         public abstract void draw();
-        
+
         /// <summary>
         /// Updates the screen.
         /// </summary>
@@ -52,7 +64,27 @@ namespace GGFanGame.Screens
         {
             dispose(true);
         }
+        
+        ~Screen()
+        {
+            dispose(false);
+        }
 
-        protected virtual void dispose(bool disposing) { }
+        /// <summary>
+        /// Base screen dispose implementation. Disposes of the ContentManager and all loaded content.
+        /// </summary>
+        protected virtual void dispose(bool disposing)
+        {
+            if (!isDisposed)
+            {
+                if (disposing)
+                {
+                    if (content != null) content.Dispose();
+                }
+
+                content = null;
+                isDisposed = true;
+            }
+        }
     }
 }

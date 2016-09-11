@@ -16,7 +16,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace
         {
             _arcadeType = arcadeType;
 
-            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Levels\GrumpSpace\Arcade" + ((int)_arcadeType).ToString());
+            spriteSheet = content.Load<Texture2D>(@"Levels\GrumpSpace\Arcade" + ((int)_arcadeType).ToString());
 
             size = new Vector3(30, 60, 11);
             drawShadow = false;

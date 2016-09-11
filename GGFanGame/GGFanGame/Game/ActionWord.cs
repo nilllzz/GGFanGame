@@ -13,7 +13,6 @@ namespace GGFanGame.Game
     /// </summary>
     sealed class ActionWord : StageObject
     {
-        private static Random wordRnd = new Random();
         private static Dictionary<ActionWordType, string[]> _wordGroups;
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace GGFanGame.Game
             initializeWords();
 
             string[] words = _wordGroups[wordType];
-            return words[wordRnd.Next(0, words.Length)];
+            return words[gameInstance.random.Next(0, words.Length)];
         }
 
         //one-time values:

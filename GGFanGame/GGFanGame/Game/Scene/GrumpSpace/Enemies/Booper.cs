@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
-namespace GGFanGame.Game.Enemies
+namespace GGFanGame.Game.Scene.GrumpSpace.Enemies
 {
     /// <summary>
     /// An enemy for a dojo stage.
@@ -15,7 +15,7 @@ namespace GGFanGame.Game.Enemies
     {
         public Booper()
         {
-            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Sprites\Booper");
+            spriteSheet = content.Load<Texture2D>(@"Sprites\Booper");
             drawShadow = true;
             shadowSize = 0.6d;
             strength = 0f;

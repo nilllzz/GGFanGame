@@ -60,7 +60,7 @@
     <Compile Include="Game\Animation.cs" />
     <Compile Include="Game\AnimationFrame.cs" />
     <Compile Include="Game\Attack.cs" />
-    <Compile Include="Game\Enemies\Booper.cs" />
+    <Compile Include="Game\Scene\GrumpSpace\Enemies\Booper.cs" />
     <Compile Include="Game\GroundRelation.cs" />
     <Compile Include="Game\ObjectFacing.cs" />
     <Compile Include="Game\ObjectState.cs" />
@@ -100,7 +100,7 @@
     <Compile Include="Screens\DebugScreen\BoundingBoxTestScreen.cs" />
     <Compile Include="Screens\Game\GameScreen.cs" />
     <Compile Include="Screens\Game\GrumpSpaceScreen.cs" />
-    <Compile Include="Game\Enemies\Enemy.cs" />
+    <Compile Include="Game\Enemy.cs" />
     <Compile Include="Game\Playable\Arin.cs" />
     <Compile Include="Game\Playable\Danny.cs" />
     <Compile Include="Game\InteractableStageObject.cs" />
@@ -139,6 +139,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

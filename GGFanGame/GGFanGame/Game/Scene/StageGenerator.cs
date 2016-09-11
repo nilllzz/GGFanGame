@@ -1,7 +1,9 @@
-﻿namespace GGFanGame.Game.Scene
+﻿using System.Collections.Generic;
+
+namespace GGFanGame.Game.Scene
 {
     internal abstract class StageGenerator
     {
-        internal abstract void generate(Stage stage);
+        internal abstract List<StageObject> generate(Stage stage);
     }
 }

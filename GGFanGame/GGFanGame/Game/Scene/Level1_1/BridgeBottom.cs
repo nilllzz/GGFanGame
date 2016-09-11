@@ -12,7 +12,7 @@ namespace GGFanGame.Game.Scene.Level1_1
     {
         public BridgeBottom()
         {
-            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Levels\Stage1-1\BridgeBottom");
+            spriteSheet = content.Load<Texture2D>(@"Levels\Stage1-1\BridgeBottom");
             size = new Vector3(128, 64, 64);
             drawShadow = false;
             collision = true;

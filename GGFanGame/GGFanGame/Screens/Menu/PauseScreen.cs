@@ -23,12 +23,15 @@ namespace GGFanGame.Screens.Menu
 
         public PauseScreen(StageScreen preScreen)
         {
+            initializeContentManager();
+
             _preScreen = preScreen;
             _backgroundRenderer = new MenuBackgroundRenderer(Color.Black, new Color(164, 108, 46), new Color(236, 130, 47), new Color(242, 153, 90));
             _backgroundRenderer.applyTransparency = true;
-            _barry = gameInstance.Content.Load<Texture2D>(@"UI\Pause\barry_pause");
-            _bubble = gameInstance.Content.Load<Texture2D>(@"UI\Pause\paused_bubble");
-            _font = gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
+
+            _barry = content.Load<Texture2D>(@"UI\Pause\barry_pause");
+            _bubble = content.Load<Texture2D>(@"UI\Pause\paused_bubble");
+            _font = content.Load<SpriteFont>(@"Fonts\CartoonFont");
         }
 
         public override void draw()
@@ -54,7 +57,7 @@ namespace GGFanGame.Screens.Menu
                                                                  (int)(GameController.RENDER_HEIGHT * 0.5f - preScreenHeight * 0.5f),
                                                                  (int)preScreenWidth,
                                                                  (int)preScreenHeight), Color.White);
-            // draw the pre screen's HUD on full size
+            // draw the pre screen's HUD in full size
             _preScreen.drawHUD();
 
             // draw barry
@@ -99,12 +102,7 @@ namespace GGFanGame.Screens.Menu
         {
             Dispose();
         }
-
-        ~PauseScreen()
-        {
-            dispose(false);
-        }
-
+        
         protected override void dispose(bool disposing)
         {
             if (!isDisposed)
@@ -117,9 +115,8 @@ namespace GGFanGame.Screens.Menu
 
                 _target = null;
                 _backgroundRenderer = null;
-
-                isDisposed = true;
             }
+            base.dispose(disposing);
         }
     }
 }

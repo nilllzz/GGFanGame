@@ -12,7 +12,7 @@ namespace GGFanGame.Game.Scene.Level1_1
     {
         public Street()
         {
-            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Levels\Stage1-1\Street");
+            spriteSheet = content.Load<Texture2D>(@"Levels\Stage1-1\Street");
             size = new Vector3(64, 1, 32);
             drawShadow = false;
             collision = true;

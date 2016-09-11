@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using GGFanGame.Game.Playable;
-using GGFanGame.Game.HUD;
+using GGFanGame.Game.Scene;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
 namespace GGFanGame.Game
@@ -39,16 +38,14 @@ namespace GGFanGame.Game
         #endregion
         
         private List<StageObject> _objects;
-        private Color _ambientColor = new Color(0, 0, 0, 100); //Used for shadow color
         private float _yDefaultKillPlane = -0f;
+
+        internal ContentManager content { get; }
 
         /// <summary>
         /// The ambient shadow color in this stage.
         /// </summary>
-        public Color ambientColor
-        {
-            get { return _ambientColor; }
-        }
+        public Color ambientColor { get; private set; } = new Color(0, 0, 0, 100); //Used for shadow color
 
         /// <summary>
         /// The camera of the level.
@@ -63,11 +60,15 @@ namespace GGFanGame.Game
         /// <summary>
         /// Creates a new instance of the Stage class.
         /// </summary>
-        public Stage()
+        public Stage(ContentManager content)
         {
+            this.content = content;
             camera = new StageCamera();
+        }
 
-            _objects = new List<StageObject>();
+        public void load(StageGenerator generator)
+        {
+            _objects = generator.generate(this);
 
             onePlayer = new Arin(PlayerIndex.One) { X = 320, Z = 200 };
             twoPlayer = new Arin(PlayerIndex.Two) { X = 320, Z = 230 };
@@ -78,25 +79,6 @@ namespace GGFanGame.Game
             _objects.Add(twoPlayer);
             _objects.Add(threePlayer);
             _objects.Add(fourPlayer);
-
-            _objects.Add(new Scene.GrumpSpace.Couch() { X = 110, Y = 0, Z = 320 });
-            _objects.Add(new Scene.GrumpSpace.ArcadeMachine(Scene.GrumpSpace.ArcadeType.Ninja) { X = 310, Y = 0, Z = 320 });
-
-            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 64, Y = 0, Z = 158 });
-            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 64, Y = 0, Z = 190 });
-            _objects.Add(new Scene.Level1_1.Street() { X = 64, Y = 0, Z = 190 });
-            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 128, Y = 10, Z = 158 });
-            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 128, Y = 10, Z = 190 });
-            _objects.Add(new Scene.Level1_1.Street() { X = 128, Y = 10, Z = 190 });
-            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 192, Y = 20, Z = 158 });
-            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 192, Y = 20, Z = 190 });
-            _objects.Add(new Scene.Level1_1.Street() { X = 192, Y = 20, Z = 190 });
-            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 256, Y = 30, Z = 158 });
-            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 256, Y = 30, Z = 190 });
-            _objects.Add(new Scene.Level1_1.Street() { X = 256, Y = 30, Z = 190 });
-            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 320, Y = 40, Z = 158 });
-            _objects.Add(new Scene.Level1_1.BridgeRailing() { X = 320, Y = 40, Z = 190 });
-            _objects.Add(new Scene.Level1_1.Street() { X = 320, Y = 40, Z = 190 });
         }
 
         /// <summary>
@@ -110,7 +92,7 @@ namespace GGFanGame.Game
             }
             
             //TEST: Object counter.
-            gameInstance.spriteBatch.DrawString(gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
+            gameInstance.spriteBatch.DrawString(content.Load<SpriteFont>(@"Fonts\CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
         }
 
         /// <summary>

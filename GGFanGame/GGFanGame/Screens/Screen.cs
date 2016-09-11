@@ -1,4 +1,8 @@
-﻿namespace GGFanGame.Screens
+﻿using System;
+using Microsoft.Xna.Framework.Graphics;
+using static GameProvider;
+
+namespace GGFanGame.Screens
 {
     //Screens is how the game manages screen states.
     //A screen serves a function like MainMenu or InGame.
@@ -6,8 +10,10 @@
     /// <summary>
     /// The base class for all screens in the game.
     /// </summary>
-    abstract class Screen
+    abstract internal class Screen : IDisposable
     {
+        public bool isDisposed { get; protected set; }
+
         /// <summary>
         /// If this screen is the currently active screen.
         /// </summary>
@@ -26,7 +32,7 @@
         /// Draws the screen.
         /// </summary>
         public abstract void draw();
-
+        
         /// <summary>
         /// Updates the screen.
         /// </summary>
@@ -41,5 +47,12 @@
         /// Gets called when hte screen gets opened by the ScreenManager.
         /// </summary>
         public virtual void open() { }
+
+        public void Dispose()
+        {
+            dispose(true);
+        }
+
+        protected virtual void dispose(bool disposing) { }
     }
 }

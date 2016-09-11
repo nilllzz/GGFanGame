@@ -9,7 +9,7 @@ namespace GGFanGame.Game.Scene.Level1_1
 {
     class BridgeRailing : SceneryObject
     {
-        public BridgeRailing() : base()
+        public BridgeRailing()
         {
             spriteSheet = gameInstance.textureManager.load(@"Levels\Stage1-1\BridgeRailing");
             size = new Vector3(64, 32, 5);

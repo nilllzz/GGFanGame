@@ -14,7 +14,7 @@ namespace GGFanGame.Game.Playable
     {
         private int _ticksAlive = 0;
 
-        public ArinLemon(Vector3 startPosition, ObjectFacing facing) : base()
+        public ArinLemon(Vector3 startPosition, ObjectFacing facing)
         {
             spriteSheet = gameInstance.textureManager.load(@"Sprites\ArinLemon");
             this.facing = facing;

@@ -55,11 +55,6 @@ namespace GGFanGame.Game
         /// </summary>
         public StageCamera camera { get; private set; }
         
-        private PlayerStatus _oneStatus;
-        private PlayerStatus _twoStatus;
-        private PlayerStatus _threeStatus;
-        private PlayerStatus _fourStatus;
-
         public PlayerCharacter onePlayer { get; set; }
         public PlayerCharacter twoPlayer { get; set; }
         public PlayerCharacter threePlayer { get; set; }
@@ -84,11 +79,6 @@ namespace GGFanGame.Game
             _objects.Add(threePlayer);
             _objects.Add(fourPlayer);
 
-            _oneStatus = new PlayerStatus(onePlayer, PlayerIndex.One);
-            _twoStatus = new PlayerStatus(twoPlayer, PlayerIndex.Two);
-            _threeStatus = new PlayerStatus(threePlayer, PlayerIndex.Three);
-            _fourStatus = new PlayerStatus(fourPlayer, PlayerIndex.Four);
-            
             _objects.Add(new Scene.GrumpSpace.Couch() { X = 110, Y = 0, Z = 320 });
             _objects.Add(new Scene.GrumpSpace.ArcadeMachine(Scene.GrumpSpace.ArcadeType.Ninja) { X = 310, Y = 0, Z = 320 });
 
@@ -118,13 +108,7 @@ namespace GGFanGame.Game
             {
                 obj.draw();
             }
-
-            //TODO: This needs to be moved to the appropriate screen cause we might not want to render these for the Grump Space.
-            _oneStatus.draw();
-            _twoStatus.draw();
-            _threeStatus.draw();
-            _fourStatus.draw();
-
+            
             //TEST: Object counter.
             gameInstance.spriteBatch.DrawString(gameInstance.fontManager.load(@"CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
         }

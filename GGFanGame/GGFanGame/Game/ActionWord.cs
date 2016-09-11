@@ -55,7 +55,7 @@ namespace GGFanGame.Game
 
         private SpriteFont _grumpFont;
 
-        public ActionWord(string text, Color color, float targetSize, Vector3 position) : base()
+        public ActionWord(string text, Color color, float targetSize, Vector3 position)
         {
             _grumpFont = gameInstance.fontManager.load(@"CartoonFont");
 

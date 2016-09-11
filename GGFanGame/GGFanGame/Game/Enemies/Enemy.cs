@@ -16,7 +16,7 @@ namespace GGFanGame.Game.Enemies
 
         public delegate void OnDeathEventHandler(StageObject obj);
 
-        public Enemy() : base()
+        public Enemy()
         { }
 
         public override void update()

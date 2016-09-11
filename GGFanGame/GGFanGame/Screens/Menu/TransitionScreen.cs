@@ -24,7 +24,7 @@ namespace GGFanGame.Screens.Menu
         //out screen is the current one, inscreen the new one.
         private Screen _outScreen, _inScreen;
 
-        public TransitionScreen(Screen outScreen, Screen inScreen) : base()
+        public TransitionScreen(Screen outScreen, Screen inScreen)
         {
             _gg_overlay = gameInstance.textureManager.load(@"UI\Logos\GameGrumpsTransition");
             _outScreen = outScreen;
@@ -41,25 +41,25 @@ namespace GGFanGame.Screens.Menu
             if (_overlaySize > 0)
             {
                 //Render the rotating logo:
-                gameInstance.spriteBatch.Draw(_gg_overlay, new Rectangle(GGGame.RENDER_WIDTH / 2,
-                                                                        GGGame.RENDER_HEIGHT / 2,
+                gameInstance.spriteBatch.Draw(_gg_overlay, new Rectangle(GameController.RENDER_WIDTH / 2,
+                                                                        GameController.RENDER_HEIGHT / 2,
                                                                         (int)(_gg_overlay.Width * _overlaySize),
                                                                         (int)(_gg_overlay.Height * _overlaySize)),
                     null, Color.White, _rotation, new Vector2(_gg_overlay.Width / 2, _gg_overlay.Height / 2), SpriteEffects.None, 0f);
 
                 //Get the space between the edges of the screen and the logo.
-                float diffX = GGGame.RENDER_WIDTH - (_gg_overlay.Width * _overlaySize);
-                float diffY = GGGame.RENDER_HEIGHT - (_gg_overlay.Height * _overlaySize);
+                float diffX = GameController.RENDER_WIDTH - (_gg_overlay.Width * _overlaySize);
+                float diffY = GameController.RENDER_HEIGHT - (_gg_overlay.Height * _overlaySize);
 
                 int addSide = (int)(160 * _overlaySize);
 
                 //When needed, draw black rectangles at the side:
                 if (diffX + 50 > 0)
                 {
-                    Drawing.Graphics.drawRectangle(new Rectangle(0, 0, (int)(diffX * 0.5f) + addSide, GGGame.RENDER_HEIGHT), Color.Black);
-                    Drawing.Graphics.drawRectangle(new Rectangle(GGGame.RENDER_WIDTH - (int)Math.Floor(diffX / 2) - 2 - addSide, 0, (int)Math.Ceiling(diffX / 2) + 2 + addSide, GGGame.RENDER_HEIGHT), Color.Black);
-                    Drawing.Graphics.drawRectangle(new Rectangle((int)(diffX / 2), 0, (int)(GGGame.RENDER_WIDTH - diffX) + 1, (int)(diffY / 2) + 1 + addSide), Color.Black);
-                    Drawing.Graphics.drawRectangle(new Rectangle((int)(diffX / 2), GGGame.RENDER_HEIGHT - (int)Math.Floor(diffY / 2) - 2 - addSide, (int)(GGGame.RENDER_WIDTH - diffX), (int)(diffY / 2) + 2 + addSide), Color.Black);
+                    Drawing.Graphics.drawRectangle(new Rectangle(0, 0, (int)(diffX * 0.5f) + addSide, GameController.RENDER_HEIGHT), Color.Black);
+                    Drawing.Graphics.drawRectangle(new Rectangle(GameController.RENDER_WIDTH - (int)Math.Floor(diffX / 2) - 2 - addSide, 0, (int)Math.Ceiling(diffX / 2) + 2 + addSide, GameController.RENDER_HEIGHT), Color.Black);
+                    Drawing.Graphics.drawRectangle(new Rectangle((int)(diffX / 2), 0, (int)(GameController.RENDER_WIDTH - diffX) + 1, (int)(diffY / 2) + 1 + addSide), Color.Black);
+                    Drawing.Graphics.drawRectangle(new Rectangle((int)(diffX / 2), GameController.RENDER_HEIGHT - (int)Math.Floor(diffY / 2) - 2 - addSide, (int)(GameController.RENDER_WIDTH - diffX), (int)(diffY / 2) + 2 + addSide), Color.Black);
                 }
 
                 //Draw slightly fading rectangle.

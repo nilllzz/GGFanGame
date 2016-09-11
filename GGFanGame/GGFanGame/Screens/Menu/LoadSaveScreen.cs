@@ -11,7 +11,7 @@ namespace GGFanGame.Screens.Menu
     /// <summary>
     /// The Load Save screen to either load a save or create a new one.
     /// </summary>
-    class LoadSaveScreen : MainMenuScreen
+    class LoadSaveScreen : Screen
     {
         /// <summary>
         /// Container to draw a save state.
@@ -41,10 +41,7 @@ namespace GGFanGame.Screens.Menu
                 }
             }
 
-            public int index
-            {
-                get { return _index; }
-            }
+            public int index => _index;
 
             public bool newGameButton
             {
@@ -127,9 +124,12 @@ namespace GGFanGame.Screens.Menu
         private int _alpha = 0;
 
         private SpriteFont _grumpFont = null;
+        private MenuBackgroundRenderer _backgroundRenderer;
 
-        public LoadSaveScreen(Vector2 initialDotOffset) : base(initialDotOffset)
+        public LoadSaveScreen(MenuBackgroundRenderer backgroundRenderer)
         {
+            _backgroundRenderer = backgroundRenderer;
+
             int saveIndex = 0;
             foreach (string file in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"\Saves\", "*.json", System.IO.SearchOption.TopDirectoryOnly))
             {
@@ -145,7 +145,7 @@ namespace GGFanGame.Screens.Menu
 
         public override void update()
         {
-            base.update();
+            _backgroundRenderer.update();
 
             if (isCurrentScreen)
             {
@@ -160,7 +160,7 @@ namespace GGFanGame.Screens.Menu
 
                 if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.A))
                 {
-                    ScreenManager.getInstance().setScreen(new TransitionScreen(this, new Game.GrumpSpaceScreen()));
+                    ScreenManager.getInstance().setScreen(new TransitionScreen(this, new Game.StageScreen()));
                     //ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new PlayerSelectScreen()));
                 }
             }
@@ -184,11 +184,11 @@ namespace GGFanGame.Screens.Menu
 
         public override void draw()
         {
-            base.draw();
+            _backgroundRenderer.draw();
 
             for (int i = 0; i < _saves.Count; i++)
             {
-                _saves[i].draw(_grumpFont, new Rectangle(GGGame.RENDER_WIDTH / 2 - 300, GGGame.RENDER_HEIGHT / 2 - 64 + (int)_offset + _saves[i].index * 160, 600, 128), i == _selected, _alpha / 255f);
+                _saves[i].draw(_grumpFont, new Rectangle(GameController.RENDER_WIDTH / 2 - 300, GameController.RENDER_HEIGHT / 2 - 64 + (int)_offset + _saves[i].index * 160, 600, 128), i == _selected, _alpha / 255f);
             }
         }
     }

@@ -14,7 +14,7 @@ namespace GGFanGame.Game.Playable
     {
         private Vector3 _movement;
 
-        public ArinBomb(Vector3 movement, Vector3 startPosition, ObjectFacing facing) : base()
+        public ArinBomb(Vector3 movement, Vector3 startPosition, ObjectFacing facing)
         {
             spriteSheet = gameInstance.textureManager.load(@"Sprites\ArinBomb");
             shadowSize = 0.8f;

@@ -13,12 +13,12 @@ namespace GGFanGame.Game.Scene
     /// </summary>
     class SplatBall : InteractableStageObject
     {
-        public SplatBall(Color color, Vector3 movement) : base()
+        public SplatBall(Color color, Vector3 movement)
         {
             initialize(color, movement);
         }
 
-        public SplatBall(Color color, ObjectFacing setFacing) : base() 
+        public SplatBall(Color color, ObjectFacing setFacing) 
         {
             float xMovement = gameInstance.random.Next(10, 20);
             float yMovement = gameInstance.random.Next(0, 10);

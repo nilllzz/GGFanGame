@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace GGFanGame.Screens
 {
@@ -25,8 +21,10 @@ namespace GGFanGame.Screens
             return _instance;
         }
 
-        //The currently active screen instance.
-        private Screen _currentScreen = null;
+        /// <summary>
+        /// The currently active screen instance.
+        /// </summary>
+        public Screen currentScreen { get; private set; } = null;
 
         /// <summary>
         /// Sets a new screen as active screen.
@@ -34,20 +32,11 @@ namespace GGFanGame.Screens
         /// <param name="newScreen">The new screen.</param>
         public void setScreen(Screen newScreen)
         {
-            if (_currentScreen != null)
-                _currentScreen.close();
+            currentScreen?.close();
 
-            _currentScreen = newScreen;
+            currentScreen = newScreen;
 
-            _currentScreen.open();
-        }
-
-        /// <summary>
-        /// The currently active screen instance.
-        /// </summary>
-        public Screen currentScreen
-        {
-            get { return _currentScreen; }
+            currentScreen.open();
         }
 
         /// <summary>
@@ -56,8 +45,7 @@ namespace GGFanGame.Screens
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void updateScreen(GameTime gameTime)
         {
-            if (_currentScreen != null)
-                _currentScreen.update();
+            currentScreen?.update();
         }
 
         /// <summary>
@@ -66,8 +54,7 @@ namespace GGFanGame.Screens
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void drawScreen(GameTime gameTime)
         {
-            if (_currentScreen != null)
-                _currentScreen.draw();
+            currentScreen?.draw();
         }
     }
 }

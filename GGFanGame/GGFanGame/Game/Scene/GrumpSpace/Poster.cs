@@ -11,7 +11,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace
     {
         static string[] posters = new string[] { "Brian", "Goose", "Larry", "NoUse", "UpDog" };
 
-        public Poster() : base()
+        public Poster()
         {
             setRandomPoster();
             size = new Vector3(23, 30, 2);

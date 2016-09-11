@@ -9,7 +9,7 @@ namespace GGFanGame.Game.Scene.Level1_1
 {
     class Street : SceneryObject
     {
-        public Street() : base()
+        public Street()
         {
             spriteSheet = gameInstance.textureManager.load(@"Levels\Stage1-1\Street");
             size = new Vector3(64, 1, 32);

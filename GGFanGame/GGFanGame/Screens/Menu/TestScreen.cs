@@ -11,7 +11,7 @@ namespace GGFanGame.Screens.Menu
 {
     class TestScreen : Screen
     {
-        public TestScreen() : base() { }
+        public TestScreen() { }
 
         float ggoffsetX = 0;
         float ggoffsetY = 0;

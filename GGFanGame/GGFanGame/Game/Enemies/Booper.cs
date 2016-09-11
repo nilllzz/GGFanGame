@@ -12,7 +12,7 @@ namespace GGFanGame.Game.Enemies
     /// </summary>
     class Booper : Enemy
     {
-        public Booper() : base()
+        public Booper()
         {
             spriteSheet = gameInstance.textureManager.load(@"Sprites\Booper");
             drawShadow = true;

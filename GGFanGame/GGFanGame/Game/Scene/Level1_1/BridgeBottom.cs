@@ -9,7 +9,7 @@ namespace GGFanGame.Game.Scene.Level1_1
 {
     class BridgeBottom : SceneryObject
     {
-        public BridgeBottom() : base()
+        public BridgeBottom()
         {
             spriteSheet = gameInstance.textureManager.load(@"Levels\Stage1-1\BridgeBottom");
             size = new Vector3(128, 64, 64);

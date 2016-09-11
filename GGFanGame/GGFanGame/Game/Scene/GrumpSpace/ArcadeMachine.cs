@@ -11,7 +11,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace
     {
         private ArcadeType _arcadeType;
 
-        public ArcadeMachine(ArcadeType arcadeType) : base()
+        public ArcadeMachine(ArcadeType arcadeType)
         {
             _arcadeType = arcadeType;
 

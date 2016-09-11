@@ -74,7 +74,7 @@ namespace GGFanGame.Game
 
         #endregion
 
-        public InteractableStageObject() : base()
+        public InteractableStageObject()
         {
             setState(ObjectState.Idle);
             canInteract = true;

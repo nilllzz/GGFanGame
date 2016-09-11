@@ -6,5 +6,5 @@ static class GameProvider
     /// <summary>
     /// The global game instance.
     /// </summary>
-    public static GGFanGame.GGGame gameInstance => GGFanGame.GGGame.getInstance();
+    public static GGFanGame.GameController gameInstance => GGFanGame.GameController.getInstance();
 }

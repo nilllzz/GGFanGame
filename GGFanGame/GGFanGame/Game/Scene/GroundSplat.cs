@@ -16,7 +16,7 @@ namespace GGFanGame.Game.Scene
         private SpriteEffects _effect = SpriteEffects.None;
         private int alpha = 255;
 
-        public GroundSplat(Color color) : base()
+        public GroundSplat(Color color)
         {
             List<Rectangle> ellipses = new List<Rectangle>();
             List<Color> colors = new List<Color>();

@@ -9,7 +9,7 @@ namespace GGFanGame.Game.Scene.GrumpSpace
 {
     class Couch : SceneryObject
     {
-        public Couch() : base()
+        public Couch()
         {
             spriteSheet = gameInstance.textureManager.load(@"Levels\GrumpSpace\Couch");
             size = new Vector3(80, 16, 5);

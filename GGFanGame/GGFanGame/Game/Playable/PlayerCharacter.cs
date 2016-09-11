@@ -182,7 +182,7 @@ namespace GGFanGame.Game.Playable
         /// <summary>
         /// Creates a new instance of the player character class.
         /// </summary>
-        protected PlayerCharacter(PlayerIndex playerIndex, string name) : base()
+        protected PlayerCharacter(PlayerIndex playerIndex, string name)
         {
             _playerIndex = playerIndex;
             _name = name;

@@ -36,12 +36,14 @@ namespace GGFanGame.Game.HUD
             public bool sinking = true;
             public bool growing = true;
 
-            Random rnd = new Random();
+            private Random _rnd;
 
-            public Bubble(Vector2 position, float size)
+            public Bubble(Vector2 position, float size, int seed)
             {
                 this.position = position;
                 this.size = size;
+
+                _rnd = new Random(seed);
 
                 if (size > 13)
                     growing = false;
@@ -101,7 +103,7 @@ namespace GGFanGame.Game.HUD
             for (int i = 0; i < 42; i++)
             {
                 bubbles.Add(new Bubble(new Vector2(gameInstance.random.Next(-20, 125), gameInstance.random.Next(-15, 4)),
-                                         gameInstance.random.Next(15, 45)));
+                                         gameInstance.random.Next(15, 45), (int)playerIndex + i));
             }
         }
 
@@ -199,7 +201,7 @@ namespace GGFanGame.Game.HUD
                 _comboBatch.DrawString(_fontLarge, "x" + _player.comboChain, Vector2.Zero, Color.White);
                 _comboBatch.End();
 
-                gameInstance.resetRenderTarget();
+                RenderTargetManager.resetRenderTarget();
 
                 var fontWidth = _fontLarge.MeasureString("x" + _player.comboChain).X * (_player.comboDelay / 100f);
 

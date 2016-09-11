@@ -13,7 +13,7 @@ namespace GGFanGame.Screens.Menu
     /// <summary>
     /// The title screen for the game.
     /// </summary>
-    class TitleScreen : MainMenuScreen
+    class TitleScreen : Screen
     {
         //The title screen will just feature the logo of the game and a prompt that says "press any button to start".
 
@@ -24,8 +24,11 @@ namespace GGFanGame.Screens.Menu
 
         private SpriteFont _grumpFont = null;
 
-        public TitleScreen() : base()
+        private MenuBackgroundRenderer _backgroundRenderer;
+
+        public TitleScreen()
         {
+            _backgroundRenderer = new MenuBackgroundRenderer();
             _logoTexture = gameInstance.textureManager.load(@"UI\Logos\GameGrumps");
             _grumpFont = gameInstance.fontManager.load(@"CartoonFontLarge");
 
@@ -35,7 +38,7 @@ namespace GGFanGame.Screens.Menu
 
         public override void draw()
         {
-            base.draw();
+            _backgroundRenderer.draw();
 
             drawTitle();
         }
@@ -49,17 +52,17 @@ namespace GGFanGame.Screens.Menu
                                           null, Color.White,
                                           _logoAnimation - 1f, new Vector2(_logoTexture.Width / 2f, _logoTexture.Height / 2f), SpriteEffects.None, 0f);
 
-            gameInstance.fontBatch.DrawString(_grumpFont, GGGame.GAME_TITLE,
-                new Vector2((gameInstance.clientRectangle.Width * _gameTitleAnimation) + gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(GGGame.GAME_TITLE).X / 2 + 5,
+            gameInstance.fontBatch.DrawString(_grumpFont, GameController.GAME_TITLE,
+                new Vector2((gameInstance.clientRectangle.Width * _gameTitleAnimation) + gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(GameController.GAME_TITLE).X / 2 + 5,
                 90 + _logoTexture.Height + 5), new Color(122, 141, 235), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            gameInstance.fontBatch.DrawString(_grumpFont, GGGame.GAME_TITLE,
-                new Vector2(-(gameInstance.clientRectangle.Width * _gameTitleAnimation) + gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(GGGame.GAME_TITLE).X / 2,
+            gameInstance.fontBatch.DrawString(_grumpFont, GameController.GAME_TITLE,
+                new Vector2(-(gameInstance.clientRectangle.Width * _gameTitleAnimation) + gameInstance.clientRectangle.Width / 2 - _grumpFont.MeasureString(GameController.GAME_TITLE).X / 2,
                 90 + _logoTexture.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 
         public override void update()
         {
-            base.update();
+            _backgroundRenderer.update();
 
             //Update title animation:
             if (_logoAnimation > 1f)
@@ -85,7 +88,7 @@ namespace GGFanGame.Screens.Menu
             //When a button is pressed, open the next screen:
             if (Input.GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.A))
             {
-                ScreenManager.getInstance().setScreen(new LoadSaveScreen(new Vector2(_offsetX, _offsetY)));
+                ScreenManager.getInstance().setScreen(new LoadSaveScreen(_backgroundRenderer));
             }
         }
     }

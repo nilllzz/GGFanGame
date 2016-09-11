@@ -29,7 +29,7 @@ namespace GGFanGame.Screens.Menu
 
         private SpriteFont _grumpFont = null;
 
-        public PlayerSelectScreen() : base()
+        public PlayerSelectScreen()
         {
             _grumpFont = gameInstance.fontManager.load("CartoonFont");
 

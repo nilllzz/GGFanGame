@@ -44,8 +44,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BoundingBoxExtension.cs" />
-    <Compile Include="DataModel\Json\Game\GameSessionModel.cs" />
-    <Compile Include="DataModel\Json\JsonDataModel.cs" />
+    <Compile Include="DataModel.Json\Game\GameSessionModel.cs" />
+    <Compile Include="DataModel.Json\JsonDataModel.cs" />
     <Compile Include="Drawing\Colors.cs" />
     <Compile Include="Drawing\BlurHandler.cs" />
     <Compile Include="Drawing\GaussianBlur.cs" />

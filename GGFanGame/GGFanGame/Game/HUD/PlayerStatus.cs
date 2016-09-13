@@ -85,6 +85,7 @@ namespace GGFanGame.Game.HUD
 
         private readonly Texture2D _headTexture;
         private readonly Texture2D _barTexture;
+        private readonly Texture2D _fireTexture;
 
         private readonly SpriteFont _font;
         private readonly SpriteFont _fontLarge;
@@ -109,6 +110,7 @@ namespace GGFanGame.Game.HUD
 
             _barTexture = _content.Load<Texture2D>(@"UI\HUD\Bars");
             _headTexture = _content.Load<Texture2D>(@"UI\HUD\" + _player.name);
+            _fireTexture = _content.Load<Texture2D>(@"UI\HUD\Fire");
             _font = _content.Load<SpriteFont>(@"Fonts\CartoonFontSmall");
             _fontLarge = _content.Load<SpriteFont>(@"Fonts\CartoonFont");
 
@@ -169,7 +171,17 @@ namespace GGFanGame.Game.HUD
             Graphics.drawRectangle(new Rectangle(xOffset + 75, 65, 120, 20), Colors.getColor(_playerIndex));
             foreach (var ell in _bubbles)
             {
-                Graphics.drawCircle(new Vector2(xOffset + 75, 56) + ell.position, (int)ell.size, Colors.getColor(_playerIndex), 1d);
+                if (_player.grumpPower == _player.maxGrumpPower)
+                {
+                    gameInstance.spriteBatch.Draw(_fireTexture,
+                        new Rectangle((int)(xOffset + 90 + ell.position.X - ell.size), (int)(71 + ell.position.Y - ell.size), (int)ell.size * 2, (int)ell.size * 2),
+                        new Rectangle(((int)ell.size / 9) % 3 * 32, 0, 32, 32),
+                        Colors.getColor(_playerIndex));
+                }
+                else
+                {
+                    Graphics.drawCircle(new Vector2(xOffset + 90, 71) + ell.position - new Vector2(ell.size / 2), (int)ell.size, Colors.getColor(_playerIndex), 1d);
+                }
                 ell.update();
             }
             _grumpBarGlowAnimation += 0.2d;

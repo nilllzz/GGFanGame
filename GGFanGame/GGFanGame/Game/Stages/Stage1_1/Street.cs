@@ -1,5 +1,4 @@
-﻿using GGFanGame.DataModel.Json.Game;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GGFanGame.Game.Stages.Stage1_1

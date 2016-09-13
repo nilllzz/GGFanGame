@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using GGFanGame.DataModel;
-using GGFanGame.DataModel.Json.Game;
+using GGFanGame.DataModel.Game;
 
 namespace GGFanGame
 {
@@ -52,7 +52,7 @@ namespace GGFanGame
 
             try
             {
-                _dataModel = DataModel<GameSessionModel>.fromString(jsonData, DataType.All);
+                _dataModel = DataModel<GameSessionModel>.fromString(jsonData, DataType.Json);
                 _loadedCorrectly = true;
             }
             catch (DataLoadException)

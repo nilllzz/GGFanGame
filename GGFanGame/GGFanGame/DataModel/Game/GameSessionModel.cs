@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace GGFanGame.DataModel.Json.Game
+namespace GGFanGame.DataModel.Game
 {
     /// <summary>
     /// The data model for a <see cref="GameSession"/>.

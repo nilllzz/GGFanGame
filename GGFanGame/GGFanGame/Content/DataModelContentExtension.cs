@@ -1,21 +1,22 @@
 ﻿using System.IO;
 using GGFanGame.DataModel;
+using GGFanGame.DataModel.Serizalitaion;
 using Microsoft.Xna.Framework.Content;
 
 namespace GGFanGame // no "Content" to have it be accessible anywhere.
 {
-    static class DataModelContentExtension
+    /// <summary>
+    /// Contains an extension method to load data models through a <see cref="ContentManager"/> directly.
+    /// </summary>
+    internal static class DataModelContentExtension
     {
         public static T Load<T>(this ContentManager content, string assetName, DataType dataType) where T : DataModel<T>
         {
-            // TODO: fix json file name hardcoded and add Xml serializer
-
+            var fileExtension = DataTypeHelper.getFileExtension(dataType);
             var assetPath = Path.Combine(content.RootDirectory, assetName);
 
-            if (!assetPath.EndsWith(".json"))
-            {
-                assetPath = assetPath + ".json";
-            }
+            if (!assetPath.ToLowerInvariant().EndsWith(fileExtension))
+                assetPath = assetPath + "." +  fileExtension;
 
             var source = File.ReadAllText(assetPath);
 

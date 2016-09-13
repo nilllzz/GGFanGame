@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using GGFanGame.DataModel.Json.Game;
+using GGFanGame.DataModel.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 

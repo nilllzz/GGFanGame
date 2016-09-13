@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GGFanGame.Game.Playable;
-using GGFanGame.Game.Scene;
+using GGFanGame.Game.Stages;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -54,15 +54,17 @@ namespace GGFanGame.Game
         /// <summary>
         /// Creates a new instance of the Stage class.
         /// </summary>
-        public Stage(ContentManager content)
+        public Stage(ContentManager content, IEnumerable<StageObject> objects)
         {
             this.content = content;
+            _objects = new List<StageObject>(objects);
+
             camera = new StageCamera();
         }
 
-        public void load(StageGenerator generator)
+        public void load()
         {
-            _objects = generator.generate(this);
+            setActiveStage();
 
             onePlayer = new Arin(PlayerIndex.One) { X = 320, Z = 200 };
             twoPlayer = new Arin(PlayerIndex.Two) { X = 320, Z = 230 };
@@ -73,6 +75,8 @@ namespace GGFanGame.Game
             _objects.Add(twoPlayer);
             _objects.Add(threePlayer);
             _objects.Add(fourPlayer);
+
+            _objects.ForEach(o => o.load());
         }
 
         /// <summary>
@@ -128,6 +132,7 @@ namespace GGFanGame.Game
         /// </summary>
         public void addObject(StageObject obj)
         {
+            obj.load();
             _objects.Add(obj);
         }
 

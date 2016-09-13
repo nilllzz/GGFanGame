@@ -6,7 +6,7 @@ namespace GGFanGame.DataModel.Json.Game
     /// The data model for a <see cref="GameSession"/>.
     /// </summary>
     [DataContract]
-    internal class GameSessionModel : JsonDataModel
+    internal class GameSessionModel : DataModel<GameSessionModel>
     {
         [DataMember]
         public string name;

@@ -2,16 +2,16 @@
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
-namespace GGFanGame.Game.Scene.GrumpSpace.Enemies
+namespace GGFanGame.Game.Stages.GrumpSpace.Enemies
 {
     /// <summary>
     /// An enemy for a dojo stage.
     /// </summary>
+    [StageObject("booper", "0", "1")]
     internal class Booper : Enemy
     {
         public Booper()
         {
-            spriteSheet = content.Load<Texture2D>(@"Sprites\Booper");
             drawShadow = true;
             shadowSize = 0.6d;
             strength = 0f;
@@ -26,6 +26,11 @@ namespace GGFanGame.Game.Scene.GrumpSpace.Enemies
             addAnimation(ObjectState.Dead, new Animation(6, new Point(0, 128), new Point(64, 64), 4));
             
             OnDeath += onDeath;
+        }
+
+        protected override void loadInternal()
+        {
+            spriteSheet = content.Load<Texture2D>(@"Sprites\Booper");
         }
 
         public override void update()

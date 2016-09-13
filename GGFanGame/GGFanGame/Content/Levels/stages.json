@@ -1,0 +1,5 @@
+{
+    "stages": [
+        { "worldId" : "1", "stageId": "1", "path": "Levels\\Stage1_1\\stage.json" }
+    ]
+}

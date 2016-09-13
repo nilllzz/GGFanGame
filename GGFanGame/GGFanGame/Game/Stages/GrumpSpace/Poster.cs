@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
-namespace GGFanGame.Game.Scene.GrumpSpace
+namespace GGFanGame.Game.Stages.GrumpSpace
 {
     internal class Poster : SceneryObject
     {
@@ -10,7 +10,6 @@ namespace GGFanGame.Game.Scene.GrumpSpace
 
         public Poster()
         {
-            setRandomPoster();
             size = new Vector3(23, 30, 2);
 
             drawShadow = true;
@@ -19,6 +18,11 @@ namespace GGFanGame.Game.Scene.GrumpSpace
             canLandOn = false;
 
             addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(23, 30), 100));
+        }
+
+        protected override void loadInternal()
+        {
+            setRandomPoster();
         }
 
         private void setRandomPoster()

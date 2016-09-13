@@ -44,8 +44,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BoundingBoxExtension.cs" />
-    <Compile Include="DataModel.Json\Game\GameSessionModel.cs" />
-    <Compile Include="DataModel.Json\JsonDataModel.cs" />
+    <Compile Include="Content\DataModelContentExtension.cs" />
+    <Compile Include="DataModel\DataType.cs" />
+    <Compile Include="DataModel\Json\Game\GameSessionModel.cs" />
+    <Compile Include="DataModel\Json\Game\StageListMapEntryModel.cs" />
+    <Compile Include="DataModel\Json\Game\StageListModel.cs" />
+    <Compile Include="DataModel\Json\Game\StageModel.cs" />
+    <Compile Include="DataModel\Json\Game\StageObjectModel.cs" />
+    <Compile Include="DataModel\JsonDataModel.cs" />
     <Compile Include="Drawing\Colors.cs" />
     <Compile Include="Drawing\BlurHandler.cs" />
     <Compile Include="Drawing\GaussianBlur.cs" />
@@ -60,29 +66,29 @@
     <Compile Include="Game\Animation.cs" />
     <Compile Include="Game\AnimationFrame.cs" />
     <Compile Include="Game\Attack.cs" />
-    <Compile Include="Game\Scene\GrumpSpace\Enemies\Booper.cs" />
+    <Compile Include="Game\StageFactory.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\Enemies\Booper.cs" />
     <Compile Include="Game\GroundRelation.cs" />
     <Compile Include="Game\ObjectFacing.cs" />
     <Compile Include="Game\ObjectState.cs" />
     <Compile Include="Game\Playable\ArinBomb.cs" />
     <Compile Include="Game\Playable\ArinLemon.cs" />
     <Compile Include="Game\SceneryObject.cs" />
-    <Compile Include="Game\Scene\GrumpSpace\ArcadeType.cs" />
-    <Compile Include="Game\Scene\Level1_1\BridgeBottom.cs" />
-    <Compile Include="Game\Scene\Level1_1\StageGenerator_1_1.cs" />
-    <Compile Include="Game\Scene\Level1_1\Street.cs" />
-    <Compile Include="Game\Scene\Level1_1\BridgeRailing.cs" />
-    <Compile Include="Game\Scene\GroundSplat.cs" />
-    <Compile Include="Game\Scene\GrumpSpace\ArcadeMachine.cs" />
-    <Compile Include="Game\Scene\GrumpSpace\Couch.cs" />
-    <Compile Include="Game\Scene\GrumpSpace\Poster.cs" />
-    <Compile Include="Game\Scene\SplatBall.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\ArcadeType.cs" />
+    <Compile Include="Game\Stages\Stage1_1\BridgeBottom.cs" />
+    <Compile Include="Game\Stages\Stage1_1\Street.cs" />
+    <Compile Include="Game\Stages\Stage1_1\BridgeRailing.cs" />
+    <Compile Include="Game\Stages\GroundSplat.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\ArcadeMachine.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\Couch.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\Poster.cs" />
+    <Compile Include="Game\Stages\SplatBall.cs" />
     <Compile Include="Game\StageCamera.cs" />
-    <Compile Include="Game\Scene\StageGenerator.cs" />
     <Compile Include="GameController.cs" />
     <Compile Include="GameJolt\API\APIManager.cs" />
     <Compile Include="GameJolt\API\GameJoltRequest.cs" />
     <Compile Include="GameJolt\API\GameJoltRequests_Definitions.cs" />
+    <Compile Include="Game\StageObjectAttribute.cs" />
     <Compile Include="Input\ControlsHandler.cs" />
     <Compile Include="Input\GamePadHandler.cs" />
     <Compile Include="Input\InputControlType.cs" />
@@ -137,6 +143,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Content Include="Content\Levels\Stage1_1\stage.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\stages.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

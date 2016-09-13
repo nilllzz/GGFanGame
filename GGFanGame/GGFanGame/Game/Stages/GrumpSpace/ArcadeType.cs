@@ -1,4 +1,4 @@
-﻿namespace GGFanGame.Game.Scene.GrumpSpace
+﻿namespace GGFanGame.Game.Stages.GrumpSpace
 {
     /// <summary>
     /// Different types of <see cref="ArcadeMachine"/>s.

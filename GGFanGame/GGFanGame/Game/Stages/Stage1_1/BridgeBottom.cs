@@ -1,13 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GGFanGame.DataModel.Json.Game;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GGFanGame.Game.Scene.Level1_1
+namespace GGFanGame.Game.Stages.Stage1_1
 {
+    [StageObject("bridgeBottom", "1", "1")]
     internal class BridgeBottom : SceneryObject
     {
         public BridgeBottom()
         {
-            spriteSheet = content.Load<Texture2D>(@"Levels\Stage1-1\BridgeBottom");
             size = new Vector3(128, 64, 64);
             drawShadow = false;
             collision = true;
@@ -17,6 +18,11 @@ namespace GGFanGame.Game.Scene.Level1_1
 
             addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(128, 64), 100));
 
+        }
+
+        public override void applyDataModel(StageObjectModel dataModel)
+        {
+            spriteSheet = content.Load<Texture2D>(@"Levels\Stage1_1\BridgeBottom");
         }
     }
 }

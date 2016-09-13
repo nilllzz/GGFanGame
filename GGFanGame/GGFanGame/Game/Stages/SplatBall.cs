@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using static GameProvider;
 
-namespace GGFanGame.Game.Scene
+namespace GGFanGame.Game.Stages
 {
     /// <summary>
     /// A ball shot by a gun that splats on the ground upon contact.
@@ -14,7 +14,7 @@ namespace GGFanGame.Game.Scene
             initialize(color, movement);
         }
 
-        public SplatBall(Color color, ObjectFacing setFacing) 
+        public SplatBall(Color color, ObjectFacing setFacing)
         {
             float xMovement = gameInstance.random.Next(10, 20);
             float yMovement = gameInstance.random.Next(0, 10);
@@ -31,7 +31,7 @@ namespace GGFanGame.Game.Scene
             initialize(color, new Vector3(xMovement, yMovement, zMovement));
         }
 
-        private void initialize( Color color, Vector3 movement)
+        private void initialize(Color color, Vector3 movement)
         {
             var ellipses = new List<Rectangle>();
             var colors = new List<Color>();

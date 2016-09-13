@@ -1,7 +1,6 @@
 ﻿using GGFanGame.Drawing;
 using GGFanGame.Game;
 using GGFanGame.Game.HUD;
-using GGFanGame.Game.Scene.Level1_1;
 using GGFanGame.Input;
 using GGFanGame.Screens.Menu;
 using Microsoft.Xna.Framework;
@@ -22,9 +21,8 @@ namespace GGFanGame.Screens.Game
         {
             initializeContentManager();
 
-            _stage = new Stage(content);
-            _stage.setActiveStage();
-            _stage.load(new StageGenerator_1_1());
+            _stage = StageFactory.create(content, "1", "1");
+            _stage.load();
 
             _oneStatus = new PlayerStatus(_stage.onePlayer, PlayerIndex.One, content);
             _twoStatus = new PlayerStatus(_stage.twoPlayer, PlayerIndex.Two, content);

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
-namespace GGFanGame.Game.Scene
+namespace GGFanGame.Game.Stages
 {
     /// <summary>
     /// A splat on the ground.

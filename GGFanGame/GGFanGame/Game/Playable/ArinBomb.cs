@@ -13,7 +13,6 @@ namespace GGFanGame.Game.Playable
 
         public ArinBomb(Vector3 movement, Vector3 startPosition, ObjectFacing facing)
         {
-            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Sprites\ArinBomb");
             shadowSize = 0.8f;
             this.facing = facing;
 
@@ -22,6 +21,11 @@ namespace GGFanGame.Game.Playable
             position = startPosition;
             canInteract = false;
             _movement = movement;
+        }
+
+        protected override void loadInternal()
+        {
+            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Sprites\ArinBomb");
         }
 
         public override void update()

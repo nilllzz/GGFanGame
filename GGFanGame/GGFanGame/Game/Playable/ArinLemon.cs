@@ -13,7 +13,6 @@ namespace GGFanGame.Game.Playable
 
         public ArinLemon(Vector3 startPosition, ObjectFacing facing)
         {
-            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Sprites\ArinLemon");
             this.facing = facing;
             size = new Vector3(4f, 4f, 8f);
 
@@ -21,6 +20,11 @@ namespace GGFanGame.Game.Playable
 
             position = startPosition;
             canInteract = false;
+        }
+
+        protected override void loadInternal()
+        {
+            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Sprites\ArinLemon");
         }
 
         public override void update()

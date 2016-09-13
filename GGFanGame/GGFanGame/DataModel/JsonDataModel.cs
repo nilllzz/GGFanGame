@@ -3,26 +3,23 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
-namespace GGFanGame.DataModel.Json
+namespace GGFanGame.DataModel
 {
     /// <summary>
     /// The JsonDataModel is the base class for all data models in the game.
     /// </summary>
     [DataContract]
-    internal abstract class JsonDataModel
+    internal abstract class DataModel<T> where T : DataModel<T>
     {
         //This class will manage the Json data models for this game.
         //Levels, saves etc. will be saved in the Json format.
-
-        protected JsonDataModel()
-        { /*Empty constructor*/ }
-
+        
         /// <summary>
         /// Creates a data model of a specific type.
         /// </summary>
         /// <typeparam name="T">The data model type.</typeparam>
         /// <param name="input">The input Json string.</param>
-        public static T fromString<T>(string input)
+        public static T fromString(string input, DataType dataType)
         {
             //We create a new Json serializer of the given type and a corresponding memory stream here.
             var serializer = new DataContractJsonSerializer(typeof(T));
@@ -44,7 +41,7 @@ namespace GGFanGame.DataModel.Json
             }
             catch (Exception ex)
             {
-                throw new JsonDataLoadException(input, typeof(T), ex);
+                throw new DataLoadException(input, typeof(T), ex);
             }
         }
 
@@ -54,7 +51,7 @@ namespace GGFanGame.DataModel.Json
         public override string ToString()
         {
             //We create a new Json serializer of the given type and a corresponding memory stream:
-            var serializer = new DataContractJsonSerializer(this.GetType());
+            var serializer = new DataContractJsonSerializer(GetType());
             var memStream = new MemoryStream();
 
             //Write the data to the stream:
@@ -74,20 +71,20 @@ namespace GGFanGame.DataModel.Json
     /// <summary>
     /// The exception that occurs when the serialization of Json data failed.
     /// </summary>
-    internal sealed class JsonDataLoadException : Exception
+    internal sealed class DataLoadException : Exception
     {
         private const string MESSAGE = "An exception occured trying to read Json data into an internal format. Please check that the input data is correct.";
 
         /// <summary>
         /// Creates a new instance of the JsonDataLoadException class.
         /// </summary>
-        /// <param name="jsonData">The json data that caused the problem.</param>
+        /// <param name="data">The data that caused the problem.</param>
         /// <param name="targetType">The target type.</param>
         /// <param name="inner">The inner exception thrown.</param>
-        public JsonDataLoadException(string jsonData, Type targetType, Exception inner) : base(MESSAGE, inner)
+        public DataLoadException(string data, Type targetType, Exception inner) : base(MESSAGE, inner)
         {
             Data.Add("Target type", targetType.Name);
-            Data.Add("Json data", jsonData);
+            Data.Add("Data", data);
         }
     }
 }

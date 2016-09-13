@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GGFanGame.DataModel.Json.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
@@ -26,6 +27,7 @@ namespace GGFanGame.Game
         private static int _currentSortingPriority = 0; //Keeps track of all the sorting priorities added so that every object has a different one.
         private readonly int _sortingPriority = 0;
         private int _maxHealth;
+        private bool _loadedContent;
 
         #region Properties
 
@@ -183,6 +185,25 @@ namespace GGFanGame.Game
 
             maxHealth = 1; // 1 is the default so every object has at least one health when spawned.
         }
+
+        public void load()
+        {
+            if (!_loadedContent)
+            {
+                loadInternal();
+                _loadedContent = true;
+            }
+        }
+
+        /// <summary>
+        /// Loads the content of this StageObject.
+        /// </summary>
+        protected virtual void loadInternal() { }
+
+        /// <summary>
+        /// Applies the data from a passed in data model to the object (default implementation contains position set).
+        /// </summary>
+        public virtual void applyDataModel(StageObjectModel dataModel) => position = dataModel.position;
 
         /// <summary>
         /// Adds a new bounding box to the array of defined bounding boxes for this object.

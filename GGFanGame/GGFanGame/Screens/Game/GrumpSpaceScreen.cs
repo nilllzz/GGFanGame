@@ -15,7 +15,7 @@ namespace GGFanGame.Screens.Game
         {
             initializeContentManager();
 
-            _stage = new Stage(content);
+            _stage = new Stage(content, null);
             _stage.setActiveStage();
         }
 

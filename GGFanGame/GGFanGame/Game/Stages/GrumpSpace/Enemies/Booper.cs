@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
@@ -10,6 +11,8 @@ namespace GGFanGame.Game.Stages.GrumpSpace.Enemies
     [StageObject("booper", "0", "1")]
     internal class Booper : Enemy
     {
+        public override int score => 100;
+
         public Booper()
         {
             drawShadow = true;

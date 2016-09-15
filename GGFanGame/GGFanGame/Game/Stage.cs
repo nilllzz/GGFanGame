@@ -218,7 +218,7 @@ namespace GGFanGame.Game
                                 zAffection *= -1f;
                             }
 
-                            obj.getHit(new Vector3(xAffection / 10f, 5, zAffection / 25f), health, true);
+                            obj.getHit(origin, new Vector3(xAffection / 10f, 5, zAffection / 25f), health, true);
                         }
                         else
                         {
@@ -228,7 +228,7 @@ namespace GGFanGame.Game
                                 xAffection *= -1f;
                             }
 
-                            obj.getHit(new Vector3(xAffection * 1.3f, strength, 0f), health, true);
+                            obj.getHit(origin, new Vector3(xAffection * 1.3f, strength, 0f), health, true);
                         }
                     }
                 }

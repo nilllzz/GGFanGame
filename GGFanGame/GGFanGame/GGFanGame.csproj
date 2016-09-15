@@ -73,6 +73,7 @@
     <Compile Include="Game\Attack.cs" />
     <Compile Include="Game\Playable\AttachDefinition.cs" />
     <Compile Include="Game\Playable\PlayerAttack.cs" />
+    <Compile Include="Game\Playable\PlayerStatistics.cs" />
     <Compile Include="Game\StageFactory.cs" />
     <Compile Include="Game\Stages\GrumpSpace\Enemies\Booper.cs" />
     <Compile Include="Game\GroundRelation.cs" />

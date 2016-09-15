@@ -16,6 +16,7 @@ namespace GGFanGame.Game.Playable
         private double _attackDelay = 0d; //The time period after an attack to chain a combo.
         private readonly PlayerIndex _playerIndex;
         private int _grumpPower = 0;
+        private PlayerStatistics _playerStatistics;
 
         /// <summary>
         /// The speed of this player character.
@@ -60,7 +61,7 @@ namespace GGFanGame.Game.Playable
         /// The maximum amount of grump power.
         /// </summary>
         public abstract int maxGrumpPower { get; }
-
+        
         /// <summary>
         /// Creates a new instance of the player character class.
         /// </summary>
@@ -403,6 +404,12 @@ namespace GGFanGame.Game.Playable
             }
 
             return base.getAnimation();
+        }
+
+        internal void killedEnemy(Enemy enemy)
+        {
+            _playerStatistics.kills++;
+            _playerStatistics.score += enemy.score;
         }
     }
 }

@@ -69,6 +69,8 @@ namespace GGFanGame.Game
 
         protected bool renderActionHint { get; set; } = false;
 
+        protected StageObject lastAttackedBy { get; private set; }
+
         #endregion
 
         protected InteractableStageObject()
@@ -351,9 +353,9 @@ namespace GGFanGame.Game
             return new Point((int)(frame.Width * stageScale), (int)(frame.Height * stageScale));
         }
 
-        public override void getHit(Vector3 movement, int health, bool knockback)
+        public override void getHit(StageObject origin, Vector3 movement, int health, bool knockback)
         {
-            base.getHit(movement, health, knockback);
+            base.getHit(origin, movement, health, knockback);
 
             autoMovement = movement;
             this.health -= health;
@@ -366,6 +368,8 @@ namespace GGFanGame.Game
             {
                 setState(ObjectState.Hurt);
             }
+
+            lastAttackedBy = origin;
         }
 
         public override void getHit(Attack attack)
@@ -448,6 +452,8 @@ namespace GGFanGame.Game
                 else
                     facing = ObjectFacing.Left;
             }
+
+            lastAttackedBy = attack.origin;
         }
 
         /// <summary>

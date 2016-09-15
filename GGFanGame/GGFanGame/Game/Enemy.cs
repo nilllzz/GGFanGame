@@ -1,4 +1,5 @@
 ﻿using System;
+using GGFanGame.Game.Playable;
 
 namespace GGFanGame.Game
 {
@@ -9,8 +10,10 @@ namespace GGFanGame.Game
     {
         public event Action<StageObject> OnDeath;
 
-        protected Enemy()
-        { }
+        /// <summary>
+        /// The score a player gets when killing this enemy.
+        /// </summary>
+        public abstract int score { get; }
 
         public override void update()
         {
@@ -31,9 +34,7 @@ namespace GGFanGame.Game
                 setToState = ObjectState.Dead;
                 if (animationEnded())
                 {
-                    canBeRemoved = true;
-
-                    OnDeath?.Invoke(this);
+                    die();
                 }
             }
 
@@ -67,6 +68,16 @@ namespace GGFanGame.Game
             }
 
             setState(setToState);
+        }
+
+        private void die()
+        {
+            if (lastAttackedBy != null && lastAttackedBy is PlayerCharacter)
+                (lastAttackedBy as PlayerCharacter).killedEnemy(this);
+
+            canBeRemoved = true;
+
+            OnDeath?.Invoke(this);
         }
     }
 }

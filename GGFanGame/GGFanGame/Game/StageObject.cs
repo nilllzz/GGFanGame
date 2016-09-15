@@ -276,7 +276,7 @@ namespace GGFanGame.Game
         /// <summary>
         /// This objects gets hit and moves by a certain amount.
         /// </summary>
-        public virtual void getHit(Vector3 movement, int health, bool knockback) { }
+        public virtual void getHit(StageObject origin, Vector3 movement, int health, bool knockback) { }
 
         /// <summary>
         /// Returns the lower center of this object.

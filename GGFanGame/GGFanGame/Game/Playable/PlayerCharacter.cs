@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -11,103 +10,10 @@ namespace GGFanGame.Game.Playable
     /// </summary>
     internal abstract class PlayerCharacter : InteractableStageObject
     {
-        #region Attacking
-
-        /// <summary>
-        /// Defines a single part of an attack chain.
-        /// </summary>
-        protected struct PlayerAttack
-        {
-            private readonly Dictionary<int, AttackDefinition> _attacks;
-            private Vector2 _movement;
-
-            public PlayerAttack(Animation animation, Vector2 movement)
-            {
-                this.animation = animation;
-                _movement = movement;
-                _attacks = new Dictionary<int, AttackDefinition>();
-            }
-
-            /// <summary>
-            /// Adds an attack to a frame of the animation.
-            /// </summary>
-            public void addAttack(int frame, AttackDefinition attack)
-            {
-                _attacks.Add(frame, attack);
-            }
-
-            /// <summary>
-            /// If this combo has an attack defined for a specific frame.
-            /// </summary>
-            public bool hasAttackForFrame(int frame) => _attacks.Keys.Contains(frame);
-
-            /// <summary>
-            /// Returns an attack for a specific frame.
-            /// </summary>
-            public AttackDefinition getAttackForFrame(int frame) => _attacks[frame];
-
-            /// <summary>
-            /// The animation for this combo.
-            /// </summary>
-            public Animation animation { get; private set; }
-
-            /// <summary>
-            /// The auto movement in X direction.
-            /// </summary>
-            public float xMovement => _movement.X;
-
-            /// <summary>
-            /// The auto movement in Y direction.
-            /// </summary>
-            public float yMovement => _movement.Y;
-        }
-
-        /// <summary>
-        /// An attack definition for a frame in an attack combo.
-        /// </summary>
-        protected struct AttackDefinition
-        {
-            private readonly Action<AttackDefinition> _attackAction;
-
-            public AttackDefinition(Attack attack, int maxHits, Action<AttackDefinition> attackAction = null)
-            {
-                this.attack = attack;
-                this.maxHits = maxHits;
-                _attackAction = attackAction;
-            }
-
-            /// <summary>
-            /// The attack in this definition.
-            /// </summary>
-            public Attack attack { get; }
-
-            /// <summary>
-            /// The max amount of objects to be hit with this attack.
-            /// </summary>
-            public int maxHits { get; }
-
-            /// <summary>
-            /// Performs the attack's special action.
-            /// </summary>
-            public void useAttack()
-            {
-                _attackAction?.Invoke(this);
-            }
-        }
-
         private readonly Dictionary<string, PlayerAttack> _attacks = new Dictionary<string, PlayerAttack>();
-
-        protected void addAttack(string comboChain, PlayerAttack combo)
-        {
-            _attacks.Add(comboChain, combo);
-        }
-
         private string _nextAttackItem = "";
         private string _attackChain = ""; //The current combo chain.
         private double _attackDelay = 0d; //The time period after an attack to chain a combo.
-        
-        #endregion
-
         private readonly PlayerIndex _playerIndex;
         private int _grumpPower = 0;
 
@@ -164,6 +70,11 @@ namespace GGFanGame.Game.Playable
             canLandOn = false;
 
             objectColor = Drawing.Colors.getColor(playerIndex);
+        }
+
+        protected void addAttack(string comboChain, PlayerAttack combo)
+        {
+            _attacks.Add(comboChain, combo);
         }
 
         /// <summary>

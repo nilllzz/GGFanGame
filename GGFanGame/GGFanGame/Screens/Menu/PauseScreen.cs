@@ -33,17 +33,16 @@ namespace GGFanGame.Screens.Menu
             _barry = content.Load<Texture2D>(@"UI\Pause\barry_pause");
             _bubble = content.Load<Texture2D>(@"UI\Pause\paused_bubble");
             _font = content.Load<SpriteFont>(@"Fonts\CartoonFont");
+
+            _target = new RenderTarget2D(gameInstance.GraphicsDevice, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
         }
 
         public override void draw()
         {
             if (isDisposed) return;
-
-            if (_target == null)
-                _target = new RenderTarget2D(gameInstance.GraphicsDevice, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
-
+            
             // acquire background and draw it
-            _backgroundRenderer.draw();
+            _backgroundRenderer.draw(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
 
             // create texture of pre screen
             RenderTargetManager.beginRenderScreenToTarget(_target);

@@ -34,7 +34,7 @@ namespace GGFanGame.Screens.Menu
 
         public override void draw()
         {
-            _backgroundRenderer.draw();
+            _backgroundRenderer.draw(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
 
             drawTitle();
         }

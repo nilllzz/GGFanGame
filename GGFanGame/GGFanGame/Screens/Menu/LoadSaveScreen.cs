@@ -186,7 +186,7 @@ namespace GGFanGame.Screens.Menu
 
         public override void draw()
         {
-            _backgroundRenderer.draw();
+            _backgroundRenderer.draw(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
 
             for (var i = 0; i < _saves.Count; i++)
             {

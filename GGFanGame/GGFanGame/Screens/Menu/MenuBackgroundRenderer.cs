@@ -18,7 +18,8 @@ namespace GGFanGame.Screens.Menu
         private readonly Color _backgroundFromColor,
                                _backgroundToColor,
                                _dotFromColor,
-                               _dotToColor;
+                               _dotToColor,
+                               _dotColorDiff;
 
         private BlurHandler _blurHandler;
         private RenderTarget2D _target;
@@ -61,26 +62,26 @@ namespace GGFanGame.Screens.Menu
             _dotFromColor = dotFromColor;
             _dotToColor = dotToColor;
 
-            _blurHandler = new BlurHandler(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
-            _target = new RenderTarget2D(gameInstance.GraphicsDevice, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
+            _dotColorDiff = new Color(Math.Abs(_dotToColor.R - _dotFromColor.R),
+                                    Math.Abs(_dotToColor.G - _dotFromColor.G),
+                                    Math.Abs(_dotToColor.B - _dotFromColor.B),
+                                    Math.Abs(_dotToColor.A - _dotFromColor.A));
         }
 
-        internal void draw()
+        internal void draw(int width, int height)
         {
-            gameInstance.spriteBatch.Draw(createBackgroundTexture(), gameInstance.clientRectangle, Color.White);
+            gameInstance.spriteBatch.Draw(createBackgroundTexture(width, height), gameInstance.clientRectangle, Color.White);
         }
 
-        internal Texture2D createBackgroundTexture()
+        internal Texture2D createBackgroundTexture(int width, int height)
         {
+            createRenderDevices(width, height);
+
             RenderTargetManager.beginRenderScreenToTarget(_target);
             
             // draws the background gradient:
-            Graphics.drawGradient(gameInstance.clientRectangle, _backgroundFromColor, _backgroundToColor, false, 1d);
+            Graphics.drawGradient(new Rectangle(0, 0, width, height), _backgroundFromColor, _backgroundToColor, false, 1d);
             
-            var dotColorDiff = new Color(_dotToColor.R - _dotFromColor.R,
-                                           _dotToColor.G - _dotFromColor.G,
-                                           _dotToColor.B - _dotFromColor.B);
-
             //Draw the background dots:
             for (var x = -6; x < 32; x++)
             {
@@ -90,18 +91,19 @@ namespace GGFanGame.Screens.Menu
                     var posY = (int)(y * DOT_SIZE * 3 - (x * DOT_SIZE) + _offsetY);
 
                     //We shift their color from top to bottom, so we take the different between the height of the screen and the dot's position:
-                    var colorShift = (double)posY / gameInstance.clientRectangle.Height;
-                    var cR = dotColorDiff.R * colorShift;
-                    var cG = dotColorDiff.G * colorShift;
-                    var cB = dotColorDiff.B * colorShift;
+                    var colorShift = (double)posY / height;
+                    var cR = _dotColorDiff.R * colorShift;
+                    var cG = _dotColorDiff.G * colorShift;
+                    var cB = _dotColorDiff.B * colorShift;
 
-                    double cA = 255; //alpha value
+                    double cA = 255;
+                    
                     if (applyTransparency)
                     {
                         //When they approach the sides of the screen, make them fade out:
-                        if (posX > gameInstance.clientRectangle.Width - 90)
+                        if (posX > width - 90)
                         {
-                            cA = 255 - ((posX - (gameInstance.clientRectangle.Width - 90)) * 3);
+                            cA -= ((posX - (width - 90)) * 3);
                             if (cA < 0)
                             {
                                 cA = 0;
@@ -109,7 +111,7 @@ namespace GGFanGame.Screens.Menu
                         }
                         else if (posX < 90)
                         {
-                            cA = 255 - ((90 - posX) * 3);
+                            cA -= ((90 - posX) * 3);
                             if (cA < 0)
                             {
                                 cA = 0;
@@ -121,17 +123,30 @@ namespace GGFanGame.Screens.Menu
                     }
 
                     //When the dot is inside the rendering area, draw it.
-                    if (posX + DOT_SIZE * 2 >= 0 && posX < gameInstance.clientRectangle.Width && posY + DOT_SIZE * 2 >= 0 && posY < gameInstance.clientRectangle.Height)
+                    if (posX + DOT_SIZE * 2 >= 0 && posX < width && posY + DOT_SIZE * 2 >= 0 && posY < height)
                     {
                         Graphics.drawCircle(new Vector2(posX, posY), DOT_SIZE * 2, new Color((int)(_dotFromColor.R + cR),
                                                                                              (int)(_dotFromColor.G + cG),
-                                                                                             (int)(_dotFromColor.B + cB), (int)cA));
+                                                                                             (int)(_dotFromColor.B + cB), 
+                                                                                             (int)(cA)));
                     }
                 }
             }
             RenderTargetManager.endRenderScreenToTarget();
 
             return _blurHandler.blurTexture(_target);
+        }
+
+        /// <summary>
+        /// Creates the render target and blur handler in case they have not been created at all or for the desired width/height.
+        /// </summary>
+        private void createRenderDevices(int width, int height)
+        {
+            if (_target == null || _blurHandler == null || width != _target.Width || height != _target.Height)
+            {
+                _target = new RenderTarget2D(gameInstance.GraphicsDevice, width, height);
+                _blurHandler = new BlurHandler(width, height);
+            }
         }
 
         internal void update()

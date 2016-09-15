@@ -67,7 +67,7 @@ namespace GGFanGame.Game
                 return obj;
             });
 
-            var stage = new Stage(content, objects);
+            var stage = new Stage(content, objects, dataModel.name, worldId, stageId);
 
             return stage;
         }

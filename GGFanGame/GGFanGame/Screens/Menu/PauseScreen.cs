@@ -1,4 +1,5 @@
-﻿using GGFanGame.Input;
+﻿using GGFanGame.Game;
+using GGFanGame.Input;
 using GGFanGame.Screens.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -73,7 +74,8 @@ namespace GGFanGame.Screens.Menu
             gameInstance.spriteBatch.DrawString(_font, "PAUSED", new Vector2(barryWidth + 30, 244), new Color(0, 0, 0, (int)(255 * _preScreenSize)), 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
 
             // draw level info
-            gameInstance.fontBatch.DrawString(_font, "STAGE: 1-1 (ATTITUDE CITY)\nSTORY MODE", new Vector2(200, GameController.RENDER_HEIGHT - 135 * _preScreenSize), Color.White, 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
+            var stage = Stage.activeStage;
+            gameInstance.fontBatch.DrawString(_font, $"STAGE: {stage.worldId}-{stage.stageId} ({stage.name})\nSTORY MODE", new Vector2(200, GameController.RENDER_HEIGHT - 135 * _preScreenSize), Color.White, 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
         }
 
         public override void update()

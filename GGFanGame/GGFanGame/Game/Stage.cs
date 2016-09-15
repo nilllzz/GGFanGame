@@ -44,8 +44,12 @@ namespace GGFanGame.Game
         /// <summary>
         /// The camera of the level.
         /// </summary>
-        public StageCamera camera { get; private set; }
-        
+        public StageCamera camera { get; }
+
+        public string name { get; }
+        public string worldId { get; }
+        public string stageId { get; }
+
         public PlayerCharacter onePlayer { get; set; }
         public PlayerCharacter twoPlayer { get; set; }
         public PlayerCharacter threePlayer { get; set; }
@@ -54,9 +58,13 @@ namespace GGFanGame.Game
         /// <summary>
         /// Creates a new instance of the Stage class.
         /// </summary>
-        public Stage(ContentManager content, IEnumerable<StageObject> objects)
+        public Stage(ContentManager content, IEnumerable<StageObject> objects, string name, string worldId, string stageId)
         {
             this.content = content;
+            this.name = name;
+            this.worldId = worldId;
+            this.stageId = stageId;
+
             _objects = new List<StageObject>(objects);
 
             camera = new StageCamera();

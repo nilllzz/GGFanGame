@@ -1,6 +1,5 @@
 {
-    "worldName": "Attitude City",
-    "stageName": "Suburbs",
+    "name": "Attitude City",
     "worldId": "1",
     "stageId": "1",
     "objects": [

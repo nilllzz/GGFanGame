@@ -61,9 +61,6 @@
     <Compile Include="Drawing\BlurHandler.cs" />
     <Compile Include="Drawing\GaussianBlur.cs" />
     <Compile Include="Drawing\Palette.cs" />
-    <Compile Include="GameJolt\API\RequestFormat.cs" />
-    <Compile Include="GameJolt\API\RequestStatus.cs" />
-    <Compile Include="GameJolt\API\RequestType.cs" />
     <Compile Include="GameProvider.cs" />
     <Compile Include="GameSession.cs" />
     <Compile Include="Game\ActionWord.cs" />
@@ -93,9 +90,6 @@
     <Compile Include="Game\Stages\SplatBall.cs" />
     <Compile Include="Game\StageCamera.cs" />
     <Compile Include="GameController.cs" />
-    <Compile Include="GameJolt\API\APIManager.cs" />
-    <Compile Include="GameJolt\API\GameJoltRequest.cs" />
-    <Compile Include="GameJolt\API\GameJoltRequests_Definitions.cs" />
     <Compile Include="Game\StageObjectAttribute.cs" />
     <Compile Include="Input\ControlsHandler.cs" />
     <Compile Include="Input\GamePadHandler.cs" />

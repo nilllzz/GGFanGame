@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{421A1548-B885-4A2D-94C0-C4ED90F4F98F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GGFanGame.Content</RootNamespace>
+    <AssemblyName>GGFanGame.Content</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Content\Content.mgcb" />
+    <None Include="Content\Fonts\CartoonFont.spritefont" />
+    <None Include="Content\Fonts\CartoonFontLarge.spritefont" />
+    <None Include="Content\Fonts\CartoonFontSmall.spritefont" />
+    <None Include="Content\Levels\Stage1_1\stage.json" />
+    <None Include="Content\Levels\stages.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Levels\GrumpSpace\Arcade0.png" />
+    <Content Include="Content\Levels\GrumpSpace\Couch.png" />
+    <Content Include="Content\Levels\GrumpSpace\Posters\Brian.png" />
+    <Content Include="Content\Levels\GrumpSpace\Posters\Goose.png" />
+    <Content Include="Content\Levels\GrumpSpace\Posters\Larry.png" />
+    <Content Include="Content\Levels\GrumpSpace\Posters\NoUse.png" />
+    <Content Include="Content\Levels\GrumpSpace\Posters\UpDog.png" />
+    <Content Include="Content\Levels\Stage1_1\BridgeBottom.png" />
+    <Content Include="Content\Levels\Stage1_1\BridgeRailing.png" />
+    <Content Include="Content\Levels\Stage1_1\Street.png" />
+    <Content Include="Content\Music\Smash 1.mp3" />
+    <Content Include="Content\Music\Smash 2.mp3" />
+    <Content Include="Content\Shaders\GaussianBlur.fx" />
+    <Content Include="Content\Sprites\Arin.png" />
+    <Content Include="Content\Sprites\ArinBomb.png" />
+    <Content Include="Content\Sprites\ArinLemon.png" />
+    <Content Include="Content\Sprites\Booper.png" />
+    <Content Include="Content\UI\GrumpCade\1Up.png" />
+    <Content Include="Content\UI\GrumpCade\2Up.png" />
+    <Content Include="Content\UI\GrumpCade\3Up.png" />
+    <Content Include="Content\UI\GrumpCade\4Up.png" />
+    <Content Include="Content\UI\GrumpCade\Arin.png" />
+    <Content Include="Content\UI\GrumpCade\Arin_Overlay.png" />
+    <Content Include="Content\UI\GrumpCade\Barry.png" />
+    <Content Include="Content\UI\GrumpCade\Barry_Overlay.png" />
+    <Content Include="Content\UI\GrumpCade\Danny.png" />
+    <Content Include="Content\UI\GrumpCade\Danny_Overlay.png" />
+    <Content Include="Content\UI\GrumpCade\Ross.png" />
+    <Content Include="Content\UI\GrumpCade\Ross_Overlay.png" />
+    <Content Include="Content\UI\GrumpCade\Suzy.png" />
+    <Content Include="Content\UI\GrumpCade\Suzy_Overlay.png" />
+    <Content Include="Content\UI\HUD\Arin.png" />
+    <Content Include="Content\UI\HUD\Bars.png" />
+    <Content Include="Content\UI\HUD\Fire.png" />
+    <Content Include="Content\UI\Logos\GameGrumps.png" />
+    <Content Include="Content\UI\Logos\GameGrumpsTransition.png" />
+    <Content Include="Content\UI\Logos\SteamTrain.png" />
+    <Content Include="Content\UI\Names\Arin_name.png" />
+    <Content Include="Content\UI\Names\Barry_name.png" />
+    <Content Include="Content\UI\Names\Danny_name.png" />
+    <Content Include="Content\UI\Names\Ross_name.png" />
+    <Content Include="Content\UI\Names\Suzy_name.png" />
+    <Content Include="Content\UI\Pause\barry_pause.png" />
+    <Content Include="Content\UI\Pause\paused_bubble.png" />
+    <Content Include="Content\UI\SaveBack.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

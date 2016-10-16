@@ -553,3 +553,9 @@
 /processorParam:TextureFormat=Color
 /build:Levels/Stage1_1/Street.png
 
+#begin Levels/Stage1_1/stage.json
+/copy:Levels/Stage1_1/stage.json
+
+#begin Levels/stages.json
+/copy:Levels/stages.json
+

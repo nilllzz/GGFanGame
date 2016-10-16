@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using GGFanGame.DataModel.Game;
 using GGFanGame.Game.Playable;
-using GGFanGame.Game.Stages;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,7 +30,8 @@ namespace GGFanGame.Game
         }
 
         #endregion
-        
+
+        private StageModel _dataModel;
         private List<StageObject> _objects;
         private readonly float _yDefaultKillPlane = -0f;
 
@@ -46,9 +47,10 @@ namespace GGFanGame.Game
         /// </summary>
         public StageCamera camera { get; }
 
-        public string name { get; }
-        public string worldId { get; }
-        public string stageId { get; }
+        public string name => _dataModel.name;
+        public string worldId => _dataModel.worldId;
+        public string stageId => _dataModel.stageId;
+        public Color backColor => _dataModel.backColor.toColor();
 
         public PlayerCharacter onePlayer { get; set; }
         public PlayerCharacter twoPlayer { get; set; }
@@ -58,13 +60,11 @@ namespace GGFanGame.Game
         /// <summary>
         /// Creates a new instance of the Stage class.
         /// </summary>
-        public Stage(ContentManager content, IEnumerable<StageObject> objects, string name, string worldId, string stageId)
+        public Stage(ContentManager content, IEnumerable<StageObject> objects, StageModel dataModel)
         {
             this.content = content;
-            this.name = name;
-            this.worldId = worldId;
-            this.stageId = stageId;
 
+            _dataModel = dataModel;
             _objects = new List<StageObject>(objects);
 
             camera = new StageCamera();

@@ -2,6 +2,11 @@
     "name": "Attitude City",
     "worldId": "1",
     "stageId": "1",
+    "backColor": {
+        "r": 100,
+        "g": 149,
+        "b": 237
+    },
     "objects": [
         { "t": "0/1/couch", "x": 110, "y": 0, "z": 320 },
         { "t": "0/1/arcadeMachine", "x": 310, "y": 0, "z": 320, "args": [ "ninja" ] },

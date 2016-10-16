@@ -39,7 +39,8 @@ namespace GGFanGame.Screens.Game
 
         internal void drawStage()
         {
-            Graphics.drawRectangle(gameInstance.clientRectangle, Color.CornflowerBlue);
+            Graphics.drawRectangle(gameInstance.clientRectangle, _stage.backColor);
+
             _stage.draw();
         }
 

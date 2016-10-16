@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using GGFanGame.DataModel.Base;
 
 // Disable Code Analysis for warning CS0649: Field is never assigned to, and will always have its default value.
 #pragma warning disable 0649
@@ -17,6 +18,8 @@ namespace GGFanGame.DataModel.Game
         public string worldId;
         [DataMember]
         public string stageId;
+        [DataMember]
+        public ColorModel backColor;
         [DataMember]
         public StageObjectModel[] objects;
     }

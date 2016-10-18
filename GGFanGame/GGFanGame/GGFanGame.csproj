@@ -43,6 +43,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ASCIIProvider.cs" />
     <Compile Include="BoundingBoxExtension.cs" />
     <Compile Include="Content\DataModelContentExtension.cs" />
     <Compile Include="DataModel\Base\ColorModel.cs" />

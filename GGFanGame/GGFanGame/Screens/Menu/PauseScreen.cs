@@ -24,8 +24,6 @@ namespace GGFanGame.Screens.Menu
 
         public PauseScreen(StageScreen preScreen)
         {
-            initializeContentManager();
-
             _preScreen = preScreen;
             _backgroundRenderer = new MenuBackgroundRenderer(Color.Black, new Color(164, 108, 46),
                 new Color(236, 130, 47), new Color(242, 153, 90)) {applyTransparency = true};

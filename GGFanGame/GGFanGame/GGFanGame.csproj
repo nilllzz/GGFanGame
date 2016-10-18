@@ -118,6 +118,7 @@
     <Compile Include="Game\Stage.cs" />
     <Compile Include="Game\StageObject.cs" />
     <Compile Include="Screens\Menu\MenuBackgroundRenderer.cs" />
+    <Compile Include="Screens\Menu\NewGameScreen.cs" />
     <Compile Include="Screens\Menu\PauseScreen.cs" />
     <Compile Include="Screens\Game\StageScreen.cs" />
     <Compile Include="Screens\Menu\LoadSaveScreen.cs" />

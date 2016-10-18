@@ -68,6 +68,11 @@ namespace GGFanGame.Screens.Menu
                                     Math.Abs(_dotToColor.A - _dotFromColor.A));
         }
 
+        internal void draw()
+        {
+            gameInstance.spriteBatch.Draw(createBackgroundTexture(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT), gameInstance.clientRectangle, Color.White);
+        }
+
         internal void draw(int width, int height)
         {
             gameInstance.spriteBatch.Draw(createBackgroundTexture(width, height), gameInstance.clientRectangle, Color.White);

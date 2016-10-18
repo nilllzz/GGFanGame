@@ -19,8 +19,6 @@ namespace GGFanGame.Screens.Game
 
         public StageScreen()
         {
-            initializeContentManager();
-
             _stage = StageFactory.create(content, "1", "1");
             _stage.load();
 

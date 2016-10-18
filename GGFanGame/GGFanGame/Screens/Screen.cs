@@ -12,17 +12,22 @@ namespace GGFanGame.Screens
     /// </summary>
     internal abstract class Screen : IDisposable
     {
-        protected ContentManager content { get; private set; }
+        private ContentManager _content;
 
         /// <summary>
-        /// Initializes the <see cref="ContentManager"/> for this screen.
-        /// Use only when the screen needs a seperate ContentManager.
+        /// Returns the <see cref="ContentManager"/> associated with this <see cref="Screen"/>.
         /// </summary>
-        protected void initializeContentManager()
+        protected ContentManager content
         {
-            content = new ContentManager(gameInstance.Services, "Content");
-        }
+            get
+            {
+                if (_content == null)
+                    _content = new ContentManager(gameInstance.Services, "Content");
 
+                return _content;
+            }
+        }
+        
         public bool isDisposed { get; protected set; }
 
         /// <summary>
@@ -63,7 +68,7 @@ namespace GGFanGame.Screens
         {
             dispose(true);
         }
-        
+
         ~Screen()
         {
             dispose(false);
@@ -78,10 +83,10 @@ namespace GGFanGame.Screens
             {
                 if (disposing)
                 {
-                    content?.Dispose();
+                    _content?.Dispose();
                 }
 
-                content = null;
+                _content = null;
                 isDisposed = true;
             }
         }

@@ -21,34 +21,30 @@ namespace GGFanGame.Screens.Menu
         /// </summary>
         private class SaveContainer
         {
-            private readonly GameSession _save;
+            private readonly GameSession _session;
             private int _gradientState;
             private bool _gradientFading;
-            private bool _newGameButton;
             private float _targetPercent;
 
             private readonly Texture2D _grumpFaceTexture;
 
-            public SaveContainer(int index, GameSession save)
+            public SaveContainer(int index, GameSession session)
             {
-                _save = save;
+                _session = session;
                 this.index = index;
 
-                if (_save != null)
+                if (_session != null)
                 {
-                    if (_save.loadedCorrectly)
+                    if (_session.loadedCorrectly)
                     {
-                        _grumpFaceTexture = gameInstance.Content.Load<Texture2D>(@"UI\HUD\" + _save.lastGrump);
+                        _grumpFaceTexture = gameInstance.Content.Load<Texture2D>(@"UI\HUD\" + _session.lastGrump);
                     }
                 }
             }
 
             public int index { get; }
 
-            public bool newGameButton
-            {
-                set { _newGameButton = value; }
-            }
+            public bool newGameButton { get; set; }
 
             /// <summary>
             /// Draws the save state.
@@ -64,16 +60,16 @@ namespace GGFanGame.Screens.Menu
                     gameInstance.spriteBatch.Draw(gameInstance.Content.Load<Texture2D>(@"UI\saveBack"), targetRect, new Color(255, 255, 255, (int)(255 * alphaDelta)));
                 }
 
-                if (_newGameButton)
+                if (newGameButton)
                 {
                     gameInstance.spriteBatch.DrawString(font, "+ Create new game", new Vector2(targetRect.X + 64, targetRect.Y + 50), new Color(255, 255, 255, (int)(255 * alphaDelta)));
                 }
                 else
                 {
-                    if (_save.loadedCorrectly)
+                    if (_session.loadedCorrectly)
                     {
                         gameInstance.spriteBatch.Draw(_grumpFaceTexture, new Rectangle(targetRect.X + 16, targetRect.Y + 16, 96, 96), new Rectangle(0, 0, 48, 48), new Color(255, 255, 255, (int)(255 * alphaDelta)));
-                        gameInstance.spriteBatch.DrawString(font, _save.name, new Vector2(targetRect.X + 128, targetRect.Y + 24), new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                        gameInstance.spriteBatch.DrawString(font, _session.name, new Vector2(targetRect.X + 128, targetRect.Y + 24), new Color(255, 255, 255, (int)(255 * alphaDelta)));
                         gameInstance.spriteBatch.DrawString(font, Math.Round(_targetPercent, 2) + "%", new Vector2(targetRect.X + 456, targetRect.Y + 70), new Color(255, 255, 255, (int)(255 * alphaDelta)));
 
                         Graphics.drawRectangle(new Rectangle(targetRect.X + 128, targetRect.Y + 70, 300, 32), new Color(0, 0, 0, (int)(255 * alphaDelta)));
@@ -110,9 +106,9 @@ namespace GGFanGame.Screens.Menu
                             }
                         }
 
-                        if (_targetPercent < (float)_save.progress)
+                        if (_targetPercent < (float)_session.progress)
                         {
-                            _targetPercent = MathHelper.Lerp((float)_save.progress, _targetPercent, 0.92f);
+                            _targetPercent = MathHelper.Lerp((float)_session.progress, _targetPercent, 0.92f);
                         }
                     }
                 }
@@ -131,7 +127,7 @@ namespace GGFanGame.Screens.Menu
         public LoadSaveScreen(MenuBackgroundRenderer backgroundRenderer)
         {
             _backgroundRenderer = backgroundRenderer;
-
+            
             var saveIndex = 0;
             foreach (var file in Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"\Saves\", "*.json", SearchOption.TopDirectoryOnly))
             {
@@ -162,7 +158,15 @@ namespace GGFanGame.Screens.Menu
 
                 if (GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.A))
                 {
-                    ScreenManager.getInstance().setScreen(new TransitionScreen(this, new StageScreen()));
+                    var save = _saves[_selected];
+                    if (save.newGameButton)
+                    {
+                        ScreenManager.getInstance().setScreen(new TransitionScreen(this, new NewGameScreen(this, _backgroundRenderer)));
+                    }
+                    else
+                    {
+                        ScreenManager.getInstance().setScreen(new TransitionScreen(this, new StageScreen()));
+                    }
                     //ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new PlayerSelectScreen()));
                 }
             }

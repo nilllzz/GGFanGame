@@ -12,17 +12,17 @@ namespace GGFanGame.DataModel.Game
     [DataContract]
     internal class StageObjectModel : DataModel<StageObjectModel>
     {
-        [DataMember]
-        public double x;
-        [DataMember]
-        public double y;
-        [DataMember]
-        public double z;
+        [DataMember(Name = "x")]
+        public double X;
+        [DataMember(Name = "y")]
+        public double Y;
+        [DataMember(Name = "z")]
+        public double Z;
         [DataMember(Name = "t")]
-        public string type;
+        public string Type;
         [DataMember(Name = "args")]
-        public string[] arguments;
+        public string[] Arguments;
 
-        public Vector3 position => new Vector3((float)x, (float)y, (float)z);
+        public Vector3 Position => new Vector3((float)X, (float)Y, (float)Z);
     }
 }

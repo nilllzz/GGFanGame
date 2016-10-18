@@ -15,17 +15,17 @@ namespace GGFanGame.DataModel
         /// </summary>
         /// <typeparam name="T">The data model type.</typeparam>
         /// <param name="input">The input Json string.</param>
-        public static T fromString(string input, DataType dataType)
+        public static T FromString(string input, DataType dataType)
         {
-            return SerializerFactory<T>.getSerializer(dataType).fromString(input);
+            return SerializerFactory<T>.GetSerializer(dataType).FromString(input);
         }
 
         /// <summary>
         /// Returns the data representation of this object.
         /// </summary>
-        public string toString(DataType dataType)
+        public string ToString(DataType dataType)
         {
-            return SerializerFactory<T>.getSerializer(dataType).toString(this);
+            return SerializerFactory<T>.GetSerializer(dataType).ToString(this);
         }
     }
 

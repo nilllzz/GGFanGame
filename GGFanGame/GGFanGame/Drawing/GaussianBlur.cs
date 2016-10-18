@@ -59,8 +59,8 @@ namespace GGFanGame.Drawing
         /// </summary>
         public GaussianBlur()
         {
-            _effect = gameInstance.Content.Load<Effect>(@"Shaders\GaussianBlur");
-            _spriteBatch = new SpriteBatch(gameInstance.GraphicsDevice);
+            _effect = GameInstance.Content.Load<Effect>(@"Shaders\GaussianBlur");
+            _spriteBatch = new SpriteBatch(GameInstance.GraphicsDevice);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace GGFanGame.Drawing
         /// </summary>
         /// <param name="blurRadius">The blur radius in pixels.</param>
         /// <param name="blurAmount">Used to calculate sigma.</param>
-        public void computeKernel(int blurRadius, float blurAmount)
+        public void ComputeKernel(int blurRadius, float blurAmount)
         {
             _radius = blurRadius;
             _amount = blurAmount;
@@ -107,7 +107,7 @@ namespace GGFanGame.Drawing
         /// </summary>
         /// <param name="textureWidth">The texture width in pixels.</param>
         /// <param name="textureHeight">The texture height in pixels.</param>
-        public void computeOffsets(float textureWidth, float textureHeight)
+        public void ComputeOffsets(float textureWidth, float textureHeight)
         {
             _offsetsHoriz = null;
             _offsetsHoriz = new Vector2[_radius * 2 + 1];
@@ -138,7 +138,7 @@ namespace GGFanGame.Drawing
         /// <param name="renderTarget1">Stores the output from the horizontal blur pass.</param>
         /// <param name="renderTarget2">Stores the output from the vertical blur pass.</param>
         /// <returns>The resulting Gaussian blurred image.</returns>
-        public Texture2D performGaussianBlur(Texture2D srcTexture,
+        public Texture2D PerformGaussianBlur(Texture2D srcTexture,
                                              RenderTarget2D renderTarget1,
                                              RenderTarget2D renderTarget2)
         {
@@ -152,8 +152,8 @@ namespace GGFanGame.Drawing
 
             // Perform horizontal Gaussian blur.
 
-            var currentTarget = RenderTargetManager.currentRenderTarget;
-            gameInstance.GraphicsDevice.SetRenderTarget(renderTarget1);
+            var currentTarget = RenderTargetManager.CurrentRenderTarget;
+            GameInstance.GraphicsDevice.SetRenderTarget(renderTarget1);
 
             _effect.CurrentTechnique = _effect.Techniques["GaussianBlur"];
             _effect.Parameters["weights"].SetValue(_kernel);
@@ -166,7 +166,7 @@ namespace GGFanGame.Drawing
 
             // Perform vertical Gaussian blur.
 
-            gameInstance.GraphicsDevice.SetRenderTarget(renderTarget2);
+            GameInstance.GraphicsDevice.SetRenderTarget(renderTarget2);
             outputTexture = (Texture2D)renderTarget1;
 
             _effect.Parameters["colorMapTexture"].SetValue(outputTexture);
@@ -178,7 +178,7 @@ namespace GGFanGame.Drawing
 
             // Return the Gaussian blurred texture.
 
-            gameInstance.GraphicsDevice.SetRenderTarget(currentTarget);
+            GameInstance.GraphicsDevice.SetRenderTarget(currentTarget);
             outputTexture = (Texture2D)renderTarget2;
 
             return outputTexture;
@@ -186,15 +186,15 @@ namespace GGFanGame.Drawing
 
         public void Dispose()
         {
-            dispose(true);
+            Dispose(true);
         }
 
         ~GaussianBlur()
         {
-            dispose(false);
+            Dispose(false);
         }
 
-        private void dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!isDisposed)
             {

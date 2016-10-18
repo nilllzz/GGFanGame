@@ -15,7 +15,7 @@ namespace GGFanGame.Drawing
         /// <summary>
         /// Returns a color based on the player index
         /// </summary>
-        public static Color getColor(PlayerIndex playerIndex)
+        public static Color GetColor(PlayerIndex playerIndex)
         {
             switch (playerIndex)
             {

@@ -11,35 +11,35 @@ namespace GGFanGame.Game.Stages.GrumpSpace
 
         public ArcadeMachine()
         {
-            size = new Vector3(30, 60, 11);
-            drawShadow = false;
-            collision = true;
-            canLandOn = true;
-            canInteract = true;
-            weight = 20;
-            faceAttack = false;
+            Size = new Vector3(30, 60, 11);
+            DrawShadow = false;
+            Collision = true;
+            CanLandOn = true;
+            CanInteract = true;
+            Weight = 20;
+            FaceAttack = false;
 
-            addBoundingBox(new Vector3(30, 58, 10), new Vector3(0, 29, -2));
-            zSortingOffset = -7;   // -(boundingBox.Z / 2) - offset.Z
+            AddBoundingBox(new Vector3(30, 58, 10), new Vector3(0, 29, -2));
+            ZSortingOffset = -7;   // -(boundingBox.Z / 2) - offset.Z
 
-            addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(30, 65), 100));
-            addAnimation(ObjectState.Hurt, new Animation(1, Point.Zero, new Point(30, 65), 100));
-            addAnimation(ObjectState.HurtFalling, new Animation(1, Point.Zero, new Point(30, 65), 100));
+            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(30, 65), 100));
+            AddAnimation(ObjectState.Hurt, new Animation(1, Point.Zero, new Point(30, 65), 100));
+            AddAnimation(ObjectState.HurtFalling, new Animation(1, Point.Zero, new Point(30, 65), 100));
         }
 
-        protected override void loadInternal()
+        protected override void LoadInternal()
         {
-            spriteSheet = content.Load<Texture2D>($@"Levels\GrumpSpace\Arcade{(int)_arcadeType}");
+            SpriteSheet = Content.Load<Texture2D>($@"Levels\GrumpSpace\Arcade{(int)_arcadeType}");
         }
 
-        public override void applyDataModel(StageObjectModel dataModel)
+        public override void ApplyDataModel(StageObjectModel dataModel)
         {
-            base.applyDataModel(dataModel);
+            base.ApplyDataModel(dataModel);
 
-            _arcadeType = parseArcadeType(dataModel.arguments[0]);
+            _arcadeType = ParseArcadeType(dataModel.Arguments[0]);
         }
 
-        private static ArcadeType parseArcadeType(string input)
+        private static ArcadeType ParseArcadeType(string input)
         {
             switch (input.ToLowerInvariant())
             {

@@ -17,7 +17,7 @@ namespace GGFanGame.Drawing
 
         private RenderTarget2D _rt1, _rt2;
 
-        internal bool isDisposed { get; private set; } 
+        internal bool IsDisposed { get; private set; } 
 
         /// <summary>
         /// Creates a new instance of the <see cref="BlurHandler"/> class.
@@ -27,33 +27,33 @@ namespace GGFanGame.Drawing
         public BlurHandler(int width, int height)
         {
             _blurCore = new GaussianBlur();
-            _blurCore.computeKernel(BLUR_RADIUS, BLUR_AMOUNT);
+            _blurCore.ComputeKernel(BLUR_RADIUS, BLUR_AMOUNT);
 
             var renderTargetWidth = width / 2;
             var renderTargetHeight = height / 2;
 
-            _rt1 = new RenderTarget2D(gameInstance.GraphicsDevice,
+            _rt1 = new RenderTarget2D(GameInstance.GraphicsDevice,
                 renderTargetWidth, renderTargetHeight, false,
-                gameInstance.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                GameInstance.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.None);
 
-            _rt2 = new RenderTarget2D(gameInstance.GraphicsDevice,
+            _rt2 = new RenderTarget2D(GameInstance.GraphicsDevice,
                 renderTargetWidth, renderTargetHeight, false,
-                gameInstance.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                GameInstance.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.None);
 
-            _blurCore.computeOffsets(renderTargetWidth, renderTargetHeight);
+            _blurCore.ComputeOffsets(renderTargetWidth, renderTargetHeight);
         }
 
         /// <summary>
         /// Draws a texture with a blur effect.
         /// </summary>
-        public void draw(Texture2D drawTexture)
+        public void Draw(Texture2D drawTexture)
         {
-            var result = _blurCore.performGaussianBlur(drawTexture, _rt1, _rt2);
+            var result = _blurCore.PerformGaussianBlur(drawTexture, _rt1, _rt2);
 
-            gameInstance.GraphicsDevice.Clear(Color.White);
-            gameInstance.spriteBatch.Draw(result, new Rectangle(0, 0, drawTexture.Width, drawTexture.Height), Color.White);
+            GameInstance.GraphicsDevice.Clear(Color.White);
+            GameInstance.SpriteBatch.Draw(result, new Rectangle(0, 0, drawTexture.Width, drawTexture.Height), Color.White);
         }
 
         /// <summary>
@@ -61,24 +61,24 @@ namespace GGFanGame.Drawing
         /// </summary>
         /// <param name="t">The texture to be blurred.</param>
         /// <returns>Returns the blurred texture.</returns>
-        internal Texture2D blurTexture(Texture2D t)
+        internal Texture2D BlurTexture(Texture2D t)
         {
-            return _blurCore.performGaussianBlur(t, _rt1, _rt2);
+            return _blurCore.PerformGaussianBlur(t, _rt1, _rt2);
         }
 
         public void Dispose()
         {
-            dispose(true);
+            Dispose(true);
         }
 
         ~BlurHandler()
         {
-            dispose(false);
+            Dispose(false);
         }
 
-        private void dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-            if (!isDisposed)
+            if (!IsDisposed)
             {
                 if (disposing)
                 {
@@ -91,7 +91,7 @@ namespace GGFanGame.Drawing
                 _rt2 = null;
                 _blurCore = null;
 
-                isDisposed = true;
+                IsDisposed = true;
             }
         }
     }

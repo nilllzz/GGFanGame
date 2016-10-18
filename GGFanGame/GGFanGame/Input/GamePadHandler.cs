@@ -14,7 +14,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Updates the GamePadHandler's states.
         /// </summary>
-        public static void update()
+        public static void Update()
         {
             for (var i = 0; i < _oldStates.Length; i++)
             {
@@ -30,7 +30,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if a specific button on a GamePad is pressed.
         /// </summary>
-        public static bool buttonPressed(PlayerIndex playerIndex, Buttons button)
+        public static bool ButtonPressed(PlayerIndex playerIndex, Buttons button)
         {
             var index = (int)playerIndex;
             return (!_oldStates[index].IsButtonDown(button) && _currentStates[index].IsButtonDown(button));
@@ -39,7 +39,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns is a button is currently being held down on a GamePad.
         /// </summary>
-        public static bool buttonDown(PlayerIndex playerIndex, Buttons button)
+        public static bool ButtonDown(PlayerIndex playerIndex, Buttons button)
         {
             var index = (int)playerIndex;
             return _currentStates[index].IsButtonDown(button);
@@ -48,7 +48,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if the GamePad at the given player index is connected.
         /// </summary>
-        public static bool isConnected(PlayerIndex playerIndex)
+        public static bool IsConnected(PlayerIndex playerIndex)
         {
             var index = (int)playerIndex;
             return _currentStates[index].IsConnected;
@@ -57,7 +57,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns a value from 0 to 1 how much a thumbstick is pressed in one direction.
         /// </summary>
-        public static float thumbStickDirection(PlayerIndex playerIndex, ThumbStick thumbStick, InputDirection direction)
+        public static float ThumbStickDirection(PlayerIndex playerIndex, ThumbStick thumbStick, InputDirection direction)
         {
             Vector2 v;
             var result = 0f;

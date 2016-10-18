@@ -26,60 +26,60 @@ namespace GGFanGame.Screens.Menu
         {
             _preScreen = preScreen;
             _backgroundRenderer = new MenuBackgroundRenderer(Color.Black, new Color(164, 108, 46),
-                new Color(236, 130, 47), new Color(242, 153, 90)) {applyTransparency = true};
+                new Color(236, 130, 47), new Color(242, 153, 90)) {ApplyTransparency = true};
 
-            _barry = content.Load<Texture2D>(@"UI\Pause\barry_pause");
-            _bubble = content.Load<Texture2D>(@"UI\Pause\paused_bubble");
-            _font = content.Load<SpriteFont>(@"Fonts\CartoonFont");
+            _barry = Content.Load<Texture2D>(@"UI\Pause\barry_pause");
+            _bubble = Content.Load<Texture2D>(@"UI\Pause\paused_bubble");
+            _font = Content.Load<SpriteFont>(@"Fonts\CartoonFont");
 
-            _target = new RenderTarget2D(gameInstance.GraphicsDevice, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
+            _target = new RenderTarget2D(GameInstance.GraphicsDevice, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
         }
 
-        public override void draw()
+        public override void Draw()
         {
-            if (isDisposed) return;
+            if (IsDisposed) return;
             
             // acquire background and draw it
-            _backgroundRenderer.draw(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
+            _backgroundRenderer.Draw(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
 
             // create texture of pre screen
-            RenderTargetManager.beginRenderScreenToTarget(_target);
-            _preScreen.drawStage();
-            RenderTargetManager.endRenderScreenToTarget();
+            RenderTargetManager.BeginRenderScreenToTarget(_target);
+            _preScreen.DrawStage();
+            RenderTargetManager.EndRenderScreenToTarget();
 
             // draw pre screen:
             var preScreenWidth = _target.Width * (1f - _preScreenSize * SCREEN_SIZE_MULTIPLIER);
             var preScreenHeight = _target.Height * (1f - _preScreenSize * SCREEN_SIZE_MULTIPLIER);
 
-            gameInstance.spriteBatch.Draw(_target, new Rectangle((int)(GameController.RENDER_WIDTH * 0.5f - preScreenWidth * 0.5f),
+            GameInstance.SpriteBatch.Draw(_target, new Rectangle((int)(GameController.RENDER_WIDTH * 0.5f - preScreenWidth * 0.5f),
                                                                  (int)(GameController.RENDER_HEIGHT * 0.5f - preScreenHeight * 0.5f),
                                                                  (int)preScreenWidth,
                                                                  (int)preScreenHeight), Color.White);
             // draw the pre screen's HUD in full size
-            _preScreen.drawHUD();
+            _preScreen.DrawHUD();
 
             // draw barry
             var barryWidth = _barry.Width / 2;
             var barryHeight = _barry.Height / 2;
-            gameInstance.spriteBatch.Draw(texture: _barry,
+            GameInstance.SpriteBatch.Draw(texture: _barry,
                                         destinationRectangle: new Rectangle((int)(-barryWidth + barryWidth * _preScreenSize), 200, barryWidth, barryHeight),
                                         color: Color.White,
                                         effects: SpriteEffects.FlipHorizontally);
 
             // draw speech bubble
-            gameInstance.spriteBatch.Draw(_bubble, new Vector2(barryWidth, 200), new Color(255, 255, 255, (int)(255 * _preScreenSize)));
-            gameInstance.spriteBatch.DrawString(_font, "PAUSED", new Vector2(barryWidth + 30, 244), new Color(0, 0, 0, (int)(255 * _preScreenSize)), 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
+            GameInstance.SpriteBatch.Draw(_bubble, new Vector2(barryWidth, 200), new Color(255, 255, 255, (int)(255 * _preScreenSize)));
+            GameInstance.SpriteBatch.DrawString(_font, "PAUSED", new Vector2(barryWidth + 30, 244), new Color(0, 0, 0, (int)(255 * _preScreenSize)), 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
 
             // draw level info
-            var stage = Stage.activeStage;
-            gameInstance.fontBatch.DrawString(_font, $"STAGE: {stage.worldId}-{stage.stageId} ({stage.name})\nSTORY MODE", new Vector2(200, GameController.RENDER_HEIGHT - 135 * _preScreenSize), Color.White, 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
+            var stage = Stage.ActiveStage;
+            GameInstance.FontBatch.DrawString(_font, $"STAGE: {stage.WorldId}-{stage.StageId} ({stage.Name})\nSTORY MODE", new Vector2(200, GameController.RENDER_HEIGHT - 135 * _preScreenSize), Color.White, 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
         }
 
-        public override void update()
+        public override void Update()
         {
-            _backgroundRenderer.update();
+            _backgroundRenderer.Update();
 
-            if (GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.B) && !_closing)
+            if (GamePadHandler.ButtonPressed(PlayerIndex.One, Buttons.B) && !_closing)
             {
                 _closing = true;
             }
@@ -88,7 +88,7 @@ namespace GGFanGame.Screens.Menu
                 _preScreenSize = MathHelper.Lerp(_preScreenSize, 0f, 0.3f);
                 if (_preScreenSize <= 0.01f)
                 {
-                    ScreenManager.getInstance().setScreen(_preScreen);
+                    ScreenManager.GetInstance().SetScreen(_preScreen);
                 }
             }
             else
@@ -97,25 +97,25 @@ namespace GGFanGame.Screens.Menu
             }
         }
 
-        public override void close()
+        public override void Close()
         {
             Dispose();
         }
         
-        protected override void dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
-            if (!isDisposed)
+            if (!IsDisposed)
             {
                 if (disposing)
                 {
                     if (_target != null && !_target.IsDisposed) _target.Dispose();
-                    if (_backgroundRenderer != null && !_backgroundRenderer.isDisposed) _backgroundRenderer.Dispose();
+                    if (_backgroundRenderer != null && !_backgroundRenderer.IsDisposed) _backgroundRenderer.Dispose();
                 }
 
                 _target = null;
                 _backgroundRenderer = null;
             }
-            base.dispose(disposing);
+            base.Dispose(disposing);
         }
     }
 }

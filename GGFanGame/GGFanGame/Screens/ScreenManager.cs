@@ -13,42 +13,42 @@ namespace GGFanGame.Screens
         /// <summary>
         /// Returns the singleton instance of the APIManager.
         /// </summary>
-        public static ScreenManager getInstance() => _instance ?? (_instance = new ScreenManager());
+        public static ScreenManager GetInstance() => _instance ?? (_instance = new ScreenManager());
 
         /// <summary>
         /// The currently active screen instance.
         /// </summary>
-        public Screen currentScreen { get; private set; }
+        public Screen CurrentScreen { get; private set; }
 
         /// <summary>
         /// Sets a new screen as active screen.
         /// </summary>
         /// <param name="newScreen">The new screen.</param>
-        public void setScreen(Screen newScreen)
+        public void SetScreen(Screen newScreen)
         {
-            currentScreen?.close();
+            CurrentScreen?.Close();
 
-            currentScreen = newScreen;
+            CurrentScreen = newScreen;
 
-            currentScreen.open();
+            CurrentScreen.Open();
         }
 
         /// <summary>
         /// Updates the current screen.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public void updateScreen(GameTime gameTime)
+        public void UpdateScreen(GameTime gameTime)
         {
-            currentScreen?.update();
+            CurrentScreen?.Update();
         }
 
         /// <summary>
         /// Draws the current screen.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public void drawScreen(GameTime gameTime)
+        public void DrawScreen(GameTime gameTime)
         {
-            currentScreen?.draw();
+            CurrentScreen?.Draw();
         }
     }
 }

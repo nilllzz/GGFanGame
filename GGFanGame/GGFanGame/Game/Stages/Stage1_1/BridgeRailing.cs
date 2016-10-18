@@ -8,19 +8,19 @@ namespace GGFanGame.Game.Stages.Stage1_1
     {
         public BridgeRailing()
         {
-            size = new Vector3(64, 32, 5);
-            drawShadow = false;
-            collision = true;
-            canLandOn = true;
-            gravityAffected = false;
+            Size = new Vector3(64, 32, 5);
+            DrawShadow = false;
+            Collision = true;
+            CanLandOn = true;
+            GravityAffected = false;
 
-            addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(64, 32), 100));
+            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(64, 32), 100));
 
         }
 
-        protected override void loadInternal()
+        protected override void LoadInternal()
         {
-            spriteSheet = content.Load<Texture2D>(@"Levels\Stage1_1\BridgeRailing");
+            SpriteSheet = Content.Load<Texture2D>(@"Levels\Stage1_1\BridgeRailing");
         }
     }
 }

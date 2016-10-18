@@ -11,67 +11,67 @@ namespace GGFanGame.Game.Stages
     {
         public SplatBall(Color color, Vector3 movement)
         {
-            initialize(color, movement);
+            Initialize(color, movement);
         }
 
         public SplatBall(Color color, ObjectFacing setFacing)
         {
-            float xMovement = gameInstance.random.Next(10, 20);
-            float yMovement = gameInstance.random.Next(0, 10);
-            float zMovement = gameInstance.random.Next(-5, 5);
+            float xMovement = GameInstance.Random.Next(10, 20);
+            float yMovement = GameInstance.Random.Next(0, 10);
+            float zMovement = GameInstance.Random.Next(-5, 5);
             if (setFacing == ObjectFacing.Left)
             {
-                autoMovement.X = -xMovement;
+                AutoMovement.X = -xMovement;
             }
             else
             {
-                autoMovement.X = xMovement;
+                AutoMovement.X = xMovement;
             }
 
-            initialize(color, new Vector3(xMovement, yMovement, zMovement));
+            Initialize(color, new Vector3(xMovement, yMovement, zMovement));
         }
 
-        private void initialize(Color color, Vector3 movement)
+        private void Initialize(Color color, Vector3 movement)
         {
             var ellipses = new List<Rectangle>();
             var colors = new List<Color>();
 
             for (var i = 0; i < 3; i++)
             {
-                var width = gameInstance.random.Next(4, 8);
-                var height = gameInstance.random.Next(4, 8);
-                var x = gameInstance.random.Next(0, 16 - width);
-                var y = gameInstance.random.Next(0, 16 - height);
+                var width = GameInstance.Random.Next(4, 8);
+                var height = GameInstance.Random.Next(4, 8);
+                var x = GameInstance.Random.Next(0, 16 - width);
+                var y = GameInstance.Random.Next(0, 16 - height);
 
                 ellipses.Add(new Rectangle(x, y, width, height));
                 colors.Add(color);
             }
 
-            spriteSheet = Drawing.Graphics.createJoinedEllipse(
+            SpriteSheet = Drawing.Graphics.CreateJoinedEllipse(
                 16,
                 16,
                 ellipses.ToArray(),
                 colors.ToArray()
             );
 
-            objectColor = color;
-            canInteract = false;
+            ObjectColor = color;
+            CanInteract = false;
 
-            addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(16, 16), 100));
+            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(16, 16), 100));
 
-            autoMovement = movement;
+            AutoMovement = movement;
         }
 
-        public override void update()
+        public override void Update()
         {
-            base.update();
+            base.Update();
 
-            var groundY = Stage.activeStage.getGround(position);
+            var groundY = Stage.ActiveStage.GetGround(Position);
 
             if (Y <= groundY)
             {
-                canBeRemoved = true;
-                Stage.activeStage.addObject(new GroundSplat(objectColor) { position = position });
+                CanBeRemoved = true;
+                Stage.ActiveStage.AddObject(new GroundSplat(ObjectColor) { Position = Position });
             }
         }
     }

@@ -14,7 +14,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Updates the MouseHandler's states.
         /// </summary>
-        public static void update()
+        public static void Update()
         {
             _oldState = _currentState;
             _currentState = Mouse.GetState();
@@ -23,7 +23,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if a specific mouse button is pressed.
         /// </summary>
-        public static bool buttonPressed(MouseButton button)
+        public static bool ButtonPressed(MouseButton button)
         {
             switch (button)
             {
@@ -40,7 +40,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if a specific mouse button is being held down.
         /// </summary>
-        public static bool buttonDown(MouseButton button)
+        public static bool ButtonDown(MouseButton button)
         {
             switch (button)
             {
@@ -57,9 +57,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns the position of the mouse in the window.
         /// </summary>
-        public static Point mousePosition()
-        {
-            return new Point(_currentState.X, _currentState.Y);
-        }
+        public static Point MousePosition()
+            => new Point(_currentState.X, _currentState.Y);
     }
 }

@@ -7,24 +7,24 @@ namespace GGFanGame.Game
     /// </summary>
     internal struct AnimationFrame
     {
-        public Point frameSize { get; set; }
+        public Point FrameSize { get; set; }
 
         /// <summary>
         /// The coordinates of this frame in the sprite sheet.
         /// </summary>
-        public Point startPosition { get; set; }
+        public Point StartPosition { get; set; }
 
         /// <summary>
         /// The length this frame appears on screen in frames.
         /// </summary>
-        public double frameLength { get; set; }
+        public double FrameLength { get; set; }
 
         /// <summary>
         /// Returns the rectangle this frame represents in the sprite sheet.
         /// </summary>
-        public Rectangle getRect()
+        public Rectangle GetRect()
         {
-            return new Rectangle(startPosition.X, startPosition.Y, frameSize.X, frameSize.Y);
+            return new Rectangle(StartPosition.X, StartPosition.Y, FrameSize.X, FrameSize.Y);
         }
     }
 }

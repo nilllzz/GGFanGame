@@ -11,7 +11,7 @@ namespace GGFanGame.DataModel.Game
     [DataContract]
     internal class StageListModel : DataModel<StageListModel>
     {
-        [DataMember]
-        public StageListMapEntryModel[] stages;
+        [DataMember(Name = "stages")]
+        public StageListMapEntryModel[] Stages;
     }
 }

@@ -11,11 +11,11 @@ namespace GGFanGame.Game
         /// <summary>
         /// The formatted stage information string (worldId/stageId/name)
         /// </summary>
-        public string stageInformation { get; }
+        public string StageInformation { get; }
 
         public StageObjectAttribute(string name, string worldId, string stageId)
         {
-            stageInformation = $"{worldId}/{stageId}/{name}";
+            StageInformation = $"{worldId}/{stageId}/{name}";
         }
     }
 }

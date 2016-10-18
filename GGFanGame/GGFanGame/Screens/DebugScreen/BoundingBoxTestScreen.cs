@@ -17,11 +17,11 @@ namespace GGFanGame.Screens.Debug
 
         public BoundingBoxTestScreen()
         {
-            _projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(80f), gameInstance.GraphicsDevice.Viewport.AspectRatio, 0.1f, 1000f);
-            createMatrix();
+            _projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(80f), GameInstance.GraphicsDevice.Viewport.AspectRatio, 0.1f, 1000f);
+            CreateMatrix();
         }
 
-        private void createMatrix()
+        private void CreateMatrix()
         {
             var rotation = Matrix.CreateRotationX(_pitch) * Matrix.CreateRotationY(_yaw);
 
@@ -31,39 +31,39 @@ namespace GGFanGame.Screens.Debug
             _view = Matrix.CreateLookAt(camPos, lookAt, Vector3.Up);
         }
 
-        public override void draw()
+        public override void Draw()
         {
-            foreach (var obj in Stage.activeStage.getObjects())
+            foreach (var obj in Stage.ActiveStage.GetObjects())
             {
-                var boxes = obj.boundingBoxes;
+                var boxes = obj.BoundingBoxes;
 
                 //When the object does not have defined bounding boxes, take the default bounding box.
                 if (boxes.Length == 0)
-                    boxes = new BoundingBox[] { obj.boundingBox };
+                    boxes = new BoundingBox[] { obj.BoundingBox };
 
                 foreach (var box in boxes)
                 {
-                    BoundingBoxRenderer.Render(box, gameInstance.GraphicsDevice, _view, _projection, obj.objectColor);
+                    BoundingBoxRenderer.Render(box, GameInstance.GraphicsDevice, _view, _projection, obj.ObjectColor);
                 }
             }
         }
 
-        public override void update()
+        public override void Update()
         {
-            var inRight = Input.GamePadHandler.thumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Right) * 0.1f;
-            var inLeft = Input.GamePadHandler.thumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Left) * 0.1f;
-            var inUp = Input.GamePadHandler.thumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Up) * 0.1f;
-            var inDown = Input.GamePadHandler.thumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Down) * 0.1f;
+            var inRight = Input.GamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Right) * 0.1f;
+            var inLeft = Input.GamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Left) * 0.1f;
+            var inUp = Input.GamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Up) * 0.1f;
+            var inDown = Input.GamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Down) * 0.1f;
 
             _yaw += inLeft;
             _yaw -= inRight;
             _pitch += inUp;
             _pitch -= inDown;
 
-            inRight = Input.GamePadHandler.buttonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadRight) ? 1f : 0f;
-            inLeft = Input.GamePadHandler.buttonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadLeft) ? 1f : 0f;
-            inUp = Input.GamePadHandler.buttonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadUp) ? 1f : 0f;
-            inDown = Input.GamePadHandler.buttonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadDown) ? 1f : 0f;
+            inRight = Input.GamePadHandler.ButtonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadRight) ? 1f : 0f;
+            inLeft = Input.GamePadHandler.ButtonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadLeft) ? 1f : 0f;
+            inUp = Input.GamePadHandler.ButtonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadUp) ? 1f : 0f;
+            inDown = Input.GamePadHandler.ButtonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadDown) ? 1f : 0f;
 
             var rotationMatrix = Matrix.CreateFromYawPitchRoll(_yaw, _pitch, 0f);
 
@@ -77,9 +77,9 @@ namespace GGFanGame.Screens.Debug
             camPos += left;
             camPos += right;
 
-            createMatrix();
+            CreateMatrix();
 
-            Stage.activeStage.update();
+            Stage.ActiveStage.Update();
         }
     }
 }

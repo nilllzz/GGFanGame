@@ -19,65 +19,65 @@ namespace GGFanGame.Screens.Game
 
         public StageScreen()
         {
-            _stage = StageFactory.create(content, "1", "1");
-            _stage.load();
+            _stage = StageFactory.Create(Content, "1", "1");
+            _stage.Load();
 
-            _oneStatus = new PlayerStatus(_stage.onePlayer, PlayerIndex.One, content);
-            _twoStatus = new PlayerStatus(_stage.twoPlayer, PlayerIndex.Two, content);
-            _threeStatus = new PlayerStatus(_stage.threePlayer, PlayerIndex.Three, content);
-            _fourStatus = new PlayerStatus(_stage.fourPlayer, PlayerIndex.Four, content);
+            _oneStatus = new PlayerStatus(_stage.OnePlayer, PlayerIndex.One, Content);
+            _twoStatus = new PlayerStatus(_stage.TwoPlayer, PlayerIndex.Two, Content);
+            _threeStatus = new PlayerStatus(_stage.ThreePlayer, PlayerIndex.Three, Content);
+            _fourStatus = new PlayerStatus(_stage.FourPlayer, PlayerIndex.Four, Content);
         }
 
-        public override void draw()
+        public override void Draw()
         {
             // seperate these so they can be called seperately from the pause screen.
-            drawStage();
-            drawHUD();
+            DrawStage();
+            DrawHUD();
         }
 
-        internal void drawStage()
+        internal void DrawStage()
         {
-            Graphics.drawRectangle(gameInstance.clientRectangle, _stage.backColor);
+            Graphics.DrawRectangle(GameInstance.ClientRectangle, _stage.BackColor);
 
-            _stage.draw();
+            _stage.Draw();
         }
 
-        internal void drawHUD()
+        internal void DrawHUD()
         {
-            _oneStatus.draw();
-            _twoStatus.draw();
-            _threeStatus.draw();
-            _fourStatus.draw();
+            _oneStatus.Draw();
+            _twoStatus.Draw();
+            _threeStatus.Draw();
+            _fourStatus.Draw();
         }
 
-        public override void update()
+        public override void Update()
         {
-            _stage.update();
+            _stage.Update();
             
-            if (GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.Start))
+            if (GamePadHandler.ButtonPressed(PlayerIndex.One, Buttons.Start))
             {
-                ScreenManager.getInstance().setScreen(new PauseScreen(this));
+                ScreenManager.GetInstance().SetScreen(new PauseScreen(this));
             }
 
             //TEST CODE: When pressed P, rendering switches to 3D bounding box test stage:
-            if (KeyboardHandler.keyPressed(Keys.P))
+            if (KeyboardHandler.KeyPressed(Keys.P))
             {
-                ScreenManager.getInstance().setScreen(new Debug.BoundingBoxTestScreen());
+                ScreenManager.GetInstance().SetScreen(new Debug.BoundingBoxTestScreen());
             }
             // Zoom out: Y
-            if (KeyboardHandler.keyDown(Keys.Y) && _stage.camera.scale > 0.2)
+            if (KeyboardHandler.KeyDown(Keys.Y) && _stage.Camera.Scale > 0.2)
             {
-                _stage.camera.scale -= 0.01;
+                _stage.Camera.Scale -= 0.01;
             }
             // Zoom in: X
-            if (KeyboardHandler.keyDown(Keys.X))
+            if (KeyboardHandler.KeyDown(Keys.X))
             {
-                _stage.camera.scale += 0.01;
+                _stage.Camera.Scale += 0.01;
             }
             // Zoom default: C
-            if (KeyboardHandler.keyPressed(Keys.OemPipe))
+            if (KeyboardHandler.KeyPressed(Keys.OemPipe))
             {
-                _stage.camera.scale = 2;
+                _stage.Camera.Scale = 2;
             }
         }
     }

@@ -13,7 +13,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Updates the KeyboardHandler's states.
         /// </summary>
-        public static void update()
+        public static void Update()
         {
             _oldState = _currentState;
             _currentState = Keyboard.GetState();
@@ -22,25 +22,19 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if a specific key is pressed.
         /// </summary>
-        public static bool keyPressed(Keys key)
-        {
-            return (!_oldState.IsKeyDown(key) && _currentState.IsKeyDown(key));
-        }
+        public static bool KeyPressed(Keys key)
+            => (!_oldState.IsKeyDown(key) && _currentState.IsKeyDown(key));
 
         /// <summary>
         /// Returns if a specific key is being held down.
         /// </summary>
-        public static bool keyDown(Keys key)
-        {
-            return _currentState.IsKeyDown(key);
-        }
+        public static bool KeyDown(Keys key)
+            => _currentState.IsKeyDown(key);
 
         /// <summary>
         /// Returns all keys that pressed right now.
         /// </summary>
-        public static Keys[] getPressedKeys()
-        {
-            return _currentState.GetPressedKeys();
-        }
+        public static Keys[] GetPressedKeys()
+            => _currentState.GetPressedKeys();
     }
 }

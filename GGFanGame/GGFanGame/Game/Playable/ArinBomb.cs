@@ -13,32 +13,32 @@ namespace GGFanGame.Game.Playable
 
         public ArinBomb(Vector3 movement, Vector3 startPosition, ObjectFacing facing)
         {
-            shadowSize = 0.8f;
-            this.facing = facing;
+            ShadowSize = 0.8f;
+            this.Facing = facing;
 
-            addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(32, 32), 20));
+            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(32, 32), 20));
 
-            position = startPosition;
-            canInteract = false;
+            Position = startPosition;
+            CanInteract = false;
             _movement = movement;
         }
 
-        protected override void loadInternal()
+        protected override void LoadInternal()
         {
-            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Sprites\ArinBomb");
+            SpriteSheet = GameInstance.Content.Load<Texture2D>(@"Sprites\ArinBomb");
         }
 
-        public override void update()
+        public override void Update()
         {
-            var groundY = Stage.activeStage.getGround(getFeetPosition());
+            var groundY = Stage.ActiveStage.GetGround(GetFeetPosition());
 
             X += _movement.X;
             Z += _movement.Z;
 
             //Check if the bomb hit something, then explode.
-            if (Stage.activeStage.intersects(this, position))
+            if (Stage.ActiveStage.Intersects(this, Position))
             {
-                explode();
+                Explode();
             }
             else
             {
@@ -52,15 +52,15 @@ namespace GGFanGame.Game.Playable
                 if (Y < groundY)
                 {
                     Y = groundY;
-                    explode();
+                    Explode();
                 }
             }
         }
 
-        private void explode()
+        private void Explode()
         {
-            canBeRemoved = true;
-            Stage.activeStage.applyExplosion(this, position, 50f, 10, 9f);
+            CanBeRemoved = true;
+            Stage.ActiveStage.ApplyExplosion(this, Position, 50f, 10, 9f);
         }
     }
 }

@@ -2,8 +2,8 @@
 {
     internal struct PlayerStatistics
     {
-        public int score;
-        public long walkingDistance;
-        public int kills;
+        public int Score;
+        public long WalkingDistance;
+        public int Kills;
     }
 }

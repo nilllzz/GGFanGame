@@ -12,15 +12,15 @@ namespace GGFanGame.DataModel.Game
     [DataContract]
     internal class StageModel : DataModel<StageModel>
     {
-        [DataMember]
-        public string name;
-        [DataMember]
-        public string worldId;
-        [DataMember]
-        public string stageId;
-        [DataMember]
-        public ColorModel backColor;
-        [DataMember]
-        public StageObjectModel[] objects;
+        [DataMember(Name = "name")]
+        public string Name;
+        [DataMember(Name = "worldId")]
+        public string WorldId;
+        [DataMember(Name = "stageId")]
+        public string StageId;
+        [DataMember(Name = "backColor")]
+        public ColorModel BackColor;
+        [DataMember(Name = "objects")]
+        public StageObjectModel[] Objects;
     }
 }

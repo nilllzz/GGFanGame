@@ -9,7 +9,7 @@ namespace GGFanGame.DataModel.Serizalitaion
     /// </summary>
     internal class JsonDataSerializer<T> : DataSerializer<T> where T : DataModel<T>
     {
-        public T fromString(string data)
+        public T FromString(string data)
         {
             // We create a new Json serializer of the given type and a corresponding memory stream here.
             var serializer = new DataContractJsonSerializer(typeof(T), new DataContractJsonSerializerSettings() { SerializeReadOnlyTypes = true });
@@ -37,7 +37,7 @@ namespace GGFanGame.DataModel.Serizalitaion
             }
         }
 
-        public string toString(DataModel<T> dataModel)
+        public string ToString(DataModel<T> dataModel)
         {
             // We create a new Json serializer of the given type and a corresponding memory stream here.
             var serializer = new DataContractJsonSerializer(dataModel.GetType(), new DataContractJsonSerializerSettings() { SerializeReadOnlyTypes = true });

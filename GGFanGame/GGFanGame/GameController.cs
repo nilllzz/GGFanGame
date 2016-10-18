@@ -19,36 +19,36 @@ namespace GGFanGame
         /// <summary>
         /// The active game instance.
         /// </summary>
-        internal static GameController getInstance() => _instance ?? (_instance = new GameController());
+        internal static GameController GetInstance() => _instance ?? (_instance = new GameController());
 
         /// <summary>
         /// The global randomizer of the game.
         /// </summary>
-        internal Random random { get; private set; } = new Random();
+        internal Random Random { get; private set; } = new Random();
         
         /// <summary>
         /// The active main sprite batch of the game.
         /// </summary>
-        internal SpriteBatch spriteBatch { get; private set; }
+        internal SpriteBatch SpriteBatch { get; private set; }
 
         /// <summary>
         /// The active font sprite batch of the game.
         /// </summary>
-        internal SpriteBatch fontBatch { get; private set; }
+        internal SpriteBatch FontBatch { get; private set; }
 
         /// <summary>
         /// The video card manager.
         /// </summary>
-        internal GraphicsDeviceManager graphics { get; }
+        internal GraphicsDeviceManager Graphics { get; }
 
         /// <summary>
         /// Returns a rectangle representing the game's drawing area relative to the window position.
         /// </summary>
-        internal Rectangle clientRectangle => new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+        internal Rectangle ClientRectangle => new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
         private GameController()
         {
-            graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
@@ -62,12 +62,12 @@ namespace GGFanGame
         {
             //Just testing the screen manager here and setting the main menu as first screen.
             //I guess we will implement a splash screen of some sort later.
-            Screens.ScreenManager.getInstance().setScreen(new Screens.Menu.TitleScreen());
+            Screens.ScreenManager.GetInstance().SetScreen(new Screens.Menu.TitleScreen());
             Window.Title = $"Game Grumps: {GAME_TITLE}";
 
-            graphics.PreferredBackBufferWidth = RENDER_WIDTH;
-            graphics.PreferredBackBufferHeight = RENDER_HEIGHT;
-            graphics.ApplyChanges();
+            Graphics.PreferredBackBufferWidth = RENDER_WIDTH;
+            Graphics.PreferredBackBufferHeight = RENDER_HEIGHT;
+            Graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -79,10 +79,10 @@ namespace GGFanGame
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            fontBatch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
+            FontBatch = new SpriteBatch(GraphicsDevice);
             
-            Drawing.Graphics.initialize(GraphicsDevice, spriteBatch);
+            Drawing.Graphics.Initialize(GraphicsDevice, SpriteBatch);
             RenderTargetManager.initialize();
         }
 
@@ -96,9 +96,9 @@ namespace GGFanGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            Input.ControlsHandler.update();
+            Input.ControlsHandler.Update();
 
-            Screens.ScreenManager.getInstance().updateScreen(gameTime);
+            Screens.ScreenManager.GetInstance().UpdateScreen(gameTime);
 
             base.Update(gameTime);
         }
@@ -110,21 +110,21 @@ namespace GGFanGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            GraphicsDevice.SetRenderTarget(RenderTargetManager.defaultTarget);
+            GraphicsDevice.SetRenderTarget(RenderTargetManager.DefaultTarget);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-            fontBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.AnisotropicClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            FontBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.AnisotropicClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
-            Screens.ScreenManager.getInstance().drawScreen(gameTime);
+            Screens.ScreenManager.GetInstance().DrawScreen(gameTime);
 
-            spriteBatch.End();
-            fontBatch.End();
+            SpriteBatch.End();
+            FontBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-            spriteBatch.Draw(RenderTargetManager.defaultTarget, clientRectangle, Color.White);
-            spriteBatch.End();
+            SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            SpriteBatch.Draw(RenderTargetManager.DefaultTarget, ClientRectangle, Color.White);
+            SpriteBatch.End();
 
             base.Draw(gameTime);
         }

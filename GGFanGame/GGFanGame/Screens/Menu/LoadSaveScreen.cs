@@ -31,48 +31,48 @@ namespace GGFanGame.Screens.Menu
             public SaveContainer(int index, GameSession session)
             {
                 _session = session;
-                this.index = index;
+                this.Index = index;
 
                 if (_session != null)
                 {
-                    if (_session.loadedCorrectly)
+                    if (_session.LoadedCorrectly)
                     {
-                        _grumpFaceTexture = gameInstance.Content.Load<Texture2D>(@"UI\HUD\" + _session.lastGrump);
+                        _grumpFaceTexture = GameInstance.Content.Load<Texture2D>(@"UI\HUD\" + _session.LastGrump);
                     }
                 }
             }
 
-            public int index { get; }
+            public int Index { get; }
 
-            public bool newGameButton { get; set; }
+            public bool NewGameButton { get; set; }
 
             /// <summary>
             /// Draws the save state.
             /// </summary>
-            public void draw(SpriteFont font, Rectangle targetRect, bool selected, float alphaDelta)
+            public void Draw(SpriteFont font, Rectangle targetRect, bool selected, float alphaDelta)
             {
                 if (selected)
                 {
-                    gameInstance.spriteBatch.Draw(gameInstance.Content.Load<Texture2D>(@"UI\saveBack"), targetRect, new Color(0, 0, 0, (int)(255 * alphaDelta)));
+                    GameInstance.SpriteBatch.Draw(GameInstance.Content.Load<Texture2D>(@"UI\saveBack"), targetRect, new Color(0, 0, 0, (int)(255 * alphaDelta)));
                 }
                 else
                 {
-                    gameInstance.spriteBatch.Draw(gameInstance.Content.Load<Texture2D>(@"UI\saveBack"), targetRect, new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                    GameInstance.SpriteBatch.Draw(GameInstance.Content.Load<Texture2D>(@"UI\saveBack"), targetRect, new Color(255, 255, 255, (int)(255 * alphaDelta)));
                 }
 
-                if (newGameButton)
+                if (NewGameButton)
                 {
-                    gameInstance.spriteBatch.DrawString(font, "+ Create new game", new Vector2(targetRect.X + 64, targetRect.Y + 50), new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                    GameInstance.SpriteBatch.DrawString(font, "+ Create new game", new Vector2(targetRect.X + 64, targetRect.Y + 50), new Color(255, 255, 255, (int)(255 * alphaDelta)));
                 }
                 else
                 {
-                    if (_session.loadedCorrectly)
+                    if (_session.LoadedCorrectly)
                     {
-                        gameInstance.spriteBatch.Draw(_grumpFaceTexture, new Rectangle(targetRect.X + 16, targetRect.Y + 16, 96, 96), new Rectangle(0, 0, 48, 48), new Color(255, 255, 255, (int)(255 * alphaDelta)));
-                        gameInstance.spriteBatch.DrawString(font, _session.name, new Vector2(targetRect.X + 128, targetRect.Y + 24), new Color(255, 255, 255, (int)(255 * alphaDelta)));
-                        gameInstance.spriteBatch.DrawString(font, Math.Round(_targetPercent, 2) + "%", new Vector2(targetRect.X + 456, targetRect.Y + 70), new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                        GameInstance.SpriteBatch.Draw(_grumpFaceTexture, new Rectangle(targetRect.X + 16, targetRect.Y + 16, 96, 96), new Rectangle(0, 0, 48, 48), new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                        GameInstance.SpriteBatch.DrawString(font, _session.Name, new Vector2(targetRect.X + 128, targetRect.Y + 24), new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                        GameInstance.SpriteBatch.DrawString(font, Math.Round(_targetPercent, 2) + "%", new Vector2(targetRect.X + 456, targetRect.Y + 70), new Color(255, 255, 255, (int)(255 * alphaDelta)));
 
-                        Graphics.drawRectangle(new Rectangle(targetRect.X + 128, targetRect.Y + 70, 300, 32), new Color(0, 0, 0, (int)(255 * alphaDelta)));
+                        Graphics.DrawRectangle(new Rectangle(targetRect.X + 128, targetRect.Y + 70, 300, 32), new Color(0, 0, 0, (int)(255 * alphaDelta)));
 
                         var width = (int)(292 * (_targetPercent / 100));
 
@@ -84,7 +84,7 @@ namespace GGFanGame.Screens.Menu
                         var toG = 108 + (int)(68 * gradientProgress);
                         var toB = 46 + (int)(37 * gradientProgress);
 
-                        Graphics.drawGradient(new Rectangle(targetRect.X + 132, targetRect.Y + 74, width, 24),
+                        Graphics.DrawGradient(new Rectangle(targetRect.X + 132, targetRect.Y + 74, width, 24),
                                                       new Color(fromR, fromG, fromB, (int)(255 * alphaDelta)), new Color(toR, toG, toB, (int)(255 * alphaDelta)), false, 1d);
 
                         if (_gradientFading)
@@ -106,9 +106,9 @@ namespace GGFanGame.Screens.Menu
                             }
                         }
 
-                        if (_targetPercent < (float)_session.progress)
+                        if (_targetPercent < (float)_session.Progress)
                         {
-                            _targetPercent = MathHelper.Lerp((float)_session.progress, _targetPercent, 0.92f);
+                            _targetPercent = MathHelper.Lerp((float)_session.Progress, _targetPercent, 0.92f);
                         }
                     }
                 }
@@ -136,42 +136,42 @@ namespace GGFanGame.Screens.Menu
                 saveIndex++;
             }
 
-            _saves.Add(new SaveContainer(saveIndex, null) { newGameButton = true });
+            _saves.Add(new SaveContainer(saveIndex, null) { NewGameButton = true });
 
-            _grumpFont = gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
+            _grumpFont = GameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
         }
 
-        public override void update()
+        public override void Update()
         {
-            _backgroundRenderer.update();
+            _backgroundRenderer.Update();
 
-            if (isCurrentScreen)
+            if (IsCurrentScreen)
             {
-                if (ControlsHandler.downPressed(PlayerIndex.One))
+                if (ControlsHandler.DownPressed(PlayerIndex.One))
                 {
                     _selected++;
                 }
-                if (ControlsHandler.upPressed(PlayerIndex.One))
+                if (ControlsHandler.UpPressed(PlayerIndex.One))
                 {
                     _selected--;
                 }
 
-                if (GamePadHandler.buttonPressed(PlayerIndex.One, Buttons.A))
+                if (GamePadHandler.ButtonPressed(PlayerIndex.One, Buttons.A))
                 {
                     var save = _saves[_selected];
-                    if (save.newGameButton)
+                    if (save.NewGameButton)
                     {
-                        ScreenManager.getInstance().setScreen(new TransitionScreen(this, new NewGameScreen(this, _backgroundRenderer)));
+                        ScreenManager.GetInstance().SetScreen(new TransitionScreen(this, new NewGameScreen(this, _backgroundRenderer)));
                     }
                     else
                     {
-                        ScreenManager.getInstance().setScreen(new TransitionScreen(this, new StageScreen()));
+                        ScreenManager.GetInstance().SetScreen(new TransitionScreen(this, new StageScreen()));
                     }
                     //ScreenManager.getInstance().setScreen(new TransitionScreen(gameInstance, this, new PlayerSelectScreen()));
                 }
             }
 
-            _offset = MathHelper.Lerp(getTargetOffset(), _offset, 0.9f);
+            _offset = MathHelper.Lerp(GetTargetOffset(), _offset, 0.9f);
 
             if (_alpha < 255)
             {
@@ -183,18 +183,16 @@ namespace GGFanGame.Screens.Menu
             }
         }
 
-        private float getTargetOffset()
-        {
-            return -(_selected * 160);
-        }
+        private float GetTargetOffset()
+            => -(_selected * 160);
 
-        public override void draw()
+        public override void Draw()
         {
-            _backgroundRenderer.draw(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
+            _backgroundRenderer.Draw(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
 
             for (var i = 0; i < _saves.Count; i++)
             {
-                _saves[i].draw(_grumpFont, new Rectangle(GameController.RENDER_WIDTH / 2 - 300, GameController.RENDER_HEIGHT / 2 - 64 + (int)_offset + _saves[i].index * 160, 600, 128), i == _selected, _alpha / 255f);
+                _saves[i].Draw(_grumpFont, new Rectangle(GameController.RENDER_WIDTH / 2 - 300, GameController.RENDER_HEIGHT / 2 - 64 + (int)_offset + _saves[i].Index * 160, 600, 128), i == _selected, _alpha / 255f);
             }
         }
     }

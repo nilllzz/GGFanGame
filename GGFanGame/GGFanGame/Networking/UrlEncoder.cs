@@ -11,24 +11,24 @@ namespace GGFanGame.Networking
         /// Encodes an URL string.
         /// </summary>
         /// <param name="str">The url to encode.</param>
-        public static string encode(string str)
+        public static string Encode(string str)
         {
-            return str == null ? null : urlEncode(str, Encoding.UTF8);
+            return str == null ? null : UrlEncode(str, Encoding.UTF8);
         }
 
-        private static string urlEncode(string str, Encoding e)
+        private static string UrlEncode(string str, Encoding e)
         {
-            return Encoding.ASCII.GetString(urlEncodeToBytes(str, e));
+            return Encoding.ASCII.GetString(UrlEncodeToBytes(str, e));
         }
 
-        private static byte[] urlEncodeToBytes(string str, Encoding e)
+        private static byte[] UrlEncodeToBytes(string str, Encoding e)
         {
             var bytes = e.GetBytes(str);
 
-            return urlEncodeBytesToBytesInternal(bytes, 0, bytes.Length, false);
+            return UrlEncodeBytesToBytesInternal(bytes, 0, bytes.Length, false);
         }
 
-        private static byte[] urlEncodeBytesToBytesInternal(byte[] bytes, int offset, int count, bool alwaysCreateReturnValue)
+        private static byte[] UrlEncodeBytesToBytesInternal(byte[] bytes, int offset, int count, bool alwaysCreateReturnValue)
         {
             var cSpaces = 0;
             var cUnsafe = 0;
@@ -40,7 +40,7 @@ namespace GGFanGame.Networking
 
                 if (ch == ' ')
                     cSpaces++;
-                else if (!isSafe(ch))
+                else if (!IsSafe(ch))
                     cUnsafe++;
             }
 
@@ -57,7 +57,7 @@ namespace GGFanGame.Networking
                 var b = bytes[offset + i];
                 var ch = (char)b;
 
-                if (isSafe(ch))
+                if (IsSafe(ch))
                 {
                     expandedBytes[pos++] = b;
                 }
@@ -86,7 +86,7 @@ namespace GGFanGame.Networking
 
         //Determines if a character is a safe URL character.    
         //-_.!*\() and alphanumeric are safe characters.
-        private static bool isSafe(char ch)
+        private static bool IsSafe(char ch)
         {
             if (ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z' || ch >= '0' && ch <= '9')
                 return true;

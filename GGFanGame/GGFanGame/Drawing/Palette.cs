@@ -47,7 +47,7 @@ namespace GGFanGame.Drawing
         /// </summary>
         /// <param name="originalTexture">The original texture that the palette should get applied to.</param>
         /// <param name="paletteTexture">The palette texture to apply.</param>
-        public static Texture2D applyPalette(Texture2D originalTexture, Texture2D paletteTexture)
+        public static Texture2D ApplyPalette(Texture2D originalTexture, Texture2D paletteTexture)
         {
             if (paletteTexture.Height != 2)
                 throw new PaletteTextureSizeException(paletteTexture);
@@ -58,7 +58,7 @@ namespace GGFanGame.Drawing
             var originalColorData = new Color[originalTexture.Width * originalTexture.Height];
 
             //Create a resulting texture we return and a corresponding color array to store the data in.
-            var resultTexture = new Texture2D(gameInstance.GraphicsDevice, originalTexture.Width, originalTexture.Height);
+            var resultTexture = new Texture2D(GameInstance.GraphicsDevice, originalTexture.Width, originalTexture.Height);
             var resultColorData = new Color[resultTexture.Width * resultTexture.Height];
 
             //We get the color data from the palette and original texture here and store them in arrays.

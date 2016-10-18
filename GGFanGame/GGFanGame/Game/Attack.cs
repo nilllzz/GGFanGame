@@ -11,11 +11,11 @@ namespace GGFanGame.Game
 
         public Attack(StageObject origin, bool knockback, int health, float strength, Vector3 size, Vector3 offset, ObjectFacing facing = ObjectFacing.Left)
         {
-            this.origin = origin;
-            this.knockback = knockback;
-            this.health = health;
-            this.facing = facing;
-            this.strength = strength;
+            this.Origin = origin;
+            this.Knockback = knockback;
+            this.Health = health;
+            this.Facing = facing;
+            this.Strength = strength;
 
             _size = size;
             _offset = offset;
@@ -24,39 +24,39 @@ namespace GGFanGame.Game
         /// <summary>
         /// The origin object of this attack.
         /// </summary>
-        public StageObject origin { get; private set; }
+        public StageObject Origin { get; private set; }
 
         /// <summary>
         /// If this attack has a strong knockback that hits to the ground.
         /// </summary>
-        public bool knockback { get; private set; }
+        public bool Knockback { get; private set; }
 
         /// <summary>
         /// The health this attack depletes.
         /// </summary>
-        public int health { get; private set; }
+        public int Health { get; private set; }
 
         /// <summary>
         /// The strength of this attack.
         /// </summary>
-        public float strength { get; private set; }
+        public float Strength { get; private set; }
 
         /// <summary>
         /// When an object gets hit, this is the facing to set to.
         /// </summary>
-        public ObjectFacing facing { get; set; }
+        public ObjectFacing Facing { get; set; }
 
         /// <summary>
         /// Returns the hitbox of this attack relativ to the position of the user.
         /// </summary>
         /// <param name="relPosition">The position of the user of this attack.</param>
-        public BoundingBox getHitbox(Vector3 relPosition)
+        public BoundingBox GetHitbox(Vector3 relPosition)
         {
             var X = relPosition.X;
             var Y = relPosition.Y;
             var Z = relPosition.Z;
 
-            var xOffset = (facing == ObjectFacing.Right) ? _offset.X : -_offset.X;
+            var xOffset = (Facing == ObjectFacing.Right) ? _offset.X : -_offset.X;
 
             var hitbox = new BoundingBox(
                   new Vector3(X - _size.X / 2f + xOffset,

@@ -8,13 +8,13 @@ namespace GGFanGame.DataModel.Game
     [DataContract]
     internal class GameSessionModel : DataModel<GameSessionModel>
     {
-        [DataMember]
-        public string name;
+        [DataMember(Name = "name")]
+        public string Name;
 
-        [DataMember]
-        public decimal progress;
+        [DataMember(Name = "progress")]
+        public decimal Progress;
 
-        [DataMember]
-        public string lastGrump;
+        [DataMember(Name = "lastGrump")]
+        public string LastGrump;
     }
 }

@@ -11,11 +11,11 @@ namespace GGFanGame.DataModel.Game
     [DataContract]
     internal class StageListMapEntryModel : DataModel<StageListMapEntryModel>
     {
-        [DataMember]
-        public string worldId;
-        [DataMember]
-        public string stageId;
-        [DataMember]
-        public string path;
+        [DataMember(Name = "worldId")]
+        public string WorldId;
+        [DataMember(Name = "stageId")]
+        public string StageId;
+        [DataMember(Name = "path")]
+        public string Path;
     }
 }

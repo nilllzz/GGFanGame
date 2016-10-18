@@ -13,23 +13,23 @@ namespace GGFanGame.Game.Playable
 
         public ArinLemon(Vector3 startPosition, ObjectFacing facing)
         {
-            this.facing = facing;
-            size = new Vector3(4f, 4f, 8f);
+            this.Facing = facing;
+            Size = new Vector3(4f, 4f, 8f);
 
-            addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(7, 6), 20));
+            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(7, 6), 20));
 
-            position = startPosition;
-            canInteract = false;
+            Position = startPosition;
+            CanInteract = false;
         }
 
-        protected override void loadInternal()
+        protected override void LoadInternal()
         {
-            spriteSheet = gameInstance.Content.Load<Texture2D>(@"Sprites\ArinLemon");
+            SpriteSheet = GameInstance.Content.Load<Texture2D>(@"Sprites\ArinLemon");
         }
 
-        public override void update()
+        public override void Update()
         {
-            if (facing == ObjectFacing.Left)
+            if (Facing == ObjectFacing.Left)
             {
                 X -= 5f;
             }
@@ -38,25 +38,25 @@ namespace GGFanGame.Game.Playable
                 X += 5f;
             }
 
-            var hits = Stage.activeStage.applyAttack(new Attack(this, false, 8, 4f, size, Vector3.Zero, facing), position, 1);
+            var hits = Stage.ActiveStage.ApplyAttack(new Attack(this, false, 8, 4f, Size, Vector3.Zero, Facing), Position, 1);
 
             if (hits > 0)
             {
-                canBeRemoved = true;
+                CanBeRemoved = true;
             }
             else
             {
                 //When this didn't hit anything, check if it collides with things.
                 //If it does, remove it from the stage:
-                if (Stage.activeStage.intersects(this, position))
+                if (Stage.ActiveStage.Intersects(this, Position))
                 {
-                    canBeRemoved = true;
+                    CanBeRemoved = true;
                 }
                 else
                 {
                     if (_ticksAlive == 70) //If this didnt hit anything after 70 ticks, destroy it.
                     {
-                        canBeRemoved = true;
+                        CanBeRemoved = true;
                     }
                 }
             }

@@ -24,9 +24,9 @@ namespace GGFanGame.Screens.Menu
         private BlurHandler _blurHandler;
         private RenderTarget2D _target;
 
-        internal bool applyTransparency { get; set; }
+        internal bool ApplyTransparency { get; set; }
 
-        internal bool isDisposed { get; private set; }
+        internal bool IsDisposed { get; private set; }
         
         internal MenuBackgroundRenderer()
          : this(Vector2.Zero) { }
@@ -68,24 +68,24 @@ namespace GGFanGame.Screens.Menu
                                     Math.Abs(_dotToColor.A - _dotFromColor.A));
         }
 
-        internal void draw()
+        internal void Draw()
         {
-            gameInstance.spriteBatch.Draw(createBackgroundTexture(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT), gameInstance.clientRectangle, Color.White);
+            Draw(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
         }
 
-        internal void draw(int width, int height)
+        internal void Draw(int width, int height)
         {
-            gameInstance.spriteBatch.Draw(createBackgroundTexture(width, height), gameInstance.clientRectangle, Color.White);
+            GameInstance.SpriteBatch.Draw(CreateBackgroundTexture(width, height), GameInstance.ClientRectangle, Color.White);
         }
 
-        internal Texture2D createBackgroundTexture(int width, int height)
+        internal Texture2D CreateBackgroundTexture(int width, int height)
         {
-            createRenderDevices(width, height);
+            CreateRenderDevices(width, height);
 
-            RenderTargetManager.beginRenderScreenToTarget(_target);
+            RenderTargetManager.BeginRenderScreenToTarget(_target);
             
             // draws the background gradient:
-            Graphics.drawGradient(new Rectangle(0, 0, width, height), _backgroundFromColor, _backgroundToColor, false, 1d);
+            Graphics.DrawGradient(new Rectangle(0, 0, width, height), _backgroundFromColor, _backgroundToColor, false, 1d);
             
             //Draw the background dots:
             for (var x = -6; x < 32; x++)
@@ -103,7 +103,7 @@ namespace GGFanGame.Screens.Menu
 
                     double cA = 255;
                     
-                    if (applyTransparency)
+                    if (ApplyTransparency)
                     {
                         //When they approach the sides of the screen, make them fade out:
                         if (posX > width - 90)
@@ -130,31 +130,31 @@ namespace GGFanGame.Screens.Menu
                     //When the dot is inside the rendering area, draw it.
                     if (posX + DOT_SIZE * 2 >= 0 && posX < width && posY + DOT_SIZE * 2 >= 0 && posY < height)
                     {
-                        Graphics.drawCircle(new Vector2(posX, posY), DOT_SIZE * 2, new Color((int)(_dotFromColor.R + cR),
+                        Graphics.DrawCircle(new Vector2(posX, posY), DOT_SIZE * 2, new Color((int)(_dotFromColor.R + cR),
                                                                                              (int)(_dotFromColor.G + cG),
                                                                                              (int)(_dotFromColor.B + cB), 
                                                                                              (int)(cA)));
                     }
                 }
             }
-            RenderTargetManager.endRenderScreenToTarget();
+            RenderTargetManager.EndRenderScreenToTarget();
 
-            return _blurHandler.blurTexture(_target);
+            return _blurHandler.BlurTexture(_target);
         }
 
         /// <summary>
         /// Creates the render target and blur handler in case they have not been created at all or for the desired width/height.
         /// </summary>
-        private void createRenderDevices(int width, int height)
+        private void CreateRenderDevices(int width, int height)
         {
             if (_target == null || _blurHandler == null || width != _target.Width || height != _target.Height)
             {
-                _target = new RenderTarget2D(gameInstance.GraphicsDevice, width, height);
+                _target = new RenderTarget2D(GameInstance.GraphicsDevice, width, height);
                 _blurHandler = new BlurHandler(width, height);
             }
         }
 
-        internal void update()
+        internal void Update()
         {
             //Update the dot animation:
             _offsetX -= 0.9f;
@@ -170,28 +170,28 @@ namespace GGFanGame.Screens.Menu
 
         public void Dispose()
         {
-            dispose(true);
+            Dispose(true);
         }
 
         ~MenuBackgroundRenderer()
         {
-            dispose(false);
+            Dispose(false);
         }
 
-        private void dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-            if (!isDisposed)
+            if (!IsDisposed)
             {
                 if (disposing)
                 {
-                    if (_blurHandler != null && !_blurHandler.isDisposed) _blurHandler.Dispose();
+                    if (_blurHandler != null && !_blurHandler.IsDisposed) _blurHandler.Dispose();
                     if (_target != null && !_target.IsDisposed) _target.Dispose();
                 }
 
                 _blurHandler = null;
                 _target = null;
 
-                isDisposed = true;
+                IsDisposed = true;
             }
         }
     }

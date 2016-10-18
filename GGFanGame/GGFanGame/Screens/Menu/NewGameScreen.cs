@@ -17,14 +17,14 @@ namespace GGFanGame.Screens.Menu
             _backgroundRenderer = backgroundRenderer;
         }
 
-        public override void draw()
+        public override void Draw()
         {
-            _backgroundRenderer.draw();
+            _backgroundRenderer.Draw();
         }
 
-        public override void update()
+        public override void Update()
         {
-            _backgroundRenderer.update();
+            _backgroundRenderer.Update();
         }
     }
 }

@@ -13,53 +13,53 @@ namespace GGFanGame.Game
         /// <summary>
         /// The score a player gets when killing this enemy.
         /// </summary>
-        public abstract int score { get; }
+        public abstract int Score { get; }
 
-        public override void update()
+        public override void Update()
         {
-            updateState();
+            UpdateState();
 
-            base.update();
+            base.Update();
         }
 
         /// <summary>
         /// Updates the states of this enemy.
         /// </summary>
-        private void updateState()
+        private void UpdateState()
         {
             var setToState = ObjectState.Idle;
 
-            if (state == ObjectState.Dead)
+            if (State == ObjectState.Dead)
             {
                 setToState = ObjectState.Dead;
-                if (animationEnded())
+                if (AnimationEnded())
                 {
-                    die();
+                    Die();
                 }
             }
 
-            if (state == ObjectState.Hurt)
+            if (State == ObjectState.Hurt)
             {
-                if (animationEnded())
+                if (AnimationEnded())
                 {
-                    if (health <= 0)
+                    if (Health <= 0)
                         setToState = ObjectState.Dead;
                     else
-                        repeatAnimation = true;
+                        RepeatAnimation = true;
                 }
                 else
                 {
                     setToState = ObjectState.Hurt;
                 }
             }
-            if (state == ObjectState.HurtFalling)
+            if (State == ObjectState.HurtFalling)
             {
-                if (animationEnded())
+                if (AnimationEnded())
                 {
-                    if (health <= 0)
+                    if (Health <= 0)
                         setToState = ObjectState.Dead;
                     else
-                        repeatAnimation = true;
+                        RepeatAnimation = true;
                 }
                 else
                 {
@@ -67,15 +67,15 @@ namespace GGFanGame.Game
                 }
             }
 
-            setState(setToState);
+            SetState(setToState);
         }
 
-        private void die()
+        private void Die()
         {
-            if (lastAttackedBy != null && lastAttackedBy is PlayerCharacter)
-                (lastAttackedBy as PlayerCharacter).killedEnemy(this);
+            if (LastAttackedBy != null && LastAttackedBy is PlayerCharacter)
+                (LastAttackedBy as PlayerCharacter).KilledEnemy(this);
 
-            canBeRemoved = true;
+            CanBeRemoved = true;
 
             OnDeath?.Invoke(this);
         }

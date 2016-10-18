@@ -13,39 +13,39 @@ namespace GGFanGame.Screens.Game
 
         public GrumpSpaceScreen()
         {
-            _stage = new Stage(content, null, null);
-            _stage.setActiveStage();
+            _stage = new Stage(Content, null, null);
+            _stage.SetActiveStage();
         }
 
-        public override void draw()
+        public override void Draw()
         {
-            Drawing.Graphics.drawRectangle(gameInstance.clientRectangle, Color.CornflowerBlue);
-            _stage.draw();
+            Drawing.Graphics.DrawRectangle(GameInstance.ClientRectangle, Color.CornflowerBlue);
+            _stage.Draw();
         }
 
-        public override void update()
+        public override void Update()
         {
-            _stage.update();
+            _stage.Update();
 
             //TEST CODE: When pressed P, rendering switches to 3D bounding box test stage:
-            if (Input.KeyboardHandler.keyPressed(Microsoft.Xna.Framework.Input.Keys.P))
+            if (Input.KeyboardHandler.KeyPressed(Microsoft.Xna.Framework.Input.Keys.P))
             {
-                ScreenManager.getInstance().setScreen(new Debug.BoundingBoxTestScreen());
+                ScreenManager.GetInstance().SetScreen(new Debug.BoundingBoxTestScreen());
             }
             // Zoom out: Y
-            if (Input.KeyboardHandler.keyDown(Microsoft.Xna.Framework.Input.Keys.Y) && _stage.camera.scale > 0.2)
+            if (Input.KeyboardHandler.KeyDown(Microsoft.Xna.Framework.Input.Keys.Y) && _stage.Camera.Scale > 0.2)
             {
-                _stage.camera.scale -= 0.01;
+                _stage.Camera.Scale -= 0.01;
             }
             // Zoom in: X
-            if (Input.KeyboardHandler.keyDown(Microsoft.Xna.Framework.Input.Keys.X))
+            if (Input.KeyboardHandler.KeyDown(Microsoft.Xna.Framework.Input.Keys.X))
             {
-                _stage.camera.scale += 0.01;
+                _stage.Camera.Scale += 0.01;
             }
             // Zoom default: C
-            if (Input.KeyboardHandler.keyPressed(Microsoft.Xna.Framework.Input.Keys.OemPipe))
+            if (Input.KeyboardHandler.KeyPressed(Microsoft.Xna.Framework.Input.Keys.OemPipe))
             {
-                _stage.camera.scale = 2;
+                _stage.Camera.Scale = 2;
             }
         }
     }

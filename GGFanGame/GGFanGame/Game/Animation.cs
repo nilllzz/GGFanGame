@@ -7,23 +7,23 @@ namespace GGFanGame.Game
     /// </summary>
     internal struct Animation
     {
-        public AnimationFrame[] frames { get; }
+        public AnimationFrame[] Frames { get; }
 
         public Animation(int frameCount, Point startPosition, Point frameSize, double frameLength) : this(frameCount, startPosition, frameSize, frameLength, 0)
         { }
 
         public Animation(int frameCount, Point startPosition, Point frameSize, double frameLength, int repeatLastFrameCount)
         {
-            frames = new AnimationFrame[frameCount + repeatLastFrameCount];
+            Frames = new AnimationFrame[frameCount + repeatLastFrameCount];
             for (var i = 0; i < frameCount; i++)
             {
-                frames[i] = new AnimationFrame { frameLength = frameLength, startPosition = startPosition + new Point(i * frameSize.X, 0), frameSize = frameSize };
+                Frames[i] = new AnimationFrame { FrameLength = frameLength, StartPosition = startPosition + new Point(i * frameSize.X, 0), FrameSize = frameSize };
             }
             if (repeatLastFrameCount > 0)
             {
                 for (var i = 0; i < repeatLastFrameCount; i++)
                 {
-                    frames[frameCount + i] = frames[frameCount - 1];
+                    Frames[frameCount + i] = Frames[frameCount - 1];
                 }
             }
         }
@@ -32,9 +32,9 @@ namespace GGFanGame.Game
         /// Returns a rectangle depicting one of the animation's frames in the sprite sheet.
         /// </summary>
         /// <param name="animationFrame">The frame index</param>
-        public Rectangle getFrameRec(int animationFrame)
+        public Rectangle GetFrameRec(int animationFrame)
         {
-            return frames[animationFrame].getRect();
+            return Frames[animationFrame].GetRect();
         }
     }
 }

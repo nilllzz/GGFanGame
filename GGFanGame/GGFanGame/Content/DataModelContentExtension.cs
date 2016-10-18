@@ -12,7 +12,7 @@ namespace GGFanGame // no "Content" to have it be accessible anywhere.
     {
         public static T Load<T>(this ContentManager content, string assetName, DataType dataType) where T : DataModel<T>
         {
-            var fileExtension = DataTypeHelper.getFileExtension(dataType);
+            var fileExtension = DataTypeHelper.GetFileExtension(dataType);
             var assetPath = Path.Combine(content.RootDirectory, assetName);
 
             if (!assetPath.ToLowerInvariant().EndsWith(fileExtension))
@@ -20,7 +20,7 @@ namespace GGFanGame // no "Content" to have it be accessible anywhere.
 
             var source = File.ReadAllText(assetPath);
 
-            return DataModel<T>.fromString(source, dataType);
+            return DataModel<T>.FromString(source, dataType);
         }
     }
 }

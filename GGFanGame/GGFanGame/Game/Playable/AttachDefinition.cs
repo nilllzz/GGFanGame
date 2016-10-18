@@ -11,25 +11,25 @@ namespace GGFanGame.Game.Playable
 
         public AttackDefinition(Attack attack, int maxHits, Action<AttackDefinition> attackAction = null)
         {
-            this.attack = attack;
-            this.maxHits = maxHits;
+            Attack = attack;
+            MaxHits = maxHits;
             _attackAction = attackAction;
         }
 
         /// <summary>
         /// The attack in this definition.
         /// </summary>
-        public Attack attack { get; }
+        public Attack Attack { get; }
 
         /// <summary>
         /// The max amount of objects to be hit with this attack.
         /// </summary>
-        public int maxHits { get; }
+        public int MaxHits { get; }
 
         /// <summary>
         /// Performs the attack's special action.
         /// </summary>
-        public void useAttack()
+        public void UseAttack()
         {
             _attackAction?.Invoke(this);
         }

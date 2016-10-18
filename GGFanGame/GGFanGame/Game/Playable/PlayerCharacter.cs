@@ -21,27 +21,27 @@ namespace GGFanGame.Game.Playable
         /// <summary>
         /// The speed of this player character.
         /// </summary>
-        protected float playerSpeed { get; set; } = 4f;
+        protected float PlayerSpeed { get; set; } = 4f;
 
         /// <summary>
         /// The name of this player character.
         /// </summary>
-        public abstract string name { get; }
+        public abstract string Name { get; }
 
         /// <summary>
         /// The amount of hits in the active combo.
         /// </summary>
-        public int comboChain { get; private set; }
+        public int ComboChain { get; private set; }
 
         /// <summary>
         /// The amount of time until the combo resets.
         /// </summary>
-        public int comboDelay { get; private set; }
+        public int ComboDelay { get; private set; }
 
         /// <summary>
         /// The amount of grump power filling the grump meter of this character.
         /// </summary>
-        public int grumpPower
+        public int GrumpPower
         {
             get
             {
@@ -52,15 +52,15 @@ namespace GGFanGame.Game.Playable
                 _grumpPower = value;
                 if (_grumpPower < 0)
                     _grumpPower = 0;
-                if (_grumpPower > maxGrumpPower)
-                    _grumpPower = maxGrumpPower;
+                if (_grumpPower > MaxGrumpPower)
+                    _grumpPower = MaxGrumpPower;
             }
         }
 
         /// <summary>
         /// The maximum amount of grump power.
         /// </summary>
-        public abstract int maxGrumpPower { get; }
+        public abstract int MaxGrumpPower { get; }
         
         /// <summary>
         /// Creates a new instance of the player character class.
@@ -68,12 +68,12 @@ namespace GGFanGame.Game.Playable
         protected PlayerCharacter(PlayerIndex playerIndex)
         {
             _playerIndex = playerIndex;
-            canLandOn = false;
+            CanLandOn = false;
 
-            objectColor = Drawing.Colors.getColor(playerIndex);
+            ObjectColor = Drawing.Colors.GetColor(playerIndex);
         }
 
-        protected void addAttack(string comboChain, PlayerAttack combo)
+        protected void AddAttack(string comboChain, PlayerAttack combo)
         {
             _attacks.Add(comboChain, combo);
         }
@@ -81,81 +81,81 @@ namespace GGFanGame.Game.Playable
         /// <summary>
         /// Draws the player character.
         /// </summary>
-        public override void draw()
+        public override void Draw()
         {
-            base.draw();
+            base.Draw();
         }
 
-        public override void update()
+        public override void Update()
         {
-            updateState();
+            UpdateState();
 
             // TEST
-            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.DPadLeft))
+            if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.DPadLeft))
             {
-                health -= 10;
+                Health -= 10;
             }
 
-            if (state == ObjectState.Attacking && getAnimation().frames[animationFrame].frameLength == animationDelay)
+            if (State == ObjectState.Attacking && GetAnimation().Frames[AnimationFrame].FrameLength == AnimationDelay)
             {
-                if (_attacks[_attackChain].hasAttackForFrame(animationFrame))
+                if (_attacks[_attackChain].HasAttackForFrame(AnimationFrame))
                 {
-                    var def = _attacks[_attackChain].getAttackForFrame(animationFrame);
+                    var def = _attacks[_attackChain].GetAttackForFrame(AnimationFrame);
 
-                    var attack = def.attack;
+                    var attack = def.Attack;
 
                     //If there's an attack defined, use it:
                     if (attack != null)
                     {
-                        attack.facing = facing;
-                        var hits = Stage.activeStage.applyAttack(attack, position, def.maxHits);
+                        attack.Facing = Facing;
+                        var hits = Stage.ActiveStage.ApplyAttack(attack, Position, def.MaxHits);
 
                         if (hits > 0)
                         {
-                            comboChain += hits;
-                            comboDelay = 100;
-                            grumpPower += 1 + (int)(comboChain / 3d);
+                            ComboChain += hits;
+                            ComboDelay = 100;
+                            GrumpPower += 1 + (int)(ComboChain / 3d);
                         }
                     }
 
                     //Activate the attack def's special:
-                    def.useAttack();
+                    def.UseAttack();
                 }
             }
 
-            updateCombo();
+            UpdateCombo();
 
-            base.update();
+            base.Update();
         }
 
-        private void updateCombo()
+        private void UpdateCombo()
         {
-            if (comboChain > 0 && comboDelay > 0)
+            if (ComboChain > 0 && ComboDelay > 0)
             {
-                comboDelay--;
-                if (comboDelay <= 0)
+                ComboDelay--;
+                if (ComboDelay <= 0)
                 {
-                    comboDelay = 0;
-                    comboChain = 0;
+                    ComboDelay = 0;
+                    ComboChain = 0;
                 }
             }
         }
 
-        private void updateState()
+        private void UpdateState()
         {
             var setToState = ObjectState.Idle;
-            var groundY = Stage.activeStage.getGround(getFeetPosition());
-            gravityAffected = true;
+            var groundY = Stage.ActiveStage.GetGround(GetFeetPosition());
+            GravityAffected = true;
 
-            if (state == ObjectState.Dead)
+            if (State == ObjectState.Dead)
             {
                 setToState = ObjectState.Dead;
             }
 
-            if (state == ObjectState.HurtFalling)
+            if (State == ObjectState.HurtFalling)
             {
-                if (animationEnded())
-                    if (health <= 0)
+                if (AnimationEnded())
+                    if (Health <= 0)
                     {
                         setToState = ObjectState.Dead;
                     }
@@ -169,11 +169,11 @@ namespace GGFanGame.Game.Playable
                 }
             }
 
-            if (state == ObjectState.Hurt)
+            if (State == ObjectState.Hurt)
             {
-                if (animationEnded() && autoMovement.X == 0f)
+                if (AnimationEnded() && AutoMovement.X == 0f)
                 {
-                    repeatAnimation = true;
+                    RepeatAnimation = true;
                 }
                 else
                 {
@@ -181,31 +181,31 @@ namespace GGFanGame.Game.Playable
                 }
             }
 
-            if (state == ObjectState.StandingUp)
+            if (State == ObjectState.StandingUp)
             {
-                if (animationEnded())
-                    repeatAnimation = true;
+                if (AnimationEnded())
+                    RepeatAnimation = true;
                 else
                     setToState = ObjectState.StandingUp;
             }
 
-            if (state == ObjectState.Dashing)
+            if (State == ObjectState.Dashing)
             {
-                getAnimation().frames[3].frameLength = 1;
+                GetAnimation().Frames[3].FrameLength = 1;
 
-                if (autoMovement.X != 0f)
+                if (AutoMovement.X != 0f)
                 {
-                    if (animationFrame == 3)
-                        animationFrame = 2;
+                    if (AnimationFrame == 3)
+                        AnimationFrame = 2;
 
                     setToState = ObjectState.Dashing;
-                    gravityAffected = false;
+                    GravityAffected = false;
                 }
                 else
                 {
-                    if (animationEnded())
+                    if (AnimationEnded())
                     {
-                        repeatAnimation = true;
+                        RepeatAnimation = true;
                     }
                     else
                     {
@@ -214,11 +214,11 @@ namespace GGFanGame.Game.Playable
                 }
             }
 
-            if (state == ObjectState.JumpAttacking)
+            if (State == ObjectState.JumpAttacking)
             {
                 if (Y == groundY)
                 {
-                    repeatAnimation = true;
+                    RepeatAnimation = true;
                 }
                 else
                 {
@@ -227,20 +227,20 @@ namespace GGFanGame.Game.Playable
             }
 
             //Jump attacking:
-            if (setToState == ObjectState.Idle && Y > groundY && (state == ObjectState.Falling || state == ObjectState.Jumping))
+            if (setToState == ObjectState.Idle && Y > groundY && (State == ObjectState.Falling || State == ObjectState.Jumping))
             {
-                if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.X) || Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.A))
+                if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.X) || Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.A))
                 {
                     setToState = ObjectState.JumpAttacking;
-                    repeatAnimation = false;
-                    if (facing == ObjectFacing.Left)
-                        autoMovement.X -= 10f;
+                    RepeatAnimation = false;
+                    if (Facing == ObjectFacing.Left)
+                        AutoMovement.X -= 10f;
                     else
-                        autoMovement.X += 10f;
+                        AutoMovement.X += 10f;
 
-                    if (autoMovement.Y < 5f)
+                    if (AutoMovement.Y < 5f)
                     {
-                        autoMovement.Y = 5f;
+                        AutoMovement.Y = 5f;
                     }
                 }
             }
@@ -249,19 +249,19 @@ namespace GGFanGame.Game.Playable
             if (setToState == ObjectState.Idle)
             {
                 var comboAddition = "";
-                if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.X) && comboAddition == "")
+                if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.X) && comboAddition == "")
                     comboAddition = "B";
-                if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.A) && comboAddition == "")
+                if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.A) && comboAddition == "")
                     comboAddition = "A";
 
-                if (state == ObjectState.Attacking && !animationEnded())
+                if (State == ObjectState.Attacking && !AnimationEnded())
                 {
                     setToState = ObjectState.Attacking;
-                    repeatAnimation = false;
+                    RepeatAnimation = false;
                     if (_nextAttackItem == "")
                         _nextAttackItem = comboAddition;
                 }
-                else if ((state == ObjectState.Attacking && animationEnded() && _attackDelay > 0) || state != ObjectState.Attacking)
+                else if ((State == ObjectState.Attacking && AnimationEnded() && _attackDelay > 0) || State != ObjectState.Attacking)
                 {
                     _attackDelay--;
 
@@ -277,52 +277,52 @@ namespace GGFanGame.Game.Playable
                         _attackDelay = 12d;
 
                         setToState = ObjectState.Attacking;
-                        repeatAnimation = false;
-                        animationFrame = 0;
+                        RepeatAnimation = false;
+                        AnimationFrame = 0;
 
                         var combo = _attacks[_attackChain];
 
-                        if (facing == ObjectFacing.Left)
-                            autoMovement.X -= combo.xMovement;
+                        if (Facing == ObjectFacing.Left)
+                            AutoMovement.X -= combo.XMovement;
                         else
-                            autoMovement.X += combo.xMovement;
+                            AutoMovement.X += combo.XMovement;
 
-                        autoMovement.Y += combo.yMovement;
+                        AutoMovement.Y += combo.YMovement;
                     }
                     else
                     {
                         _attackChain = "";
                         _attackDelay = 0;
-                        repeatAnimation = true;
+                        RepeatAnimation = true;
                     }
                 }
             }
 
             //Dashing in both directions:
-            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.RightTrigger) && setToState == ObjectState.Idle)
+            if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.RightTrigger) && setToState == ObjectState.Idle)
             {
                 setToState = ObjectState.Dashing;
-                repeatAnimation = false;
-                autoMovement.X = 14;
-                facing = ObjectFacing.Right;
+                RepeatAnimation = false;
+                AutoMovement.X = 14;
+                Facing = ObjectFacing.Right;
             }
-            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.LeftTrigger) && setToState == ObjectState.Idle)
+            if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.LeftTrigger) && setToState == ObjectState.Idle)
             {
                 setToState = ObjectState.Dashing;
-                repeatAnimation = false;
-                autoMovement.X = -14;
-                facing = ObjectFacing.Left;
+                RepeatAnimation = false;
+                AutoMovement.X = -14;
+                Facing = ObjectFacing.Left;
             }
 
             //Jumping and landing:
-            if (Input.GamePadHandler.buttonPressed(_playerIndex, Buttons.B) && setToState == ObjectState.Idle && Y == groundY)
+            if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.B) && setToState == ObjectState.Idle && Y == groundY)
             {
-                autoMovement.Y = 10f;
+                AutoMovement.Y = 10f;
                 setToState = ObjectState.Jumping;
             }
-            if (state == ObjectState.Jumping && setToState == ObjectState.Idle)
+            if (State == ObjectState.Jumping && setToState == ObjectState.Idle)
             {
-                if (autoMovement.Y > 0f)
+                if (AutoMovement.Y > 0f)
                 {
                     setToState = ObjectState.Jumping;
                 }
@@ -333,83 +333,83 @@ namespace GGFanGame.Game.Playable
             }
 
             //Blocking:
-            if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftShoulder) && setToState == ObjectState.Idle && Y == groundY)
+            if (Input.GamePadHandler.ButtonDown(_playerIndex, Buttons.LeftShoulder) && setToState == ObjectState.Idle && Y == groundY)
             {
                 setToState = ObjectState.Blocking;
             }
 
             //Walking + movement while in the air:
-            if ((setToState == ObjectState.Idle || setToState == ObjectState.Falling || setToState == ObjectState.Jumping) && autoMovement.X == 0f)
+            if ((setToState == ObjectState.Idle || setToState == ObjectState.Falling || setToState == ObjectState.Jumping) && AutoMovement.X == 0f)
             {
-                if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickRight))
+                if (Input.GamePadHandler.ButtonDown(_playerIndex, Buttons.LeftThumbstickRight))
                 {
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X + playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right), Y, Z);
+                    var desiredPosition = new Vector3(X + PlayerSpeed * Input.GamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right), Y, Z);
 
-                    if (!Stage.activeStage.intersects(this, desiredPosition))
+                    if (!Stage.ActiveStage.Intersects(this, desiredPosition))
                         X = desiredPosition.X;
 
-                    facing = ObjectFacing.Right;
+                    Facing = ObjectFacing.Right;
                 }
-                if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickLeft))
+                if (Input.GamePadHandler.ButtonDown(_playerIndex, Buttons.LeftThumbstickLeft))
                 {
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X - playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left), Y, Z);
+                    var desiredPosition = new Vector3(X - PlayerSpeed * Input.GamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left), Y, Z);
 
-                    if (!Stage.activeStage.intersects(this, desiredPosition))
+                    if (!Stage.ActiveStage.Intersects(this, desiredPosition))
                         X = desiredPosition.X;
 
-                    facing = ObjectFacing.Left;
+                    Facing = ObjectFacing.Left;
                 }
-                if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickUp))
+                if (Input.GamePadHandler.ButtonDown(_playerIndex, Buttons.LeftThumbstickUp))
                 {
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X, Y, Z - playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up));
+                    var desiredPosition = new Vector3(X, Y, Z - PlayerSpeed * Input.GamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up));
 
-                    if (!Stage.activeStage.intersects(this, desiredPosition))
+                    if (!Stage.ActiveStage.Intersects(this, desiredPosition))
                         Z = desiredPosition.Z;
                 }
-                if (Input.GamePadHandler.buttonDown(_playerIndex, Buttons.LeftThumbstickDown))
+                if (Input.GamePadHandler.ButtonDown(_playerIndex, Buttons.LeftThumbstickDown))
                 {
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X, Y, Z + playerSpeed * Input.GamePadHandler.thumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down));
+                    var desiredPosition = new Vector3(X, Y, Z + PlayerSpeed * Input.GamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down));
 
-                    if (!Stage.activeStage.intersects(this, desiredPosition))
+                    if (!Stage.ActiveStage.Intersects(this, desiredPosition))
                         Z = desiredPosition.Z;
                 }
             }
 
             //Falling:
-            if ((setToState == ObjectState.Walking || setToState == ObjectState.Idle) && Y > groundY && gravityAffected)
+            if ((setToState == ObjectState.Walking || setToState == ObjectState.Idle) && Y > groundY && GravityAffected)
             {
                 setToState = ObjectState.Falling;
             }
 
-            setState(setToState);
+            SetState(setToState);
         }
 
-        protected override Animation getAnimation()
+        protected override Animation GetAnimation()
         {
-            if (state == ObjectState.Attacking)
+            if (State == ObjectState.Attacking)
             {
-                return _attacks[_attackChain].animation;
+                return _attacks[_attackChain].Animation;
             }
 
-            return base.getAnimation();
+            return base.GetAnimation();
         }
 
-        internal void killedEnemy(Enemy enemy)
+        internal void KilledEnemy(Enemy enemy)
         {
-            _playerStatistics.kills++;
-            _playerStatistics.score += enemy.score;
+            _playerStatistics.Kills++;
+            _playerStatistics.Score += enemy.Score;
         }
     }
 }

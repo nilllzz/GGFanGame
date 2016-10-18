@@ -15,7 +15,7 @@ namespace GGFanGame.Game
         /// <summary>
         /// This initializes the possible word arrays.
         /// </summary>
-        private static void initializeWords()
+        private static void InitializeWords()
         {
             if (_wordGroups == null)
             {
@@ -31,12 +31,12 @@ namespace GGFanGame.Game
         /// <summary>
         /// Returns a random word string for a specific word type.
         /// </summary>
-        public static string getWordText(ActionWordType wordType)
+        public static string GetWordText(ActionWordType wordType)
         {
-            initializeWords();
+            InitializeWords();
 
             var words = _wordGroups[wordType];
-            return words[gameInstance.random.Next(0, words.Length)];
+            return words[GameInstance.Random.Next(0, words.Length)];
         }
 
         //one-time values:
@@ -54,34 +54,34 @@ namespace GGFanGame.Game
 
         public ActionWord(string text, Color color, float targetSize, Vector3 position)
         {
-            _grumpFont = gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
+            _grumpFont = GameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
 
             _text = text;
             _color = color;
             _targetSize = targetSize;
-            this.position = position;
+            this.Position = position;
         }
 
-        public override void draw()
+        public override void Draw()
         {
             var fontSize = _grumpFont.MeasureString(_text) * _size;
 
-            gameInstance.spriteBatch.DrawString(_grumpFont, _text, new Vector2(X - fontSize.X / 2f, Z - Y - fontSize.Y / 2f), _color, 0f, Vector2.Zero, _size, SpriteEffects.None, 0f);
+            GameInstance.SpriteBatch.DrawString(_grumpFont, _text, new Vector2(X - fontSize.X / 2f, Z - Y - fontSize.Y / 2f), _color, 0f, Vector2.Zero, _size, SpriteEffects.None, 0f);
         }
 
-        public override Point getDrawingSize()
+        public override Point GetDrawingSize()
         {
             var textSize = _grumpFont.MeasureString(_text) * _size;
             return textSize.ToPoint();
         }
 
-        public override Vector3 getFeetPosition()
+        public override Vector3 GetFeetPosition()
         {
             var fontSize = _grumpFont.MeasureString(_text) * _size;
             return new Vector3(X + fontSize.X / 2f, Y, Z + fontSize.Y);
         }
 
-        public override void update()
+        public override void Update()
         {
             if (_size < _targetSize)
             {
@@ -101,7 +101,7 @@ namespace GGFanGame.Game
                     Y = Y + 0.9f;
                     if (_delay <= 0d)
                     {
-                        canBeRemoved = true;
+                        CanBeRemoved = true;
                     }
                 }
             }

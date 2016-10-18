@@ -7,8 +7,8 @@ namespace GGFanGame.Game.Playable
     /// </summary>
     internal class Danny : PlayerCharacter
     {
-        public override string name => "Danny";
-        public override int maxGrumpPower => 100;
+        public override string Name => "Danny";
+        public override int MaxGrumpPower => 100;
 
         public Danny(PlayerIndex playerIndex) : base(playerIndex)
         {

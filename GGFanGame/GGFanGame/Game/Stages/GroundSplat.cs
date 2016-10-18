@@ -20,57 +20,57 @@ namespace GGFanGame.Game.Stages
 
             for (var i = 0; i < 8; i++)
             {
-                var width = gameInstance.random.Next(8, 31);
-                var height = gameInstance.random.Next(8, 31);
-                var x = gameInstance.random.Next(0, 64 - width);
-                var y = gameInstance.random.Next(0, 64 - height);
+                var width = GameInstance.Random.Next(8, 31);
+                var height = GameInstance.Random.Next(8, 31);
+                var x = GameInstance.Random.Next(0, 64 - width);
+                var y = GameInstance.Random.Next(0, 64 - height);
 
                 ellipses.Add(new Rectangle(x, y, width, height));
                 colors.Add(color);
             }
 
-            spriteSheet = Drawing.Graphics.createJoinedEllipse(
+            SpriteSheet = Drawing.Graphics.CreateJoinedEllipse(
                 64,
                 64,
                 ellipses.ToArray(),
                 colors.ToArray()
             );
 
-            objectColor = color;
-            sortLowest = true;
-            canInteract = false;
+            ObjectColor = color;
+            SortLowest = true;
+            CanInteract = false;
 
-            if (gameInstance.random.Next(0, 2) == 0)
+            if (GameInstance.Random.Next(0, 2) == 0)
             {
                 _effect = SpriteEffects.FlipHorizontally;
             }
 
-            addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(128, 128), 100));
+            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(128, 128), 100));
         }
 
-        public override void draw()
+        public override void Draw()
         {
-            var frame = getAnimation().getFrameRec(animationFrame);
-            var stageScale = Stage.activeStage.camera.scale;
+            var frame = GetAnimation().GetFrameRec(AnimationFrame);
+            var stageScale = Stage.ActiveStage.Camera.Scale;
 
-            var shadowWidth = (int)(spriteSheet.Width);
-            var shadowHeight = (int)(spriteSheet.Height * (1d / 4d));
+            var shadowWidth = (int)(SpriteSheet.Width);
+            var shadowHeight = (int)(SpriteSheet.Height * (1d / 4d));
 
-            gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
+            GameInstance.SpriteBatch.Draw(SpriteSheet, new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
                             (int)((Z - shadowHeight / 2d - Y) * stageScale),
                             (int)(shadowWidth * stageScale),
                             (int)(shadowHeight * stageScale)), null, new Color(255, 255, 255, _alpha), 0f, Vector2.Zero, _effect, 0f);
         }
 
-        public override void update()
+        public override void Update()
         {
-            base.update();
+            base.Update();
 
             _alpha--;
             if (_alpha < 0)
             {
                 _alpha = 0;
-                canBeRemoved = true;
+                CanBeRemoved = true;
             }
         }
     }

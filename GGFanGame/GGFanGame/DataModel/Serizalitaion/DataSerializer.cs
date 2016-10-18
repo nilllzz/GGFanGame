@@ -2,8 +2,8 @@
 {
     internal interface DataSerializer<T> where T : DataModel<T>
     {
-        T fromString(string data);
+        T FromString(string data);
         
-        string toString(DataModel<T> dataModel);
+        string ToString(DataModel<T> dataModel);
     }
 }

@@ -9,20 +9,20 @@ namespace GGFanGame.Game.Stages.Stage1_1
     {
         public BridgeBottom()
         {
-            size = new Vector3(128, 64, 64);
-            drawShadow = false;
-            collision = true;
-            canLandOn = true;
-            sortLowest = true;
-            gravityAffected = false;
+            Size = new Vector3(128, 64, 64);
+            DrawShadow = false;
+            Collision = true;
+            CanLandOn = true;
+            SortLowest = true;
+            GravityAffected = false;
 
-            addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(128, 64), 100));
+            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(128, 64), 100));
 
         }
 
-        public override void applyDataModel(StageObjectModel dataModel)
+        public override void ApplyDataModel(StageObjectModel dataModel)
         {
-            spriteSheet = content.Load<Texture2D>(@"Levels\Stage1_1\BridgeBottom");
+            SpriteSheet = Content.Load<Texture2D>(@"Levels\Stage1_1\BridgeBottom");
         }
     }
 }

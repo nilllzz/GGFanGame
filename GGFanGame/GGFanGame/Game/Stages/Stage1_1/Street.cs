@@ -8,20 +8,20 @@ namespace GGFanGame.Game.Stages.Stage1_1
     {
         public Street()
         {
-            size = new Vector3(64, 1, 32);
-            drawShadow = false;
-            collision = true;
-            canLandOn = true;
-            gravityAffected = false;
+            Size = new Vector3(64, 1, 32);
+            DrawShadow = false;
+            Collision = true;
+            CanLandOn = true;
+            GravityAffected = false;
 
-            addAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(64, 32), 100));
-            groundRelation = GroundRelation.Flat;
+            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(64, 32), 100));
+            GroundRelation = GroundRelation.Flat;
             //sortLowest = true;
         }
 
-        protected override void loadInternal()
+        protected override void LoadInternal()
         {
-            spriteSheet = content.Load<Texture2D>(@"Levels\Stage1_1\Street");
+            SpriteSheet = Content.Load<Texture2D>(@"Levels\Stage1_1\Street");
         }
     }
 }

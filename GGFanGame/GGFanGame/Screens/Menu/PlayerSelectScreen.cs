@@ -28,17 +28,17 @@ namespace GGFanGame.Screens.Menu
 
         public PlayerSelectScreen()
         {
-            _grumpFont = gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
+            _grumpFont = GameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
 
-            loadGrumpTexture(0, "Arin");
-            loadGrumpTexture(1, "Danny");
-            loadGrumpTexture(2, "Barry");
-            loadGrumpTexture(3, "Ross");
-            loadGrumpTexture(4, "Suzy");
+            LoadGrumpTexture(0, "Arin");
+            LoadGrumpTexture(1, "Danny");
+            LoadGrumpTexture(2, "Barry");
+            LoadGrumpTexture(3, "Ross");
+            LoadGrumpTexture(4, "Suzy");
 
             for (var i = 0; i < 4; i++)
             {
-                _menuElements[i] = gameInstance.Content.Load<Texture2D>(@"UI\GrumpCade\" + (i + 1).ToString() + "Up");
+                _menuElements[i] = GameInstance.Content.Load<Texture2D>(@"UI\GrumpCade\" + (i + 1).ToString() + "Up");
             }
 
             //Set start selections:
@@ -53,38 +53,38 @@ namespace GGFanGame.Screens.Menu
         /// </summary>
         /// <param name="index">The index the grump appears at in the selection.</param>
         /// <param name="name">The name of the grump.</param>
-        private void loadGrumpTexture(int index, string name)
+        private void LoadGrumpTexture(int index, string name)
         {
-            _grumps[index] = gameInstance.Content.Load<Texture2D>(@"UI\GrumpCade\" + name);
-            _grumps_overlay[index] = gameInstance.Content.Load<Texture2D>(@"UI\GrumpCade\" + name + "_Overlay");
-            _grumps_names[index] = gameInstance.Content.Load<Texture2D>(@"UI\Names\" + name + "_name");
+            _grumps[index] = GameInstance.Content.Load<Texture2D>(@"UI\GrumpCade\" + name);
+            _grumps_overlay[index] = GameInstance.Content.Load<Texture2D>(@"UI\GrumpCade\" + name + "_Overlay");
+            _grumps_names[index] = GameInstance.Content.Load<Texture2D>(@"UI\Names\" + name + "_name");
         }
 
-        public override void draw()
+        public override void Draw()
         {
-            Drawing.Graphics.drawRectangle(gameInstance.clientRectangle, Color.Black);
+            Drawing.Graphics.DrawRectangle(GameInstance.ClientRectangle, Color.Black);
 
             //We draw the selections here:
 
             //Drawing the selections at the center of the screen:
-            var startX = (gameInstance.clientRectangle.Width - 1030) / 2;
+            var startX = (GameInstance.ClientRectangle.Width - 1030) / 2;
             var startY = 50;
 
-            drawGrumpSelect(0, new Vector2(startX, startY), Drawing.Colors.oneUpColor);
-            drawGrumpSelect(1, new Vector2(startX + 260, startY), Drawing.Colors.twoUpColor);
-            drawGrumpSelect(2, new Vector2(startX + 520, startY), Drawing.Colors.threeUpColor);
-            drawGrumpSelect(3, new Vector2(startX + 780, startY), Drawing.Colors.fourUpColor);
+            DrawGrumpSelect(0, new Vector2(startX, startY), Drawing.Colors.oneUpColor);
+            DrawGrumpSelect(1, new Vector2(startX + 260, startY), Drawing.Colors.twoUpColor);
+            DrawGrumpSelect(2, new Vector2(startX + 520, startY), Drawing.Colors.threeUpColor);
+            DrawGrumpSelect(3, new Vector2(startX + 780, startY), Drawing.Colors.fourUpColor);
 
             //Now, draw a black overlay on the bottom to hide the incoming dash lines:
-            Drawing.Graphics.drawRectangle(new Rectangle(0, startY + 480, gameInstance.clientRectangle.Width, gameInstance.clientRectangle.Height - 480 - startY), Color.Black);
+            Drawing.Graphics.DrawRectangle(new Rectangle(0, startY + 480, GameInstance.ClientRectangle.Width, GameInstance.ClientRectangle.Height - 480 - startY), Color.Black);
 
             if (_activatedPlayers[0])
             {
                 const string text = "Press START to Begin!";
                 var textSize = _grumpFont.MeasureString(text);
 
-                gameInstance.fontBatch.DrawString(_grumpFont, text,
-                    new Vector2(gameInstance.clientRectangle.Width / 2 - textSize.X / 2,
+                GameInstance.FontBatch.DrawString(_grumpFont, text,
+                    new Vector2(GameInstance.ClientRectangle.Width / 2 - textSize.X / 2,
                                 startY + 480 + 50), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
         }
@@ -95,7 +95,7 @@ namespace GGFanGame.Screens.Menu
         /// <param name="index">The index of this selection.</param>
         /// <param name="offset">The offset applied to this selection.</param>
         /// <param name="color">The accent color.</param>
-        private void drawGrumpSelect(int index, Vector2 offset, Color color)
+        private void DrawGrumpSelect(int index, Vector2 offset, Color color)
         {
             //This value stores the added Y position of the sprite when switching characters.
             //It calculates from a sinus function and the switchedAnimations array.
@@ -104,26 +104,26 @@ namespace GGFanGame.Screens.Menu
             //Only when the player has chosen a character, draw the dash line and a shadow.
             if (_activatedPlayers[index])
             {
-                Drawing.Graphics.drawLine(new Vector2(offset.X - 90 + _selectedAnimations[index] / 4.8f,
+                Drawing.Graphics.DrawLine(new Vector2(offset.X - 90 + _selectedAnimations[index] / 4.8f,
                                                  offset.Y + 480 - _selectedAnimations[index] + 480),
                                      new Vector2(offset.X + 30 + _selectedAnimations[index] / 4.8f,
                                                  offset.Y + 480 - _selectedAnimations[index]),
                                      color, 120);
-                gameInstance.spriteBatch.Draw(_grumps[_selections[index]], new Rectangle((int)offset.X + 30, (int)offset.Y + 190, (int)(_grumps[_selections[index]].Width * 0.5), (int)(_grumps[_selections[index]].Height * 0.5)), new Color(0, 0, 0, 100));
+                GameInstance.SpriteBatch.Draw(_grumps[_selections[index]], new Rectangle((int)offset.X + 30, (int)offset.Y + 190, (int)(_grumps[_selections[index]].Width * 0.5), (int)(_grumps[_selections[index]].Height * 0.5)), new Color(0, 0, 0, 100));
             }
 
             //Draw a black overlay in the back over the dash line to hide it behind the UI on the top:
-            Drawing.Graphics.drawRectangle(new Rectangle((int)offset.X - 10, (int)offset.Y, 270, 160), Color.Black);
+            Drawing.Graphics.DrawRectangle(new Rectangle((int)offset.X - 10, (int)offset.Y, 270, 160), Color.Black);
             //Draws the UI element on top:
-            gameInstance.spriteBatch.Draw(_menuElements[index], new Rectangle((int)offset.X, (int)offset.Y + 30, 220, 120), Color.White);
+            GameInstance.SpriteBatch.Draw(_menuElements[index], new Rectangle((int)offset.X, (int)offset.Y + 30, 220, 120), Color.White);
 
             //Draws the grump character:
-            gameInstance.spriteBatch.Draw(_grumps[_selections[index]], new Rectangle((int)offset.X + 20, (int)(offset.Y + 180 + addedY), (int)(_grumps[_selections[index]].Width * 0.5), (int)(_grumps[_selections[index]].Height * 0.5)), Color.White);
+            GameInstance.SpriteBatch.Draw(_grumps[_selections[index]], new Rectangle((int)offset.X + 20, (int)(offset.Y + 180 + addedY), (int)(_grumps[_selections[index]].Width * 0.5), (int)(_grumps[_selections[index]].Height * 0.5)), Color.White);
 
             //When the player has NOT chosen a character, draw a colored overlay:
             if (!_activatedPlayers[index])
             {
-                gameInstance.spriteBatch.Draw(_grumps_overlay[_selections[index]], new Rectangle((int)offset.X + 20, (int)(offset.Y + 180 + addedY), (int)(_grumps[_selections[index]].Width * 0.5), (int)(_grumps[_selections[index]].Height * 0.5)), new Color(color.R, color.G, color.B, 180));
+                GameInstance.SpriteBatch.Draw(_grumps_overlay[_selections[index]], new Rectangle((int)offset.X + 20, (int)(offset.Y + 180 + addedY), (int)(_grumps[_selections[index]].Width * 0.5), (int)(_grumps[_selections[index]].Height * 0.5)), new Color(color.R, color.G, color.B, 180));
             }
             else //otherwise...
             {
@@ -138,7 +138,7 @@ namespace GGFanGame.Screens.Menu
                     size = (int)(80 * (double)_selectedAnimations[index] / 480);
 
                     //Draw a white transparent overlay when selecting a grump:
-                    gameInstance.spriteBatch.Draw(_grumps_overlay[_selections[index]],
+                    GameInstance.SpriteBatch.Draw(_grumps_overlay[_selections[index]],
                         new Rectangle((int)offset.X + 20 - size / 2,
                                       (int)offset.Y + 180 - size / 2,
                                       (int)(_grumps[_selections[index]].Width * 0.5) + size,
@@ -146,13 +146,13 @@ namespace GGFanGame.Screens.Menu
                 }
 
                 //Draw the name of the selected grump in the UI:
-                gameInstance.fontBatch.Draw(_grumps_names[_selections[index]], new Rectangle((int)offset.X + 20, (int)offset.Y + 90, (int)(_grumps_names[_selections[index]].Width / 1.6), (int)(_grumps_names[_selections[index]].Height / 1.6)), new Color(color.R, color.G, color.B, alpha));
+                GameInstance.FontBatch.Draw(_grumps_names[_selections[index]], new Rectangle((int)offset.X + 20, (int)offset.Y + 90, (int)(_grumps_names[_selections[index]].Width / 1.6), (int)(_grumps_names[_selections[index]].Height / 1.6)), new Color(color.R, color.G, color.B, alpha));
                 if (_selectedAnimations[index] < 480)
-                    gameInstance.fontBatch.Draw(_grumps_names[_selections[index]], new Rectangle((int)offset.X + 20 - size / 2, (int)offset.Y + 90 - size / 4, (int)(_grumps_names[_selections[index]].Width / 1.6) + size, (int)(_grumps_names[_selections[index]].Height / 1.6) + size / 2), new Color(color.R, color.G, color.B, 255 - alpha));
+                    GameInstance.FontBatch.Draw(_grumps_names[_selections[index]], new Rectangle((int)offset.X + 20 - size / 2, (int)offset.Y + 90 - size / 4, (int)(_grumps_names[_selections[index]].Width / 1.6) + size, (int)(_grumps_names[_selections[index]].Height / 1.6) + size / 2), new Color(color.R, color.G, color.B, 255 - alpha));
             }
         }
 
-        public override void update()
+        public override void Update()
         {
             //Cycle through the connected GamePads:
             for (var i = 0; i < 4; i++)
@@ -162,18 +162,18 @@ namespace GGFanGame.Screens.Menu
                 //Only when the player has not selected a character, they can select a different one:
                 if (!_activatedPlayers[i] && _randomCharacters[i] == 0)
                 {
-                    if (Input.GamePadHandler.buttonPressed(playerIndex, Buttons.Y))
+                    if (Input.GamePadHandler.ButtonPressed(playerIndex, Buttons.Y))
                     {
                         _randomCharacters[i] = new Random().Next(5, 12);
                     }
                     else
                     {
-                        if (Input.ControlsHandler.upPressed(playerIndex, new Input.InputDirectionType[] { Input.InputDirectionType.All }))
+                        if (Input.ControlsHandler.UpPressed(playerIndex, new Input.InputDirectionType[] { Input.InputDirectionType.All }))
                         {
                             _selections[i]--;
                             _switchedAnimations[i] = 10;
                         }
-                        if (Input.ControlsHandler.downPressed(playerIndex, new Input.InputDirectionType[] { Input.InputDirectionType.All }))
+                        if (Input.ControlsHandler.DownPressed(playerIndex, new Input.InputDirectionType[] { Input.InputDirectionType.All }))
                         {
                             _selections[i]++;
                             _switchedAnimations[i] = 10;
@@ -185,7 +185,7 @@ namespace GGFanGame.Screens.Menu
                             _selections[i] = 0;
 
                         //When A is pressed, select a character:
-                        if (Input.GamePadHandler.buttonPressed(playerIndex, Buttons.A) || (Input.KeyboardHandler.keyPressed(Keys.Enter) && i == 0))
+                        if (Input.GamePadHandler.ButtonPressed(playerIndex, Buttons.A) || (Input.KeyboardHandler.KeyPressed(Keys.Enter) && i == 0))
                         {
                             _activatedPlayers[i] = true;
                             _selectedAnimations[i] = 0;
@@ -195,7 +195,7 @@ namespace GGFanGame.Screens.Menu
                 else if (_activatedPlayers[i])
                 {
                     //When B is pressed, revoke the selection:
-                    if (Input.GamePadHandler.buttonPressed(playerIndex, Buttons.B) || !Input.GamePadHandler.isConnected(playerIndex))
+                    if (Input.GamePadHandler.ButtonPressed(playerIndex, Buttons.B) || !Input.GamePadHandler.IsConnected(playerIndex))
                     {
                         _activatedPlayers[i] = false;
                     }
@@ -203,7 +203,7 @@ namespace GGFanGame.Screens.Menu
                 else if (_randomCharacters[i] > 0)
                 {
                     //When the randomizer is running, update it:
-                    if (!Input.GamePadHandler.isConnected(playerIndex))
+                    if (!Input.GamePadHandler.IsConnected(playerIndex))
                     {
                         //When the GamePad is no longer connected, stop animation:
                         _randomCharacters[i] = 0;

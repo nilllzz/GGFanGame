@@ -7,9 +7,9 @@
     {
         protected SceneryObject()
         {
-            canLandOn = true;
-            state = ObjectState.Idle;
-            canInteract = false;
+            CanLandOn = true;
+            State = ObjectState.Idle;
+            CanInteract = false;
         }
     }
 }

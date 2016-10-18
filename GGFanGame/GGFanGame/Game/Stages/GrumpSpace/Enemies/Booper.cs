@@ -11,69 +11,69 @@ namespace GGFanGame.Game.Stages.GrumpSpace.Enemies
     [StageObject("booper", "0", "1")]
     internal class Booper : Enemy
     {
-        public override int score => 100;
+        public override int Score => 100;
 
         public Booper()
         {
-            drawShadow = true;
-            shadowSize = 0.6d;
-            strength = 0f;
-            weight = 4f;
-            state = ObjectState.Idle;
-            size = new Vector3(40, 48, 10);
-            maxHealth = 50;
+            DrawShadow = true;
+            ShadowSize = 0.6d;
+            Strength = 0f;
+            Weight = 4f;
+            State = ObjectState.Idle;
+            Size = new Vector3(40, 48, 10);
+            MaxHealth = 50;
 
-            addAnimation(ObjectState.Idle, new Animation(6, Point.Zero, new Point(64, 64), 6));
-            addAnimation(ObjectState.Hurt, new Animation(7, new Point(0, 64), new Point(64, 64), 4));
-            addAnimation(ObjectState.HurtFalling, new Animation(7, new Point(0, 64), new Point(64, 64), 4));
-            addAnimation(ObjectState.Dead, new Animation(6, new Point(0, 128), new Point(64, 64), 4));
+            AddAnimation(ObjectState.Idle, new Animation(6, Point.Zero, new Point(64, 64), 6));
+            AddAnimation(ObjectState.Hurt, new Animation(7, new Point(0, 64), new Point(64, 64), 4));
+            AddAnimation(ObjectState.HurtFalling, new Animation(7, new Point(0, 64), new Point(64, 64), 4));
+            AddAnimation(ObjectState.Dead, new Animation(6, new Point(0, 128), new Point(64, 64), 4));
             
-            OnDeath += onDeath;
+            OnDeath += OnDeathHandler;
         }
 
-        protected override void loadInternal()
+        protected override void LoadInternal()
         {
-            spriteSheet = content.Load<Texture2D>(@"Sprites\Booper");
+            SpriteSheet = Content.Load<Texture2D>(@"Sprites\Booper");
         }
 
-        public override void update()
+        public override void Update()
         {
-            base.update();
+            base.Update();
 
             //This enemy always faces the player:
-            if (state == ObjectState.Idle)
+            if (State == ObjectState.Idle)
             {
-                if (Stage.activeStage.onePlayer.X < X)
+                if (Stage.ActiveStage.OnePlayer.X < X)
                 {
-                    facing = ObjectFacing.Left;
+                    Facing = ObjectFacing.Left;
                 }
                 else
                 {
-                    facing = ObjectFacing.Right;
+                    Facing = ObjectFacing.Right;
                 }
             }
         }
 
-        private void onDeath(StageObject obj)
+        private void OnDeathHandler(StageObject obj)
         {
-            Stage.activeStage.addObject(new GroundSplat(new Color(255, 128, 255)) { position = position });
+            Stage.ActiveStage.AddObject(new GroundSplat(new Color(255, 128, 255)) { Position = Position });
 
             for (var i = 0; i < 3; i++)
             {
-                float xMovement = gameInstance.random.Next(5, 10);
-                float zMovement = gameInstance.random.Next(-3, 4);
-                if (facing == ObjectFacing.Right)
+                float xMovement = GameInstance.Random.Next(5, 10);
+                float zMovement = GameInstance.Random.Next(-3, 4);
+                if (Facing == ObjectFacing.Right)
                 {
                     xMovement *= -1;
                 }
 
                 var G = 128;
-                if (gameInstance.random.Next(0, 2) == 0)
+                if (GameInstance.Random.Next(0, 2) == 0)
                 {
                     G = 174;
                 }
 
-                Stage.activeStage.addObject(new SplatBall(new Color(255, G, 255), new Vector3(xMovement, 3f, zMovement)) { position = position });
+                Stage.ActiveStage.AddObject(new SplatBall(new Color(255, G, 255), new Vector3(xMovement, 3f, zMovement)) { Position = Position });
             }
         }
     }

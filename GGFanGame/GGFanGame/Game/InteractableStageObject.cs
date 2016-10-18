@@ -19,121 +19,121 @@ namespace GGFanGame.Game
         /// <summary>
         /// The sprite sheet to render.
         /// </summary>
-        protected Texture2D spriteSheet { get; set; }
+        protected Texture2D SpriteSheet { get; set; }
 
         /// <summary>
         /// The current state of this object.
         /// </summary>
-        public ObjectState state { get; set; }
+        public ObjectState State { get; set; }
 
         /// <summary>
         /// The frame index the current animation is at.
         /// </summary>
-        protected int animationFrame { get; set; } = 0;
+        protected int AnimationFrame { get; set; } = 0;
 
         /// <summary>
         /// Indicates wether the animation should loop once finished.
         /// </summary>
-        protected bool repeatAnimation { get; set; } = true;
+        protected bool RepeatAnimation { get; set; } = true;
 
         /// <summary>
         /// The delay between frames of animation.
         /// </summary>
-        protected double animationDelay { get; private set; } = 0f;
+        protected double AnimationDelay { get; private set; } = 0f;
 
         /// <summary>
         /// If the default draw void should draw a shadow.
         /// </summary>
-        protected bool drawShadow { get; set; } = true;
+        protected bool DrawShadow { get; set; } = true;
 
         /// <summary>
         /// The size of the default shadow, relative to 1.
         /// </summary>
-        protected double shadowSize { get; set; } = 1f;
+        protected double ShadowSize { get; set; } = 1f;
 
         /// <summary>
         /// If this object falls when in the air.
         /// </summary>
-        protected bool gravityAffected { get; set; } = true;
+        protected bool GravityAffected { get; set; } = true;
 
         /// <summary>
         /// When this is true, an attack makes this object face towards the attack.
         /// </summary>
-        protected bool faceAttack { get; set; } = true;
+        protected bool FaceAttack { get; set; } = true;
 
-        protected Vector3 autoMovement = new Vector3(0);
+        protected Vector3 AutoMovement = new Vector3(0);
 
-        public bool hasAction { get; set; } = false;
+        public bool HasAction { get; set; } = false;
 
-        protected string actionHintText { get; set; } = "TEST";
+        protected string ActionHintText { get; set; } = "TEST";
 
-        protected bool renderActionHint { get; set; } = false;
+        protected bool RenderActionHint { get; set; } = false;
 
-        protected StageObject lastAttackedBy { get; private set; }
+        protected StageObject LastAttackedBy { get; private set; }
 
         #endregion
 
         protected InteractableStageObject()
         {
-            setState(ObjectState.Idle);
-            canInteract = true;
+            SetState(ObjectState.Idle);
+            CanInteract = true;
         }
 
         /// <summary>
         /// Adds an animation for a specific object state.
         /// </summary>
-        protected void addAnimation(ObjectState state, Animation animation)
+        protected void AddAnimation(ObjectState state, Animation animation)
         {
             _animations.Add(state, animation);
         }
 
-        public override void draw()
+        public override void Draw()
         {
-            var frame = getAnimation().getFrameRec(animationFrame);
-            var stageScale = Stage.activeStage.camera.scale;
+            var frame = GetAnimation().GetFrameRec(AnimationFrame);
+            var stageScale = Stage.ActiveStage.Camera.Scale;
 
-            if (drawShadow)
+            if (DrawShadow)
             {
-                var shadowWidth = (int)(frame.Width * shadowSize);
-                var shadowHeight = (int)(frame.Height * shadowSize * (1d / 4d));
+                var shadowWidth = (int)(frame.Width * ShadowSize);
+                var shadowHeight = (int)(frame.Height * ShadowSize * (1d / 4d));
 
-                Drawing.Graphics.drawEllipse(new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
-                           (int)((Z - shadowHeight / 2d - Stage.activeStage.getGround(position)) * stageScale),
+                Drawing.Graphics.DrawEllipse(new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
+                           (int)((Z - shadowHeight / 2d - Stage.ActiveStage.GetGround(Position)) * stageScale),
                            (int)(shadowWidth * stageScale),
                            (int)(shadowHeight * stageScale)),
-                           Stage.activeStage.ambientColor, stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
+                           Stage.ActiveStage.AmbientColor, stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
             }
 
             var effect = SpriteEffects.None;
-            if (facing == ObjectFacing.Left) //Flip the sprite if facing the other way.
+            if (Facing == ObjectFacing.Left) //Flip the sprite if facing the other way.
             {
                 effect = SpriteEffects.FlipHorizontally;
             }
 
-            gameInstance.spriteBatch.Draw(spriteSheet, new Rectangle((int)((X - frame.Width / 2d) * stageScale),
+            GameInstance.SpriteBatch.Draw(SpriteSheet, new Rectangle((int)((X - frame.Width / 2d) * stageScale),
                                                                      (int)((Z - Y - frame.Height) * stageScale),
                                                                      (int)(frame.Width * stageScale),
                                                                      (int)(frame.Height * stageScale)),
                                                        frame, Color.White, 0f, Vector2.Zero, effect, 0f);
 
-            drawActionHint();
+            DrawActionHint();
         }
 
         /// <summary>
         /// Draws the action hint of this object.
         /// </summary>
-        private void drawActionHint()
+        private void DrawActionHint()
         {
-            if ((hasAction && renderActionHint))
+            if ((HasAction && RenderActionHint))
             {
                 //Test if player is in range and get smallest range:
                 var smallestPlayerDistance = -1f;
 
-                foreach (var obj in Stage.activeStage.getObjects())
+                foreach (var obj in Stage.ActiveStage.GetObjects())
                 {
                     if (obj.GetType().IsSubclassOf(typeof(Playable.PlayerCharacter)) && obj != this)
                     {
-                        var distance = Vector3.Distance(position, obj.position);
+                        var distance = Vector3.Distance(Position, obj.Position);
 
                         if (distance < smallestPlayerDistance || smallestPlayerDistance < 0f)
                         {
@@ -168,41 +168,41 @@ namespace GGFanGame.Game
                 if (_actionHintTextAlpha > 0)
                 {
                     //TODO: Render properly.
-                    gameInstance.spriteBatch.DrawString(gameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont"), actionHintText, new Vector2(X, Z - Y) * (float)Stage.activeStage.camera.scale, new Color(255, 255, 255, _actionHintTextAlpha));
+                    GameInstance.SpriteBatch.DrawString(GameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont"), ActionHintText, new Vector2(X, Z - Y) * (float)Stage.ActiveStage.Camera.Scale, new Color(255, 255, 255, _actionHintTextAlpha));
                 }
             }
         }
 
-        public override void update()
+        public override void Update()
         {
             //Item1 is the actual object and Item2 is the Y position:
-            var supporting = Stage.activeStage.getSupporting(getFeetPosition());
-            updateSupporting(supporting.Item1);
-            updateAutoMovement(supporting.Item2);
+            var supporting = Stage.ActiveStage.GetSupporting(GetFeetPosition());
+            UpdateSupporting(supporting.Item1);
+            UpdateAutoMovement(supporting.Item2);
 
-            if (getAnimation().frames.Length > 1)
+            if (GetAnimation().Frames.Length > 1)
             {
-                animationDelay--;
-                if (animationDelay <= 0d)
+                AnimationDelay--;
+                if (AnimationDelay <= 0d)
                 {
-                    animationFrame++;
-                    if (animationFrame == getAnimation().frames.Length)
+                    AnimationFrame++;
+                    if (AnimationFrame == GetAnimation().Frames.Length)
                     {
-                        if (repeatAnimation)
+                        if (RepeatAnimation)
                         {
-                            animationFrame = 0;
+                            AnimationFrame = 0;
                         }
                         else
                         {
-                            animationFrame--;
+                            AnimationFrame--;
                         }
                     }
-                    animationDelay = getAnimation().frames[animationFrame].frameLength;
+                    AnimationDelay = GetAnimation().Frames[AnimationFrame].FrameLength;
                 }
             }
         }
 
-        private void updateSupporting(StageObject supportingObject)
+        private void UpdateSupporting(StageObject supportingObject)
         {
             //We get the supporting object here.
             //This is important, because when the supporting object (aka the object this object stands on) changes its position,
@@ -211,113 +211,113 @@ namespace GGFanGame.Game
             if (supportingObject != _supportingObject)
             {
                 if (_supportingObject != null)
-                    _supportingObject.OnPositionChanged -= supportingObjectPositionChanged;
+                    _supportingObject.OnPositionChanged -= SupportingObjectPositionChanged;
 
                 _supportingObject = supportingObject;
 
                 if (_supportingObject != null)
-                    _supportingObject.OnPositionChanged += supportingObjectPositionChanged;
+                    _supportingObject.OnPositionChanged += SupportingObjectPositionChanged;
             }
         }
 
         /// <summary>
         /// Returns if the set animation ended. This happens after the animation is over and repeatAnimation is false.
         /// </summary>
-        protected bool animationEnded()
+        protected bool AnimationEnded()
         {
-            return animationFrame == getAnimation().frames.Length - 1;
+            return AnimationFrame == GetAnimation().Frames.Length - 1;
         }
 
         /// <summary>
         /// Returns the current animation.
         /// </summary>
-        protected virtual Animation getAnimation()
+        protected virtual Animation GetAnimation()
         {
-            return _animations[state];
+            return _animations[State];
         }
 
         /// <summary>
         /// Sets the state to a new one and resets animations.
         /// </summary>
-        protected void setState(ObjectState newState)
+        protected void SetState(ObjectState newState)
         {
-            if (newState != state)
+            if (newState != State)
             {
-                state = newState;
-                animationFrame = 0;
-                animationDelay = getAnimation().frames[0].frameLength;
+                State = newState;
+                AnimationFrame = 0;
+                AnimationDelay = GetAnimation().Frames[0].FrameLength;
             }
         }
 
         /// <summary>
         /// Updates the auto movement of the object. This also updates falling.
         /// </summary>
-        private void updateAutoMovement(float groundY)
+        private void UpdateAutoMovement(float groundY)
         {
-            if (autoMovement.X > 0f)
+            if (AutoMovement.X > 0f)
             {
-                autoMovement.X -= 0.5f;
-                if (autoMovement.X < 0f)
-                    autoMovement.X = 0f;
+                AutoMovement.X -= 0.5f;
+                if (AutoMovement.X < 0f)
+                    AutoMovement.X = 0f;
             }
-            if (autoMovement.X < 0f)
+            if (AutoMovement.X < 0f)
             {
-                autoMovement.X += 0.5f;
-                if (autoMovement.X > 0f)
-                    autoMovement.X = 0f;
+                AutoMovement.X += 0.5f;
+                if (AutoMovement.X > 0f)
+                    AutoMovement.X = 0f;
             }
 
-            if (autoMovement.Y > 0f)
+            if (AutoMovement.Y > 0f)
             {
-                autoMovement.Y -= 0.5f;
-                if (autoMovement.Y < 0f)
-                    autoMovement.Y = 0f;
+                AutoMovement.Y -= 0.5f;
+                if (AutoMovement.Y < 0f)
+                    AutoMovement.Y = 0f;
             }
             else
             {
-                if (Y > groundY && gravityAffected)
+                if (Y > groundY && GravityAffected)
                 {
-                    autoMovement.Y--;
+                    AutoMovement.Y--;
                 }
-                if (autoMovement.Y < 0f && !gravityAffected)
+                if (AutoMovement.Y < 0f && !GravityAffected)
                 {
-                    autoMovement.Y = 0f;
+                    AutoMovement.Y = 0f;
                 }
             }
 
-            if (autoMovement.Z > 0f)
+            if (AutoMovement.Z > 0f)
             {
-                autoMovement.Z -= 0.5f;
-                if (autoMovement.Z < 0f)
-                    autoMovement.Z = 0f;
+                AutoMovement.Z -= 0.5f;
+                if (AutoMovement.Z < 0f)
+                    AutoMovement.Z = 0f;
             }
-            if (autoMovement.Z < 0f)
+            if (AutoMovement.Z < 0f)
             {
-                autoMovement.Z += 0.5f;
-                if (autoMovement.Z > 0f)
-                    autoMovement.Z = 0f;
+                AutoMovement.Z += 0.5f;
+                if (AutoMovement.Z > 0f)
+                    AutoMovement.Z = 0f;
             }
 
-            Y += autoMovement.Y;
+            Y += AutoMovement.Y;
 
-            var desiredPos = new Vector3(X + autoMovement.X, Y, Z + autoMovement.Z);
+            var desiredPos = new Vector3(X + AutoMovement.X, Y, Z + AutoMovement.Z);
 
-            if (autoMovement.X != 0f || autoMovement.Z != 0f)
+            if (AutoMovement.X != 0f || AutoMovement.Z != 0f)
             {
-                if (!Stage.activeStage.intersects(this, desiredPos))
+                if (!Stage.ActiveStage.Intersects(this, desiredPos))
                 {
-                    position = desiredPos;
+                    Position = desiredPos;
                 }
                 else
                 {
-                    var desiredPosX = new Vector3(X + autoMovement.X, Y, Z);
-                    var desiredPosZ = new Vector3(X, Y, Z + autoMovement.Z);
+                    var desiredPosX = new Vector3(X + AutoMovement.X, Y, Z);
+                    var desiredPosZ = new Vector3(X, Y, Z + AutoMovement.Z);
 
-                    if (!Stage.activeStage.intersects(this, desiredPosX))
+                    if (!Stage.ActiveStage.Intersects(this, desiredPosX))
                     {
                         X = desiredPosX.X;
                     }
-                    if (!Stage.activeStage.intersects(this, desiredPosZ))
+                    if (!Stage.ActiveStage.Intersects(this, desiredPosZ))
                     {
                         Z = desiredPosX.Z;
                     }
@@ -328,142 +328,142 @@ namespace GGFanGame.Game
             {
                 Y = groundY;
                 //Spawn an action word for where the player landed.
-                Stage.activeStage.addObject(new ActionWord(ActionWord.getWordText(ActionWordType.Landing), objectColor, 0.3f, position));
+                Stage.ActiveStage.AddObject(new ActionWord(ActionWord.GetWordText(ActionWordType.Landing), ObjectColor, 0.3f, Position));
 
-                if (autoMovement.Y < -17f && state == ObjectState.HurtFalling)
+                if (AutoMovement.Y < -17f && State == ObjectState.HurtFalling)
                 {
-                    autoMovement.Y = 8f;
-                    if (facing == ObjectFacing.Left)
-                        autoMovement.X = 12f;
+                    AutoMovement.Y = 8f;
+                    if (Facing == ObjectFacing.Left)
+                        AutoMovement.X = 12f;
                     else
-                        autoMovement.X = -12f;
+                        AutoMovement.X = -12f;
                 }
                 else
                 {
-                    autoMovement.Y = 0f;
+                    AutoMovement.Y = 0f;
                 }
             }
         }
 
-        public override Point getDrawingSize()
+        public override Point GetDrawingSize()
         {
             //Returns the drawing size of the current frame:
-            var frame = getAnimation().getFrameRec(animationFrame);
-            var stageScale = Stage.activeStage.camera.scale;
+            var frame = GetAnimation().GetFrameRec(AnimationFrame);
+            var stageScale = Stage.ActiveStage.Camera.Scale;
             return new Point((int)(frame.Width * stageScale), (int)(frame.Height * stageScale));
         }
 
-        public override void getHit(StageObject origin, Vector3 movement, int health, bool knockback)
+        public override void GetHit(StageObject origin, Vector3 movement, int health, bool knockback)
         {
-            base.getHit(origin, movement, health, knockback);
+            base.GetHit(origin, movement, health, knockback);
 
-            autoMovement = movement;
-            this.health -= health;
+            AutoMovement = movement;
+            this.Health -= health;
 
             if (health <= 0 || knockback)
             {
-                setState(ObjectState.HurtFalling);
+                SetState(ObjectState.HurtFalling);
             }
             else
             {
-                setState(ObjectState.Hurt);
+                SetState(ObjectState.Hurt);
             }
 
-            lastAttackedBy = origin;
+            LastAttackedBy = origin;
         }
 
-        public override void getHit(Attack attack)
+        public override void GetHit(Attack attack)
         {
-            base.getHit(attack);
+            base.GetHit(attack);
 
-            var knockbackValue = attack.strength + attack.origin.strength - weight * 0.7f;
+            var knockbackValue = attack.Strength + attack.Origin.Strength - Weight * 0.7f;
 
-            if (weight * 0.7f >= attack.strength + attack.origin.strength)
+            if (Weight * 0.7f >= attack.Strength + attack.Origin.Strength)
             {
                 knockbackValue = 0f;
-                autoMovement.Y += 1.5f;
+                AutoMovement.Y += 1.5f;
             }
 
-            if (state == ObjectState.Blocking)
+            if (State == ObjectState.Blocking)
             {
-                health -= (int)(attack.health / 4d);
-                if (attack.facing == ObjectFacing.Right)
-                    autoMovement.X += knockbackValue;
+                Health -= (int)(attack.Health / 4d);
+                if (attack.Facing == ObjectFacing.Right)
+                    AutoMovement.X += knockbackValue;
                 else
-                    autoMovement.X += -knockbackValue;
+                    AutoMovement.X += -knockbackValue;
             }
             else
             {
-                health -= attack.health;
+                Health -= attack.Health;
 
-                if (health <= 0)
+                if (Health <= 0)
                 {
-                    if (attack.facing == ObjectFacing.Right)
+                    if (attack.Facing == ObjectFacing.Right)
                     {
-                        autoMovement.X += knockbackValue * 1.5f;
-                        autoMovement.Y += knockbackValue;
+                        AutoMovement.X += knockbackValue * 1.5f;
+                        AutoMovement.Y += knockbackValue;
                     }
                     else
                     {
-                        autoMovement.X += -(knockbackValue * 1.5f);
-                        autoMovement.Y += knockbackValue;
+                        AutoMovement.X += -(knockbackValue * 1.5f);
+                        AutoMovement.Y += knockbackValue;
                     }
                 }
                 else
                 {
-                    if (attack.knockback)
+                    if (attack.Knockback)
                     {
-                        if (attack.facing == ObjectFacing.Right)
+                        if (attack.Facing == ObjectFacing.Right)
                         {
-                            autoMovement.X += knockbackValue * 1.5f;
-                            autoMovement.Y += knockbackValue;
+                            AutoMovement.X += knockbackValue * 1.5f;
+                            AutoMovement.Y += knockbackValue;
                         }
                         else
                         {
-                            autoMovement.X += -(knockbackValue * 1.5f);
-                            autoMovement.Y += knockbackValue;
+                            AutoMovement.X += -(knockbackValue * 1.5f);
+                            AutoMovement.Y += knockbackValue;
                         }
                     }
                     else
                     {
-                        if (attack.facing == ObjectFacing.Right)
+                        if (attack.Facing == ObjectFacing.Right)
                         {
-                            autoMovement.X += knockbackValue;
+                            AutoMovement.X += knockbackValue;
                         }
                         else
                         {
-                            autoMovement.X += -knockbackValue;
+                            AutoMovement.X += -knockbackValue;
                         }
                     }
                 }
 
-                repeatAnimation = false;
+                RepeatAnimation = false;
 
-                if (health <= 0 || attack.knockback)
-                    setState(ObjectState.HurtFalling);
+                if (Health <= 0 || attack.Knockback)
+                    SetState(ObjectState.HurtFalling);
                 else
-                    setState(ObjectState.Hurt);
+                    SetState(ObjectState.Hurt);
             }
 
-            if (faceAttack)
+            if (FaceAttack)
             {
-                if (attack.facing == ObjectFacing.Left)
-                    facing = ObjectFacing.Right;
+                if (attack.Facing == ObjectFacing.Left)
+                    Facing = ObjectFacing.Right;
                 else
-                    facing = ObjectFacing.Left;
+                    Facing = ObjectFacing.Left;
             }
 
-            lastAttackedBy = attack.origin;
+            LastAttackedBy = attack.Origin;
         }
 
         /// <summary>
         /// This updates this object's position when its supporting object gets moved around.
         /// </summary>
-        private void supportingObjectPositionChanged(StageObject obj, Vector3 previousPosition)
+        private void SupportingObjectPositionChanged(StageObject obj, Vector3 previousPosition)
         {
             //Get the difference in position and apply this difference to the position of this object:
-            var difference = obj.position - previousPosition;
-            position += difference;
+            var difference = obj.Position - previousPosition;
+            Position += difference;
         }
     }
 }

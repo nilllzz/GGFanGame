@@ -15,28 +15,28 @@ namespace GGFanGame
         /// <summary>
         /// The name of this save game as it appears in the menu.
         /// </summary>
-        public string name
+        public string Name
         {
-            get { return _dataModel.name; }
-            set { _dataModel.name = value; }
+            get { return _dataModel.Name; }
+            set { _dataModel.Name = value; }
         }
 
         /// <summary>
         /// The progress (in %) the player has made.
         /// </summary>
-        public decimal progress
+        public decimal Progress
         {
-            get { return _dataModel.progress; }
-            set { _dataModel.progress = value; }
+            get { return _dataModel.Progress; }
+            set { _dataModel.Progress = value; }
         }
 
         /// <summary>
         /// The last grump used for this save.
         /// </summary>
-        public string lastGrump
+        public string LastGrump
         {
-            get { return _dataModel.lastGrump; }
-            set { _dataModel.lastGrump = value; }
+            get { return _dataModel.LastGrump; }
+            set { _dataModel.LastGrump = value; }
         }
 
         private bool _loadedCorrectly;
@@ -44,7 +44,7 @@ namespace GGFanGame
         /// <summary>
         /// Indicates wether this game session has been loaded correctly.
         /// </summary>
-        public bool loadedCorrectly => _loadedCorrectly;
+        public bool LoadedCorrectly => _loadedCorrectly;
 
         public GameSession(string fileName)
         {
@@ -52,7 +52,7 @@ namespace GGFanGame
 
             try
             {
-                _dataModel = DataModel<GameSessionModel>.fromString(jsonData, DataType.Json);
+                _dataModel = DataModel<GameSessionModel>.FromString(jsonData, DataType.Json);
                 _loadedCorrectly = true;
             }
             catch (DataLoadException)

@@ -10,7 +10,7 @@ namespace GGFanGame.DataModel.Serizalitaion
         /// <summary>
         /// Returns the file extension associated with a DataType.
         /// </summary>
-        public static string getFileExtension(DataType dataType)
+        public static string GetFileExtension(DataType dataType)
         {
             switch (dataType)
             {

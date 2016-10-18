@@ -19,14 +19,14 @@ namespace GGFanGame.Game
         /// <summary>
         /// The currently active stage.
         /// </summary>
-        public static Stage activeStage { get; private set; }
+        public static Stage ActiveStage { get; private set; }
 
         /// <summary>
         /// Sets the active stage to this instance.
         /// </summary>
-        public void setActiveStage()
+        public void SetActiveStage()
         {
-            activeStage = this;
+            ActiveStage = this;
         }
 
         #endregion
@@ -35,76 +35,76 @@ namespace GGFanGame.Game
         private List<StageObject> _objects;
         private readonly float _yDefaultKillPlane = -0f;
 
-        internal ContentManager content { get; }
+        internal ContentManager Content { get; }
 
         /// <summary>
         /// The ambient shadow color in this stage.
         /// </summary>
-        public Color ambientColor { get; private set; } = new Color(0, 0, 0, 100); //Used for shadow color
+        public Color AmbientColor { get; private set; } = new Color(0, 0, 0, 100); //Used for shadow color
 
         /// <summary>
         /// The camera of the level.
         /// </summary>
-        public StageCamera camera { get; }
+        public StageCamera Camera { get; }
 
-        public string name => _dataModel.name;
-        public string worldId => _dataModel.worldId;
-        public string stageId => _dataModel.stageId;
-        public Color backColor => _dataModel.backColor.toColor();
+        public string Name => _dataModel.Name;
+        public string WorldId => _dataModel.WorldId;
+        public string StageId => _dataModel.StageId;
+        public Color BackColor => _dataModel.BackColor.ToColor();
 
-        public PlayerCharacter onePlayer { get; set; }
-        public PlayerCharacter twoPlayer { get; set; }
-        public PlayerCharacter threePlayer { get; set; }
-        public PlayerCharacter fourPlayer { get; set; }
+        public PlayerCharacter OnePlayer { get; set; }
+        public PlayerCharacter TwoPlayer { get; set; }
+        public PlayerCharacter ThreePlayer { get; set; }
+        public PlayerCharacter FourPlayer { get; set; }
 
         /// <summary>
         /// Creates a new instance of the Stage class.
         /// </summary>
         public Stage(ContentManager content, IEnumerable<StageObject> objects, StageModel dataModel)
         {
-            this.content = content;
+            this.Content = content;
 
             _dataModel = dataModel;
             _objects = new List<StageObject>(objects);
 
-            camera = new StageCamera();
+            Camera = new StageCamera();
         }
 
-        public void load()
+        public void Load()
         {
-            setActiveStage();
+            SetActiveStage();
 
-            onePlayer = new Arin(PlayerIndex.One) { X = 320, Z = 200 };
-            twoPlayer = new Arin(PlayerIndex.Two) { X = 320, Z = 230 };
-            threePlayer = new Arin(PlayerIndex.Three) { X = 50, Z = 230 };
-            fourPlayer = new Arin(PlayerIndex.Four) { X = 50, Z = 200 };
+            OnePlayer = new Arin(PlayerIndex.One) { X = 320, Z = 200 };
+            TwoPlayer = new Arin(PlayerIndex.Two) { X = 320, Z = 230 };
+            ThreePlayer = new Arin(PlayerIndex.Three) { X = 50, Z = 230 };
+            FourPlayer = new Arin(PlayerIndex.Four) { X = 50, Z = 200 };
 
-            _objects.Add(onePlayer);
-            _objects.Add(twoPlayer);
-            _objects.Add(threePlayer);
-            _objects.Add(fourPlayer);
+            _objects.Add(OnePlayer);
+            _objects.Add(TwoPlayer);
+            _objects.Add(ThreePlayer);
+            _objects.Add(FourPlayer);
 
-            _objects.ForEach(o => o.load());
+            _objects.ForEach(o => o.Load());
         }
 
         /// <summary>
         /// Renders the objects in this stage.
         /// </summary>
-        public void draw()
+        public void Draw()
         {
             foreach (var obj in _objects)
             {
-                obj.draw();
+                obj.Draw();
             }
             
             //TEST: Object counter.
-            gameInstance.spriteBatch.DrawString(content.Load<SpriteFont>(@"Fonts\CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
+            GameInstance.SpriteBatch.DrawString(Content.Load<SpriteFont>(@"Fonts\CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
         }
 
         /// <summary>
         /// Returns the list of objects in this stage.
         /// </summary>
-        public StageObject[] getObjects()
+        public StageObject[] GetObjects()
         {
             return _objects.ToArray();
         }
@@ -112,7 +112,7 @@ namespace GGFanGame.Game
         /// <summary>
         /// Updates and sorts the objects in this stage.
         /// </summary>
-        public void update()
+        public void Update()
         {
             _objects.Sort();
             
@@ -120,27 +120,27 @@ namespace GGFanGame.Game
             {
                 if (i <= _objects.Count - 1)
                 {
-                    if (_objects[i].canBeRemoved)
+                    if (_objects[i].CanBeRemoved)
                     {
                         _objects.RemoveAt(i);
                         i--;
                     }
                     else
                     {
-                        _objects[i].update();
+                        _objects[i].Update();
                     }
                 }
             }
 
-            camera.update(this);
+            Camera.Update(this);
         }
 
         /// <summary>
         /// Adds an object the stage's object list.
         /// </summary>
-        public void addObject(StageObject obj)
+        public void AddObject(StageObject obj)
         {
-            obj.load();
+            obj.Load();
             _objects.Add(obj);
         }
 
@@ -149,28 +149,28 @@ namespace GGFanGame.Game
         /// </summary>
         /// <param name="maxHitCount">The maximum amount of objects this attack can hit.</param>
         /// <returns>This returns the amount of objects the attack hit.</returns>
-        public int applyAttack(Attack attack, Vector3 relPosition, int maxHitCount)
+        public int ApplyAttack(Attack attack, Vector3 relPosition, int maxHitCount)
         {
             var objIndex = 0;
             var hitCount = 0;
 
-            var attackHitbox = attack.getHitbox(relPosition);
+            var attackHitbox = attack.GetHitbox(relPosition);
 
             while (objIndex < _objects.Count && hitCount < maxHitCount)
             {
                 var obj = _objects[objIndex];
 
-                if (obj != attack.origin && obj.canInteract)
+                if (obj != attack.Origin && obj.CanInteract)
                 {
-                    if (attackHitbox.Intersects(obj.boundingBox))
+                    if (attackHitbox.Intersects(obj.BoundingBox))
                     {
                         hitCount++;
-                        obj.getHit(attack);
+                        obj.GetHit(attack);
 
-                        var wordPosition = obj.getFeetPosition();
-                        wordPosition.Y += (float)(obj.size.Y / 2d * camera.scale);
+                        var wordPosition = obj.GetFeetPosition();
+                        wordPosition.Y += (float)(obj.Size.Y / 2d * Camera.Scale);
 
-                        _objects.Add(new ActionWord(ActionWord.getWordText(ActionWordType.HurtEnemy), obj.objectColor, 1f, wordPosition));
+                        _objects.Add(new ActionWord(ActionWord.GetWordText(ActionWordType.HurtEnemy), obj.ObjectColor, 1f, wordPosition));
                     }
                 }
 
@@ -190,21 +190,21 @@ namespace GGFanGame.Game
         /// <param name="radius">The radius of the explosion.</param>
         /// <param name="health">The health to take away from hit targets.</param>
         /// <param name="strength">The strength of the explosion.</param>
-        public void applyExplosion(StageObject origin, Vector3 center, float radius, int health, float strength)
+        public void ApplyExplosion(StageObject origin, Vector3 center, float radius, int health, float strength)
         {
             //For explosions, we are using a sphere to detect collision because why not.
             var explosionSphere = new BoundingSphere(center, radius);
 
             foreach (var obj in _objects)
             {
-                if (obj != origin && obj.canInteract)
+                if (obj != origin && obj.CanInteract)
                 {
-                    if (explosionSphere.Contains(obj.position) != ContainmentType.Disjoint)
+                    if (explosionSphere.Contains(obj.Position) != ContainmentType.Disjoint)
                     {
                         if (TYPE1_EXPLOSION)
                         {
                             //TODO: refine calculations
-                            strength = Vector3.Distance(center, obj.position);
+                            strength = Vector3.Distance(center, obj.Position);
 
                             var xAffection = radius - Math.Abs(center.X - obj.X);
                             var zAffection = radius - Math.Abs(center.Z - obj.Z);
@@ -218,7 +218,7 @@ namespace GGFanGame.Game
                                 zAffection *= -1f;
                             }
 
-                            obj.getHit(origin, new Vector3(xAffection / 10f, 5, zAffection / 25f), health, true);
+                            obj.GetHit(origin, new Vector3(xAffection / 10f, 5, zAffection / 25f), health, true);
                         }
                         else
                         {
@@ -228,7 +228,7 @@ namespace GGFanGame.Game
                                 xAffection *= -1f;
                             }
 
-                            obj.getHit(origin, new Vector3(xAffection * 1.3f, strength, 0f), health, true);
+                            obj.GetHit(origin, new Vector3(xAffection * 1.3f, strength, 0f), health, true);
                         }
                     }
                 }
@@ -238,9 +238,9 @@ namespace GGFanGame.Game
         /// <summary>
         /// Returns the altitute of the ground for a specific position.
         /// </summary>
-        public float getGround(Vector3 position)
+        public float GetGround(Vector3 position)
         {
-            var supporting = getSupporting(position);
+            var supporting = GetSupporting(position);
             return supporting.Item2;
         }
 
@@ -248,7 +248,7 @@ namespace GGFanGame.Game
         /// Returns the supporting object and its Y height for a position.
         /// </summary>
         /// <param name="position">The position to check the supporting object for.</param>
-        public Tuple<StageObject, float> getSupporting(Vector3 position)
+        public Tuple<StageObject, float> GetSupporting(Vector3 position)
         {
             var returnY = _yDefaultKillPlane;
             StageObject returnObj = null;
@@ -259,13 +259,13 @@ namespace GGFanGame.Game
 
                 foreach (var obj in _objects)
                 {
-                    if (obj.canLandOn)
+                    if (obj.CanLandOn)
                     {
-                        var boxes = obj.boundingBoxes;
+                        var boxes = obj.BoundingBoxes;
 
                         //When the object does not have defined bounding boxes, take the default bounding box.
                         if (boxes.Length == 0)
-                            boxes = new BoundingBox[] { obj.boundingBox };
+                            boxes = new BoundingBox[] { obj.BoundingBox };
 
                         foreach (var box in boxes)
                         {
@@ -293,32 +293,32 @@ namespace GGFanGame.Game
         /// <summary>
         /// Checks if an object intersects with something in the stage.
         /// </summary>
-        public bool intersects(StageObject chkObj, Vector3 desiredPosition)
+        public bool Intersects(StageObject chkObj, Vector3 desiredPosition)
         {
             return
-                checkCollision(chkObj, desiredPosition) != null;
+                CheckCollision(chkObj, desiredPosition) != null;
         }
 
         /// <summary>
         /// Checks if a desired position for an object collides with space occupied by another object.
         /// </summary>
-        public StageObject checkCollision(StageObject chkObj, Vector3 desiredPosition)
+        public StageObject CheckCollision(StageObject chkObj, Vector3 desiredPosition)
         {
             //Create bounding box out of the desired position to check for collision with other bounding boxes.
             //We add 0.1 to the Y position so we don't get stuck in the floor.
             //The destination box is basically a line from the feet of the object with the height of its own height.
             //This way, it is consistent with the way we check for ground.
-            var destinationBox = new BoundingBox(desiredPosition + new Vector3(0, 0.1f, 0), desiredPosition + new Vector3(0, 0.1f + (chkObj.boundingBox.Max.Y - chkObj.boundingBox.Min.Y), 0));
+            var destinationBox = new BoundingBox(desiredPosition + new Vector3(0, 0.1f, 0), desiredPosition + new Vector3(0, 0.1f + (chkObj.BoundingBox.Max.Y - chkObj.BoundingBox.Min.Y), 0));
 
             foreach (var obj in _objects)
             {
-                if (obj != chkObj && obj.collision)
+                if (obj != chkObj && obj.Collision)
                 {
-                    var boxes = obj.boundingBoxes;
+                    var boxes = obj.BoundingBoxes;
 
                     //When the object does not have defined bounding boxes, take the default bounding box.
                     if (boxes.Length == 0)
-                        boxes = new BoundingBox[] { obj.boundingBox };
+                        boxes = new BoundingBox[] { obj.BoundingBox };
 
                     foreach (var box in boxes)
                     {

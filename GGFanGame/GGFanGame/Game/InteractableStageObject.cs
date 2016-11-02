@@ -176,9 +176,9 @@ namespace GGFanGame.Game
         public override void Update()
         {
             //Item1 is the actual object and Item2 is the Y position:
-            var supporting = Stage.ActiveStage.GetSupporting(GetFeetPosition());
-            UpdateSupporting(supporting.Item1);
-            UpdateAutoMovement(supporting.Item2);
+            var (supportingObj, objY) = Stage.ActiveStage.GetSupporting(GetFeetPosition());
+            UpdateSupporting(supportingObj);
+            UpdateAutoMovement(objY);
 
             if (GetAnimation().Frames.Length > 1)
             {

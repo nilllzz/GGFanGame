@@ -239,16 +239,13 @@ namespace GGFanGame.Game
         /// Returns the altitute of the ground for a specific position.
         /// </summary>
         public float GetGround(Vector3 position)
-        {
-            var supporting = GetSupporting(position);
-            return supporting.Item2;
-        }
+            => GetSupporting(position).objY;
 
         /// <summary>
         /// Returns the supporting object and its Y height for a position.
         /// </summary>
         /// <param name="position">The position to check the supporting object for.</param>
-        public Tuple<StageObject, float> GetSupporting(Vector3 position)
+        public (StageObject supportingObject, float objY) GetSupporting(Vector3 position)
         {
             var returnY = _yDefaultKillPlane;
             StageObject returnObj = null;
@@ -287,7 +284,7 @@ namespace GGFanGame.Game
 
             //The first item is the actual object, the second item the Y position:
             //The object is null when there's no object to stand on.
-            return new Tuple<StageObject, float>(returnObj, returnY);
+            return (returnObj, returnY);
         }
 
         /// <summary>

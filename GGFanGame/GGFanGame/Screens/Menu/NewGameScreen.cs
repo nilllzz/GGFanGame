@@ -16,9 +16,9 @@ namespace GGFanGame.Screens.Menu
 
         private static readonly char[]
             _upperCaseAlphabet =
-                ASCIIProvider.GetChars(new[] { new Tuple<int, int>(65, 26), new Tuple<int, int>(48, 10) }),
+                ASCIIProvider.GetChars(new[] { (65, 26), (48, 10) }),
             _lowerCaseAlphabet =
-                ASCIIProvider.GetChars(new[] { new Tuple<int, int>(97, 26), new Tuple<int, int>(48, 10) });
+                ASCIIProvider.GetChars(new[] { (97, 26), (48, 10) });
         private static readonly char[][] _alphabets = { _upperCaseAlphabet, _lowerCaseAlphabet };
         private static readonly int[]
             _charsPerRow =

@@ -1,4 +1,5 @@
 ﻿using System;
+using GGFanGame.Content;
 using GGFanGame.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,7 +25,7 @@ namespace GGFanGame.Screens.Menu
 
         public TransitionScreen(Screen outScreen, Screen inScreen)
         {
-            _gg_overlay = GameInstance.Content.Load<Texture2D>(@"UI\Logos\GameGrumpsTransition");
+            _gg_overlay = GameInstance.Content.Load<Texture2D>(Resources.UI.Logos.GameGrumpsTransition);
             _outScreen = outScreen;
             _inScreen = inScreen;
         }

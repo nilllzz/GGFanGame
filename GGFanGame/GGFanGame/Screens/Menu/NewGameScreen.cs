@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
@@ -31,7 +32,7 @@ namespace GGFanGame.Screens.Menu
             _preScreen = preScreen;
             _backgroundRenderer = backgroundRenderer;
 
-            _font = Content.Load<SpriteFont>("Fonts\\CartoonFont");
+            _font = Content.Load<SpriteFont>(Resources.Fonts.CartoonFont);
         }
 
         public override void Draw()

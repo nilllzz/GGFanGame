@@ -1,4 +1,5 @@
-﻿using GGFanGame.Game;
+﻿using GGFanGame.Content;
+using GGFanGame.Game;
 using GGFanGame.Input;
 using GGFanGame.Screens.Game;
 using Microsoft.Xna.Framework;
@@ -28,9 +29,9 @@ namespace GGFanGame.Screens.Menu
             _backgroundRenderer = new MenuBackgroundRenderer(Color.Black, new Color(164, 108, 46),
                 new Color(236, 130, 47), new Color(242, 153, 90)) {ApplyTransparency = true};
 
-            _barry = Content.Load<Texture2D>(@"UI\Pause\barry_pause");
-            _bubble = Content.Load<Texture2D>(@"UI\Pause\paused_bubble");
-            _font = Content.Load<SpriteFont>(@"Fonts\CartoonFont");
+            _barry = Content.Load<Texture2D>(Resources.UI.Pause.barry_pause);
+            _bubble = Content.Load<Texture2D>(Resources.UI.Pause.paused_bubble);
+            _font = Content.Load<SpriteFont>(Resources.Fonts.CartoonFont);
 
             _target = new RenderTarget2D(GameInstance.GraphicsDevice, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
         }

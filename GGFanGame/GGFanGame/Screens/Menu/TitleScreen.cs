@@ -1,4 +1,5 @@
-﻿using GGFanGame.Input;
+﻿using GGFanGame.Content;
+using GGFanGame.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -25,8 +26,8 @@ namespace GGFanGame.Screens.Menu
         public TitleScreen()
         {
             _backgroundRenderer = new MenuBackgroundRenderer();
-            _logoTexture = GameInstance.Content.Load<Texture2D>(@"UI\Logos\GameGrumps");
-            _grumpFont = GameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFontLarge");
+            _logoTexture = GameInstance.Content.Load<Texture2D>(Resources.UI.Logos.GameGrumps);
+            _grumpFont = GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFontLarge);
 
             //MediaPlayer.IsRepeating = true;
             //MediaPlayer.Play(game.musicManager.load(@"Music\Smash 2"));

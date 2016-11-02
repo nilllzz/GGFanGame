@@ -1,4 +1,5 @@
-﻿using GGFanGame.DataModel.Game;
+﻿using GGFanGame.Content;
+using GGFanGame.DataModel.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -22,7 +23,7 @@ namespace GGFanGame.Game.Stages.Stage1_1
 
         public override void ApplyDataModel(StageObjectModel dataModel)
         {
-            SpriteSheet = Content.Load<Texture2D>(@"Levels\Stage1_1\BridgeBottom");
+            SpriteSheet = Content.Load<Texture2D>(Resources.Levels.Stage1_1.BridgeBottom);
         }
     }
 }

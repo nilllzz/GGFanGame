@@ -23,6 +23,7 @@
 #endregion
 
 using System;
+using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
@@ -59,7 +60,7 @@ namespace GGFanGame.Drawing
         /// </summary>
         public GaussianBlur()
         {
-            _effect = GameInstance.Content.Load<Effect>(@"Shaders\GaussianBlur");
+            _effect = GameInstance.Content.Load<Effect>(Resources.Shaders.GaussianBlur);
             _spriteBatch = new SpriteBatch(GameInstance.GraphicsDevice);
         }
 

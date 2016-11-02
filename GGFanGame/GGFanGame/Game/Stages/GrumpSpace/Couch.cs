@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GGFanGame.Content;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GGFanGame.Game.Stages.GrumpSpace
@@ -25,7 +26,7 @@ namespace GGFanGame.Game.Stages.GrumpSpace
 
         protected override void LoadInternal()
         {
-            SpriteSheet = Content.Load<Texture2D>(@"Levels\GrumpSpace\Couch");
+            SpriteSheet = Content.Load<Texture2D>(Resources.Levels.GrumpSpace.Couch);
         }
     }
 }

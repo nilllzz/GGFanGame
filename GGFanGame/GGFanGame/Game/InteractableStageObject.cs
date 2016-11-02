@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
@@ -168,7 +169,7 @@ namespace GGFanGame.Game
                 if (_actionHintTextAlpha > 0)
                 {
                     //TODO: Render properly.
-                    GameInstance.SpriteBatch.DrawString(GameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont"), ActionHintText, new Vector2(X, Z - Y) * (float)Stage.ActiveStage.Camera.Scale, new Color(255, 255, 255, _actionHintTextAlpha));
+                    GameInstance.SpriteBatch.DrawString(GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFont), ActionHintText, new Vector2(X, Z - Y) * (float)Stage.ActiveStage.Camera.Scale, new Color(255, 255, 255, _actionHintTextAlpha));
                 }
             }
         }

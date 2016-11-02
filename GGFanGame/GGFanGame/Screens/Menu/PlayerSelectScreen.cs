@@ -1,4 +1,5 @@
 ﻿using System;
+using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -28,7 +29,7 @@ namespace GGFanGame.Screens.Menu
 
         public PlayerSelectScreen()
         {
-            _grumpFont = GameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
+            _grumpFont = GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFont);
 
             LoadGrumpTexture(0, "Arin");
             LoadGrumpTexture(1, "Danny");

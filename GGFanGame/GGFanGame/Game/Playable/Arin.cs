@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GGFanGame.Content;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
@@ -14,7 +15,7 @@ namespace GGFanGame.Game.Playable
 
         public Arin(PlayerIndex playerIndex) : base(playerIndex)
         {
-            SpriteSheet = GameInstance.Content.Load<Texture2D>(@"Sprites\Arin");
+            SpriteSheet = GameInstance.Content.Load<Texture2D>(Resources.Sprites.Arin);
             DrawShadow = true;
             ShadowSize = 0.48d;
             Strength = 4;

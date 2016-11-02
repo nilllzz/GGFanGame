@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using GGFanGame.Content;
 using GGFanGame.Drawing;
 using GGFanGame.Input;
 using GGFanGame.Screens.Game;
@@ -53,11 +54,11 @@ namespace GGFanGame.Screens.Menu
             {
                 if (selected)
                 {
-                    GameInstance.SpriteBatch.Draw(GameInstance.Content.Load<Texture2D>(@"UI\saveBack"), targetRect, new Color(0, 0, 0, (int)(255 * alphaDelta)));
+                    GameInstance.SpriteBatch.Draw(GameInstance.Content.Load<Texture2D>(Resources.UI.SaveBack), targetRect, new Color(0, 0, 0, (int)(255 * alphaDelta)));
                 }
                 else
                 {
-                    GameInstance.SpriteBatch.Draw(GameInstance.Content.Load<Texture2D>(@"UI\saveBack"), targetRect, new Color(255, 255, 255, (int)(255 * alphaDelta)));
+                    GameInstance.SpriteBatch.Draw(GameInstance.Content.Load<Texture2D>(Resources.UI.SaveBack), targetRect, new Color(255, 255, 255, (int)(255 * alphaDelta)));
                 }
 
                 if (NewGameButton)
@@ -138,7 +139,7 @@ namespace GGFanGame.Screens.Menu
 
             _saves.Add(new SaveContainer(saveIndex, null) { NewGameButton = true });
 
-            _grumpFont = GameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
+            _grumpFont = GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFont);
         }
 
         public override void Update()

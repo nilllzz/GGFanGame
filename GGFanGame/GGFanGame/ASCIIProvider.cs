@@ -29,7 +29,7 @@ namespace GGFanGame
             if (positions.Length == 1)
                 return GetChars(positions[0].startIndex, positions[0].count);
 
-            IEnumerable<char> chars = GetCharsEnumerable(positions[0].startIndex, positions[0].count);
+            var chars = GetCharsEnumerable(positions[0].startIndex, positions[0].count);
 
             for (int i = 1; i < positions.Length; i++)
                 chars = chars.Concat(GetCharsEnumerable(positions[i].startIndex, positions[i].count));

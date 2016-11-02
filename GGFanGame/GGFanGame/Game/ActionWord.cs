@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
@@ -54,7 +55,7 @@ namespace GGFanGame.Game
 
         public ActionWord(string text, Color color, float targetSize, Vector3 position)
         {
-            _grumpFont = GameInstance.Content.Load<SpriteFont>(@"Fonts\CartoonFont");
+            _grumpFont = GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFont);
 
             _text = text;
             _color = color;

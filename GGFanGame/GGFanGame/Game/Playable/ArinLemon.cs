@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GGFanGame.Content;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
 
@@ -24,7 +25,7 @@ namespace GGFanGame.Game.Playable
 
         protected override void LoadInternal()
         {
-            SpriteSheet = GameInstance.Content.Load<Texture2D>(@"Sprites\ArinLemon");
+            SpriteSheet = GameInstance.Content.Load<Texture2D>(Resources.Sprites.ArinBomb);
         }
 
         public override void Update()

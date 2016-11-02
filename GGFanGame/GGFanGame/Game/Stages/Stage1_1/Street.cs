@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GGFanGame.Content;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GGFanGame.Game.Stages.Stage1_1
@@ -21,7 +22,7 @@ namespace GGFanGame.Game.Stages.Stage1_1
 
         protected override void LoadInternal()
         {
-            SpriteSheet = Content.Load<Texture2D>(@"Levels\Stage1_1\Street");
+            SpriteSheet = Content.Load<Texture2D>(Resources.Levels.Stage1_1.Street);
         }
     }
 }

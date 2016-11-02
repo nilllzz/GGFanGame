@@ -1,4 +1,5 @@
 ﻿using System;
+using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static GameProvider;
@@ -33,7 +34,7 @@ namespace GGFanGame.Game.Stages.GrumpSpace.Enemies
 
         protected override void LoadInternal()
         {
-            SpriteSheet = Content.Load<Texture2D>(@"Sprites\Booper");
+            SpriteSheet = Content.Load<Texture2D>(Resources.Sprites.Booper);
         }
 
         public override void Update()

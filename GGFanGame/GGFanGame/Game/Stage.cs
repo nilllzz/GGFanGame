@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GGFanGame.Content;
 using GGFanGame.DataModel.Game;
 using GGFanGame.Game.Playable;
 using Microsoft.Xna.Framework;
@@ -98,7 +99,7 @@ namespace GGFanGame.Game
             }
             
             //TEST: Object counter.
-            GameInstance.SpriteBatch.DrawString(Content.Load<SpriteFont>(@"Fonts\CartoonFontSmall"), _objects.Count.ToString(), Vector2.Zero, Color.White);
+            GameInstance.SpriteBatch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall), _objects.Count.ToString(), Vector2.Zero, Color.White);
         }
 
         /// <summary>

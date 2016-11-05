@@ -5,26 +5,20 @@ namespace GGFanGame.Screens
     /// <summary>
     /// A class to manage game states as screens.
     /// </summary>
-    internal class ScreenManager
+    internal class ScreenManager : IGameComponent
     {
-        //We only ever need a single ScreenManager, so we do a singleton here:
-        private static ScreenManager _instance;
-
-        /// <summary>
-        /// Returns the singleton instance of the APIManager.
-        /// </summary>
-        public static ScreenManager GetInstance() => _instance ?? (_instance = new ScreenManager());
+        void IGameComponent.Initialize() { }
 
         /// <summary>
         /// The currently active screen instance.
         /// </summary>
-        public Screen CurrentScreen { get; private set; }
+        internal Screen CurrentScreen { get; private set; }
 
         /// <summary>
         /// Sets a new screen as active screen.
         /// </summary>
         /// <param name="newScreen">The new screen.</param>
-        public void SetScreen(Screen newScreen)
+        internal void SetScreen(Screen newScreen)
         {
             CurrentScreen?.Close();
 
@@ -37,7 +31,7 @@ namespace GGFanGame.Screens
         /// Updates the current screen.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public void UpdateScreen(GameTime gameTime)
+        internal void UpdateScreen(GameTime gameTime)
         {
             CurrentScreen?.Update();
         }
@@ -46,7 +40,7 @@ namespace GGFanGame.Screens
         /// Draws the current screen.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public void DrawScreen(GameTime gameTime)
+        internal void DrawScreen(GameTime gameTime)
         {
             CurrentScreen?.Draw();
         }

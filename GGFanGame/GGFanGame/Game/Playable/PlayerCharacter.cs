@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GGFanGame.Input;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static Core;
 
 namespace GGFanGame.Game.Playable
 {
@@ -81,9 +84,9 @@ namespace GGFanGame.Game.Playable
         /// <summary>
         /// Draws the player character.
         /// </summary>
-        public override void Draw()
+        public override void Draw(SpriteBatch batch)
         {
-            base.Draw();
+            base.Draw(batch);
         }
 
         public override void Update()
@@ -91,7 +94,7 @@ namespace GGFanGame.Game.Playable
             UpdateState();
 
             // TEST
-            if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.DPadLeft))
+            if (GetComponent<GamePadHandler>().ButtonPressed(_playerIndex, Buttons.DPadLeft))
             {
                 Health -= 10;
             }
@@ -108,7 +111,7 @@ namespace GGFanGame.Game.Playable
                     if (attack != null)
                     {
                         attack.Facing = Facing;
-                        var hits = Stage.ActiveStage.ApplyAttack(attack, Position, def.MaxHits);
+                        var hits = ParentStage.ApplyAttack(attack, Position, def.MaxHits);
 
                         if (hits > 0)
                         {
@@ -144,7 +147,7 @@ namespace GGFanGame.Game.Playable
         private void UpdateState()
         {
             var setToState = ObjectState.Idle;
-            var groundY = Stage.ActiveStage.GetGround(GetFeetPosition());
+            var groundY = ParentStage.GetGround(GetFeetPosition());
             GravityAffected = true;
 
             if (State == ObjectState.Dead)
@@ -226,10 +229,12 @@ namespace GGFanGame.Game.Playable
                 }
             }
 
+            var gamePadHandler = GetComponent<GamePadHandler>();
+
             //Jump attacking:
             if (setToState == ObjectState.Idle && Y > groundY && (State == ObjectState.Falling || State == ObjectState.Jumping))
             {
-                if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.X) || Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.A))
+                if (gamePadHandler.ButtonPressed(_playerIndex, Buttons.X) || gamePadHandler.ButtonPressed(_playerIndex, Buttons.A))
                 {
                     setToState = ObjectState.JumpAttacking;
                     RepeatAnimation = false;
@@ -249,9 +254,9 @@ namespace GGFanGame.Game.Playable
             if (setToState == ObjectState.Idle)
             {
                 var comboAddition = "";
-                if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.X) && comboAddition == "")
+                if (gamePadHandler.ButtonPressed(_playerIndex, Buttons.X) && comboAddition == "")
                     comboAddition = "B";
-                if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.A) && comboAddition == "")
+                if (gamePadHandler.ButtonPressed(_playerIndex, Buttons.A) && comboAddition == "")
                     comboAddition = "A";
 
                 if (State == ObjectState.Attacking && !AnimationEnded())
@@ -299,14 +304,14 @@ namespace GGFanGame.Game.Playable
             }
 
             //Dashing in both directions:
-            if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.RightTrigger) && setToState == ObjectState.Idle)
+            if (gamePadHandler.ButtonPressed(_playerIndex, Buttons.RightTrigger) && setToState == ObjectState.Idle)
             {
                 setToState = ObjectState.Dashing;
                 RepeatAnimation = false;
                 AutoMovement.X = 14;
                 Facing = ObjectFacing.Right;
             }
-            if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.LeftTrigger) && setToState == ObjectState.Idle)
+            if (gamePadHandler.ButtonPressed(_playerIndex, Buttons.LeftTrigger) && setToState == ObjectState.Idle)
             {
                 setToState = ObjectState.Dashing;
                 RepeatAnimation = false;
@@ -315,7 +320,7 @@ namespace GGFanGame.Game.Playable
             }
 
             //Jumping and landing:
-            if (Input.GamePadHandler.ButtonPressed(_playerIndex, Buttons.B) && setToState == ObjectState.Idle && Y == groundY)
+            if (gamePadHandler.ButtonPressed(_playerIndex, Buttons.B) && setToState == ObjectState.Idle && Y == groundY)
             {
                 AutoMovement.Y = 10f;
                 setToState = ObjectState.Jumping;
@@ -333,7 +338,7 @@ namespace GGFanGame.Game.Playable
             }
 
             //Blocking:
-            if (Input.GamePadHandler.ButtonDown(_playerIndex, Buttons.LeftShoulder) && setToState == ObjectState.Idle && Y == groundY)
+            if (gamePadHandler.ButtonDown(_playerIndex, Buttons.LeftShoulder) && setToState == ObjectState.Idle && Y == groundY)
             {
                 setToState = ObjectState.Blocking;
             }
@@ -341,48 +346,48 @@ namespace GGFanGame.Game.Playable
             //Walking + movement while in the air:
             if ((setToState == ObjectState.Idle || setToState == ObjectState.Falling || setToState == ObjectState.Jumping) && AutoMovement.X == 0f)
             {
-                if (Input.GamePadHandler.ButtonDown(_playerIndex, Buttons.LeftThumbstickRight))
+                if (gamePadHandler.ButtonDown(_playerIndex, Buttons.LeftThumbstickRight))
                 {
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X + PlayerSpeed * Input.GamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right), Y, Z);
+                    var desiredPosition = new Vector3(X + PlayerSpeed * gamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right), Y, Z);
 
-                    if (!Stage.ActiveStage.Intersects(this, desiredPosition))
+                    if (!ParentStage.Intersects(this, desiredPosition))
                         X = desiredPosition.X;
 
                     Facing = ObjectFacing.Right;
                 }
-                if (Input.GamePadHandler.ButtonDown(_playerIndex, Buttons.LeftThumbstickLeft))
+                if (gamePadHandler.ButtonDown(_playerIndex, Buttons.LeftThumbstickLeft))
                 {
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X - PlayerSpeed * Input.GamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left), Y, Z);
+                    var desiredPosition = new Vector3(X - PlayerSpeed * gamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left), Y, Z);
 
-                    if (!Stage.ActiveStage.Intersects(this, desiredPosition))
+                    if (!ParentStage.Intersects(this, desiredPosition))
                         X = desiredPosition.X;
 
                     Facing = ObjectFacing.Left;
                 }
-                if (Input.GamePadHandler.ButtonDown(_playerIndex, Buttons.LeftThumbstickUp))
+                if (gamePadHandler.ButtonDown(_playerIndex, Buttons.LeftThumbstickUp))
                 {
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X, Y, Z - PlayerSpeed * Input.GamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up));
+                    var desiredPosition = new Vector3(X, Y, Z - PlayerSpeed * gamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up));
 
-                    if (!Stage.ActiveStage.Intersects(this, desiredPosition))
+                    if (!ParentStage.Intersects(this, desiredPosition))
                         Z = desiredPosition.Z;
                 }
-                if (Input.GamePadHandler.ButtonDown(_playerIndex, Buttons.LeftThumbstickDown))
+                if (gamePadHandler.ButtonDown(_playerIndex, Buttons.LeftThumbstickDown))
                 {
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X, Y, Z + PlayerSpeed * Input.GamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down));
+                    var desiredPosition = new Vector3(X, Y, Z + PlayerSpeed * gamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down));
 
-                    if (!Stage.ActiveStage.Intersects(this, desiredPosition))
+                    if (!ParentStage.Intersects(this, desiredPosition))
                         Z = desiredPosition.Z;
                 }
             }

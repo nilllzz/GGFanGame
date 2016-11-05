@@ -14,7 +14,7 @@ namespace GGFanGame.Game
         /// The score a player gets when killing this enemy.
         /// </summary>
         public abstract int Score { get; }
-
+        
         public override void Update()
         {
             UpdateState();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using GGFanGame.Game;
-using static GameProvider;
+using static Core;
+using GGFanGame.Input;
 
 namespace GGFanGame.Screens.Debug
 {
@@ -50,20 +51,22 @@ namespace GGFanGame.Screens.Debug
 
         public override void Update()
         {
-            var inRight = Input.GamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Right) * 0.1f;
-            var inLeft = Input.GamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Left) * 0.1f;
-            var inUp = Input.GamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Up) * 0.1f;
-            var inDown = Input.GamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Down) * 0.1f;
+            var gamePadHandler = GetComponent<GamePadHandler>();
+
+            var inRight = gamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Right) * 0.1f;
+            var inLeft = gamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Left) * 0.1f;
+            var inUp = gamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Up) * 0.1f;
+            var inDown = gamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Down) * 0.1f;
 
             _yaw += inLeft;
             _yaw -= inRight;
             _pitch += inUp;
             _pitch -= inDown;
 
-            inRight = Input.GamePadHandler.ButtonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadRight) ? 1f : 0f;
-            inLeft = Input.GamePadHandler.ButtonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadLeft) ? 1f : 0f;
-            inUp = Input.GamePadHandler.ButtonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadUp) ? 1f : 0f;
-            inDown = Input.GamePadHandler.ButtonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadDown) ? 1f : 0f;
+            inRight = gamePadHandler.ButtonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadRight) ? 1f : 0f;
+            inLeft = gamePadHandler.ButtonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadLeft) ? 1f : 0f;
+            inUp = gamePadHandler.ButtonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadUp) ? 1f : 0f;
+            inDown = gamePadHandler.ButtonDown(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.DPadDown) ? 1f : 0f;
 
             var rotationMatrix = Matrix.CreateFromYawPitchRoll(_yaw, _pitch, 0f);
 

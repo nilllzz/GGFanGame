@@ -9,7 +9,7 @@ using GGFanGame.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -34,6 +34,7 @@ namespace GGFanGame.Screens.Menu
         private string _name = string.Empty;
         private readonly Texture2D _arinFace;
         private ushort _arinSad = 0;
+        private SpriteBatch _batch, _fontBatch; // TODO: dispose
 
         private static readonly Color
             DefaultLetterColor = new Color(254, 242, 205),
@@ -46,13 +47,22 @@ namespace GGFanGame.Screens.Menu
 
             _font = Content.Load<SpriteFont>(Resources.Fonts.CartoonFont);
             _arinFace = Content.Load<Texture2D>(Resources.UI.HUD.Arin);
+
+            _batch = new SpriteBatch(GameInstance.GraphicsDevice);
+            _fontBatch = new SpriteBatch(GameInstance.GraphicsDevice);
         }
 
         public override void Draw()
         {
-            _backgroundRenderer.Draw();
+            _batch.Begin(SpriteBatchUsage.Default);
+            _fontBatch.Begin(SpriteBatchUsage.Font);
+
+            _backgroundRenderer.Draw(_batch);
             DrawCharSelection();
             DrawNameField();
+
+            _batch.End();
+            _fontBatch.End();
         }
 
         private void DrawNameField()
@@ -65,20 +75,20 @@ namespace GGFanGame.Screens.Menu
             else if (_name.Length == 0)
                 arinFaceIndex = 2;
 
-            GameInstance.SpriteBatch.Draw(_arinFace, new Rectangle((int)positionOffset.X - 60, (int)positionOffset.Y - 6, 48, 48),
+            _batch.Draw(_arinFace, new Rectangle((int)positionOffset.X - 60, (int)positionOffset.Y - 6, 48, 48),
                 new Rectangle(arinFaceIndex * 48, 0, 48, 48), Color.White);
 
-            Graphics.DrawRectangle(new Rectangle((int)positionOffset.X - 10, (int)positionOffset.Y - 10, _alphabetWidth * 2 + 20, 56),
+            _batch.DrawRectangle(new Rectangle((int)positionOffset.X - 10, (int)positionOffset.Y - 10, _alphabetWidth * 2 + 20, 56),
                 new Color(0, 0, 0, 150));
 
-            GameInstance.SpriteBatch.DrawString(_font, _name, positionOffset, DefaultLetterColor);
+            _fontBatch.DrawString(_font, _name, positionOffset, DefaultLetterColor);
         }
 
         private void DrawCharSelection()
         {
             Vector2 positionOffset = new Vector2(GameInstance.ClientRectangle.Width / 2 - _alphabetWidth, 140);
 
-            Graphics.DrawRectangle(new Rectangle((int)positionOffset.X - 10, (int)positionOffset.Y - 10, _alphabetWidth * 2 + 20, 150), 
+            _batch.DrawRectangle(new Rectangle((int)positionOffset.X - 10, (int)positionOffset.Y - 10, _alphabetWidth * 2 + 20, 150), 
                 new Color(0, 0, 0, 150));
                 
             var alphabet = _alphabets[_alphabetIndex];
@@ -103,7 +113,7 @@ namespace GGFanGame.Screens.Menu
 
                     Vector2 charSize = _font.MeasureString(c.ToString());
 
-                    GameInstance.SpriteBatch.DrawString(_font, c.ToString(), new Vector2(i * 32, rowIndex * 32) + charSize / 2 + positionOffset,
+                    _fontBatch.DrawString(_font, c.ToString(), new Vector2(i * 32, rowIndex * 32) + charSize / 2 + positionOffset,
                         color, (float)rotation, charSize / 2, scale, SpriteEffects.None, 0f);
                 }
                 rowIndex++;
@@ -124,7 +134,7 @@ namespace GGFanGame.Screens.Menu
             }
 
             bool movedCursor = false;
-            if (ControlsHandler.DownPressed(PlayerIndex.One))
+            if (GetComponent<ControlsHandler>().DownPressed(PlayerIndex.One))
             {
                 do
                 {
@@ -135,7 +145,7 @@ namespace GGFanGame.Screens.Menu
                 
                 movedCursor = true;
             }
-            if (ControlsHandler.UpPressed(PlayerIndex.One))
+            if (GetComponent<ControlsHandler>().UpPressed(PlayerIndex.One))
             {
                 do
                 {
@@ -147,7 +157,7 @@ namespace GGFanGame.Screens.Menu
 
                 movedCursor = true;
             }
-            if (ControlsHandler.RightPressed(PlayerIndex.One))
+            if (GetComponent<ControlsHandler>().RightPressed(PlayerIndex.One))
             {
                 _cursorX++;
                 if (_cursorX == _charsPerRow[_cursorY])
@@ -155,7 +165,7 @@ namespace GGFanGame.Screens.Menu
 
                 movedCursor = true;
             }
-            if (ControlsHandler.LeftPressed(PlayerIndex.One))
+            if (GetComponent<ControlsHandler>().LeftPressed(PlayerIndex.One))
             {
                 if (_cursorX == 0)
                     _cursorX = (ushort)(_charsPerRow[_cursorY] - 1);
@@ -168,7 +178,7 @@ namespace GGFanGame.Screens.Menu
             if (movedCursor)
                 _selectedCharScale = 2f;
 
-            if (_name.Length < 10 && GamePadHandler.ButtonPressed(PlayerIndex.One, Buttons.A))
+            if (_name.Length < 10 && GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.A))
             {
                 ushort cIndex = _cursorX;
                 for (int i = 0; i < _cursorY; i++)
@@ -177,7 +187,7 @@ namespace GGFanGame.Screens.Menu
                 _name += _alphabets[_alphabetIndex][cIndex];
             }
 
-            if (_name.Length > 0 && GamePadHandler.ButtonPressed(PlayerIndex.One, Buttons.B))
+            if (_name.Length > 0 && GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.B))
             {
                 _name = _name.Substring(0, _name.Length - 1);
                 _arinSad = 10;

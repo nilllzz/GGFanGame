@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame
 {
@@ -28,30 +28,12 @@ namespace GGFanGame
         {
             GameInstance.GraphicsDevice.SetRenderTarget(DefaultTarget);
         }
-
-        /// <summary>
-        /// Begins to render the screen to a render target.
-        /// </summary>
-        internal static RenderTarget2D BeginRenderScreenToTarget()
-        {
-            var target = CreateScreenTarget();
-
-            //End the sprite batch, render to current target.
-            //Then, set to new render target and begin the batch.
-            GameInstance.SpriteBatch.End();
-            GameInstance.GraphicsDevice.SetRenderTarget(target);
-            GameInstance.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-
-            return target;
-        }
-
+        
         internal static void BeginRenderScreenToTarget(RenderTarget2D target)
         {
             //End the sprite batch, render to current target.
             //Then, set to new render target and begin the batch.
-            GameInstance.SpriteBatch.End();
             GameInstance.GraphicsDevice.SetRenderTarget(target);
-            GameInstance.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
         }
 
         /// <summary>
@@ -60,9 +42,7 @@ namespace GGFanGame
         internal static void EndRenderScreenToTarget()
         {
             //Ends the sprite batch for the current target, resets the target, and starts the sprite batch for the default target.
-            GameInstance.SpriteBatch.End();
             ResetRenderTarget();
-            GameInstance.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
         }
 
         /// <summary>

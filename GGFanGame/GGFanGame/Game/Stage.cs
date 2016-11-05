@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using GGFanGame.Content;
 using GGFanGame.DataModel.Game;
+using GGFanGame.Drawing;
 using GGFanGame.Game.Playable;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Game
 {
@@ -35,8 +36,11 @@ namespace GGFanGame.Game
         private StageModel _dataModel;
         private List<StageObject> _objects;
         private readonly float _yDefaultKillPlane = -0f;
+        private readonly SpriteBatch _batch; // TODO: Dispose
 
         internal ContentManager Content { get; }
+
+        internal Random Random { get; } = new Random();
 
         /// <summary>
         /// The ambient shadow color in this stage.
@@ -63,10 +67,11 @@ namespace GGFanGame.Game
         /// </summary>
         public Stage(ContentManager content, IEnumerable<StageObject> objects, StageModel dataModel)
         {
-            this.Content = content;
+            Content = content;
 
             _dataModel = dataModel;
             _objects = new List<StageObject>(objects);
+            _batch = new SpriteBatch(GameInstance.GraphicsDevice);
 
             Camera = new StageCamera();
         }
@@ -85,7 +90,11 @@ namespace GGFanGame.Game
             _objects.Add(ThreePlayer);
             _objects.Add(FourPlayer);
 
-            _objects.ForEach(o => o.Load());
+            _objects.ForEach(o =>
+            {
+                o.ParentStage = this;
+                o.Load();
+            });
         }
 
         /// <summary>
@@ -93,13 +102,18 @@ namespace GGFanGame.Game
         /// </summary>
         public void Draw()
         {
+            _batch.Begin(SpriteBatchUsage.Default);
+            _batch.DrawRectangle(GameInstance.ClientRectangle, BackColor);
+
             foreach (var obj in _objects)
             {
-                obj.Draw();
+                obj.Draw(_batch);
             }
-            
+
             //TEST: Object counter.
-            GameInstance.SpriteBatch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall), _objects.Count.ToString(), Vector2.Zero, Color.White);
+            _batch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall), _objects.Count.ToString(), Vector2.Zero, Color.White);
+
+            _batch.End();
         }
 
         /// <summary>
@@ -116,7 +130,7 @@ namespace GGFanGame.Game
         public void Update()
         {
             _objects.Sort();
-            
+
             for (var i = 0; i < _objects.Count; i++)
             {
                 if (i <= _objects.Count - 1)
@@ -141,6 +155,7 @@ namespace GGFanGame.Game
         /// </summary>
         public void AddObject(StageObject obj)
         {
+            obj.ParentStage = this;
             obj.Load();
             _objects.Add(obj);
         }

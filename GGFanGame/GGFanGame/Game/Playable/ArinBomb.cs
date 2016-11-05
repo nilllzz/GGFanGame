@@ -1,7 +1,7 @@
 ﻿using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Game.Playable
 {
@@ -15,7 +15,7 @@ namespace GGFanGame.Game.Playable
         public ArinBomb(Vector3 movement, Vector3 startPosition, ObjectFacing facing)
         {
             ShadowSize = 0.8f;
-            this.Facing = facing;
+            Facing = facing;
 
             AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(32, 32), 20));
 
@@ -31,13 +31,13 @@ namespace GGFanGame.Game.Playable
 
         public override void Update()
         {
-            var groundY = Stage.ActiveStage.GetGround(GetFeetPosition());
+            var groundY = ParentStage.GetGround(GetFeetPosition());
 
             X += _movement.X;
             Z += _movement.Z;
 
             //Check if the bomb hit something, then explode.
-            if (Stage.ActiveStage.Intersects(this, Position))
+            if (ParentStage.Intersects(this, Position))
             {
                 Explode();
             }
@@ -61,7 +61,7 @@ namespace GGFanGame.Game.Playable
         private void Explode()
         {
             CanBeRemoved = true;
-            Stage.ActiveStage.ApplyExplosion(this, Position, 50f, 10, 9f);
+            ParentStage.ApplyExplosion(this, Position, 50f, 10, 9f);
         }
     }
 }

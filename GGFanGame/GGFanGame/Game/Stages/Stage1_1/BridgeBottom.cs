@@ -23,7 +23,7 @@ namespace GGFanGame.Game.Stages.Stage1_1
 
         public override void ApplyDataModel(StageObjectModel dataModel)
         {
-            SpriteSheet = Content.Load<Texture2D>(Resources.Levels.Stage1_1.BridgeBottom);
+            SpriteSheet = ParentStage.Content.Load<Texture2D>(Resources.Levels.Stage1_1.BridgeBottom);
         }
     }
 }

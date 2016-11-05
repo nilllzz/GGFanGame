@@ -1,7 +1,7 @@
 ﻿using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Game.Playable
 {
@@ -13,7 +13,8 @@ namespace GGFanGame.Game.Playable
         public override string Name => "Arin";
         public override int MaxGrumpPower => 100;
 
-        public Arin(PlayerIndex playerIndex) : base(playerIndex)
+        public Arin(PlayerIndex playerIndex)
+            : base(playerIndex)
         {
             SpriteSheet = GameInstance.Content.Load<Texture2D>(Resources.Sprites.Arin);
             DrawShadow = true;
@@ -77,7 +78,7 @@ namespace GGFanGame.Game.Playable
             if (Facing == ObjectFacing.Left)
                 xDirection = -5;
 
-            Stage.ActiveStage.AddObject(new ArinBomb(new Vector3(xDirection, 12, 0), new Vector3(X, Y + 10, Z), Facing));
+            ParentStage.AddObject(new ArinBomb(new Vector3(xDirection, 12, 0), new Vector3(X, Y + 10, Z), Facing));
         }
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace GGFanGame.Game.Playable
                 xOffset = -16;
             }
 
-            Stage.ActiveStage.AddObject(new ArinLemon(new Vector3(X + xOffset, Y + 27, Z), Facing));
+            ParentStage.AddObject(new ArinLemon(new Vector3(X + xOffset, Y + 27, Z), Facing));
         }
     }
 }

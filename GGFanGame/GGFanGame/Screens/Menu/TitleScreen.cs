@@ -1,9 +1,10 @@
 ﻿using GGFanGame.Content;
+using GGFanGame.Drawing;
 using GGFanGame.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -20,6 +21,7 @@ namespace GGFanGame.Screens.Menu
         private float _gameTitleAnimation = 1f;
 
         private readonly SpriteFont _grumpFont;
+        private SpriteBatch _batch, _fontBatch; // TODO: Dispose
 
         private readonly MenuBackgroundRenderer _backgroundRenderer;
 
@@ -29,15 +31,24 @@ namespace GGFanGame.Screens.Menu
             _logoTexture = GameInstance.Content.Load<Texture2D>(Resources.UI.Logos.GameGrumps);
             _grumpFont = GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFontLarge);
 
+            _batch = new SpriteBatch(GameInstance.GraphicsDevice);
+            _fontBatch = new SpriteBatch(GameInstance.GraphicsDevice);
+
             //MediaPlayer.IsRepeating = true;
             //MediaPlayer.Play(game.musicManager.load(@"Music\Smash 2"));
         }
 
         public override void Draw()
         {
-            _backgroundRenderer.Draw(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
+            _batch.Begin(SpriteBatchUsage.Default);
+            _fontBatch.Begin(SpriteBatchUsage.Font);
+
+            _backgroundRenderer.Draw(_batch, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
 
             DrawTitle();
+
+            _batch.End();
+            _fontBatch.End();
         }
 
         private void DrawTitle()
@@ -45,14 +56,14 @@ namespace GGFanGame.Screens.Menu
             var width = (int)(_logoTexture.Width / _logoAnimation);
             var height = (int)(_logoTexture.Height / _logoAnimation);
 
-            GameInstance.SpriteBatch.Draw(_logoTexture, new Rectangle((int)(GameInstance.ClientRectangle.Width / 2f), 200, width, height),
+            _batch.Draw(_logoTexture, new Rectangle((int)(GameInstance.ClientRectangle.Width / 2f), 200, width, height),
                                           null, Color.White,
                                           _logoAnimation - 1f, new Vector2(_logoTexture.Width / 2f, _logoTexture.Height / 2f), SpriteEffects.None, 0f);
 
-            GameInstance.FontBatch.DrawString(_grumpFont, GameController.GAME_TITLE,
+            _fontBatch.DrawString(_grumpFont, GameController.GAME_TITLE,
                 new Vector2((GameInstance.ClientRectangle.Width * _gameTitleAnimation) + GameInstance.ClientRectangle.Width / 2 - _grumpFont.MeasureString(GameController.GAME_TITLE).X / 2 + 5,
                 90 + _logoTexture.Height + 5), new Color(122, 141, 235), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            GameInstance.FontBatch.DrawString(_grumpFont, GameController.GAME_TITLE,
+            _fontBatch.DrawString(_grumpFont, GameController.GAME_TITLE,
                 new Vector2(-(GameInstance.ClientRectangle.Width * _gameTitleAnimation) + GameInstance.ClientRectangle.Width / 2 - _grumpFont.MeasureString(GameController.GAME_TITLE).X / 2,
                 90 + _logoTexture.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
@@ -83,9 +94,9 @@ namespace GGFanGame.Screens.Menu
             }
 
             //When a button is pressed, open the next screen:
-            if (GamePadHandler.ButtonPressed(PlayerIndex.One, Buttons.A))
+            if (GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.A))
             {
-                ScreenManager.GetInstance().SetScreen(new LoadSaveScreen(_backgroundRenderer));
+                GetComponent<ScreenManager>().SetScreen(new LoadSaveScreen(_backgroundRenderer));
             }
         }
     }

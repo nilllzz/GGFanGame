@@ -1,11 +1,12 @@
 ﻿using GGFanGame.Content;
+using GGFanGame.Drawing;
 using GGFanGame.Game;
 using GGFanGame.Input;
 using GGFanGame.Screens.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -19,6 +20,7 @@ namespace GGFanGame.Screens.Menu
         private readonly SpriteFont _font;
         private RenderTarget2D _target;
         private MenuBackgroundRenderer _backgroundRenderer;
+        private readonly SpriteBatch _batch, _fontBatch; // TODO: dispose
 
         private float _preScreenSize;
         private bool _closing;
@@ -32,6 +34,8 @@ namespace GGFanGame.Screens.Menu
             _barry = Content.Load<Texture2D>(Resources.UI.Pause.barry_pause);
             _bubble = Content.Load<Texture2D>(Resources.UI.Pause.paused_bubble);
             _font = Content.Load<SpriteFont>(Resources.Fonts.CartoonFont);
+            _batch = new SpriteBatch(GameInstance.GraphicsDevice);
+            _fontBatch = new SpriteBatch(GameInstance.GraphicsDevice);
 
             _target = new RenderTarget2D(GameInstance.GraphicsDevice, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
         }
@@ -39,9 +43,12 @@ namespace GGFanGame.Screens.Menu
         public override void Draw()
         {
             if (IsDisposed) return;
-            
+
+            _batch.Begin(SpriteBatchUsage.Default);
+            _fontBatch.Begin(SpriteBatchUsage.Font);
+
             // acquire background and draw it
-            _backgroundRenderer.Draw(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
+            _backgroundRenderer.Draw(_batch, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
 
             // create texture of pre screen
             RenderTargetManager.BeginRenderScreenToTarget(_target);
@@ -52,7 +59,7 @@ namespace GGFanGame.Screens.Menu
             var preScreenWidth = _target.Width * (1f - _preScreenSize * SCREEN_SIZE_MULTIPLIER);
             var preScreenHeight = _target.Height * (1f - _preScreenSize * SCREEN_SIZE_MULTIPLIER);
 
-            GameInstance.SpriteBatch.Draw(_target, new Rectangle((int)(GameController.RENDER_WIDTH * 0.5f - preScreenWidth * 0.5f),
+            _batch.Draw(_target, new Rectangle((int)(GameController.RENDER_WIDTH * 0.5f - preScreenWidth * 0.5f),
                                                                  (int)(GameController.RENDER_HEIGHT * 0.5f - preScreenHeight * 0.5f),
                                                                  (int)preScreenWidth,
                                                                  (int)preScreenHeight), Color.White);
@@ -62,25 +69,28 @@ namespace GGFanGame.Screens.Menu
             // draw barry
             var barryWidth = _barry.Width / 2;
             var barryHeight = _barry.Height / 2;
-            GameInstance.SpriteBatch.Draw(texture: _barry,
+            _batch.Draw(texture: _barry,
                                         destinationRectangle: new Rectangle((int)(-barryWidth + barryWidth * _preScreenSize), 200, barryWidth, barryHeight),
                                         color: Color.White,
                                         effects: SpriteEffects.FlipHorizontally);
 
             // draw speech bubble
-            GameInstance.SpriteBatch.Draw(_bubble, new Vector2(barryWidth, 200), new Color(255, 255, 255, (int)(255 * _preScreenSize)));
-            GameInstance.SpriteBatch.DrawString(_font, "PAUSED", new Vector2(barryWidth + 30, 244), new Color(0, 0, 0, (int)(255 * _preScreenSize)), 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
+            _batch.Draw(_bubble, new Vector2(barryWidth, 200), new Color(255, 255, 255, (int)(255 * _preScreenSize)));
+            _batch.DrawString(_font, "PAUSED", new Vector2(barryWidth + 30, 244), new Color(0, 0, 0, (int)(255 * _preScreenSize)), 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
 
             // draw level info
             var stage = Stage.ActiveStage;
-            GameInstance.FontBatch.DrawString(_font, $"STAGE: {stage.WorldId}-{stage.StageId} ({stage.Name})\nSTORY MODE", new Vector2(200, GameController.RENDER_HEIGHT - 135 * _preScreenSize), Color.White, 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
+            _batch.DrawString(_font, $"STAGE: {stage.WorldId}-{stage.StageId} ({stage.Name})\nSTORY MODE", new Vector2(200, GameController.RENDER_HEIGHT - 135 * _preScreenSize), Color.White, 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
+
+            _batch.End();
+            _fontBatch.End();
         }
 
         public override void Update()
         {
             _backgroundRenderer.Update();
 
-            if (GamePadHandler.ButtonPressed(PlayerIndex.One, Buttons.B) && !_closing)
+            if (GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.B) && !_closing)
             {
                 _closing = true;
             }
@@ -89,7 +99,7 @@ namespace GGFanGame.Screens.Menu
                 _preScreenSize = MathHelper.Lerp(_preScreenSize, 0f, 0.3f);
                 if (_preScreenSize <= 0.01f)
                 {
-                    ScreenManager.GetInstance().SetScreen(_preScreen);
+                    GetComponent<ScreenManager>().SetScreen(_preScreen);
                 }
             }
             else

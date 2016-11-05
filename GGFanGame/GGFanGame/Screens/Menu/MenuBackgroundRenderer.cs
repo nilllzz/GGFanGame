@@ -2,7 +2,7 @@
 using GGFanGame.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -23,6 +23,7 @@ namespace GGFanGame.Screens.Menu
 
         private BlurHandler _blurHandler;
         private RenderTarget2D _target;
+        private SpriteBatch _batch; // TODO: dispose
 
         internal bool ApplyTransparency { get; set; }
 
@@ -66,16 +67,18 @@ namespace GGFanGame.Screens.Menu
                                     Math.Abs(_dotToColor.G - _dotFromColor.G),
                                     Math.Abs(_dotToColor.B - _dotFromColor.B),
                                     Math.Abs(_dotToColor.A - _dotFromColor.A));
+
+            _batch = new SpriteBatch(GameInstance.GraphicsDevice);
         }
 
-        internal void Draw()
+        internal void Draw(SpriteBatch batch)
         {
-            Draw(GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
+            Draw(batch, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
         }
 
-        internal void Draw(int width, int height)
+        internal void Draw(SpriteBatch batch, int width, int height)
         {
-            GameInstance.SpriteBatch.Draw(CreateBackgroundTexture(width, height), GameInstance.ClientRectangle, Color.White);
+            batch.Draw(CreateBackgroundTexture(width, height), GameInstance.ClientRectangle, Color.White);
         }
 
         internal Texture2D CreateBackgroundTexture(int width, int height)
@@ -83,9 +86,10 @@ namespace GGFanGame.Screens.Menu
             CreateRenderDevices(width, height);
 
             RenderTargetManager.BeginRenderScreenToTarget(_target);
-            
+            _batch.Begin(SpriteBatchUsage.Default);
+
             // draws the background gradient:
-            Graphics.DrawGradient(new Rectangle(0, 0, width, height), _backgroundFromColor, _backgroundToColor, false, 1d);
+            _batch.DrawGradient(new Rectangle(0, 0, width, height), _backgroundFromColor, _backgroundToColor, false, 1d);
             
             //Draw the background dots:
             for (var x = -6; x < 32; x++)
@@ -130,13 +134,15 @@ namespace GGFanGame.Screens.Menu
                     //When the dot is inside the rendering area, draw it.
                     if (posX + DOT_SIZE * 2 >= 0 && posX < width && posY + DOT_SIZE * 2 >= 0 && posY < height)
                     {
-                        Graphics.DrawCircle(new Vector2(posX, posY), DOT_SIZE * 2, new Color((int)(_dotFromColor.R + cR),
-                                                                                             (int)(_dotFromColor.G + cG),
-                                                                                             (int)(_dotFromColor.B + cB), 
-                                                                                             (int)(cA)));
+                        _batch.DrawCircle(new Vector2(posX, posY), DOT_SIZE * 2, new Color((int)(_dotFromColor.R + cR),
+                                                                                            (int)(_dotFromColor.G + cG),
+                                                                                            (int)(_dotFromColor.B + cB), 
+                                                                                            (int)(cA)));
                     }
                 }
             }
+            _batch.End();
+
             RenderTargetManager.EndRenderScreenToTarget();
 
             return _blurHandler.BlurTexture(_target);
@@ -150,7 +156,7 @@ namespace GGFanGame.Screens.Menu
             if (_target == null || _blurHandler == null || width != _target.Width || height != _target.Height)
             {
                 _target = new RenderTarget2D(GameInstance.GraphicsDevice, width, height);
-                _blurHandler = new BlurHandler(width, height);
+                _blurHandler = new BlurHandler(_batch, width, height);
             }
         }
 
@@ -186,6 +192,7 @@ namespace GGFanGame.Screens.Menu
                 {
                     if (_blurHandler != null && !_blurHandler.IsDisposed) _blurHandler.Dispose();
                     if (_target != null && !_target.IsDisposed) _target.Dispose();
+                    if (_batch != null && !_batch.IsDisposed) _batch.Dispose();
                 }
 
                 _blurHandler = null;

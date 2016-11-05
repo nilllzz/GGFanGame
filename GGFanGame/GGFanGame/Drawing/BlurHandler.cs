@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Drawing
 {
@@ -14,7 +14,7 @@ namespace GGFanGame.Drawing
         private const float BLUR_AMOUNT = 2.0f;
         
         private GaussianBlur _blurCore;
-
+        private SpriteBatch _batch;
         private RenderTarget2D _rt1, _rt2;
 
         internal bool IsDisposed { get; private set; } 
@@ -24,8 +24,10 @@ namespace GGFanGame.Drawing
         /// </summary>
         /// <param name="width">The width of the target texture.</param>
         /// <param name="height">The height of the target texture.</param>
-        public BlurHandler(int width, int height)
+        public BlurHandler(SpriteBatch batch, int width, int height)
         {
+            _batch = batch;
+
             _blurCore = new GaussianBlur();
             _blurCore.ComputeKernel(BLUR_RADIUS, BLUR_AMOUNT);
 
@@ -53,7 +55,7 @@ namespace GGFanGame.Drawing
             var result = _blurCore.PerformGaussianBlur(drawTexture, _rt1, _rt2);
 
             GameInstance.GraphicsDevice.Clear(Color.White);
-            GameInstance.SpriteBatch.Draw(result, new Rectangle(0, 0, drawTexture.Width, drawTexture.Height), Color.White);
+            _batch.Draw(result, new Rectangle(0, 0, drawTexture.Width, drawTexture.Height), Color.White);
         }
 
         /// <summary>
@@ -85,11 +87,13 @@ namespace GGFanGame.Drawing
                     if (_rt1 != null && !_rt1.IsDisposed) _rt1.Dispose();
                     if (_rt2 != null && !_rt2.IsDisposed) _rt2.Dispose();
                     if (_blurCore != null && !_blurCore.isDisposed) _blurCore.Dispose();
+                    if (_batch != null && !_batch.IsDisposed) _batch.Dispose();
                 }
 
                 _rt1 = null;
                 _rt2 = null;
                 _blurCore = null;
+                _batch = null;
 
                 IsDisposed = true;
             }

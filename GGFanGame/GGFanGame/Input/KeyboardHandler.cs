@@ -1,19 +1,21 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace GGFanGame.Input
 {
     /// <summary>
     /// Handles keyboard input.
     /// </summary>
-    internal static class KeyboardHandler
+    internal sealed class KeyboardHandler : IGameComponent
     {
-        private static KeyboardState _oldState;
-        private static KeyboardState _currentState;
+        void IGameComponent.Initialize() { }
+
+        private KeyboardState _oldState, _currentState;
 
         /// <summary>
         /// Updates the KeyboardHandler's states.
         /// </summary>
-        public static void Update()
+        internal void Update()
         {
             _oldState = _currentState;
             _currentState = Keyboard.GetState();
@@ -22,19 +24,19 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if a specific key is pressed.
         /// </summary>
-        public static bool KeyPressed(Keys key)
+        internal bool KeyPressed(Keys key)
             => (!_oldState.IsKeyDown(key) && _currentState.IsKeyDown(key));
 
         /// <summary>
         /// Returns if a specific key is being held down.
         /// </summary>
-        public static bool KeyDown(Keys key)
+        internal bool KeyDown(Keys key)
             => _currentState.IsKeyDown(key);
 
         /// <summary>
         /// Returns all keys that pressed right now.
         /// </summary>
-        public static Keys[] GetPressedKeys()
+        internal Keys[] GetPressedKeys()
             => _currentState.GetPressedKeys();
     }
 }

@@ -26,7 +26,7 @@ namespace GGFanGame.Game.Stages.GrumpSpace
 
         protected override void LoadInternal()
         {
-            SpriteSheet = Content.Load<Texture2D>(Resources.Levels.GrumpSpace.Couch);
+            SpriteSheet = ParentStage.Content.Load<Texture2D>(Resources.Levels.GrumpSpace.Couch);
         }
     }
 }

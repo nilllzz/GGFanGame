@@ -29,7 +29,7 @@ namespace GGFanGame.Game.Stages.GrumpSpace
 
         protected override void LoadInternal()
         {
-            SpriteSheet = Content.Load<Texture2D>($@"Levels\GrumpSpace\Arcade{(int)_arcadeType}");
+            SpriteSheet = ParentStage.Content.Load<Texture2D>($@"Levels\GrumpSpace\Arcade{(int)_arcadeType}");
         }
 
         public override void ApplyDataModel(StageObjectModel dataModel)

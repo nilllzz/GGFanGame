@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Game
 {
@@ -11,42 +12,31 @@ namespace GGFanGame.Game
     /// </summary>
     internal sealed class ActionWord : StageObject
     {
-        private static Dictionary<ActionWordType, string[]> _wordGroups;
-
-        /// <summary>
-        /// This initializes the possible word arrays.
-        /// </summary>
-        private static void InitializeWords()
-        {
-            if (_wordGroups == null)
-            {
-                _wordGroups = new Dictionary<ActionWordType, string[]>
+        private static readonly Dictionary<ActionWordType, string[]> _wordGroups = new Dictionary<ActionWordType, string[]>
                 {
                     {ActionWordType.HurtEnemy, new[] {"Uhh", "Ahh", "Arg", "Huu", "Ehh"}},
                     {ActionWordType.HurtPlayer, new[] {"Ech", "Shiet", "Damn", "Dammit", "Urg", "Ahh", "Garg"}},
                     {ActionWordType.Landing, new[] {"Tud"}}
                 };
-            }
-        }
 
+        private static readonly Random _wordRandomizer = new Random();
+        
         /// <summary>
         /// Returns a random word string for a specific word type.
         /// </summary>
         public static string GetWordText(ActionWordType wordType)
         {
-            InitializeWords();
-
             var words = _wordGroups[wordType];
-            return words[GameInstance.Random.Next(0, words.Length)];
+            return words[_wordRandomizer.Next(0, words.Length)];
         }
 
-        //one-time values:
+        // one-time values:
         private readonly string _text = "";
         private readonly Color _color;
 
         private readonly float _targetSize;
 
-        //changing:
+        // changing:
         private float _size;
         private double _delay;
         private float _rotation = 0f;
@@ -63,11 +53,11 @@ namespace GGFanGame.Game
             this.Position = position;
         }
 
-        public override void Draw()
+        public override void Draw(SpriteBatch batch)
         {
             var fontSize = _grumpFont.MeasureString(_text) * _size;
 
-            GameInstance.SpriteBatch.DrawString(_grumpFont, _text, new Vector2(X - fontSize.X / 2f, Z - Y - fontSize.Y / 2f), _color, 0f, Vector2.Zero, _size, SpriteEffects.None, 0f);
+            batch.DrawString(_grumpFont, _text, new Vector2(X - fontSize.X / 2f, Z - Y - fontSize.Y / 2f), _color, 0f, Vector2.Zero, _size, SpriteEffects.None, 0f);
         }
 
         public override Point GetDrawingSize()

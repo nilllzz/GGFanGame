@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GGFanGame.Input;
+using GGFanGame.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,29 +17,9 @@ namespace GGFanGame
         public const int RENDER_WIDTH = 1280;
         public const int RENDER_HEIGHT = 720;
         public const string GAME_TITLE = "Hard Dudes";
-
-        private static GameController _instance;
-
-        /// <summary>
-        /// The active game instance.
-        /// </summary>
-        internal static GameController GetInstance() => _instance ?? (_instance = new GameController());
-
-        /// <summary>
-        /// The global randomizer of the game.
-        /// </summary>
-        internal Random Random { get; private set; } = new Random();
         
-        /// <summary>
-        /// The active main sprite batch of the game.
-        /// </summary>
-        internal SpriteBatch SpriteBatch { get; private set; }
-
-        /// <summary>
-        /// The active font sprite batch of the game.
-        /// </summary>
-        internal SpriteBatch FontBatch { get; private set; }
-
+        private SpriteBatch _batch;
+        
         /// <summary>
         /// The video card manager.
         /// </summary>
@@ -46,7 +30,7 @@ namespace GGFanGame
         /// </summary>
         internal Rectangle ClientRectangle => new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
-        private GameController()
+        internal GameController()
         {
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -60,9 +44,8 @@ namespace GGFanGame
         /// </summary>
         protected override void Initialize()
         {
-            //Just testing the screen manager here and setting the main menu as first screen.
-            //I guess we will implement a splash screen of some sort later.
-            Screens.ScreenManager.GetInstance().SetScreen(new Screens.Menu.TitleScreen());
+            LoadComponents();
+
             Window.Title = $"Game Grumps: {GAME_TITLE}";
 
             Graphics.PreferredBackBufferWidth = RENDER_WIDTH;
@@ -70,6 +53,31 @@ namespace GGFanGame
             Graphics.ApplyChanges();
 
             base.Initialize();
+
+            GetComponent<ScreenManager>().SetScreen(new Screens.Menu.TitleScreen());
+        }
+
+        private void LoadComponents()
+        {
+            var componentInterfaceType = typeof(IGameComponent);
+            foreach (var t in typeof(GameController).Assembly.GetTypes().Where(t => t.GetInterfaces().Contains(componentInterfaceType)))
+                Components.Add(Activator.CreateInstance(t) as IGameComponent);
+        }
+
+        private readonly Dictionary<Type, IGameComponent> _componentCache = new Dictionary<Type, IGameComponent>();
+
+        internal T GetComponent<T>() where T : IGameComponent
+        {
+            IGameComponent component;
+            var tType = typeof(T);
+
+            if (!_componentCache.TryGetValue(tType, out component))
+            {
+                component = Components.FirstOrDefault(c => c.GetType() == tType);
+                _componentCache.Add(tType, component);
+            }
+
+            return (T)component;
         }
 
         /// <summary>
@@ -79,10 +87,7 @@ namespace GGFanGame
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
-            FontBatch = new SpriteBatch(GraphicsDevice);
-            
-            Drawing.Graphics.Initialize(GraphicsDevice, SpriteBatch);
+            _batch = new SpriteBatch(GraphicsDevice);
             RenderTargetManager.initialize();
         }
 
@@ -93,12 +98,8 @@ namespace GGFanGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            Input.ControlsHandler.Update();
-
-            Screens.ScreenManager.GetInstance().UpdateScreen(gameTime);
+            GetComponent<ControlsHandler>().Update();
+            GetComponent<ScreenManager>().UpdateScreen(gameTime);
 
             base.Update(gameTime);
         }
@@ -111,20 +112,14 @@ namespace GGFanGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.SetRenderTarget(RenderTargetManager.DefaultTarget);
-
-            SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-            FontBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.AnisotropicClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-
-            Screens.ScreenManager.GetInstance().DrawScreen(gameTime);
-
-            SpriteBatch.End();
-            FontBatch.End();
-
+            
+            GetComponent<ScreenManager>().DrawScreen(gameTime);
+            
             GraphicsDevice.SetRenderTarget(null);
 
-            SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-            SpriteBatch.Draw(RenderTargetManager.DefaultTarget, ClientRectangle, Color.White);
-            SpriteBatch.End();
+            _batch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            _batch.Draw(RenderTargetManager.DefaultTarget, ClientRectangle, Color.White);
+            _batch.End();
 
             base.Draw(gameTime);
         }

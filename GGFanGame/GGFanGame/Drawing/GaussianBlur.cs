@@ -26,7 +26,7 @@ using System;
 using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Drawing
 {
@@ -180,9 +180,7 @@ namespace GGFanGame.Drawing
             // Return the Gaussian blurred texture.
 
             GameInstance.GraphicsDevice.SetRenderTarget(currentTarget);
-            outputTexture = (Texture2D)renderTarget2;
-
-            return outputTexture;
+            return renderTarget2;
         }
 
         public void Dispose()

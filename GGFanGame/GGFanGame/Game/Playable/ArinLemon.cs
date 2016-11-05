@@ -1,7 +1,7 @@
 ﻿using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Game.Playable
 {
@@ -14,7 +14,7 @@ namespace GGFanGame.Game.Playable
 
         public ArinLemon(Vector3 startPosition, ObjectFacing facing)
         {
-            this.Facing = facing;
+            Facing = facing;
             Size = new Vector3(4f, 4f, 8f);
 
             AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(7, 6), 20));
@@ -39,7 +39,7 @@ namespace GGFanGame.Game.Playable
                 X += 5f;
             }
 
-            var hits = Stage.ActiveStage.ApplyAttack(new Attack(this, false, 8, 4f, Size, Vector3.Zero, Facing), Position, 1);
+            var hits = ParentStage.ApplyAttack(new Attack(this, false, 8, 4f, Size, Vector3.Zero, Facing), Position, 1);
 
             if (hits > 0)
             {
@@ -49,7 +49,7 @@ namespace GGFanGame.Game.Playable
             {
                 //When this didn't hit anything, check if it collides with things.
                 //If it does, remove it from the stage:
-                if (Stage.ActiveStage.Intersects(this, Position))
+                if (ParentStage.Intersects(this, Position))
                 {
                     CanBeRemoved = true;
                 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GGFanGame.DataModel.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GGFanGame.Game
 {
@@ -30,9 +31,12 @@ namespace GGFanGame.Game
         private bool _loadedContent;
 
         #region Properties
-
-        protected static ContentManager Content => Stage.ActiveStage.Content;
-
+        
+        /// <summary>
+        /// The parent stage this StageObject belongs to.
+        /// </summary>
+        public Stage ParentStage { protected get; set; } 
+        
         /// <summary>
         /// The main color associated with this object.
         /// </summary>
@@ -266,7 +270,7 @@ namespace GGFanGame.Game
         /// <summary>
         /// Draw the object.
         /// </summary>
-        public abstract void Draw();
+        public abstract void Draw(SpriteBatch batch);
 
         /// <summary>
         /// This object gets hit by an attack.

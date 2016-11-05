@@ -6,15 +6,17 @@ namespace GGFanGame.Input
     /// <summary>
     /// Handles GamePad input.
     /// </summary>
-    internal static class GamePadHandler
+    internal class GamePadHandler : IGameComponent
     {
-        private static readonly GamePadState[] _oldStates = new GamePadState[4];
-        private static readonly GamePadState[] _currentStates = new GamePadState[4];
+        private readonly GamePadState[] _oldStates = new GamePadState[4];
+        private readonly GamePadState[] _currentStates = new GamePadState[4];
+        
+        void IGameComponent.Initialize() { }
 
         /// <summary>
         /// Updates the GamePadHandler's states.
         /// </summary>
-        public static void Update()
+        internal void Update()
         {
             for (var i = 0; i < _oldStates.Length; i++)
             {
@@ -30,7 +32,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if a specific button on a GamePad is pressed.
         /// </summary>
-        public static bool ButtonPressed(PlayerIndex playerIndex, Buttons button)
+        internal bool ButtonPressed(PlayerIndex playerIndex, Buttons button)
         {
             var index = (int)playerIndex;
             return (!_oldStates[index].IsButtonDown(button) && _currentStates[index].IsButtonDown(button));
@@ -39,7 +41,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns is a button is currently being held down on a GamePad.
         /// </summary>
-        public static bool ButtonDown(PlayerIndex playerIndex, Buttons button)
+        internal bool ButtonDown(PlayerIndex playerIndex, Buttons button)
         {
             var index = (int)playerIndex;
             return _currentStates[index].IsButtonDown(button);
@@ -48,7 +50,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns if the GamePad at the given player index is connected.
         /// </summary>
-        public static bool IsConnected(PlayerIndex playerIndex)
+        internal bool IsConnected(PlayerIndex playerIndex)
         {
             var index = (int)playerIndex;
             return _currentStates[index].IsConnected;
@@ -57,7 +59,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns a value from 0 to 1 how much a thumbstick is pressed in one direction.
         /// </summary>
-        public static float ThumbStickDirection(PlayerIndex playerIndex, ThumbStick thumbStick, InputDirection direction)
+        internal float ThumbStickDirection(PlayerIndex playerIndex, ThumbStick thumbStick, InputDirection direction)
         {
             Vector2 v;
             var result = 0f;

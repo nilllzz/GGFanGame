@@ -22,7 +22,7 @@ namespace GGFanGame.Game.Stages.Stage1_1
 
         protected override void LoadInternal()
         {
-            SpriteSheet = Content.Load<Texture2D>(Resources.Levels.Stage1_1.Street);
+            SpriteSheet = ParentStage.Content.Load<Texture2D>(Resources.Levels.Stage1_1.Street);
         }
     }
 }

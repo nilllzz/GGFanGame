@@ -42,6 +42,9 @@
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Core</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="ASCIIProvider.cs" />
     <Compile Include="BoundingBoxExtension.cs" />
@@ -59,17 +62,21 @@
     <Compile Include="DataModel\Serizalitaion\JsonDataSerializer.cs" />
     <Compile Include="DataModel\Serizalitaion\SerializerFactory.cs" />
     <Compile Include="DataModel\Serizalitaion\XmlDataSerializer.cs" />
+    <Compile Include="Drawing\EllipseConfiguration.cs" />
+    <Compile Include="Drawing\GradientConfiguration.cs" />
+    <Compile Include="Drawing\SpriteBatchUsage.cs" />
+    <Compile Include="Drawing\SpriteBatchExtensions.cs" />
     <Compile Include="Drawing\Colors.cs" />
     <Compile Include="Drawing\BlurHandler.cs" />
     <Compile Include="Drawing\GaussianBlur.cs" />
     <Compile Include="Drawing\Palette.cs" />
-    <Compile Include="GameProvider.cs" />
     <Compile Include="GameSession.cs" />
     <Compile Include="Game\ActionWord.cs" />
     <Compile Include="Game\ActionWordType.cs" />
     <Compile Include="Game\Animation.cs" />
     <Compile Include="Game\AnimationFrame.cs" />
     <Compile Include="Game\Attack.cs" />
+    <Compile Include="Game\HUD\Bubble.cs" />
     <Compile Include="Game\Playable\AttachDefinition.cs" />
     <Compile Include="Game\Playable\PlayerAttack.cs" />
     <Compile Include="Game\Playable\PlayerStatistics.cs" />
@@ -103,7 +110,7 @@
     <Compile Include="Input\MouseHandler.cs" />
     <Compile Include="Input\ThumbStick.cs" />
     <Compile Include="Networking\UrlEncoder.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Core.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderTargetManager.cs" />
     <Compile Include="Screens\DebugScreen\BoundingBoxRenderer.cs" />
@@ -124,12 +131,13 @@
     <Compile Include="Screens\Game\StageScreen.cs" />
     <Compile Include="Screens\Menu\LoadSaveScreen.cs" />
     <Compile Include="Screens\Menu\PlayerSelectScreen.cs" />
+    <Compile Include="Screens\Menu\SaveContainer.cs" />
     <Compile Include="Screens\Menu\TestScreen.cs" />
     <Compile Include="Screens\Menu\TitleScreen.cs" />
     <Compile Include="Screens\Menu\TransitionScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
-    <Compile Include="Drawing\Graphics.cs" />
+    <Compile Include="Drawing\ShapeRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.5.1.1679, Culture=neutral, processorArchitecture=MSIL">

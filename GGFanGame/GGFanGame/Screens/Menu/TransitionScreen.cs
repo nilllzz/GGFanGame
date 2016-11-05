@@ -3,7 +3,7 @@ using GGFanGame.Content;
 using GGFanGame.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -12,7 +12,7 @@ namespace GGFanGame.Screens.Menu
     /// </summary>
     internal class TransitionScreen : Screen
     {
-
+        private SpriteBatch _batch; // TODO: dispose
         private readonly Texture2D _gg_overlay;
         private float _overlaySize = 80f;
         private float _rotation;
@@ -25,6 +25,7 @@ namespace GGFanGame.Screens.Menu
 
         public TransitionScreen(Screen outScreen, Screen inScreen)
         {
+            _batch = new SpriteBatch(GameInstance.GraphicsDevice);
             _gg_overlay = GameInstance.Content.Load<Texture2D>(Resources.UI.Logos.GameGrumpsTransition);
             _outScreen = outScreen;
             _inScreen = inScreen;
@@ -32,6 +33,8 @@ namespace GGFanGame.Screens.Menu
 
         public override void Draw()
         {
+            _batch.Begin(SpriteBatchUsage.Default);
+
             if (_outro)
                 _outScreen.Draw();
             else
@@ -40,10 +43,10 @@ namespace GGFanGame.Screens.Menu
             if (_overlaySize > 0)
             {
                 // Render the rotating logo:
-                GameInstance.SpriteBatch.Draw(_gg_overlay, new Rectangle(GameController.RENDER_WIDTH / 2,
-                                                                        GameController.RENDER_HEIGHT / 2,
-                                                                        (int)(_gg_overlay.Width * _overlaySize),
-                                                                        (int)(_gg_overlay.Height * _overlaySize)),
+                _batch.Draw(_gg_overlay, new Rectangle(GameController.RENDER_WIDTH / 2,
+                                                        GameController.RENDER_HEIGHT / 2,
+                                                        (int)(_gg_overlay.Width * _overlaySize),
+                                                        (int)(_gg_overlay.Height * _overlaySize)),
                     null, Color.White, _rotation, new Vector2(_gg_overlay.Width / 2, _gg_overlay.Height / 2), SpriteEffects.None, 0f);
 
                 // Get the space between the edges of the screen and the logo.
@@ -55,19 +58,21 @@ namespace GGFanGame.Screens.Menu
                 // When needed, draw black rectangles at the side:
                 if (diffX + 50 > 0)
                 {
-                    Graphics.DrawRectangle(new Rectangle(0, 0, (int)(diffX * 0.5f) + addSide, GameController.RENDER_HEIGHT), Color.Black);
-                    Graphics.DrawRectangle(new Rectangle(GameController.RENDER_WIDTH - (int)Math.Floor(diffX / 2) - 2 - addSide, 0, (int)Math.Ceiling(diffX / 2) + 2 + addSide, GameController.RENDER_HEIGHT), Color.Black);
-                    Graphics.DrawRectangle(new Rectangle((int)(diffX / 2), 0, (int)(GameController.RENDER_WIDTH - diffX) + 1, (int)(diffY / 2) + 1 + addSide), Color.Black);
-                    Graphics.DrawRectangle(new Rectangle((int)(diffX / 2), GameController.RENDER_HEIGHT - (int)Math.Floor(diffY / 2) - 2 - addSide, (int)(GameController.RENDER_WIDTH - diffX), (int)(diffY / 2) + 2 + addSide), Color.Black);
+                    _batch.DrawRectangle(new Rectangle(0, 0, (int)(diffX * 0.5f) + addSide, GameController.RENDER_HEIGHT), Color.Black);
+                    _batch.DrawRectangle(new Rectangle(GameController.RENDER_WIDTH - (int)Math.Floor(diffX / 2) - 2 - addSide, 0, (int)Math.Ceiling(diffX / 2) + 2 + addSide, GameController.RENDER_HEIGHT), Color.Black);
+                    _batch.DrawRectangle(new Rectangle((int)(diffX / 2), 0, (int)(GameController.RENDER_WIDTH - diffX) + 1, (int)(diffY / 2) + 1 + addSide), Color.Black);
+                    _batch.DrawRectangle(new Rectangle((int)(diffX / 2), GameController.RENDER_HEIGHT - (int)Math.Floor(diffY / 2) - 2 - addSide, (int)(GameController.RENDER_WIDTH - diffX), (int)(diffY / 2) + 2 + addSide), Color.Black);
                 }
 
                 // Draw slightly fading rectangle.
-                Graphics.DrawRectangle(GameInstance.ClientRectangle, new Color(0, 0, 0, (int)(255 * (1f - _overlaySize / 2f))));
+                _batch.DrawRectangle(GameInstance.ClientRectangle, new Color(0, 0, 0, (int)(255 * (1f - _overlaySize / 2f))));
             }
             else
             {
-                Graphics.DrawRectangle(GameInstance.ClientRectangle, Color.Black);
+                _batch.DrawRectangle(GameInstance.ClientRectangle, Color.Black);
             }
+
+            _batch.End();
         }
 
         public override void Update()
@@ -93,7 +98,7 @@ namespace GGFanGame.Screens.Menu
                 // Once the intro animation is done, switch to the new screen.
                 if (_overlaySize + 0.01f >= 80f)
                 {
-                    ScreenManager.GetInstance().SetScreen(_inScreen);
+                    GetComponent<ScreenManager>().SetScreen(_inScreen);
                 }
             }
         }

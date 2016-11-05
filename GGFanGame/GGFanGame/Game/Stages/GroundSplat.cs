@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using GGFanGame.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Game.Stages
 {
@@ -17,19 +18,20 @@ namespace GGFanGame.Game.Stages
         {
             var ellipses = new List<Rectangle>();
             var colors = new List<Color>();
+            var random = ParentStage.Random;
 
             for (var i = 0; i < 8; i++)
             {
-                var width = GameInstance.Random.Next(8, 31);
-                var height = GameInstance.Random.Next(8, 31);
-                var x = GameInstance.Random.Next(0, 64 - width);
-                var y = GameInstance.Random.Next(0, 64 - height);
+                var width = random.Next(8, 31);
+                var height = random.Next(8, 31);
+                var x = random.Next(0, 64 - width);
+                var y = random.Next(0, 64 - height);
 
                 ellipses.Add(new Rectangle(x, y, width, height));
                 colors.Add(color);
             }
 
-            SpriteSheet = Drawing.Graphics.CreateJoinedEllipse(
+            SpriteSheet = SpriteBatchExtensions.CreateJoinedEllipse(
                 64,
                 64,
                 ellipses.ToArray(),
@@ -40,7 +42,7 @@ namespace GGFanGame.Game.Stages
             SortLowest = true;
             CanInteract = false;
 
-            if (GameInstance.Random.Next(0, 2) == 0)
+            if (random.Next(0, 2) == 0)
             {
                 _effect = SpriteEffects.FlipHorizontally;
             }
@@ -48,15 +50,15 @@ namespace GGFanGame.Game.Stages
             AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(128, 128), 100));
         }
 
-        public override void Draw()
+        public override void Draw(SpriteBatch batch)
         {
             var frame = GetAnimation().GetFrameRec(AnimationFrame);
-            var stageScale = Stage.ActiveStage.Camera.Scale;
+            var stageScale = ParentStage.Camera.Scale;
 
             var shadowWidth = (int)(SpriteSheet.Width);
             var shadowHeight = (int)(SpriteSheet.Height * (1d / 4d));
 
-            GameInstance.SpriteBatch.Draw(SpriteSheet, new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
+            batch.Draw(SpriteSheet, new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
                             (int)((Z - shadowHeight / 2d - Y) * stageScale),
                             (int)(shadowWidth * stageScale),
                             (int)(shadowHeight * stageScale)), null, new Color(255, 255, 255, _alpha), 0f, Vector2.Zero, _effect, 0f);

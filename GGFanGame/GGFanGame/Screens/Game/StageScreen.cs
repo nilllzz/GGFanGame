@@ -4,8 +4,9 @@ using GGFanGame.Game.HUD;
 using GGFanGame.Input;
 using GGFanGame.Screens.Menu;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Screens.Game
 {
@@ -21,7 +22,7 @@ namespace GGFanGame.Screens.Game
         {
             _stage = StageFactory.Create(Content, "1", "1");
             _stage.Load();
-
+            
             _oneStatus = new PlayerStatus(_stage.OnePlayer, PlayerIndex.One, Content);
             _twoStatus = new PlayerStatus(_stage.TwoPlayer, PlayerIndex.Two, Content);
             _threeStatus = new PlayerStatus(_stage.ThreePlayer, PlayerIndex.Three, Content);
@@ -37,8 +38,6 @@ namespace GGFanGame.Screens.Game
 
         internal void DrawStage()
         {
-            Graphics.DrawRectangle(GameInstance.ClientRectangle, _stage.BackColor);
-
             _stage.Draw();
         }
 
@@ -54,28 +53,28 @@ namespace GGFanGame.Screens.Game
         {
             _stage.Update();
             
-            if (GamePadHandler.ButtonPressed(PlayerIndex.One, Buttons.Start))
+            if (GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.Start))
             {
-                ScreenManager.GetInstance().SetScreen(new PauseScreen(this));
+                GetComponent<ScreenManager>().SetScreen(new PauseScreen(this));
             }
 
             //TEST CODE: When pressed P, rendering switches to 3D bounding box test stage:
-            if (KeyboardHandler.KeyPressed(Keys.P))
+            if (GetComponent<KeyboardHandler>().KeyPressed(Keys.P))
             {
-                ScreenManager.GetInstance().SetScreen(new Debug.BoundingBoxTestScreen());
+                GetComponent<ScreenManager>().SetScreen(new Debug.BoundingBoxTestScreen());
             }
             // Zoom out: Y
-            if (KeyboardHandler.KeyDown(Keys.Y) && _stage.Camera.Scale > 0.2)
+            if (GetComponent<KeyboardHandler>().KeyDown(Keys.Y) && _stage.Camera.Scale > 0.2)
             {
                 _stage.Camera.Scale -= 0.01;
             }
             // Zoom in: X
-            if (KeyboardHandler.KeyDown(Keys.X))
+            if (GetComponent<KeyboardHandler>().KeyDown(Keys.X))
             {
                 _stage.Camera.Scale += 0.01;
             }
             // Zoom default: C
-            if (KeyboardHandler.KeyPressed(Keys.OemPipe))
+            if (GetComponent<KeyboardHandler>().KeyPressed(Keys.OemPipe))
             {
                 _stage.Camera.Scale = 2;
             }

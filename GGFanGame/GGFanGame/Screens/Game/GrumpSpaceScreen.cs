@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using GGFanGame.Game;
-using static GameProvider;
+using static Core;
+using GGFanGame.Input;
 
 namespace GGFanGame.Screens.Game
 {
@@ -19,7 +20,7 @@ namespace GGFanGame.Screens.Game
 
         public override void Draw()
         {
-            Drawing.Graphics.DrawRectangle(GameInstance.ClientRectangle, Color.CornflowerBlue);
+            //Drawing.Graphics.DrawRectangle(GameInstance.ClientRectangle, Color.CornflowerBlue);
             _stage.Draw();
         }
 
@@ -28,22 +29,22 @@ namespace GGFanGame.Screens.Game
             _stage.Update();
 
             //TEST CODE: When pressed P, rendering switches to 3D bounding box test stage:
-            if (Input.KeyboardHandler.KeyPressed(Microsoft.Xna.Framework.Input.Keys.P))
+            if (GetComponent<KeyboardHandler>().KeyPressed(Microsoft.Xna.Framework.Input.Keys.P))
             {
-                ScreenManager.GetInstance().SetScreen(new Debug.BoundingBoxTestScreen());
+                GetComponent<ScreenManager>().SetScreen(new Debug.BoundingBoxTestScreen());
             }
             // Zoom out: Y
-            if (Input.KeyboardHandler.KeyDown(Microsoft.Xna.Framework.Input.Keys.Y) && _stage.Camera.Scale > 0.2)
+            if (GetComponent<KeyboardHandler>().KeyDown(Microsoft.Xna.Framework.Input.Keys.Y) && _stage.Camera.Scale > 0.2)
             {
                 _stage.Camera.Scale -= 0.01;
             }
             // Zoom in: X
-            if (Input.KeyboardHandler.KeyDown(Microsoft.Xna.Framework.Input.Keys.X))
+            if (GetComponent<KeyboardHandler>().KeyDown(Microsoft.Xna.Framework.Input.Keys.X))
             {
                 _stage.Camera.Scale += 0.01;
             }
             // Zoom default: C
-            if (Input.KeyboardHandler.KeyPressed(Microsoft.Xna.Framework.Input.Keys.OemPipe))
+            if (GetComponent<KeyboardHandler>().KeyPressed(Microsoft.Xna.Framework.Input.Keys.OemPipe))
             {
                 _stage.Camera.Scale = 2;
             }

@@ -21,7 +21,7 @@ namespace GGFanGame.Game.Stages.Stage1_1
 
         protected override void LoadInternal()
         {
-            SpriteSheet = Content.Load<Texture2D>(Resources.Levels.Stage1_1.BridgeRailing);
+            SpriteSheet = ParentStage.Content.Load<Texture2D>(Resources.Levels.Stage1_1.BridgeRailing);
         }
     }
 }

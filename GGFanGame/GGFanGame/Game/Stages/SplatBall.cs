@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using GGFanGame.Drawing;
 using Microsoft.Xna.Framework;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Game.Stages
 {
@@ -16,9 +17,9 @@ namespace GGFanGame.Game.Stages
 
         public SplatBall(Color color, ObjectFacing setFacing)
         {
-            float xMovement = GameInstance.Random.Next(10, 20);
-            float yMovement = GameInstance.Random.Next(0, 10);
-            float zMovement = GameInstance.Random.Next(-5, 5);
+            float xMovement = ParentStage.Random.Next(10, 20);
+            float yMovement = ParentStage.Random.Next(0, 10);
+            float zMovement = ParentStage.Random.Next(-5, 5);
             if (setFacing == ObjectFacing.Left)
             {
                 AutoMovement.X = -xMovement;
@@ -38,16 +39,16 @@ namespace GGFanGame.Game.Stages
 
             for (var i = 0; i < 3; i++)
             {
-                var width = GameInstance.Random.Next(4, 8);
-                var height = GameInstance.Random.Next(4, 8);
-                var x = GameInstance.Random.Next(0, 16 - width);
-                var y = GameInstance.Random.Next(0, 16 - height);
+                var width = ParentStage.Random.Next(4, 8);
+                var height = ParentStage.Random.Next(4, 8);
+                var x = ParentStage.Random.Next(0, 16 - width);
+                var y = ParentStage.Random.Next(0, 16 - height);
 
                 ellipses.Add(new Rectangle(x, y, width, height));
                 colors.Add(color);
             }
 
-            SpriteSheet = Drawing.Graphics.CreateJoinedEllipse(
+            SpriteSheet = SpriteBatchExtensions.CreateJoinedEllipse(
                 16,
                 16,
                 ellipses.ToArray(),
@@ -66,12 +67,12 @@ namespace GGFanGame.Game.Stages
         {
             base.Update();
 
-            var groundY = Stage.ActiveStage.GetGround(Position);
+            var groundY = ParentStage.GetGround(Position);
 
             if (Y <= groundY)
             {
                 CanBeRemoved = true;
-                Stage.ActiveStage.AddObject(new GroundSplat(ObjectColor) { Position = Position });
+                ParentStage.AddObject(new GroundSplat(ObjectColor) { Position = Position });
             }
         }
     }

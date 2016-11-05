@@ -2,7 +2,7 @@
 using GGFanGame.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Game.Stages.GrumpSpace.Enemies
 {
@@ -34,7 +34,7 @@ namespace GGFanGame.Game.Stages.GrumpSpace.Enemies
 
         protected override void LoadInternal()
         {
-            SpriteSheet = Content.Load<Texture2D>(Resources.Sprites.Booper);
+            SpriteSheet = ParentStage.Content.Load<Texture2D>(Resources.Sprites.Booper);
         }
 
         public override void Update()
@@ -44,7 +44,7 @@ namespace GGFanGame.Game.Stages.GrumpSpace.Enemies
             //This enemy always faces the player:
             if (State == ObjectState.Idle)
             {
-                if (Stage.ActiveStage.OnePlayer.X < X)
+                if (ParentStage.OnePlayer.X < X)
                 {
                     Facing = ObjectFacing.Left;
                 }
@@ -57,24 +57,24 @@ namespace GGFanGame.Game.Stages.GrumpSpace.Enemies
 
         private void OnDeathHandler(StageObject obj)
         {
-            Stage.ActiveStage.AddObject(new GroundSplat(new Color(255, 128, 255)) { Position = Position });
+            ParentStage.AddObject(new GroundSplat(new Color(255, 128, 255)) { Position = Position });
 
             for (var i = 0; i < 3; i++)
             {
-                float xMovement = GameInstance.Random.Next(5, 10);
-                float zMovement = GameInstance.Random.Next(-3, 4);
+                float xMovement = ParentStage.Random.Next(5, 10);
+                float zMovement = ParentStage.Random.Next(-3, 4);
                 if (Facing == ObjectFacing.Right)
                 {
                     xMovement *= -1;
                 }
 
                 var G = 128;
-                if (GameInstance.Random.Next(0, 2) == 0)
+                if (ParentStage.Random.Next(0, 2) == 0)
                 {
                     G = 174;
                 }
 
-                Stage.ActiveStage.AddObject(new SplatBall(new Color(255, G, 255), new Vector3(xMovement, 3f, zMovement)) { Position = Position });
+                ParentStage.AddObject(new SplatBall(new Color(255, G, 255), new Vector3(xMovement, 3f, zMovement)) { Position = Position });
             }
         }
     }

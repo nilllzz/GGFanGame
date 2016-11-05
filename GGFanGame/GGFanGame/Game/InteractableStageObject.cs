@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using GGFanGame.Content;
+using GGFanGame.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Game
 {
@@ -88,21 +89,21 @@ namespace GGFanGame.Game
             _animations.Add(state, animation);
         }
 
-        public override void Draw()
+        public override void Draw(SpriteBatch batch)
         {
             var frame = GetAnimation().GetFrameRec(AnimationFrame);
-            var stageScale = Stage.ActiveStage.Camera.Scale;
+            var stageScale = ParentStage.Camera.Scale;
 
             if (DrawShadow)
             {
                 var shadowWidth = (int)(frame.Width * ShadowSize);
                 var shadowHeight = (int)(frame.Height * ShadowSize * (1d / 4d));
 
-                Drawing.Graphics.DrawEllipse(new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
-                           (int)((Z - shadowHeight / 2d - Stage.ActiveStage.GetGround(Position)) * stageScale),
+                batch.DrawEllipse(new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
+                           (int)((Z - shadowHeight / 2d - ParentStage.GetGround(Position)) * stageScale),
                            (int)(shadowWidth * stageScale),
                            (int)(shadowHeight * stageScale)),
-                           Stage.ActiveStage.AmbientColor, stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
+                           ParentStage.AmbientColor, stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
             }
 
             var effect = SpriteEffects.None;
@@ -111,26 +112,26 @@ namespace GGFanGame.Game
                 effect = SpriteEffects.FlipHorizontally;
             }
 
-            GameInstance.SpriteBatch.Draw(SpriteSheet, new Rectangle((int)((X - frame.Width / 2d) * stageScale),
+            batch.Draw(SpriteSheet, new Rectangle((int)((X - frame.Width / 2d) * stageScale),
                                                                      (int)((Z - Y - frame.Height) * stageScale),
                                                                      (int)(frame.Width * stageScale),
                                                                      (int)(frame.Height * stageScale)),
                                                        frame, Color.White, 0f, Vector2.Zero, effect, 0f);
 
-            DrawActionHint();
+            DrawActionHint(batch);
         }
 
         /// <summary>
         /// Draws the action hint of this object.
         /// </summary>
-        private void DrawActionHint()
+        private void DrawActionHint(SpriteBatch batch)
         {
             if ((HasAction && RenderActionHint))
             {
                 //Test if player is in range and get smallest range:
                 var smallestPlayerDistance = -1f;
 
-                foreach (var obj in Stage.ActiveStage.GetObjects())
+                foreach (var obj in ParentStage.GetObjects())
                 {
                     if (obj.GetType().IsSubclassOf(typeof(Playable.PlayerCharacter)) && obj != this)
                     {
@@ -169,7 +170,8 @@ namespace GGFanGame.Game
                 if (_actionHintTextAlpha > 0)
                 {
                     //TODO: Render properly.
-                    GameInstance.SpriteBatch.DrawString(GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFont), ActionHintText, new Vector2(X, Z - Y) * (float)Stage.ActiveStage.Camera.Scale, new Color(255, 255, 255, _actionHintTextAlpha));
+                    batch.DrawString(GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFont), 
+                        ActionHintText, new Vector2(X, Z - Y) * (float)ParentStage.Camera.Scale, new Color(255, 255, 255, _actionHintTextAlpha));
                 }
             }
         }
@@ -177,7 +179,7 @@ namespace GGFanGame.Game
         public override void Update()
         {
             //Item1 is the actual object and Item2 is the Y position:
-            var (supportingObj, objY) = Stage.ActiveStage.GetSupporting(GetFeetPosition());
+            var (supportingObj, objY) = ParentStage.GetSupporting(GetFeetPosition());
             UpdateSupporting(supportingObj);
             UpdateAutoMovement(objY);
 
@@ -305,7 +307,7 @@ namespace GGFanGame.Game
 
             if (AutoMovement.X != 0f || AutoMovement.Z != 0f)
             {
-                if (!Stage.ActiveStage.Intersects(this, desiredPos))
+                if (!ParentStage.Intersects(this, desiredPos))
                 {
                     Position = desiredPos;
                 }
@@ -314,11 +316,11 @@ namespace GGFanGame.Game
                     var desiredPosX = new Vector3(X + AutoMovement.X, Y, Z);
                     var desiredPosZ = new Vector3(X, Y, Z + AutoMovement.Z);
 
-                    if (!Stage.ActiveStage.Intersects(this, desiredPosX))
+                    if (!ParentStage.Intersects(this, desiredPosX))
                     {
                         X = desiredPosX.X;
                     }
-                    if (!Stage.ActiveStage.Intersects(this, desiredPosZ))
+                    if (!ParentStage.Intersects(this, desiredPosZ))
                     {
                         Z = desiredPosX.Z;
                     }
@@ -329,7 +331,7 @@ namespace GGFanGame.Game
             {
                 Y = groundY;
                 //Spawn an action word for where the player landed.
-                Stage.ActiveStage.AddObject(new ActionWord(ActionWord.GetWordText(ActionWordType.Landing), ObjectColor, 0.3f, Position));
+                ParentStage.AddObject(new ActionWord(ActionWord.GetWordText(ActionWordType.Landing), ObjectColor, 0.3f, Position));
 
                 if (AutoMovement.Y < -17f && State == ObjectState.HurtFalling)
                 {
@@ -350,7 +352,7 @@ namespace GGFanGame.Game
         {
             //Returns the drawing size of the current frame:
             var frame = GetAnimation().GetFrameRec(AnimationFrame);
-            var stageScale = Stage.ActiveStage.Camera.Scale;
+            var stageScale = ParentStage.Camera.Scale;
             return new Point((int)(frame.Width * stageScale), (int)(frame.Height * stageScale));
         }
 

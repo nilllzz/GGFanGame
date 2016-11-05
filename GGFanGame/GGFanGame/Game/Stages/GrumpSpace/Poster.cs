@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GGFanGame.Input;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Game.Stages.GrumpSpace
 {
@@ -27,13 +28,13 @@ namespace GGFanGame.Game.Stages.GrumpSpace
 
         private void SetRandomPoster()
         {
-            SpriteSheet = Content.Load<Texture2D>(@"Levels\GrumpSpace\Posters\" + 
-                _posters[GameInstance.Random.Next(0, _posters.Length)]);
+            SpriteSheet = ParentStage.Content.Load<Texture2D>(@"Levels\GrumpSpace\Posters\" + 
+                _posters[ParentStage.Random.Next(0, _posters.Length)]);
         }
 
         public override void Update()
         {
-            if (Input.GamePadHandler.ButtonPressed(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.A))
+            if (GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Microsoft.Xna.Framework.Input.Buttons.A))
             {
                 SetRandomPoster();
             }

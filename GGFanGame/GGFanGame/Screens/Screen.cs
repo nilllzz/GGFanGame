@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Content;
-using static GameProvider;
+using static Core;
 
 namespace GGFanGame.Screens
 {
@@ -37,8 +37,8 @@ namespace GGFanGame.Screens
         {
             get
             {
-                if (ScreenManager.GetInstance().CurrentScreen != null)
-                    return ScreenManager.GetInstance().CurrentScreen.GetType() == GetType();
+                if (GetComponent<ScreenManager>().CurrentScreen != null)
+                    return GetComponent<ScreenManager>().CurrentScreen.GetType() == GetType();
                 else
                     return false;
             }

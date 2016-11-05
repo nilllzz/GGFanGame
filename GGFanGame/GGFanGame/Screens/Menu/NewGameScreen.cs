@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GGFanGame.Content;
+using GGFanGame.Drawing;
+using GGFanGame.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using static GameProvider;
 
 namespace GGFanGame.Screens.Menu
@@ -21,11 +24,20 @@ namespace GGFanGame.Screens.Menu
             _lowerCaseAlphabet =
                 ASCIIProvider.GetChars(new[] { (97, 26), (48, 10) });
         private static readonly char[][] _alphabets = { _upperCaseAlphabet, _lowerCaseAlphabet };
-        private static readonly int[]
-            _charsPerRow =
-                { 10, 10, 6, 10 };
+        private static readonly ushort[] _charsPerRow = { 10, 10, 6, 10 };
         private readonly SpriteFont _font;
         private int _alphabetIndex = 0;
+        private double _charRotation = 0D;
+        private ushort _cursorX = 0, _cursorY = 0;
+        private float _selectedCharScale = 2f;
+        private const ushort _alphabetWidth = 156; // half of approximated width of the alphabet.
+        private string _name = string.Empty;
+        private readonly Texture2D _arinFace;
+        private ushort _arinSad = 0;
+
+        private static readonly Color
+            DefaultLetterColor = new Color(254, 242, 205),
+            HighlightLetterColor = new Color(208, 67, 32);   
 
         public NewGameScreen(Screen preScreen, MenuBackgroundRenderer backgroundRenderer)
         {
@@ -33,26 +45,66 @@ namespace GGFanGame.Screens.Menu
             _backgroundRenderer = backgroundRenderer;
 
             _font = Content.Load<SpriteFont>(Resources.Fonts.CartoonFont);
+            _arinFace = Content.Load<Texture2D>(Resources.UI.HUD.Arin);
         }
 
         public override void Draw()
         {
             _backgroundRenderer.Draw();
-            DrawNameSelection();
+            DrawCharSelection();
+            DrawNameField();
         }
 
-        private void DrawNameSelection()
+        private void DrawNameField()
         {
+            Vector2 positionOffset = new Vector2(GameInstance.ClientRectangle.Width / 2 - _alphabetWidth, 350);
+
+            ushort arinFaceIndex = 0;
+            if (_arinSad > 0)
+                arinFaceIndex = 1;
+            else if (_name.Length == 0)
+                arinFaceIndex = 2;
+
+            GameInstance.SpriteBatch.Draw(_arinFace, new Rectangle((int)positionOffset.X - 60, (int)positionOffset.Y - 6, 48, 48),
+                new Rectangle(arinFaceIndex * 48, 0, 48, 48), Color.White);
+
+            Graphics.DrawRectangle(new Rectangle((int)positionOffset.X - 10, (int)positionOffset.Y - 10, _alphabetWidth * 2 + 20, 56),
+                new Color(0, 0, 0, 150));
+
+            GameInstance.SpriteBatch.DrawString(_font, _name, positionOffset, DefaultLetterColor);
+        }
+
+        private void DrawCharSelection()
+        {
+            Vector2 positionOffset = new Vector2(GameInstance.ClientRectangle.Width / 2 - _alphabetWidth, 140);
+
+            Graphics.DrawRectangle(new Rectangle((int)positionOffset.X - 10, (int)positionOffset.Y - 10, _alphabetWidth * 2 + 20, 150), 
+                new Color(0, 0, 0, 150));
+                
             var alphabet = _alphabets[_alphabetIndex];
             int charIndex = 0;
             int rowIndex = 0;
 
-            foreach (var row in _charsPerRow)
+            foreach (var rowLength in _charsPerRow)
             {
-                for (int i = 0; i < row; i++)
+                for (int i = 0; i < rowLength; i++)
                 {
                     var c = alphabet[charIndex++];
-                    GameInstance.SpriteBatch.DrawString(_font, c.ToString(), new Vector2(i * 32, rowIndex * 32), Color.White);
+                    var rotation = 0d;
+                    var color = DefaultLetterColor;
+                    var scale = 1f;
+
+                    if (_cursorX == i && _cursorY == rowIndex)
+                    {
+                        rotation = Math.Sin(_charRotation) * 0.5f;
+                        color = HighlightLetterColor;
+                        scale = _selectedCharScale;
+                    }
+
+                    Vector2 charSize = _font.MeasureString(c.ToString());
+
+                    GameInstance.SpriteBatch.DrawString(_font, c.ToString(), new Vector2(i * 32, rowIndex * 32) + charSize / 2 + positionOffset,
+                        color, (float)rotation, charSize / 2, scale, SpriteEffects.None, 0f);
                 }
                 rowIndex++;
             }
@@ -61,6 +113,78 @@ namespace GGFanGame.Screens.Menu
         public override void Update()
         {
             _backgroundRenderer.Update();
+
+            _charRotation += 0.1D;
+
+            if (_selectedCharScale > 1f)
+            {
+                _selectedCharScale -= 0.2f;
+                if (_selectedCharScale <= 1f)
+                    _selectedCharScale = 1f;
+            }
+
+            bool movedCursor = false;
+            if (ControlsHandler.DownPressed(PlayerIndex.One))
+            {
+                do
+                {
+                    _cursorY++;
+                    if (_cursorY == _charsPerRow.Length)
+                        _cursorY = 0;
+                } while (_charsPerRow[_cursorY] <= _cursorX);
+                
+                movedCursor = true;
+            }
+            if (ControlsHandler.UpPressed(PlayerIndex.One))
+            {
+                do
+                {
+                    if (_cursorY == 0)
+                        _cursorY = (ushort)(_charsPerRow.Length - 1);
+                    else
+                        _cursorY--;
+                } while (_charsPerRow[_cursorY] <= _cursorX);
+
+                movedCursor = true;
+            }
+            if (ControlsHandler.RightPressed(PlayerIndex.One))
+            {
+                _cursorX++;
+                if (_cursorX == _charsPerRow[_cursorY])
+                    _cursorX = 0;
+
+                movedCursor = true;
+            }
+            if (ControlsHandler.LeftPressed(PlayerIndex.One))
+            {
+                if (_cursorX == 0)
+                    _cursorX = (ushort)(_charsPerRow[_cursorY] - 1);
+                else
+                    _cursorX--;
+
+                movedCursor = true;
+            }
+
+            if (movedCursor)
+                _selectedCharScale = 2f;
+
+            if (_name.Length < 10 && GamePadHandler.ButtonPressed(PlayerIndex.One, Buttons.A))
+            {
+                ushort cIndex = _cursorX;
+                for (int i = 0; i < _cursorY; i++)
+                    cIndex += _charsPerRow[i];
+
+                _name += _alphabets[_alphabetIndex][cIndex];
+            }
+
+            if (_name.Length > 0 && GamePadHandler.ButtonPressed(PlayerIndex.One, Buttons.B))
+            {
+                _name = _name.Substring(0, _name.Length - 1);
+                _arinSad = 10;
+            }
+
+            if (_arinSad > 0)
+                _arinSad--;
         }
     }
 }

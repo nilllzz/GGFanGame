@@ -24,8 +24,8 @@ namespace GGFanGame.Screens.Menu
         private int _alpha;
 
         private readonly SpriteFont _grumpFont;
-        private SpriteBatch _batch; // TODO: Dispose
-        private readonly MenuBackgroundRenderer _backgroundRenderer;
+        private MenuBackgroundRenderer _backgroundRenderer;
+        private SpriteBatch _batch;
 
         public LoadSaveScreen(MenuBackgroundRenderer backgroundRenderer)
         {
@@ -65,7 +65,7 @@ namespace GGFanGame.Screens.Menu
                     var save = _saves[_selected];
                     if (save.NewGameButton)
                     {
-                        GetComponent<ScreenManager>().SetScreen(new TransitionScreen(this, new NewGameScreen(this, _backgroundRenderer)));
+                        GetComponent<ScreenManager>().SetScreen(new TransitionScreen(this, new NewGameScreen(this, _backgroundRenderer.Clone())));
                     }
                     else
                     {
@@ -102,6 +102,23 @@ namespace GGFanGame.Screens.Menu
             }
 
             _batch.End();
+        }
+        
+        protected override void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                if (disposing)
+                {
+                    if (_backgroundRenderer != null && !_backgroundRenderer.IsDisposed) _backgroundRenderer.Dispose();
+                    if (_batch != null && !_batch.IsDisposed) _batch.Dispose();
+                }
+
+                _batch = null;
+                _backgroundRenderer = null;
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

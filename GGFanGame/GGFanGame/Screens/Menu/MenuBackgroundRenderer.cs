@@ -23,7 +23,7 @@ namespace GGFanGame.Screens.Menu
 
         private BlurHandler _blurHandler;
         private RenderTarget2D _target;
-        private SpriteBatch _batch; // TODO: dispose
+        private SpriteBatch _batch;
 
         internal bool ApplyTransparency { get; set; }
 
@@ -141,6 +141,7 @@ namespace GGFanGame.Screens.Menu
                     }
                 }
             }
+
             _batch.End();
 
             RenderTargetManager.EndRenderScreenToTarget();
@@ -197,9 +198,22 @@ namespace GGFanGame.Screens.Menu
 
                 _blurHandler = null;
                 _target = null;
+                _batch = null;
 
                 IsDisposed = true;
             }
+        }
+
+        /// <summary>
+        /// Clones the state of this instance into a new one.
+        /// </summary>
+        internal MenuBackgroundRenderer Clone()
+        {
+            var clone = new MenuBackgroundRenderer(new Vector2(_offsetX, _offsetY), 
+                _backgroundFromColor, _backgroundToColor, _dotFromColor, _dotToColor);
+            clone.ApplyTransparency = ApplyTransparency;
+            
+            return clone;
         }
     }
 }

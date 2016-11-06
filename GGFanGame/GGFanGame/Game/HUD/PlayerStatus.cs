@@ -12,7 +12,7 @@ namespace GGFanGame.Game.HUD
     /// <summary>
     /// HUD element to display player status.
     /// </summary>
-    internal sealed class PlayerStatus
+    internal sealed class PlayerStatus : IDisposable
     {
         private readonly ContentManager _content;
 
@@ -32,11 +32,12 @@ namespace GGFanGame.Game.HUD
 
         private RenderTarget2D _target;
         private SpriteBatch _comboBatch;
-        private readonly SpriteBatch _batch; // TODO: Dispose
 
         private string _lastComboDrawn = "";
         private bool _drawGrowingNumber = true;
         private float _growingNumberSize = 1f;
+
+        internal bool IsDisposed { get; private set; }
 
         /// <summary>
         /// Creates a new instance of the PlayerStatus class.
@@ -46,7 +47,6 @@ namespace GGFanGame.Game.HUD
             _player = player;
             _playerIndex = playerIndex;
             _content = content;
-            _batch = new SpriteBatch(GameInstance.GraphicsDevice);
 
             _barTexture = _content.Load<Texture2D>(@"UI\HUD\Bars");
             _headTexture = _content.Load<Texture2D>(@"UI\HUD\" + _player.Name);
@@ -64,10 +64,8 @@ namespace GGFanGame.Game.HUD
         /// <summary>
         /// Draws the player status.
         /// </summary>
-        internal void Draw()
+        internal void Draw(SpriteBatch batch)
         {
-            _batch.Begin(SpriteBatchUsage.Default);
-
             // TODO: get rid of hardcoded life count!
             // TODO: create update method
 
@@ -111,19 +109,19 @@ namespace GGFanGame.Game.HUD
             //Render bars:
             var xOffset = 34 + 320 * (int)_playerIndex;
 
-            _batch.DrawRectangle(new Rectangle(xOffset + 75, 65, 120, 20), Colors.GetColor(_playerIndex));
+            batch.DrawRectangle(new Rectangle(xOffset + 75, 65, 120, 20), Colors.GetColor(_playerIndex));
             foreach (var ell in _bubbles)
             {
                 if (_player.GrumpPower == _player.MaxGrumpPower)
                 {
-                    _batch.Draw(_fireTexture,
+                    batch.Draw(_fireTexture,
                         new Rectangle((int)(xOffset + 90 + ell.position.X - ell.size), (int)(71 + ell.position.Y - ell.size), (int)ell.size * 2, (int)ell.size * 2),
                         new Rectangle(((int)ell.size / 9) % 3 * 32, 0, 32, 32),
                         Colors.GetColor(_playerIndex));
                 }
                 else
                 {
-                    _batch.DrawCircle(new Vector2(xOffset + 90, 71) + ell.position - new Vector2(ell.size / 2), (int)ell.size, Colors.GetColor(_playerIndex), 1d);
+                    batch.DrawCircle(new Vector2(xOffset + 90, 71) + ell.position - new Vector2(ell.size / 2), (int)ell.size, Colors.GetColor(_playerIndex), 1d);
                 }
                 ell.Update();
             }
@@ -135,37 +133,35 @@ namespace GGFanGame.Game.HUD
                 textColor = Color.Black;
             }
 
-            _batch.DrawString(_font, _player.Name + "    x3", new Vector2(xOffset + 86, 56), textColor);
+            batch.DrawString(_font, _player.Name + "    x3", new Vector2(xOffset + 86, 56), textColor);
 
-            _batch.Draw(_barTexture, new Rectangle(xOffset + 80, 74, 172, 16), new Rectangle(0, 12, 86, 8), Color.White);
-            _batch.Draw(_barTexture, new Rectangle(xOffset + 80, 74, _drawHealthWidth * 2, 16), new Rectangle(0, 0, _drawHealthWidth, 8), Color.White);
+            batch.Draw(_barTexture, new Rectangle(xOffset + 80, 74, 172, 16), new Rectangle(0, 12, 86, 8), Color.White);
+            batch.Draw(_barTexture, new Rectangle(xOffset + 80, 74, _drawHealthWidth * 2, 16), new Rectangle(0, 0, _drawHealthWidth, 8), Color.White);
 
-            _batch.Draw(_barTexture, new Rectangle(xOffset + 80, 90, 124, 8), new Rectangle(0, 20, 62, 4), Color.White);
-            _batch.Draw(_barTexture, new Rectangle(xOffset + 80, 90, _drawGrumpWidth * 2, 8), new Rectangle(0, 8, _drawGrumpWidth, 4), Color.White);
+            batch.Draw(_barTexture, new Rectangle(xOffset + 80, 90, 124, 8), new Rectangle(0, 20, 62, 4), Color.White);
+            batch.Draw(_barTexture, new Rectangle(xOffset + 80, 90, _drawGrumpWidth * 2, 8), new Rectangle(0, 8, _drawGrumpWidth, 4), Color.White);
 
             if (_player.GrumpPower == _player.MaxGrumpPower)
             {
                 var alpha = (int)((Math.Sin(_grumpBarGlowAnimation) + 1d) / 2d * 160);
-                _batch.Draw(_barTexture, new Rectangle(xOffset + 80, 90, _drawGrumpWidth * 2 - 2, 6), new Rectangle(0, 24, _drawGrumpWidth - 1, 3), new Color(255, 255, 255, alpha));
+                batch.Draw(_barTexture, new Rectangle(xOffset + 80, 90, _drawGrumpWidth * 2 - 2, 6), new Rectangle(0, 24, _drawGrumpWidth - 1, 3), new Color(255, 255, 255, alpha));
             }
 
             //Render face depending on the player's state.
             if (_player.State == ObjectState.HurtFalling || _player.State == ObjectState.Hurt)
-                _batch.Draw(_headTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(48, 0, 48, 48), Color.White);
+                batch.Draw(_headTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(48, 0, 48, 48), Color.White);
             else if (_player.State == ObjectState.Dead)
-                _batch.Draw(_headTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(96, 0, 48, 48), Color.White);
+                batch.Draw(_headTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(96, 0, 48, 48), Color.White);
             else
-                _batch.Draw(_headTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(0, 0, 48, 48), Color.White);
+                batch.Draw(_headTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(0, 0, 48, 48), Color.White);
 
-            DrawCombo(xOffset);
-
-            _batch.End();
+            DrawCombo(batch, xOffset);
         }
 
         /// <summary>
         /// Renders the combo meter.
         /// </summary>
-        private void DrawCombo(int xOffset)
+        private void DrawCombo(SpriteBatch batch, int xOffset)
         {
             if (_player.ComboChain > 0 && _player.ComboDelay > 0)
             {
@@ -178,7 +174,7 @@ namespace GGFanGame.Game.HUD
 
                 var playerColor = Colors.GetColor(_playerIndex);
 
-                _batch.DrawString(_fontLarge, "x" + _player.ComboChain, new Vector2(xOffset, 100), Color.White, -0.2f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                batch.DrawString(_fontLarge, "x" + _player.ComboChain, new Vector2(xOffset, 100), Color.White, -0.2f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
                 //We change the render target here to render the colored in combo text to a texture:
                 GameInstance.GraphicsDevice.SetRenderTarget(_target);
@@ -192,7 +188,7 @@ namespace GGFanGame.Game.HUD
 
                 var fontWidth = _fontLarge.MeasureString("x" + _player.ComboChain).X * (_player.ComboDelay / 100f);
 
-                _batch.Draw(_target, new Rectangle(xOffset, 100, (int)(fontWidth * 1f), _target.Height * 1), new Rectangle(0, 0, (int)fontWidth, _target.Height), playerColor, -0.2f, Vector2.Zero, SpriteEffects.None, 0f);
+                batch.Draw(_target, new Rectangle(xOffset, 100, (int)(fontWidth * 1f), _target.Height * 1), new Rectangle(0, 0, (int)fontWidth, _target.Height), playerColor, -0.2f, Vector2.Zero, SpriteEffects.None, 0f);
 
                 //When the player adds to the combo, draw a growing number:
                 if (_lastComboDrawn != _player.ComboChain.ToString())
@@ -209,12 +205,39 @@ namespace GGFanGame.Game.HUD
                     var growingSize = normalSize * _growingNumberSize;
                     var largestSize = normalSize * _growingNumberSize * 2f;
 
-                    _batch.DrawString(_fontLarge, "x" + _player.ComboChain, new Vector2(xOffset - (largestSize.X - normalSize.X) / 2f + 5, 100 - (largestSize.Y - normalSize.Y) / 2f + 5), new Color(255, 255, 255, (int)(255 * (2f - _growingNumberSize))), -0.2f, Vector2.Zero, _growingNumberSize  * 2f, SpriteEffects.None, 0f);
-                    _batch.DrawString(_fontLarge, "x" + _player.ComboChain, new Vector2(xOffset - (growingSize.X - normalSize.X) / 2f + 5, 100 - (growingSize.Y - normalSize.Y) / 2f + 5), new Color(playerColor.R, playerColor.G, playerColor.B, (int)(255 * (2f - _growingNumberSize))), -0.2f, Vector2.Zero, _growingNumberSize, SpriteEffects.None, 0f);
+                    batch.DrawString(_fontLarge, "x" + _player.ComboChain, new Vector2(xOffset - (largestSize.X - normalSize.X) / 2f + 5, 100 - (largestSize.Y - normalSize.Y) / 2f + 5), new Color(255, 255, 255, (int)(255 * (2f - _growingNumberSize))), -0.2f, Vector2.Zero, _growingNumberSize  * 2f, SpriteEffects.None, 0f);
+                    batch.DrawString(_fontLarge, "x" + _player.ComboChain, new Vector2(xOffset - (growingSize.X - normalSize.X) / 2f + 5, 100 - (growingSize.Y - normalSize.Y) / 2f + 5), new Color(playerColor.R, playerColor.G, playerColor.B, (int)(255 * (2f - _growingNumberSize))), -0.2f, Vector2.Zero, _growingNumberSize, SpriteEffects.None, 0f);
 
                     if (_growingNumberSize >= 2f)
                         _drawGrowingNumber = false;
                 }
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        ~PlayerStatus()
+        {
+            Dispose(false);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                if (disposing)
+                {
+                    if (_target != null && !_target.IsDisposed) _target.Dispose();
+                    if (_comboBatch != null && !_comboBatch.IsDisposed) _comboBatch.Dispose();
+                }
+
+                _target = null;
+                _comboBatch = null;
+
+                IsDisposed = true;
             }
         }
     }

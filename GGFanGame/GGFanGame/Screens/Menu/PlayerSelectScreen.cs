@@ -29,7 +29,7 @@ namespace GGFanGame.Screens.Menu
 
         private readonly SpriteFont _grumpFont = null;
 
-        private SpriteBatch _batch, _fontBatch; // TODO: Dispose
+        private SpriteBatch _batch, _fontBatch;
 
         public PlayerSelectScreen()
         {
@@ -255,6 +255,23 @@ namespace GGFanGame.Screens.Menu
                     _switchedAnimations[i]--;
                 }
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                if (disposing)
+                {
+                    if (_batch != null && !_batch.IsDisposed) _batch.Dispose();
+                    if (_fontBatch != null && !_fontBatch.IsDisposed) _fontBatch.Dispose();
+                }
+
+                _batch = null;
+                _fontBatch = null;
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

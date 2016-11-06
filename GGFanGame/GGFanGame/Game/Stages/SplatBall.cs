@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GGFanGame.Drawing;
 using Microsoft.Xna.Framework;
 using static Core;
@@ -10,6 +11,8 @@ namespace GGFanGame.Game.Stages
     /// </summary>
     internal class SplatBall : InteractableStageObject
     {
+        private readonly Random _random = new Random();
+
         public SplatBall(Color color, Vector3 movement)
         {
             Initialize(color, movement);
@@ -17,9 +20,9 @@ namespace GGFanGame.Game.Stages
 
         public SplatBall(Color color, ObjectFacing setFacing)
         {
-            float xMovement = ParentStage.Random.Next(10, 20);
-            float yMovement = ParentStage.Random.Next(0, 10);
-            float zMovement = ParentStage.Random.Next(-5, 5);
+            float xMovement = _random.Next(10, 20);
+            float yMovement = _random.Next(0, 10);
+            float zMovement = _random.Next(-5, 5);
             if (setFacing == ObjectFacing.Left)
             {
                 AutoMovement.X = -xMovement;
@@ -31,7 +34,7 @@ namespace GGFanGame.Game.Stages
 
             Initialize(color, new Vector3(xMovement, yMovement, zMovement));
         }
-
+        
         private void Initialize(Color color, Vector3 movement)
         {
             var ellipses = new List<Rectangle>();
@@ -39,10 +42,10 @@ namespace GGFanGame.Game.Stages
 
             for (var i = 0; i < 3; i++)
             {
-                var width = ParentStage.Random.Next(4, 8);
-                var height = ParentStage.Random.Next(4, 8);
-                var x = ParentStage.Random.Next(0, 16 - width);
-                var y = ParentStage.Random.Next(0, 16 - height);
+                var width = _random.Next(4, 8);
+                var height = _random.Next(4, 8);
+                var x = _random.Next(0, 16 - width);
+                var y = _random.Next(0, 16 - height);
 
                 ellipses.Add(new Rectangle(x, y, width, height));
                 colors.Add(color);

@@ -20,10 +20,12 @@ namespace GGFanGame.Screens.Menu
         private readonly SpriteFont _font;
         private RenderTarget2D _target;
         private MenuBackgroundRenderer _backgroundRenderer;
-        private readonly SpriteBatch _batch, _fontBatch; // TODO: dispose
+        private SpriteBatch _batch, _fontBatch;
 
         private float _preScreenSize;
         private bool _closing;
+
+        internal override bool ReplacePrevious => false;
 
         public PauseScreen(StageScreen preScreen)
         {
@@ -44,17 +46,19 @@ namespace GGFanGame.Screens.Menu
         {
             if (IsDisposed) return;
 
+            // create texture of pre screen
+            RenderTargetManager.BeginRenderScreenToTarget(_target);
+            _batch.Begin(SpriteBatchUsage.Default);
+            _preScreen.DrawStage(_batch);
+            _batch.End();
+            RenderTargetManager.EndRenderScreenToTarget();
+
             _batch.Begin(SpriteBatchUsage.Default);
             _fontBatch.Begin(SpriteBatchUsage.Font);
 
             // acquire background and draw it
             _backgroundRenderer.Draw(_batch, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
-
-            // create texture of pre screen
-            RenderTargetManager.BeginRenderScreenToTarget(_target);
-            _preScreen.DrawStage();
-            RenderTargetManager.EndRenderScreenToTarget();
-
+            
             // draw pre screen:
             var preScreenWidth = _target.Width * (1f - _preScreenSize * SCREEN_SIZE_MULTIPLIER);
             var preScreenHeight = _target.Height * (1f - _preScreenSize * SCREEN_SIZE_MULTIPLIER);
@@ -64,7 +68,7 @@ namespace GGFanGame.Screens.Menu
                                                                  (int)preScreenWidth,
                                                                  (int)preScreenHeight), Color.White);
             // draw the pre screen's HUD in full size
-            _preScreen.DrawHUD();
+            _preScreen.DrawHUD(_batch);
 
             // draw barry
             var barryWidth = _barry.Width / 2;
@@ -107,11 +111,6 @@ namespace GGFanGame.Screens.Menu
                 _preScreenSize = MathHelper.Lerp(_preScreenSize, 1f, 0.3f);
             }
         }
-
-        public override void Close()
-        {
-            Dispose();
-        }
         
         protected override void Dispose(bool disposing)
         {
@@ -119,10 +118,14 @@ namespace GGFanGame.Screens.Menu
             {
                 if (disposing)
                 {
+                    if (_batch != null && !_batch.IsDisposed) _batch.Dispose();
+                    if (_fontBatch != null && !_fontBatch.IsDisposed) _fontBatch.Dispose();
                     if (_target != null && !_target.IsDisposed) _target.Dispose();
                     if (_backgroundRenderer != null && !_backgroundRenderer.IsDisposed) _backgroundRenderer.Dispose();
                 }
 
+                _batch = null;
+                _fontBatch = null;
                 _target = null;
                 _backgroundRenderer = null;
             }

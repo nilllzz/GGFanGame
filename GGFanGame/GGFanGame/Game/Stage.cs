@@ -36,10 +36,8 @@ namespace GGFanGame.Game
         private StageModel _dataModel;
         private List<StageObject> _objects;
         private readonly float _yDefaultKillPlane = -0f;
-        private readonly SpriteBatch _batch; // TODO: Dispose
 
         internal ContentManager Content { get; }
-
         internal Random Random { get; } = new Random();
 
         /// <summary>
@@ -62,6 +60,8 @@ namespace GGFanGame.Game
         public PlayerCharacter ThreePlayer { get; set; }
         public PlayerCharacter FourPlayer { get; set; }
 
+        internal bool IsDisposed { get; private set; }
+
         /// <summary>
         /// Creates a new instance of the Stage class.
         /// </summary>
@@ -71,7 +71,6 @@ namespace GGFanGame.Game
 
             _dataModel = dataModel;
             _objects = new List<StageObject>(objects);
-            _batch = new SpriteBatch(GameInstance.GraphicsDevice);
 
             Camera = new StageCamera();
         }
@@ -100,20 +99,17 @@ namespace GGFanGame.Game
         /// <summary>
         /// Renders the objects in this stage.
         /// </summary>
-        public void Draw()
+        public void Draw(SpriteBatch batch)
         {
-            _batch.Begin(SpriteBatchUsage.Default);
-            _batch.DrawRectangle(GameInstance.ClientRectangle, BackColor);
+            batch.DrawRectangle(GameInstance.ClientRectangle, BackColor);
 
             foreach (var obj in _objects)
             {
-                obj.Draw(_batch);
+                obj.Draw(batch);
             }
 
             //TEST: Object counter.
-            _batch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall), _objects.Count.ToString(), Vector2.Zero, Color.White);
-
-            _batch.End();
+            batch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall), _objects.Count.ToString(), Vector2.Zero, Color.White);
         }
 
         /// <summary>

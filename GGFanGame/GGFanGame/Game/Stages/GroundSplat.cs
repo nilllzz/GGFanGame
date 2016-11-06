@@ -2,7 +2,6 @@
 using GGFanGame.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static Core;
 
 namespace GGFanGame.Game.Stages
 {
@@ -11,10 +10,20 @@ namespace GGFanGame.Game.Stages
     /// </summary>
     internal class GroundSplat : InteractableStageObject
     {
-        private readonly SpriteEffects _effect = SpriteEffects.None;
+        private SpriteEffects _effect = SpriteEffects.None;
         private int _alpha = 255;
 
         public GroundSplat(Color color)
+        {
+            ObjectColor = color;
+
+            SortLowest = true;
+            CanInteract = false;
+            
+            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(128, 128), 100));
+        }
+
+        protected override void LoadInternal()
         {
             var ellipses = new List<Rectangle>();
             var colors = new List<Color>();
@@ -28,7 +37,7 @@ namespace GGFanGame.Game.Stages
                 var y = random.Next(0, 64 - height);
 
                 ellipses.Add(new Rectangle(x, y, width, height));
-                colors.Add(color);
+                colors.Add(ObjectColor);
             }
 
             SpriteSheet = SpriteBatchExtensions.CreateJoinedEllipse(
@@ -38,16 +47,10 @@ namespace GGFanGame.Game.Stages
                 colors.ToArray()
             );
 
-            ObjectColor = color;
-            SortLowest = true;
-            CanInteract = false;
-
             if (random.Next(0, 2) == 0)
             {
                 _effect = SpriteEffects.FlipHorizontally;
             }
-
-            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(128, 128), 100));
         }
 
         public override void Draw(SpriteBatch batch)

@@ -20,7 +20,8 @@ namespace GGFanGame.Screens
         /// <param name="newScreen">The new screen.</param>
         internal void SetScreen(Screen newScreen)
         {
-            CurrentScreen?.Close();
+            if (newScreen.ReplacePrevious)
+                CurrentScreen?.Close();
 
             CurrentScreen = newScreen;
 

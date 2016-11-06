@@ -15,8 +15,9 @@ namespace GGFanGame.Screens.Game
     /// </summary>
     internal class StageScreen : Screen
     {
-        private readonly Stage _stage;
-        private readonly PlayerStatus _oneStatus, _twoStatus, _threeStatus, _fourStatus;
+        private Stage _stage;
+        private PlayerStatus _oneStatus, _twoStatus, _threeStatus, _fourStatus;
+        private SpriteBatch _batch;
 
         public StageScreen()
         {
@@ -27,26 +28,32 @@ namespace GGFanGame.Screens.Game
             _twoStatus = new PlayerStatus(_stage.TwoPlayer, PlayerIndex.Two, Content);
             _threeStatus = new PlayerStatus(_stage.ThreePlayer, PlayerIndex.Three, Content);
             _fourStatus = new PlayerStatus(_stage.FourPlayer, PlayerIndex.Four, Content);
+
+            _batch = new SpriteBatch(GameInstance.GraphicsDevice);
         }
 
         public override void Draw()
         {
+            _batch.Begin(SpriteBatchUsage.Default);
+
             // seperate these so they can be called seperately from the pause screen.
             DrawStage();
             DrawHUD();
+
+            _batch.End();
         }
 
-        internal void DrawStage()
+        internal void DrawStage(SpriteBatch batch = null)
         {
-            _stage.Draw();
+            _stage.Draw(batch ?? _batch);
         }
 
-        internal void DrawHUD()
+        internal void DrawHUD(SpriteBatch batch = null)
         {
-            _oneStatus.Draw();
-            _twoStatus.Draw();
-            _threeStatus.Draw();
-            _fourStatus.Draw();
+            _oneStatus.Draw(batch ?? _batch);
+            _twoStatus.Draw(batch ?? _batch);
+            _threeStatus.Draw(batch ?? _batch);
+            _fourStatus.Draw(batch ?? _batch);
         }
 
         public override void Update()
@@ -78,6 +85,27 @@ namespace GGFanGame.Screens.Game
             {
                 _stage.Camera.Scale = 2;
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                if (disposing)
+                {
+                    if (_oneStatus != null && !_oneStatus.IsDisposed) _oneStatus.Dispose();
+                    if (_twoStatus != null && !_twoStatus.IsDisposed) _twoStatus.Dispose();
+                    if (_threeStatus != null && !_threeStatus.IsDisposed) _threeStatus.Dispose();
+                    if (_fourStatus != null && !_fourStatus.IsDisposed) _fourStatus.Dispose();
+                }
+                
+                _oneStatus = null;
+                _twoStatus = null;
+                _threeStatus = null;
+                _fourStatus = null;
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

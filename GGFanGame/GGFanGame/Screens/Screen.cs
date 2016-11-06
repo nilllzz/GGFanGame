@@ -27,7 +27,9 @@ namespace GGFanGame.Screens
                 return _content;
             }
         }
-        
+
+        internal virtual bool ReplacePrevious { get; } = true;
+
         public bool IsDisposed { get; protected set; }
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace GGFanGame.Screens
         /// <summary>
         /// Gets called when the screen gets closed by the ScreenManager.
         /// </summary>
-        public virtual void Close() { }
+        public virtual void Close() => Dispose();
 
         /// <summary>
         /// Gets called when hte screen gets opened by the ScreenManager.

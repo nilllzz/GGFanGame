@@ -44,7 +44,7 @@ namespace GGFanGame.Screens.Menu
         {
             var extraOffsetX = (int)((100 * _fadeLeft) - (100 * _fadeRight));
 
-            _batch.DrawGradient(new Rectangle(0, 0, 400 + extraOffsetX, 480), new Color(244, 131, 55), new Color(244, 170, 73), false, 1d, -1);
+            _batch.DrawGradient(new Rectangle(0, 0, 400 + extraOffsetX, 480), new Color(244, 131, 55), new Color(244, 170, 73), false);
 
             for (var x = -6; x < 19; x++)
             {
@@ -83,7 +83,7 @@ namespace GGFanGame.Screens.Menu
         {
             var extraOffsetX = (int)((100 * _fadeLeft) - (100 * _fadeRight));
 
-            _batch.DrawGradient(new Rectangle(400 + extraOffsetX, 0, 400 - extraOffsetX, 480), new Color(78, 143, 249), new Color(151, 186, 251), false, 1d, -1);
+            _batch.DrawGradient(new Rectangle(400 + extraOffsetX, 0, 400 - extraOffsetX, 480), new Color(78, 143, 249), new Color(151, 186, 251), false);
 
             for (var x = -9; x < 17; x++)
             {

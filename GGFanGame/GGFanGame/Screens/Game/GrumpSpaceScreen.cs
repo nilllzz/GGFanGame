@@ -21,7 +21,7 @@ namespace GGFanGame.Screens.Game
         public override void Draw()
         {
             //Drawing.Graphics.DrawRectangle(GameInstance.ClientRectangle, Color.CornflowerBlue);
-            _stage.Draw();
+            _stage.Draw(null);
         }
 
         public override void Update()

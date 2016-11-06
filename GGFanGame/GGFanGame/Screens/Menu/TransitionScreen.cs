@@ -12,7 +12,9 @@ namespace GGFanGame.Screens.Menu
     /// </summary>
     internal class TransitionScreen : Screen
     {
-        private SpriteBatch _batch; // TODO: dispose
+        internal override bool ReplacePrevious => false;
+
+        private SpriteBatch _batch;
         private readonly Texture2D _gg_overlay;
         private float _overlaySize = 80f;
         private float _rotation;
@@ -85,13 +87,14 @@ namespace GGFanGame.Screens.Menu
 
                 if (_overlaySize - 0.01f <= 0f)
                 {
+                    _outScreen.Close(); // the screen closes once the transition animation is over.
                     _overlaySize = 0.01f;
                     _outro = false;
                 }
             }
             else
             {
-                _overlaySize += MathHelper.Lerp(0f, 80f, 0.92f * (_overlaySize / 600f)); //It works, dont question why.
+                _overlaySize += MathHelper.Lerp(0f, 80f, 0.92f * (_overlaySize / 600f)); // It works, dont question why.
                 _rotation += 0.08f;
                 _inScreen.Update();
 
@@ -101,6 +104,21 @@ namespace GGFanGame.Screens.Menu
                     GetComponent<ScreenManager>().SetScreen(_inScreen);
                 }
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                if (disposing)
+                {
+                    if (_batch != null && !_batch.IsDisposed) _batch.Dispose();
+                }
+
+                _batch = null;
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

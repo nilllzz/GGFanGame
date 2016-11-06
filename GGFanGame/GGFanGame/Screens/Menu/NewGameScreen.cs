@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GGFanGame.Content;
 using GGFanGame.Drawing;
 using GGFanGame.Input;
@@ -15,7 +11,9 @@ namespace GGFanGame.Screens.Menu
 {
     internal class NewGameScreen : Screen
     {
-        private readonly MenuBackgroundRenderer _backgroundRenderer;
+        private const ushort ALPHABET_WIDTH = 156; // half of approximated width of the alphabet.
+
+        private MenuBackgroundRenderer _backgroundRenderer;
         private readonly Screen _preScreen;
 
         private static readonly char[]
@@ -30,11 +28,10 @@ namespace GGFanGame.Screens.Menu
         private double _charRotation = 0D;
         private ushort _cursorX = 0, _cursorY = 0;
         private float _selectedCharScale = 2f;
-        private const ushort _alphabetWidth = 156; // half of approximated width of the alphabet.
         private string _name = string.Empty;
         private readonly Texture2D _arinFace;
         private ushort _arinSad = 0;
-        private SpriteBatch _batch, _fontBatch; // TODO: dispose
+        private SpriteBatch _batch, _fontBatch;
 
         private static readonly Color
             DefaultLetterColor = new Color(254, 242, 205),
@@ -67,7 +64,7 @@ namespace GGFanGame.Screens.Menu
 
         private void DrawNameField()
         {
-            Vector2 positionOffset = new Vector2(GameInstance.ClientRectangle.Width / 2 - _alphabetWidth, 350);
+            Vector2 positionOffset = new Vector2(GameInstance.ClientRectangle.Width / 2 - ALPHABET_WIDTH, 350);
 
             ushort arinFaceIndex = 0;
             if (_arinSad > 0)
@@ -78,7 +75,7 @@ namespace GGFanGame.Screens.Menu
             _batch.Draw(_arinFace, new Rectangle((int)positionOffset.X - 60, (int)positionOffset.Y - 6, 48, 48),
                 new Rectangle(arinFaceIndex * 48, 0, 48, 48), Color.White);
 
-            _batch.DrawRectangle(new Rectangle((int)positionOffset.X - 10, (int)positionOffset.Y - 10, _alphabetWidth * 2 + 20, 56),
+            _batch.DrawRectangle(new Rectangle((int)positionOffset.X - 10, (int)positionOffset.Y - 10, ALPHABET_WIDTH * 2 + 20, 56),
                 new Color(0, 0, 0, 150));
 
             _fontBatch.DrawString(_font, _name, positionOffset, DefaultLetterColor);
@@ -86,9 +83,9 @@ namespace GGFanGame.Screens.Menu
 
         private void DrawCharSelection()
         {
-            Vector2 positionOffset = new Vector2(GameInstance.ClientRectangle.Width / 2 - _alphabetWidth, 140);
+            Vector2 positionOffset = new Vector2(GameInstance.ClientRectangle.Width / 2 - ALPHABET_WIDTH, 140);
 
-            _batch.DrawRectangle(new Rectangle((int)positionOffset.X - 10, (int)positionOffset.Y - 10, _alphabetWidth * 2 + 20, 150), 
+            _batch.DrawRectangle(new Rectangle((int)positionOffset.X - 10, (int)positionOffset.Y - 10, ALPHABET_WIDTH * 2 + 20, 150), 
                 new Color(0, 0, 0, 150));
                 
             var alphabet = _alphabets[_alphabetIndex];
@@ -195,6 +192,25 @@ namespace GGFanGame.Screens.Menu
 
             if (_arinSad > 0)
                 _arinSad--;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                if (disposing)
+                {
+                    if (_batch != null && !_batch.IsDisposed) _batch.Dispose();
+                    if (_fontBatch != null && !_fontBatch.IsDisposed) _fontBatch.Dispose();
+                    if (_backgroundRenderer != null && !_backgroundRenderer.IsDisposed) _backgroundRenderer.Dispose();
+                }
+
+                _batch = null;
+                _fontBatch = null;
+                _backgroundRenderer = null;
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

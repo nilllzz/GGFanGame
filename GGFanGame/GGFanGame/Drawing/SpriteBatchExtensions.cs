@@ -38,8 +38,7 @@ namespace GGFanGame.Drawing
 
         internal static void DrawEllipse(this SpriteBatch batch, Rectangle rectangle, Color color, double scale = 1D)
             => _renderer.DrawEllipse(batch, rectangle, color, scale);
-
-        // TODO: Check usages
+        
         internal static void DrawGradient(this SpriteBatch batch, Rectangle rectangle, Color fromColor, Color toColor, bool horizontal, double scale = 1D, int steps = -1)
             => _renderer.DrawGradient(batch, rectangle, fromColor, toColor, horizontal, scale, steps);
 

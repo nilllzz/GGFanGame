@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using GGFanGame.Drawing;
+using Microsoft.Xna.Framework.Graphics;
 using static Core;
 
 namespace GGFanGame
@@ -28,11 +29,10 @@ namespace GGFanGame
         {
             GameInstance.GraphicsDevice.SetRenderTarget(DefaultTarget);
         }
-        
+
         internal static void BeginRenderScreenToTarget(RenderTarget2D target)
         {
-            //End the sprite batch, render to current target.
-            //Then, set to new render target and begin the batch.
+            //set to new render target 
             GameInstance.GraphicsDevice.SetRenderTarget(target);
         }
 
@@ -41,8 +41,7 @@ namespace GGFanGame
         /// </summary>
         internal static void EndRenderScreenToTarget()
         {
-            //Ends the sprite batch for the current target, resets the target, and starts the sprite batch for the default target.
-            ResetRenderTarget();
+            BeginRenderScreenToTarget(DefaultTarget);
         }
 
         /// <summary>

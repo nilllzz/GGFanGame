@@ -22,8 +22,7 @@ namespace GGFanGame.Screens.Menu
 
         private readonly SpriteFont _grumpFont;
         private SpriteBatch _batch, _fontBatch; // TODO: Dispose
-
-        private readonly MenuBackgroundRenderer _backgroundRenderer;
+        private MenuBackgroundRenderer _backgroundRenderer;
 
         public TitleScreen()
         {
@@ -96,8 +95,27 @@ namespace GGFanGame.Screens.Menu
             //When a button is pressed, open the next screen:
             if (GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.A))
             {
-                GetComponent<ScreenManager>().SetScreen(new LoadSaveScreen(_backgroundRenderer));
+                GetComponent<ScreenManager>().SetScreen(new LoadSaveScreen(_backgroundRenderer.Clone()));
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                if (disposing)
+                {
+                    if (_batch != null && !_batch.IsDisposed) _batch.Dispose();
+                    if (_fontBatch != null && !_fontBatch.IsDisposed) _fontBatch.Dispose();
+                    if (_backgroundRenderer != null && !_backgroundRenderer.IsDisposed) _backgroundRenderer.Dispose();
+                }
+
+                _batch = null;
+                _fontBatch = null;
+                _backgroundRenderer = null;
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

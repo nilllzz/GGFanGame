@@ -21,7 +21,7 @@ namespace GGFanGame.Screens.Menu
         private float _gameTitleAnimation = 1f;
 
         private readonly SpriteFont _grumpFont;
-        private SpriteBatch _batch, _fontBatch; // TODO: Dispose
+        private SpriteBatch _batch, _fontBatch;
         private MenuBackgroundRenderer _backgroundRenderer;
 
         public TitleScreen()

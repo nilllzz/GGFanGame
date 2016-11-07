@@ -38,7 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Content\Content.mgcb">
+    <None Include="Content.mgcb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Content.tt</DependentUpon>
@@ -50,7 +50,7 @@
     <None Include="Content\Levels\stages.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Content.tt">
+    <Content Include="Content.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Content.mgcb</LastGenOutput>
     </Content>

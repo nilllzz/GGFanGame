@@ -37,25 +37,24 @@ namespace GGFanGame.Game.Stages
         
         private void Initialize(Color color, Vector3 movement)
         {
-            var ellipses = new List<Rectangle>();
-            var colors = new List<Color>();
+            const int ellipseAmount = 3;
+            var ellipses = new (Rectangle Bounds, Color FillColor)[ellipseAmount];
 
-            for (var i = 0; i < 3; i++)
+            for (var i = 0; i < ellipseAmount; i++)
             {
                 var width = _random.Next(4, 8);
                 var height = _random.Next(4, 8);
                 var x = _random.Next(0, 16 - width);
                 var y = _random.Next(0, 16 - height);
 
-                ellipses.Add(new Rectangle(x, y, width, height));
-                colors.Add(color);
+                ellipses[i].Bounds = new Rectangle(x, y, width, height);
+                ellipses[i].FillColor = color;
             }
 
-            SpriteSheet = SpriteBatchExtensions.CreateJoinedEllipse(
+            SpriteSheet = EllipseConfiguration.CreateJoinedEllipse(
                 16,
                 16,
-                ellipses.ToArray(),
-                colors.ToArray()
+                ellipses
             );
 
             ObjectColor = color;

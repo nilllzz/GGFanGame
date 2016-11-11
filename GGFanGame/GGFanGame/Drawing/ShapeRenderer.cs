@@ -9,11 +9,7 @@ namespace GGFanGame.Drawing
     internal static partial class SpriteBatchExtensions
     {
         private static readonly ShapeRenderer _renderer = new ShapeRenderer();
-
-        // TODO: Do something about this method, doesn't work here at all.
-        internal static Texture2D CreateJoinedEllipse(int outerWidth, int outerHeight, Rectangle[] ellipses, Color[] colors)
-            => ShapeRenderer.CreateJoinedEllipse(outerWidth, outerHeight, ellipses, colors);
-
+        
         /// <summary>
         /// Used to render shapes like rectangles and ellipses.
         /// </summary>
@@ -116,55 +112,6 @@ namespace GGFanGame.Drawing
             internal void DrawCircle(SpriteBatch batch, Vector2 position, int radius, Color color, double scale = 1D)
             {
                 DrawEllipse(batch, new Rectangle((int)position.X, (int)position.Y, radius, radius), color, scale);
-            }
-
-            /// <summary>
-            /// Creates a joined texture from multiple ellipses.
-            /// </summary>
-            /// <param name="outerWidth">The full width of the joined texture.</param>
-            /// <param name="outerHeight">The full height of the joined texture.</param>
-            /// <param name="ellipses">Rectangles enclosing the ellipses.</param>
-            /// <param name="colors">The colors of the ellipses.</param>
-            internal static Texture2D CreateJoinedEllipse(int outerWidth, int outerHeight, Rectangle[] ellipses, Color[] colors)
-            {
-                //The objects at the same index in the ellipses and colors arrays are corresponding.
-
-                var colorArr = new Color[outerWidth * outerHeight];
-                var returnTexture = new Texture2D(GameInstance.GraphicsDevice, outerWidth, outerHeight);
-
-                //By default, the return texture is entirely transparent:
-                for (var i = 0; i < colorArr.Length; i++)
-                {
-                    colorArr[i] = Color.Transparent;
-                }
-
-                //Loop through the ellipses and fill the color array with the ellipse colors:
-                for (var i = 0; i < ellipses.Length; i++)
-                {
-                    var ellipse = ellipses[i];
-                    var color = colors[i];
-
-                    var ellipseTextureData = EllipseConfiguration.GenerateTextureData(ellipse.Width, ellipse.Height);
-
-                    for (var x = 0; x < ellipse.Width; x++)
-                    {
-                        for (var y = 0; y < ellipse.Height; y++)
-                        {
-                            var index = y * ellipse.Width + x;
-                            var colIndex = (y + ellipse.Y) * outerWidth + (x + ellipse.X);
-
-                            //Only fill in when the ellipse's color is not transparent:
-                            if (ellipseTextureData[index] != Color.Transparent)
-                            {
-                                colorArr[colIndex] = color;
-                            }
-                        }
-                    }
-                }
-
-                returnTexture.SetData(colorArr);
-
-                return returnTexture;
             }
         }
     }

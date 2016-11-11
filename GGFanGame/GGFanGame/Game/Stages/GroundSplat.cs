@@ -25,26 +25,25 @@ namespace GGFanGame.Game.Stages
 
         protected override void LoadInternal()
         {
-            var ellipses = new List<Rectangle>();
-            var colors = new List<Color>();
+            const int ellipseAmount = 8;
+            var ellipses = new (Rectangle Bounds, Color FillColor)[ellipseAmount];
             var random = ParentStage.Random;
 
-            for (var i = 0; i < 8; i++)
+            for (var i = 0; i < ellipseAmount; i++)
             {
                 var width = random.Next(8, 31);
                 var height = random.Next(8, 31);
                 var x = random.Next(0, 64 - width);
                 var y = random.Next(0, 64 - height);
 
-                ellipses.Add(new Rectangle(x, y, width, height));
-                colors.Add(ObjectColor);
+                ellipses[i].Bounds = new Rectangle(x, y, width, height);
+                ellipses[i].FillColor = ObjectColor;
             }
 
-            SpriteSheet = SpriteBatchExtensions.CreateJoinedEllipse(
+            SpriteSheet = EllipseConfiguration.CreateJoinedEllipse(
                 64,
                 64,
-                ellipses.ToArray(),
-                colors.ToArray()
+                ellipses
             );
 
             if (random.Next(0, 2) == 0)

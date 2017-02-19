@@ -14,6 +14,13 @@ namespace GGFanGame.Content
         public static class Levels
         {
             
+            public static class Dojo
+            {
+                public const string Floor1 = "Levels/Dojo/Floor1";
+                public const string Floor2 = "Levels/Dojo/Floor2";
+                public const string stage = "Levels/Dojo/stage";
+            }
+            
             public static class GrumpSpace
             {
                 public const string Arcade0 = "Levels/GrumpSpace/Arcade0";
@@ -77,6 +84,12 @@ namespace GGFanGame.Content
                 public const string Ross_Overlay = "UI/GrumpCade/Ross_Overlay";
                 public const string Suzy = "UI/GrumpCade/Suzy";
                 public const string Suzy_Overlay = "UI/GrumpCade/Suzy_Overlay";
+            }
+            
+            public static class Heads
+            {
+                public const string Arin = "UI/Heads/Arin";
+                public const string Danny = "UI/Heads/Danny";
             }
             
             public static class HUD

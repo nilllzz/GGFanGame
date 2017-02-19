@@ -22,8 +22,8 @@ namespace GGFanGame.Game.HUD
         private int _drawHealthWidth = 0;
         private int _drawGrumpWidth = 0;
         private double _grumpBarGlowAnimation = 0d;
-
-        private readonly Texture2D _headTexture, _barTexture, _fireTexture;
+        
+        private readonly Texture2D _barTexture, _fireTexture;
         private readonly SpriteFont _font, _fontLarge;
 
         private readonly List<Bubble> _bubbles = new List<Bubble>();
@@ -39,6 +39,9 @@ namespace GGFanGame.Game.HUD
 
         internal bool IsDisposed { get; private set; }
 
+        // load here because player could either be null or change.
+        private Texture2D HeadTexture => _content.Load<Texture2D>(@"UI\HUD\" + _player.Name);
+
         /// <summary>
         /// Creates a new instance of the PlayerStatus class.
         /// </summary>
@@ -49,7 +52,6 @@ namespace GGFanGame.Game.HUD
             _content = content;
 
             _barTexture = _content.Load<Texture2D>(@"UI\HUD\Bars");
-            _headTexture = _content.Load<Texture2D>(@"UI\HUD\" + _player.Name);
             _fireTexture = _content.Load<Texture2D>(@"UI\HUD\Fire");
             _font = _content.Load<SpriteFont>(@"Fonts\CartoonFontSmall");
             _fontLarge = _content.Load<SpriteFont>(@"Fonts\CartoonFont");
@@ -66,6 +68,10 @@ namespace GGFanGame.Game.HUD
         /// </summary>
         internal void Draw(SpriteBatch batch)
         {
+            // if no player is created for this status, don't render.
+            if (_player == null)
+                return;
+
             // TODO: get rid of hardcoded life count!
             // TODO: create update method
 
@@ -149,11 +155,11 @@ namespace GGFanGame.Game.HUD
 
             //Render face depending on the player's state.
             if (_player.State == ObjectState.HurtFalling || _player.State == ObjectState.Hurt)
-                batch.Draw(_headTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(48, 0, 48, 48), Color.White);
+                batch.Draw(HeadTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(48, 0, 48, 48), Color.White);
             else if (_player.State == ObjectState.Dead)
-                batch.Draw(_headTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(96, 0, 48, 48), Color.White);
+                batch.Draw(HeadTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(96, 0, 48, 48), Color.White);
             else
-                batch.Draw(_headTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(0, 0, 48, 48), Color.White);
+                batch.Draw(HeadTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(0, 0, 48, 48), Color.White);
 
             DrawCombo(batch, xOffset);
         }

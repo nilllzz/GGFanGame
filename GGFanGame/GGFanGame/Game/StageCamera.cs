@@ -21,8 +21,8 @@ namespace GGFanGame.Game
             //By default this scale is 2.
             //For more than one player, the camera focuses on the center of those players, making the scale larger if needed.
             //The scale for more than one player does not go below 2.
-
-            var playerPositions = new Vector3[] { stage.OnePlayer.Position, stage.TwoPlayer.Position, stage.ThreePlayer.Position, stage.FourPlayer.Position }.OrderBy(x => x.X).ToArray();
+            
+            var playerPositions = stage.GetPlayers().Select(p => p.Position).OrderBy(x => x.X);
             var leftPosition = playerPositions.First();
             var rightPosition = playerPositions.Last();
 

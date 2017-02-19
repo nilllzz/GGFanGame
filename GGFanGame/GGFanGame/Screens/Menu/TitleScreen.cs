@@ -1,4 +1,5 @@
-﻿using GGFanGame.Content;
+﻿using System;
+using GGFanGame.Content;
 using GGFanGame.Drawing;
 using GGFanGame.Input;
 using Microsoft.Xna.Framework;
@@ -15,10 +16,12 @@ namespace GGFanGame.Screens.Menu
     {
         //The title screen will just feature the logo of the game and a prompt that says "press any button to start".
 
-        private readonly Texture2D _logoTexture; //texture of the logo that appears on the screen.
+        private readonly Texture2D _logoTexture, _arinHead, _dannyHead; //texture of the logo that appears on the screen.
 
         private float _logoAnimation = 20f;
+        private float _flashAnimation = 0f;
         private float _gameTitleAnimation = 1f;
+        private float _contentFloat = 0f;
 
         private readonly SpriteFont _grumpFont;
         private SpriteBatch _batch, _fontBatch;
@@ -29,6 +32,8 @@ namespace GGFanGame.Screens.Menu
             _backgroundRenderer = new MenuBackgroundRenderer();
             _logoTexture = GameInstance.Content.Load<Texture2D>(Resources.UI.Logos.GameGrumps);
             _grumpFont = GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFontLarge);
+            _arinHead = GameInstance.Content.Load<Texture2D>(Resources.UI.Heads.Arin);
+            _dannyHead = GameInstance.Content.Load<Texture2D>(Resources.UI.Heads.Danny);
 
             _batch = new SpriteBatch(GameInstance.GraphicsDevice);
             _fontBatch = new SpriteBatch(GameInstance.GraphicsDevice);
@@ -52,19 +57,34 @@ namespace GGFanGame.Screens.Menu
 
         private void DrawTitle()
         {
-            var width = (int)(_logoTexture.Width / _logoAnimation);
-            var height = (int)(_logoTexture.Height / _logoAnimation);
+            var logoWidth = (int)(_logoTexture.Width / _logoAnimation);
+            var logoHeight = (int)(_logoTexture.Height / _logoAnimation);
 
-            _batch.Draw(_logoTexture, new Rectangle((int)(GameInstance.ClientRectangle.Width / 2f), 200, width, height),
+            float offset = (float)Math.Sin(_contentFloat);
+
+            if (_logoAnimation == 1f)
+            {
+                _batch.Draw(_arinHead, new Rectangle((int)(GameInstance.ClientRectangle.Width / 2f + logoWidth / 2f - 100), 
+                    (int)(150 + offset * -5f), 240, 240), Color.White);
+                _batch.Draw(_dannyHead, new Rectangle((int)(GameInstance.ClientRectangle.Width / 2f - logoWidth / 2f - 150), 
+                    (int)(150 + offset * -5f), 240, 240), Color.White);
+            }
+
+            _batch.Draw(_logoTexture, new Rectangle((int)(GameInstance.ClientRectangle.Width / 2f), (int)(300 + offset * 10f), logoWidth, logoHeight),
                                           null, Color.White,
                                           _logoAnimation - 1f, new Vector2(_logoTexture.Width / 2f, _logoTexture.Height / 2f), SpriteEffects.None, 0f);
 
+            if (_flashAnimation > 0f)
+            {
+                _batch.DrawRectangle(GameInstance.ClientRectangle, new Color(255, 255, 255, (int)(_flashAnimation * 255)));
+            }
+
             _fontBatch.DrawString(_grumpFont, GameController.GAME_TITLE,
                 new Vector2((GameInstance.ClientRectangle.Width * _gameTitleAnimation) + GameInstance.ClientRectangle.Width / 2 - _grumpFont.MeasureString(GameController.GAME_TITLE).X / 2 + 5,
-                90 + _logoTexture.Height + 5), new Color(122, 141, 235), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                190 + _logoTexture.Height + 5), new Color(122, 141, 235), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             _fontBatch.DrawString(_grumpFont, GameController.GAME_TITLE,
                 new Vector2(-(GameInstance.ClientRectangle.Width * _gameTitleAnimation) + GameInstance.ClientRectangle.Width / 2 - _grumpFont.MeasureString(GameController.GAME_TITLE).X / 2,
-                90 + _logoTexture.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                190 + _logoTexture.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 
         public override void Update()
@@ -78,6 +98,7 @@ namespace GGFanGame.Screens.Menu
                 if (_logoAnimation <= 1f)
                 {
                     _logoAnimation = 1f;
+                    _flashAnimation = 1f;
                 }
             }
             else
@@ -91,6 +112,17 @@ namespace GGFanGame.Screens.Menu
                     }
                 }
             }
+
+            if (_flashAnimation > 0f)
+            {
+                _flashAnimation -= 0.01f;
+                if (_flashAnimation <= 0f)
+                {
+                    _flashAnimation = 0f;
+                }
+            }
+
+            _contentFloat += 0.07f;
 
             //When a button is pressed, open the next screen:
             if (GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.A))

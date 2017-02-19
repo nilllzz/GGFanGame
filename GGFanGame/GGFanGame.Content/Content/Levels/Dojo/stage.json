@@ -1,0 +1,23 @@
+﻿{
+    "name": "Training Dojo",
+    "worldId": "grumpSpace",
+    "stageId": "dojo",
+    "backColor": {
+        "r": 230,
+        "g": 230,
+        "b": 230
+    },
+    "objects": [
+        { "t": "grumpSpace/dojo/floorCenter", "x": 100, "y": 0, "z": 204 },
+        { "t": "grumpSpace/dojo/floorCenter", "x": 132, "y": 0, "z": 204 },
+        { "t": "grumpSpace/dojo/floorCenter", "x": 164, "y": 0, "z": 204 },
+        { "t": "grumpSpace/dojo/floorCenter", "x": 196, "y": 0, "z": 204 },
+        { "t": "grumpSpace/dojo/floorCenter", "x": 100, "y": 0, "z": 300 },
+        { "t": "grumpSpace/dojo/floorCenter", "x": 132, "y": 0, "z": 300 },
+        { "t": "grumpSpace/dojo/floorCenter", "x": 164, "y": 0, "z": 300 },
+        { "t": "grumpSpace/dojo/floorCenter", "x": 196, "y": 0, "z": 300 },
+        
+        { "t": "grumpSpace/dojo/floorSide", "x": 68, "y": 0, "z": 204 },
+        { "t": "grumpSpace/dojo/floorSide", "x": 68, "y": 0, "z": 300 },
+    ]   
+}

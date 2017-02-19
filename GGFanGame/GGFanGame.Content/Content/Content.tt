@@ -38,7 +38,7 @@
 
 	if (rootFolder != null)
 	{
-        ProcessFolder(rootFolder, "Content/");
+        ProcessFolder(rootFolder, "");
 	}
 #>
 <#+

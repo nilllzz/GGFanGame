@@ -12,25 +12,25 @@
 
 
 #---------------------------------- Content ---------------------------------#
-#begin Content/Fonts/CartoonFont.spritefont
+#begin Fonts/CartoonFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
-/build:Content/Fonts/CartoonFont.spritefont
+/build:Fonts/CartoonFont.spritefont
 
-#begin Content/Fonts/CartoonFontLarge.spritefont
+#begin Fonts/CartoonFontLarge.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
-/build:Content/Fonts/CartoonFontLarge.spritefont
+/build:Fonts/CartoonFontLarge.spritefont
 
-#begin Content/Fonts/CartoonFontSmall.spritefont
+#begin Fonts/CartoonFontSmall.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
-/build:Content/Fonts/CartoonFontSmall.spritefont
+/build:Fonts/CartoonFontSmall.spritefont
 
-#begin Content/Levels/GrumpSpace/Arcade0.png
+#begin Levels/Dojo/Floor1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -40,9 +40,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Levels/GrumpSpace/Arcade0.png
+/build:Levels/Dojo/Floor1.png
 
-#begin Content/Levels/GrumpSpace/Couch.png
+#begin Levels/Dojo/Floor2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -52,9 +52,12 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Levels/GrumpSpace/Couch.png
+/build:Levels/Dojo/Floor2.png
 
-#begin Content/Levels/GrumpSpace/Posters/Brian.png
+#begin Levels/Dojo/stage.json
+/copy:Levels/Dojo/stage.json
+
+#begin Levels/GrumpSpace/Arcade0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -64,9 +67,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Levels/GrumpSpace/Posters/Brian.png
+/build:Levels/GrumpSpace/Arcade0.png
 
-#begin Content/Levels/GrumpSpace/Posters/Goose.png
+#begin Levels/GrumpSpace/Couch.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -76,9 +79,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Levels/GrumpSpace/Posters/Goose.png
+/build:Levels/GrumpSpace/Couch.png
 
-#begin Content/Levels/GrumpSpace/Posters/Larry.png
+#begin Levels/GrumpSpace/Posters/Brian.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -88,9 +91,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Levels/GrumpSpace/Posters/Larry.png
+/build:Levels/GrumpSpace/Posters/Brian.png
 
-#begin Content/Levels/GrumpSpace/Posters/NoUse.png
+#begin Levels/GrumpSpace/Posters/Goose.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -100,9 +103,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Levels/GrumpSpace/Posters/NoUse.png
+/build:Levels/GrumpSpace/Posters/Goose.png
 
-#begin Content/Levels/GrumpSpace/Posters/UpDog.png
+#begin Levels/GrumpSpace/Posters/Larry.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -112,9 +115,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Levels/GrumpSpace/Posters/UpDog.png
+/build:Levels/GrumpSpace/Posters/Larry.png
 
-#begin Content/Levels/Stage1_1/BridgeBottom.png
+#begin Levels/GrumpSpace/Posters/NoUse.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -124,9 +127,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Levels/Stage1_1/BridgeBottom.png
+/build:Levels/GrumpSpace/Posters/NoUse.png
 
-#begin Content/Levels/Stage1_1/BridgeRailing.png
+#begin Levels/GrumpSpace/Posters/UpDog.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -136,12 +139,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Levels/Stage1_1/BridgeRailing.png
+/build:Levels/GrumpSpace/Posters/UpDog.png
 
-#begin Content/Levels/Stage1_1/stage.json
-/copy:Content/Levels/Stage1_1/stage.json
-
-#begin Content/Levels/Stage1_1/Street.png
+#begin Levels/Stage1_1/BridgeBottom.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -151,30 +151,57 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Levels/Stage1_1/Street.png
+/build:Levels/Stage1_1/BridgeBottom.png
 
-#begin Content/Levels/stages.json
-/copy:Content/Levels/stages.json
+#begin Levels/Stage1_1/BridgeRailing.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Levels/Stage1_1/BridgeRailing.png
 
-#begin Content/Music/Smash 1.mp3
+#begin Levels/Stage1_1/stage.json
+/copy:Levels/Stage1_1/stage.json
+
+#begin Levels/Stage1_1/Street.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Levels/Stage1_1/Street.png
+
+#begin Levels/stages.json
+/copy:Levels/stages.json
+
+#begin Music/Smash 1.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Content/Music/Smash 1.mp3
+/build:Music/Smash 1.mp3
 
-#begin Content/Music/Smash 2.mp3
+#begin Music/Smash 2.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Content/Music/Smash 2.mp3
+/build:Music/Smash 2.mp3
 
-#begin Content/Shaders/GaussianBlur.fx
+#begin Shaders/GaussianBlur.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:Content/Shaders/GaussianBlur.fx
+/build:Shaders/GaussianBlur.fx
 
-#begin Content/Sprites/Arin.png
+#begin Sprites/Arin.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -184,9 +211,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Sprites/Arin.png
+/build:Sprites/Arin.png
 
-#begin Content/Sprites/ArinBomb.png
+#begin Sprites/ArinBomb.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -196,9 +223,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Sprites/ArinBomb.png
+/build:Sprites/ArinBomb.png
 
-#begin Content/Sprites/ArinLemon.png
+#begin Sprites/ArinLemon.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -208,9 +235,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Sprites/ArinLemon.png
+/build:Sprites/ArinLemon.png
 
-#begin Content/Sprites/Booper.png
+#begin Sprites/Booper.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -220,9 +247,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/Sprites/Booper.png
+/build:Sprites/Booper.png
 
-#begin Content/UI/GrumpCade/1Up.png
+#begin UI/GrumpCade/1Up.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -232,9 +259,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/1Up.png
+/build:UI/GrumpCade/1Up.png
 
-#begin Content/UI/GrumpCade/2Up.png
+#begin UI/GrumpCade/2Up.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -244,9 +271,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/2Up.png
+/build:UI/GrumpCade/2Up.png
 
-#begin Content/UI/GrumpCade/3Up.png
+#begin UI/GrumpCade/3Up.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -256,9 +283,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/3Up.png
+/build:UI/GrumpCade/3Up.png
 
-#begin Content/UI/GrumpCade/4Up.png
+#begin UI/GrumpCade/4Up.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -268,9 +295,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/4Up.png
+/build:UI/GrumpCade/4Up.png
 
-#begin Content/UI/GrumpCade/Arin.png
+#begin UI/GrumpCade/Arin.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -280,9 +307,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/Arin.png
+/build:UI/GrumpCade/Arin.png
 
-#begin Content/UI/GrumpCade/Arin_Overlay.png
+#begin UI/GrumpCade/Arin_Overlay.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -292,9 +319,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/Arin_Overlay.png
+/build:UI/GrumpCade/Arin_Overlay.png
 
-#begin Content/UI/GrumpCade/Barry.png
+#begin UI/GrumpCade/Barry.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -304,9 +331,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/Barry.png
+/build:UI/GrumpCade/Barry.png
 
-#begin Content/UI/GrumpCade/Barry_Overlay.png
+#begin UI/GrumpCade/Barry_Overlay.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -316,9 +343,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/Barry_Overlay.png
+/build:UI/GrumpCade/Barry_Overlay.png
 
-#begin Content/UI/GrumpCade/Danny.png
+#begin UI/GrumpCade/Danny.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -328,9 +355,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/Danny.png
+/build:UI/GrumpCade/Danny.png
 
-#begin Content/UI/GrumpCade/Danny_Overlay.png
+#begin UI/GrumpCade/Danny_Overlay.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -340,9 +367,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/Danny_Overlay.png
+/build:UI/GrumpCade/Danny_Overlay.png
 
-#begin Content/UI/GrumpCade/Ross.png
+#begin UI/GrumpCade/Ross.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -352,9 +379,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/Ross.png
+/build:UI/GrumpCade/Ross.png
 
-#begin Content/UI/GrumpCade/Ross_Overlay.png
+#begin UI/GrumpCade/Ross_Overlay.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -364,9 +391,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/Ross_Overlay.png
+/build:UI/GrumpCade/Ross_Overlay.png
 
-#begin Content/UI/GrumpCade/Suzy.png
+#begin UI/GrumpCade/Suzy.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -376,9 +403,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/Suzy.png
+/build:UI/GrumpCade/Suzy.png
 
-#begin Content/UI/GrumpCade/Suzy_Overlay.png
+#begin UI/GrumpCade/Suzy_Overlay.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -388,9 +415,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/GrumpCade/Suzy_Overlay.png
+/build:UI/GrumpCade/Suzy_Overlay.png
 
-#begin Content/UI/HUD/Arin.png
+#begin UI/Heads/Arin.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -400,9 +427,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/HUD/Arin.png
+/build:UI/Heads/Arin.png
 
-#begin Content/UI/HUD/Bars.png
+#begin UI/Heads/Danny.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -412,9 +439,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/HUD/Bars.png
+/build:UI/Heads/Danny.png
 
-#begin Content/UI/HUD/Fire.png
+#begin UI/HUD/Arin.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -424,9 +451,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/HUD/Fire.png
+/build:UI/HUD/Arin.png
 
-#begin Content/UI/Logos/GameGrumps.png
+#begin UI/HUD/Bars.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -436,9 +463,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/Logos/GameGrumps.png
+/build:UI/HUD/Bars.png
 
-#begin Content/UI/Logos/GameGrumpsTransition.png
+#begin UI/HUD/Fire.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -448,9 +475,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/Logos/GameGrumpsTransition.png
+/build:UI/HUD/Fire.png
 
-#begin Content/UI/Logos/SteamTrain.png
+#begin UI/Logos/GameGrumps.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -460,9 +487,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/Logos/SteamTrain.png
+/build:UI/Logos/GameGrumps.png
 
-#begin Content/UI/Names/Arin_name.png
+#begin UI/Logos/GameGrumpsTransition.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -472,9 +499,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/Names/Arin_name.png
+/build:UI/Logos/GameGrumpsTransition.png
 
-#begin Content/UI/Names/Barry_name.png
+#begin UI/Logos/SteamTrain.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -484,9 +511,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/Names/Barry_name.png
+/build:UI/Logos/SteamTrain.png
 
-#begin Content/UI/Names/Danny_name.png
+#begin UI/Names/Arin_name.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -496,9 +523,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/Names/Danny_name.png
+/build:UI/Names/Arin_name.png
 
-#begin Content/UI/Names/Ross_name.png
+#begin UI/Names/Barry_name.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -508,9 +535,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/Names/Ross_name.png
+/build:UI/Names/Barry_name.png
 
-#begin Content/UI/Names/Suzy_name.png
+#begin UI/Names/Danny_name.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -520,9 +547,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/Names/Suzy_name.png
+/build:UI/Names/Danny_name.png
 
-#begin Content/UI/Pause/barry_pause.png
+#begin UI/Names/Ross_name.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -532,9 +559,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/Pause/barry_pause.png
+/build:UI/Names/Ross_name.png
 
-#begin Content/UI/Pause/paused_bubble.png
+#begin UI/Names/Suzy_name.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -544,9 +571,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/Pause/paused_bubble.png
+/build:UI/Names/Suzy_name.png
 
-#begin Content/UI/SaveBack.png
+#begin UI/Pause/barry_pause.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -556,5 +583,29 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Content/UI/SaveBack.png
+/build:UI/Pause/barry_pause.png
+
+#begin UI/Pause/paused_bubble.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/Pause/paused_bubble.png
+
+#begin UI/SaveBack.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/SaveBack.png
 

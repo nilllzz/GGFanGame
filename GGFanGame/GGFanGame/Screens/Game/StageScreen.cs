@@ -21,7 +21,7 @@ namespace GGFanGame.Screens.Game
 
         public StageScreen()
         {
-            _stage = StageFactory.Create(Content, "1", "1");
+            _stage = StageFactory.Create(Content, "grumpSpace", "dojo");
             _stage.Load();
             
             _oneStatus = new PlayerStatus(_stage.OnePlayer, PlayerIndex.One, Content);

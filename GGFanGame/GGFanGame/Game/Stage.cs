@@ -80,14 +80,14 @@ namespace GGFanGame.Game
             SetActiveStage();
 
             OnePlayer = new Arin(PlayerIndex.One) { X = 320, Z = 200 };
-            TwoPlayer = new Arin(PlayerIndex.Two) { X = 320, Z = 230 };
-            ThreePlayer = new Arin(PlayerIndex.Three) { X = 50, Z = 230 };
-            FourPlayer = new Arin(PlayerIndex.Four) { X = 50, Z = 200 };
+            //TwoPlayer = new Arin(PlayerIndex.Two) { X = 320, Z = 230 };
+            //ThreePlayer = new Arin(PlayerIndex.Three) { X = 50, Z = 230 };
+            //FourPlayer = new Arin(PlayerIndex.Four) { X = 50, Z = 200 };
 
             _objects.Add(OnePlayer);
-            _objects.Add(TwoPlayer);
-            _objects.Add(ThreePlayer);
-            _objects.Add(FourPlayer);
+            //_objects.Add(TwoPlayer);
+            //_objects.Add(ThreePlayer);
+            //_objects.Add(FourPlayer);
 
             _objects.ForEach(o =>
             {
@@ -340,6 +340,20 @@ namespace GGFanGame.Game
             }
 
             return null;
+        }
+
+        internal IEnumerable<PlayerCharacter> GetPlayers()
+        {
+            var players = new List<PlayerCharacter>();
+            if (OnePlayer != null)
+                players.Add(OnePlayer);
+            if (TwoPlayer != null)
+                players.Add(TwoPlayer);
+            if (ThreePlayer != null)
+                players.Add(ThreePlayer);
+            if (FourPlayer != null)
+                players.Add(FourPlayer);
+            return players;
         }
     }
 }

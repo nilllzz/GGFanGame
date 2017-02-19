@@ -38,7 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Content.mgcb">
+    <None Include="Content\Content.mgcb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Content.tt</DependentUpon>
@@ -46,14 +46,17 @@
     <None Include="Content\Fonts\CartoonFont.spritefont" />
     <None Include="Content\Fonts\CartoonFontLarge.spritefont" />
     <None Include="Content\Fonts\CartoonFontSmall.spritefont" />
-    <None Include="Content\Levels\Stage1_1\stage.json" />
-    <None Include="Content\Levels\stages.json" />
+    <Content Include="Content\Levels\Dojo\Floor2.png" />
+    <Content Include="Content\Levels\Dojo\stage.json" />
+    <Content Include="Content\Levels\Stage1_1\stage.json" />
+    <Content Include="Content\Levels\stages.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content.tt">
+    <Content Include="Content\Content.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Content.mgcb</LastGenOutput>
     </Content>
+    <Content Include="Content\Levels\Dojo\Floor1.png" />
     <Content Include="Content\Levels\GrumpSpace\Arcade0.png" />
     <Content Include="Content\Levels\GrumpSpace\Couch.png" />
     <Content Include="Content\Levels\GrumpSpace\Posters\Brian.png" />
@@ -85,6 +88,8 @@
     <Content Include="Content\UI\GrumpCade\Ross_Overlay.png" />
     <Content Include="Content\UI\GrumpCade\Suzy.png" />
     <Content Include="Content\UI\GrumpCade\Suzy_Overlay.png" />
+    <Content Include="Content\UI\Heads\Arin.png" />
+    <Content Include="Content\UI\Heads\Danny.png" />
     <Content Include="Content\UI\HUD\Arin.png" />
     <Content Include="Content\UI\HUD\Bars.png" />
     <Content Include="Content\UI\HUD\Fire.png" />

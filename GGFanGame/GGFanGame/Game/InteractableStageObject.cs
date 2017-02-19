@@ -103,14 +103,13 @@ namespace GGFanGame.Game
                            (int)((Z - shadowHeight / 2d - ParentStage.GetGround(Position)) * stageScale),
                            (int)(shadowWidth * stageScale),
                            (int)(shadowHeight * stageScale)),
-                           ParentStage.AmbientColor, stageScale); //TODO: maybe, we have the shadow fade away when the player jumps?
+                           ParentStage.AmbientColor, stageScale); // TODO: maybe, we have the shadow fade away when the player jumps?
             }
 
-            var effect = SpriteEffects.None;
-            if (Facing == ObjectFacing.Left) //Flip the sprite if facing the other way.
-            {
-                effect = SpriteEffects.FlipHorizontally;
-            }
+            // Flip the sprite if facing the other way.
+            var effect = Facing == ObjectFacing.Left ? 
+                SpriteEffects.FlipHorizontally : 
+                SpriteEffects.None;
 
             batch.Draw(SpriteSheet, new Rectangle((int)((X - frame.Width / 2d) * stageScale),
                                                                      (int)((Z - Y - frame.Height) * stageScale),

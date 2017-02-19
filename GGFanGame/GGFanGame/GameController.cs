@@ -32,6 +32,8 @@ namespace GGFanGame
 
         internal GameController()
         {
+            var test = new Game.Lighting.LightObject(Color.Red, Vector3.Zero, new Vector3(0, 0, 1f), MathHelper.PiOver2);
+
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }

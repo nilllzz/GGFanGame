@@ -217,9 +217,10 @@ namespace GGFanGame.Game
         protected void AddBoundingBox(Vector3 size, Vector3 offset)
         {
             _boundingBoxes.Add(
-                new BoundingBox(new Vector3(-size.X / 2f + offset.X, -size.Y / 2f + offset.Y, -size.Z / 2f + offset.Z),
-                                               new Vector3(size.X / 2f + offset.X, size.Y / 2f + offset.Y, size.Z / 2f + offset.Z))
-                              );
+                new BoundingBox(
+                    new Vector3(-size.X / 2f + offset.X, -size.Y / 2f + offset.Y, -size.Z / 2f + offset.Z),
+                    new Vector3(size.X / 2f + offset.X, size.Y / 2f + offset.Y, size.Z / 2f + offset.Z)
+                ));
 
         }
 

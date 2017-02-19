@@ -10,8 +10,6 @@ namespace GGFanGame.Game.Lighting
 {
     internal class LightObject : StageObject
     {
-        public override Point GetDrawingSize() => Point.Zero;
-
         private readonly Cone _lightCone;
 
         public LightObject(Color color, Vector3 position, Vector3 target, float spreadAngle)
@@ -21,7 +19,7 @@ namespace GGFanGame.Game.Lighting
             _lightCone = new Cone(position, target, spreadAngle);
         }
 
-        public override void Draw(SpriteBatch batch) { }
+        public void Draw(SpriteBatch batch) { }
 
         public override void Update() { }
     }

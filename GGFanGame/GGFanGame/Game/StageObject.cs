@@ -165,21 +165,13 @@ namespace GGFanGame.Game
         /// If an object can land on this object.
         /// </summary>
         public bool CanLandOn { get; set; } = false;
-
-        /// <summary>
-        /// If this object should be sorted to appear as closest to the ground.
-        /// </summary>
-        protected bool SortLowest { get; set; } = false;
-
+        
         /// <summary>
         /// If the player can use a button on the gamepad to interact with this object.
         /// </summary>
         public bool CanClick { get; set; } = false;
 
-        /// <summary>
-        /// The relation of this object to the ground.
-        /// </summary>
-        protected GroundRelation GroundRelation { get; set; } = GroundRelation.Upright;
+        internal float CameraDistance => Vector3.Distance(ParentStage.Camera.Position, Position);
 
         #endregion
 
@@ -224,7 +216,6 @@ namespace GGFanGame.Game
                     new Vector3(-size.X / 2f + offset.X, -size.Y / 2f + offset.Y, -size.Z / 2f + offset.Z),
                     new Vector3(size.X / 2f + offset.X, size.Y / 2f + offset.Y, size.Z / 2f + offset.Z)
                 ));
-
         }
 
         /// <summary>
@@ -248,29 +239,9 @@ namespace GGFanGame.Game
         /// The default bounding box of this object based on its position and size.
         /// </summary>
         public virtual BoundingBox BoundingBox
-        {
-            get
-            {
-                if (GroundRelation == GroundRelation.Upright)
-                {
-                    return new BoundingBox(new Vector3(_position.X - Size.X / 2f, _position.Y, _position.Z - Size.Z / 2f),
-                                           new Vector3(_position.X + Size.X / 2f, _position.Y + Size.Y, _position.Z + Size.Z / 2f));
-                }
-                else
-                {
-                    return new BoundingBox(new Vector3(_position.X - Size.X / 2f, _position.Y, _position.Z - Size.Z),
-                                           new Vector3(_position.X + Size.X / 2f, _position.Y + Size.Y, _position.Z));
-                }
-            }
-        }
+            => new BoundingBox(new Vector3(_position.X - Size.X / 2f, _position.Y, _position.Z - Size.Z / 2f),
+                               new Vector3(_position.X + Size.X / 2f, _position.Y + Size.Y, _position.Z + Size.Z / 2f));
 
-        public abstract Point GetDrawingSize();
-        
-        /// <summary>
-        /// Draw the object.
-        /// </summary>
-        public abstract void Draw(SpriteBatch batch);
-        
         /// <summary>
         /// This object gets hit by an attack.
         /// </summary>
@@ -295,30 +266,13 @@ namespace GGFanGame.Game
         //so that the objects in the foreground are overlaying those in the background.
         public virtual int CompareTo(StageObject obj)
         {
-            var obj1Z = this.Z + this.ZSortingOffset;
-            var obj2Z = obj.Z + obj.ZSortingOffset;
-
-            // if the object is laying flat on the ground, have other objects on top of it
-            // until the object is behind the first object (I hope no one needs to read this ever).
-
-            if (this.GroundRelation == GroundRelation.Flat)
-                obj1Z -= this.Size.Z;
-            if (obj.GroundRelation == GroundRelation.Flat)
-                obj2Z -= obj.Size.Z;
-
-            if (obj1Z > obj2Z)
-                return 1;
-            else if (obj1Z < obj2Z)
-                return -1;
-            else
+            if (!IsOpaque && !obj.IsOpaque)
             {
-                if (this._sortingPriority > obj._sortingPriority)
-                    return 1;
-                else if (this._sortingPriority < obj._sortingPriority)
-                    return -1;
-                else
-                    return 0;
+                return CameraDistance < obj.CameraDistance ?
+                    1 : -1;
             }
+
+            return 0;
         }
     }
 }

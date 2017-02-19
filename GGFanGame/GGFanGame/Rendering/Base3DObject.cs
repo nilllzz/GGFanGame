@@ -21,6 +21,7 @@ namespace GGFanGame.Rendering
         public bool IsVisualObject { get; set; } = true;
         public float Alpha { get; set; } = 1f;
         public Texture2D Texture { get; set; } = null;
+        public bool IsOpaque { get; set; } = true;
 
         private static VertexDeclaration GetVertexDeclaration()
             => (VertexDeclaration)typeof(VertexType).GetField(FIELD_NAME_VERTEXDECLARATION).GetValue(null);

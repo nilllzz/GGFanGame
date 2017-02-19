@@ -12,14 +12,14 @@ namespace GGFanGame
         // the default render target for the game.
         internal static RenderTarget2D DefaultTarget { get; private set; }
 
-        internal static void initialize()
+        internal static void Initialize()
         {
             DefaultTarget = CreateScreenTarget();
         }
 
         internal static RenderTarget2D CreateScreenTarget()
         {
-            return new RenderTarget2D(GameInstance.GraphicsDevice, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT, false, default(SurfaceFormat), DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+            return new RenderTarget2D(GameInstance.GraphicsDevice, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT, false, default(SurfaceFormat), DepthFormat.Depth24Stencil8, 0, RenderTargetUsage.PreserveContents);
         }
 
         /// <summary>

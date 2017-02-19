@@ -48,6 +48,8 @@
     <None Include="Content\Fonts\CartoonFontSmall.spritefont" />
     <Content Include="Content\Levels\Dojo\Floor2.png" />
     <Content Include="Content\Levels\Dojo\stage.json" />
+    <Content Include="Content\Levels\Dojo\WoodFloor.png" />
+    <Content Include="Content\Levels\Dojo\WoodPillar.png" />
     <Content Include="Content\Levels\Stage1_1\stage.json" />
     <Content Include="Content\Levels\stages.json" />
   </ItemGroup>

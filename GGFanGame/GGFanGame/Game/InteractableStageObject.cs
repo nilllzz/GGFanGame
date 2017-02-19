@@ -18,9 +18,8 @@ namespace GGFanGame.Game
 
         #region Properties
 
-        /// <summary>
-        /// The sprite sheet to render.
-        /// </summary>
+        protected SpriteSheet SpriteSheet1 { get; set; }
+
         protected Texture2D SpriteSheet { get; set; }
 
         /// <summary>
@@ -89,35 +88,35 @@ namespace GGFanGame.Game
             _animations.Add(state, animation);
         }
 
-        public override void Draw(SpriteBatch batch)
+        public void Draw(SpriteBatch batch)
         {
-            var frame = GetAnimation().GetFrameRec(AnimationFrame);
-            var stageScale = ParentStage.Camera.Scale;
+            //var frame = GetAnimation().GetFrameRec(AnimationFrame);
+            //var stageScale = ParentStage.Camera.Scale;
 
-            if (DrawShadow)
-            {
-                var shadowWidth = (int)(frame.Width * ShadowSize);
-                var shadowHeight = (int)(frame.Height * ShadowSize * (1d / 4d));
+            //if (DrawShadow)
+            //{
+            //    var shadowWidth = (int)(frame.Width * ShadowSize);
+            //    var shadowHeight = (int)(frame.Height * ShadowSize * (1d / 4d));
 
-                batch.DrawEllipse(new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
-                           (int)((Z - shadowHeight / 2d - ParentStage.GetGround(Position)) * stageScale),
-                           (int)(shadowWidth * stageScale),
-                           (int)(shadowHeight * stageScale)),
-                           ParentStage.AmbientColor, stageScale); // TODO: maybe, we have the shadow fade away when the player jumps?
-            }
+            //    batch.DrawEllipse(new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
+            //               (int)((Z - shadowHeight / 2d - ParentStage.GetGround(Position)) * stageScale),
+            //               (int)(shadowWidth * stageScale),
+            //               (int)(shadowHeight * stageScale)),
+            //               ParentStage.AmbientColor, stageScale); // TODO: maybe, we have the shadow fade away when the player jumps?
+            //}
 
-            // Flip the sprite if facing the other way.
-            var effect = Facing == ObjectFacing.Left ? 
-                SpriteEffects.FlipHorizontally : 
-                SpriteEffects.None;
+            //// Flip the sprite if facing the other way.
+            //var effect = Facing == ObjectFacing.Left ? 
+            //    SpriteEffects.FlipHorizontally : 
+            //    SpriteEffects.None;
 
-            batch.Draw(SpriteSheet, new Rectangle((int)((X - frame.Width / 2d) * stageScale),
-                                                                     (int)((Z - Y - frame.Height) * stageScale),
-                                                                     (int)(frame.Width * stageScale),
-                                                                     (int)(frame.Height * stageScale)),
-                                                       frame, Color.White, 0f, Vector2.Zero, effect, 0f);
+            //batch.Draw(SpriteSheet, new Rectangle((int)((X - frame.Width / 2d) * stageScale),
+            //                                                         (int)((Z - Y - frame.Height) * stageScale),
+            //                                                         (int)(frame.Width * stageScale),
+            //                                                         (int)(frame.Height * stageScale)),
+            //                                           frame, Color.White, 0f, Vector2.Zero, effect, 0f);
 
-            DrawActionHint(batch);
+            //DrawActionHint(batch);
         }
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace GGFanGame.Game
                 //Test if player is in range and get smallest range:
                 var smallestPlayerDistance = -1f;
 
-                foreach (var obj in ParentStage.GetObjects())
+                foreach (var obj in ParentStage.Objects)
                 {
                     if (obj.GetType().IsSubclassOf(typeof(Playable.PlayerCharacter)) && obj != this)
                     {
@@ -170,9 +169,14 @@ namespace GGFanGame.Game
                 {
                     //TODO: Render properly.
                     batch.DrawString(GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFont), 
-                        ActionHintText, new Vector2(X, Z - Y) * (float)ParentStage.Camera.Scale, new Color(255, 255, 255, _actionHintTextAlpha));
+                        ActionHintText, new Vector2(X, Z - Y), new Color(255, 255, 255, _actionHintTextAlpha));
                 }
             }
+        }
+
+        protected override void CreateWorld()
+        {
+            World = Matrix.CreateTranslation(Position);
         }
 
         public override void Update()
@@ -202,6 +206,9 @@ namespace GGFanGame.Game
                     AnimationDelay = GetAnimation().Frames[AnimationFrame].FrameLength;
                 }
             }
+
+            Texture = SpriteSheet1.GetPart(GetAnimation().GetFrameRec(AnimationFrame), Facing == ObjectFacing.Left);
+            CreateWorld();
         }
 
         private void UpdateSupporting(StageObject supportingObject)
@@ -346,15 +353,7 @@ namespace GGFanGame.Game
                 }
             }
         }
-
-        public override Point GetDrawingSize()
-        {
-            //Returns the drawing size of the current frame:
-            var frame = GetAnimation().GetFrameRec(AnimationFrame);
-            var stageScale = ParentStage.Camera.Scale;
-            return new Point((int)(frame.Width * stageScale), (int)(frame.Height * stageScale));
-        }
-
+        
         public override void GetHit(StageObject origin, Vector3 movement, int health, bool knockback)
         {
             base.GetHit(origin, movement, health, knockback);

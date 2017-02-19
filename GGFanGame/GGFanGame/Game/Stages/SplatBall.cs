@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using GGFanGame.Drawing;
+using GGFanGame.Rendering;
+using GGFanGame.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using static Core;
 
@@ -51,11 +53,11 @@ namespace GGFanGame.Game.Stages
                 ellipses[i].FillColor = color;
             }
 
-            SpriteSheet = EllipseConfiguration.CreateJoinedEllipse(
+            SpriteSheet1 = new SpriteSheet(EllipseConfiguration.CreateJoinedEllipse(
                 16,
                 16,
                 ellipses
-            );
+            ));
 
             ObjectColor = color;
             CanInteract = false;
@@ -63,6 +65,15 @@ namespace GGFanGame.Game.Stages
             AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(16, 16), 100));
 
             AutoMovement = movement;
+
+            IsOpaque = true;
+        }
+
+        protected override void CreateGeometry()
+        {
+            var vertices = RectangleComposer.Create(16f, 16f);
+            VertexTransformer.Rotate(vertices, new Vector3(MathHelper.PiOver2, 0f, 0f));
+            Geometry.AddVertices(vertices);
         }
 
         public override void Update()

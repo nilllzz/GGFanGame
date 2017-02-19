@@ -1,5 +1,6 @@
 ﻿using System;
 using GGFanGame.Game.Playable;
+using Microsoft.Xna.Framework;
 
 namespace GGFanGame.Game
 {
@@ -14,7 +15,12 @@ namespace GGFanGame.Game
         /// The score a player gets when killing this enemy.
         /// </summary>
         public abstract int Score { get; }
-        
+
+        public Enemy()
+        {
+            IsOpaque = false;
+        }
+
         public override void Update()
         {
             UpdateState();
@@ -68,6 +74,11 @@ namespace GGFanGame.Game
             }
 
             SetState(setToState);
+        }
+
+        protected override void CreateWorld()
+        {
+            World = Matrix.CreateTranslation(Position + new Vector3(0, 32, 0));
         }
 
         private void Die()

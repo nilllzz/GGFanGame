@@ -90,7 +90,7 @@ namespace GGFanGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _batch = new SpriteBatch(GraphicsDevice);
-            RenderTargetManager.initialize();
+            RenderTargetManager.Initialize();
         }
 
         /// <summary>

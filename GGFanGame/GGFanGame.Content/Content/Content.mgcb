@@ -57,6 +57,30 @@
 #begin Levels/Dojo/stage.json
 /copy:Levels/Dojo/stage.json
 
+#begin Levels/Dojo/WoodFloor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Levels/Dojo/WoodFloor.png
+
+#begin Levels/Dojo/WoodPillar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Levels/Dojo/WoodPillar.png
+
 #begin Levels/GrumpSpace/Arcade0.png
 /importer:TextureImporter
 /processor:TextureProcessor

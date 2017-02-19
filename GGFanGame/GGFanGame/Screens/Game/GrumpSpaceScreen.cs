@@ -33,21 +33,6 @@ namespace GGFanGame.Screens.Game
             {
                 GetComponent<ScreenManager>().SetScreen(new Debug.BoundingBoxTestScreen());
             }
-            // Zoom out: Y
-            if (GetComponent<KeyboardHandler>().KeyDown(Microsoft.Xna.Framework.Input.Keys.Y) && _stage.Camera.Scale > 0.2)
-            {
-                _stage.Camera.Scale -= 0.01;
-            }
-            // Zoom in: X
-            if (GetComponent<KeyboardHandler>().KeyDown(Microsoft.Xna.Framework.Input.Keys.X))
-            {
-                _stage.Camera.Scale += 0.01;
-            }
-            // Zoom default: C
-            if (GetComponent<KeyboardHandler>().KeyPressed(Microsoft.Xna.Framework.Input.Keys.OemPipe))
-            {
-                _stage.Camera.Scale = 2;
-            }
         }
     }
 }

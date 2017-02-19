@@ -1,15 +1,17 @@
 ﻿using System;
 using GGFanGame.Content;
+using GGFanGame.Rendering;
+using GGFanGame.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static Core;
 
-namespace GGFanGame.Game.Stages.GrumpSpace.Enemies
+namespace GGFanGame.Game.Stages.Dojo.Enemies
 {
     /// <summary>
     /// An enemy for a dojo stage.
     /// </summary>
-    [StageObject("booper", "0", "1")]
+    [StageObject("booper", "grumpSpace", "dojo")]
     internal class Booper : Enemy
     {
         public override int Score => 100;
@@ -28,13 +30,20 @@ namespace GGFanGame.Game.Stages.GrumpSpace.Enemies
             AddAnimation(ObjectState.Hurt, new Animation(7, new Point(0, 64), new Point(64, 64), 4));
             AddAnimation(ObjectState.HurtFalling, new Animation(7, new Point(0, 64), new Point(64, 64), 4));
             AddAnimation(ObjectState.Dead, new Animation(6, new Point(0, 128), new Point(64, 64), 4));
-            
+
             OnDeath += OnDeathHandler;
         }
 
         protected override void LoadContentInternal()
         {
-            SpriteSheet = ParentStage.Content.Load<Texture2D>(Resources.Sprites.Booper);
+            SpriteSheet1 = new SpriteSheet(ParentStage.Content.Load<Texture2D>(Resources.Sprites.Booper));
+        }
+
+        protected override void CreateGeometry()
+        {
+            var vertices = RectangleComposer.Create(64f, 64f);
+            VertexTransformer.Rotate(vertices, new Vector3(MathHelper.PiOver2, 0f, 0f));
+            Geometry.AddVertices(vertices);
         }
 
         public override void Update()

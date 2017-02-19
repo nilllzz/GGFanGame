@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GGFanGame.Content;
 using GGFanGame.DataModel.Game;
-using GGFanGame.Drawing;
 using GGFanGame.Game.Playable;
 using GGFanGame.Rendering;
 using Microsoft.Xna.Framework;
@@ -35,10 +35,8 @@ namespace GGFanGame.Game
         #endregion
 
         private StageModel _dataModel;
-        private List<StageObject> _objects;
         private readonly float _yDefaultKillPlane = -0f;
         private readonly ObjectRenderer _renderer;
-        private readonly Stage3DCamera _camera;
 
         internal ContentManager Content { get; }
         internal Random Random { get; } = new Random();
@@ -47,12 +45,7 @@ namespace GGFanGame.Game
         /// The ambient shadow color in this stage.
         /// </summary>
         public Color AmbientColor { get; private set; } = new Color(0, 0, 0, 100); //Used for shadow color
-
-        /// <summary>
-        /// The camera of the level.
-        /// </summary>
-        public StageCamera Camera { get; }
-
+        
         public string Name => _dataModel.Name;
         public string WorldId => _dataModel.WorldId;
         public string StageId => _dataModel.StageId;
@@ -62,6 +55,9 @@ namespace GGFanGame.Game
         public PlayerCharacter TwoPlayer { get; set; }
         public PlayerCharacter ThreePlayer { get; set; }
         public PlayerCharacter FourPlayer { get; set; }
+
+        public StageObjectCollection Objects { get; set; }
+        internal StageCamera Camera { get; private set; }
 
         internal bool IsDisposed { get; private set; }
 
@@ -73,33 +69,31 @@ namespace GGFanGame.Game
             Content = content;
 
             _dataModel = dataModel;
-            _objects = new List<StageObject>(objects);
+            Objects = new StageObjectCollection(objects.ToArray());
             _renderer = new StageObjectRenderer();
-            _camera = new Stage3DCamera();
-
-            Camera = new StageCamera();
         }
 
         public void LoadContent()
         {
             SetActiveStage();
 
-            OnePlayer = new Arin(PlayerIndex.One) { X = 320, Z = 200 };
+            OnePlayer = new Arin(PlayerIndex.One) { X = 0, Z = 0 };
             //TwoPlayer = new Arin(PlayerIndex.Two) { X = 320, Z = 230 };
             //ThreePlayer = new Arin(PlayerIndex.Three) { X = 50, Z = 230 };
             //FourPlayer = new Arin(PlayerIndex.Four) { X = 50, Z = 200 };
 
-            _objects.Add(OnePlayer);
+            Objects.Add(OnePlayer);
             //_objects.Add(TwoPlayer);
             //_objects.Add(ThreePlayer);
             //_objects.Add(FourPlayer);
 
-            _objects.ForEach(o =>
+            Objects.ForEach(o =>
             {
                 o.ParentStage = this;
                 o.LoadContent();
             });
 
+            Camera = new StageCamera(OnePlayer);
             _renderer.LoadContent();
         }
 
@@ -115,10 +109,16 @@ namespace GGFanGame.Game
                 Filter = TextureFilter.Point
             };
             GameInstance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            GameInstance.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
-            _renderer.PrepareRender(_camera);
-            _objects.ForEach(o => _renderer.Render(o));
+            _renderer.PrepareRender(Camera);
+
+            GameInstance.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            foreach (var obj in Objects.OpaqueObjects)
+                _renderer.Render(obj);
+
+            GameInstance.GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
+            foreach (var obj in Objects.TransparentObjects)
+                _renderer.Render(obj);
         }
 
         /// <summary>
@@ -126,49 +126,34 @@ namespace GGFanGame.Game
         /// </summary>
         public void Draw(SpriteBatch batch)
         {
-            //batch.DrawRectangle(GameInstance.ClientRectangle, BackColor);
-
-            //foreach (var obj in _objects)
-            //{
-            //    obj.Draw(batch);
-            //}
-
             //TEST: Object counter.
-            batch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall), _objects.Count.ToString(), Vector2.Zero, Color.White);
+            batch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall), Objects.Count.ToString(), Vector2.Zero, Color.White);
         }
-
-        /// <summary>
-        /// Returns the list of objects in this stage.
-        /// </summary>
-        public StageObject[] GetObjects()
-        {
-            return _objects.ToArray();
-        }
-
+        
         /// <summary>
         /// Updates and sorts the objects in this stage.
         /// </summary>
         public void Update()
         {
-            _objects.Sort();
+            Objects.Sort();
 
-            for (var i = 0; i < _objects.Count; i++)
+            for (var i = 0; i < Objects.Count; i++)
             {
-                if (i <= _objects.Count - 1)
+                if (i <= Objects.Count - 1)
                 {
-                    if (_objects[i].CanBeRemoved)
+                    if (Objects[i].CanBeRemoved)
                     {
-                        _objects.RemoveAt(i);
+                        Objects.RemoveAt(i);
                         i--;
                     }
                     else
                     {
-                        _objects[i].Update();
+                        Objects[i].Update();
                     }
                 }
             }
 
-            Camera.Update(this);
+            Camera.Update();
         }
 
         /// <summary>
@@ -178,7 +163,7 @@ namespace GGFanGame.Game
         {
             obj.ParentStage = this;
             obj.LoadContent();
-            _objects.Add(obj);
+            Objects.Add(obj);
         }
 
         /// <summary>
@@ -193,9 +178,9 @@ namespace GGFanGame.Game
 
             var attackHitbox = attack.GetHitbox(relPosition);
 
-            while (objIndex < _objects.Count && hitCount < maxHitCount)
+            while (objIndex < Objects.Count && hitCount < maxHitCount)
             {
-                var obj = _objects[objIndex];
+                var obj = Objects[objIndex];
 
                 if (obj != attack.Origin && obj.CanInteract)
                 {
@@ -205,9 +190,9 @@ namespace GGFanGame.Game
                         obj.GetHit(attack);
 
                         var wordPosition = obj.GetFeetPosition();
-                        wordPosition.Y += (float)(obj.Size.Y / 2d * Camera.Scale);
+                        wordPosition.Y += (float)(obj.Size.Y / 2d);
 
-                        _objects.Add(new ActionWord(ActionWord.GetWordText(ActionWordType.HurtEnemy), obj.ObjectColor, 1f, wordPosition));
+                        AddObject(new ActionWord(ActionWord.GetWordText(ActionWordType.HurtEnemy), obj.ObjectColor, 1f, wordPosition));
                     }
                 }
 
@@ -232,7 +217,7 @@ namespace GGFanGame.Game
             //For explosions, we are using a sphere to detect collision because why not.
             var explosionSphere = new BoundingSphere(center, radius);
 
-            foreach (var obj in _objects)
+            foreach (var obj in Objects)
             {
                 if (obj != origin && obj.CanInteract)
                 {
@@ -291,7 +276,7 @@ namespace GGFanGame.Game
             {
                 var twoDimPoint = new Vector2(position.X, position.Z);
 
-                foreach (var obj in _objects)
+                foreach (var obj in Objects)
                 {
                     if (obj.CanLandOn)
                     {
@@ -344,7 +329,7 @@ namespace GGFanGame.Game
             //This way, it is consistent with the way we check for ground.
             var destinationBox = new BoundingBox(desiredPosition + new Vector3(0, 0.1f, 0), desiredPosition + new Vector3(0, 0.1f + (chkObj.BoundingBox.Max.Y - chkObj.BoundingBox.Min.Y), 0));
 
-            foreach (var obj in _objects)
+            foreach (var obj in Objects)
             {
                 if (obj != chkObj && obj.Collision)
                 {

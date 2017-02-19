@@ -72,6 +72,7 @@ namespace GGFanGame.Game.Playable
         {
             _playerIndex = playerIndex;
             CanLandOn = false;
+            IsOpaque = false;
 
             ObjectColor = Drawing.Colors.GetColor(playerIndex);
         }
@@ -80,15 +81,7 @@ namespace GGFanGame.Game.Playable
         {
             _attacks.Add(comboChain, combo);
         }
-
-        /// <summary>
-        /// Draws the player character.
-        /// </summary>
-        public override void Draw(SpriteBatch batch)
-        {
-            base.Draw(batch);
-        }
-
+        
         public override void Update()
         {
             UpdateState();
@@ -399,6 +392,11 @@ namespace GGFanGame.Game.Playable
             }
 
             SetState(setToState);
+        }
+
+        protected override void CreateWorld()
+        {
+            World = Matrix.CreateTranslation(Position + new Vector3(0, 32, 0));
         }
 
         protected override Animation GetAnimation()

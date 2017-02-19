@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using GGFanGame.Drawing;
+using GGFanGame.Rendering;
+using GGFanGame.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,17 +12,16 @@ namespace GGFanGame.Game.Stages
     /// </summary>
     internal class GroundSplat : InteractableStageObject
     {
-        private SpriteEffects _effect = SpriteEffects.None;
         private int _alpha = 255;
 
         public GroundSplat(Color color)
         {
             ObjectColor = color;
-
-            SortLowest = true;
+            IsOpaque = false;
+            
             CanInteract = false;
             
-            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(128, 128), 100));
+            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(64, 64), 100));
         }
 
         protected override void LoadContentInternal()
@@ -40,32 +41,24 @@ namespace GGFanGame.Game.Stages
                 ellipses[i].FillColor = ObjectColor;
             }
 
-            SpriteSheet = EllipseConfiguration.CreateJoinedEllipse(
+            SpriteSheet1 = new SpriteSheet(EllipseConfiguration.CreateJoinedEllipse(
                 64,
                 64,
                 ellipses
-            );
+            ));
 
             if (random.Next(0, 2) == 0)
             {
-                _effect = SpriteEffects.FlipHorizontally;
+                Facing = ObjectFacing.Left;
             }
         }
 
-        public override void Draw(SpriteBatch batch)
+        protected override void CreateGeometry()
         {
-            var frame = GetAnimation().GetFrameRec(AnimationFrame);
-            var stageScale = ParentStage.Camera.Scale;
-
-            var shadowWidth = (int)(SpriteSheet.Width);
-            var shadowHeight = (int)(SpriteSheet.Height * (1d / 4d));
-
-            batch.Draw(SpriteSheet, new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
-                            (int)((Z - shadowHeight / 2d - Y) * stageScale),
-                            (int)(shadowWidth * stageScale),
-                            (int)(shadowHeight * stageScale)), null, new Color(255, 255, 255, _alpha), 0f, Vector2.Zero, _effect, 0f);
+            var vertices = RectangleComposer.Create(64, 64);
+            Geometry.AddVertices(vertices);
         }
-
+        
         public override void Update()
         {
             base.Update();
@@ -76,6 +69,8 @@ namespace GGFanGame.Game.Stages
                 _alpha = 0;
                 CanBeRemoved = true;
             }
+
+            Alpha = _alpha / 255f;
         }
     }
 }

@@ -48,6 +48,7 @@ namespace GGFanGame.Screens.Menu
 
             // create texture of pre screen
             RenderTargetManager.BeginRenderScreenToTarget(_target);
+            _preScreen.RenderStage();
             _batch.Begin(SpriteBatchUsage.Default);
             _preScreen.DrawStage(_batch);
             _batch.End();

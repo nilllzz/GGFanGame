@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using GGFanGame.Content;
+using GGFanGame.Drawing;
+using GGFanGame.Rendering;
+using GGFanGame.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static Core;
@@ -50,26 +53,46 @@ namespace GGFanGame.Game
             _text = text;
             _color = color;
             _targetSize = targetSize;
-            this.Position = position;
+
+            Position = position;
+            IsOpaque = false;
+
+            CreateTexture();
         }
 
-        public override void Draw(SpriteBatch batch)
+        private void CreateTexture()
         {
-            var fontSize = _grumpFont.MeasureString(_text) * _size;
+            var textSize = _grumpFont.MeasureString(_text);
+            var target = new RenderTarget2D(GameInstance.GraphicsDevice, (int)textSize.X, (int)textSize.Y);
+            var batch = new SpriteBatch(GameInstance.GraphicsDevice);
 
-            batch.DrawString(_grumpFont, _text, new Vector2(X - fontSize.X / 2f, Z - Y - fontSize.Y / 2f), _color, 0f, Vector2.Zero, _size, SpriteEffects.None, 0f);
+            GameInstance.GraphicsDevice.SetRenderTarget(target);
+            GameInstance.GraphicsDevice.Clear(Color.Transparent);
+
+            batch.Begin(SpriteBatchUsage.Default);
+            batch.DrawString(_grumpFont, _text, Vector2.Zero, _color);
+            batch.End();
+
+            GameInstance.GraphicsDevice.SetRenderTarget(null);
+
+            Texture = target;
+
+            batch.Dispose();
         }
-
-        public override Point GetDrawingSize()
-        {
-            var textSize = _grumpFont.MeasureString(_text) * _size;
-            return textSize.ToPoint();
-        }
-
+        
         public override Vector3 GetFeetPosition()
         {
             var fontSize = _grumpFont.MeasureString(_text) * _size;
             return new Vector3(X + fontSize.X / 2f, Y, Z + fontSize.Y);
+        }
+
+        protected override void CreateGeometry()
+        {
+            var textSize = _grumpFont.MeasureString(_text);
+
+            var vertices = RectangleComposer.Create(textSize.X, textSize.Y);
+            VertexTransformer.Rotate(vertices, new Vector3(MathHelper.PiOver2, 0f, 0f));
+            Geometry.AddVertices(vertices);
         }
 
         public override void Update()
@@ -89,7 +112,7 @@ namespace GGFanGame.Game
                 if (_delay > 0d)
                 {
                     _delay--;
-                    Y = Y + 0.9f;
+                    Y += 0.9f;
                     if (_delay <= 0d)
                     {
                         CanBeRemoved = true;
@@ -97,6 +120,8 @@ namespace GGFanGame.Game
                 }
             }
             _rotation += 0.01f;
+
+            World = Matrix.CreateScale(_size) * Matrix.CreateTranslation(Position);
         }
     }
 }

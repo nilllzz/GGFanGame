@@ -19,6 +19,8 @@ namespace GGFanGame.Content
                 public const string Floor1 = "Levels/Dojo/Floor1";
                 public const string Floor2 = "Levels/Dojo/Floor2";
                 public const string stage = "Levels/Dojo/stage";
+                public const string WoodFloor = "Levels/Dojo/WoodFloor";
+                public const string WoodPillar = "Levels/Dojo/WoodPillar";
             }
             
             public static class GrumpSpace

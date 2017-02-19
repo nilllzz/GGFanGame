@@ -34,7 +34,7 @@ namespace GGFanGame.Screens.Debug
 
         public override void Draw()
         {
-            foreach (var obj in Stage.ActiveStage.GetObjects())
+            foreach (var obj in Stage.ActiveStage.Objects)
             {
                 var boxes = obj.BoundingBoxes;
 

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GGFanGame.Content;
+﻿using GGFanGame.Content;
+using GGFanGame.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -14,19 +10,23 @@ namespace GGFanGame.Game.Stages.Dojo
     {
         public FloorSide()
         {
-            Size = new Vector3(32, 1, 96);
+            Size = new Vector3(64, 1, 64);
             DrawShadow = false;
             Collision = true;
             CanLandOn = true;
             GravityAffected = false;
 
-            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(32, 96), 100));
-            GroundRelation = GroundRelation.Flat;
+            AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(64, 64), 100));
         }
 
         protected override void LoadContentInternal()
         {
-            SpriteSheet = ParentStage.Content.Load<Texture2D>(Resources.Levels.Dojo.Floor2);
+            SpriteSheet1 = new SpriteSheet(ParentStage.Content.Load<Texture2D>(Resources.Levels.Dojo.WoodFloor));
+        }
+
+        protected override void CreateGeometry()
+        {
+            Geometry.AddVertices(RectangleComposer.Create(64f, 64f));
         }
     }
 }

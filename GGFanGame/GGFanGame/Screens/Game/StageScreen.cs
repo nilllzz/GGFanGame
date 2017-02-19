@@ -22,7 +22,7 @@ namespace GGFanGame.Screens.Game
         public StageScreen()
         {
             _stage = StageFactory.Create(Content, "grumpSpace", "dojo");
-            _stage.Load();
+            _stage.LoadContent();
             
             _oneStatus = new PlayerStatus(_stage.OnePlayer, PlayerIndex.One, Content);
             _twoStatus = new PlayerStatus(_stage.TwoPlayer, PlayerIndex.Two, Content);
@@ -34,6 +34,8 @@ namespace GGFanGame.Screens.Game
 
         public override void Draw()
         {
+            RenderStage();
+
             _batch.Begin(SpriteBatchUsage.Default);
 
             // seperate these so they can be called seperately from the pause screen.
@@ -41,6 +43,11 @@ namespace GGFanGame.Screens.Game
             DrawHUD();
 
             _batch.End();
+        }
+
+        internal void RenderStage()
+        {
+            _stage.Render();
         }
 
         internal void DrawStage(SpriteBatch batch = null)

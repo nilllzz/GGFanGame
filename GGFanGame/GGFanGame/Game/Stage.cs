@@ -4,6 +4,7 @@ using GGFanGame.Content;
 using GGFanGame.DataModel.Game;
 using GGFanGame.Drawing;
 using GGFanGame.Game.Playable;
+using GGFanGame.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,6 +37,8 @@ namespace GGFanGame.Game
         private StageModel _dataModel;
         private List<StageObject> _objects;
         private readonly float _yDefaultKillPlane = -0f;
+        private readonly ObjectRenderer _renderer;
+        private readonly Stage3DCamera _camera;
 
         internal ContentManager Content { get; }
         internal Random Random { get; } = new Random();
@@ -71,11 +74,13 @@ namespace GGFanGame.Game
 
             _dataModel = dataModel;
             _objects = new List<StageObject>(objects);
+            _renderer = new StageObjectRenderer();
+            _camera = new Stage3DCamera();
 
             Camera = new StageCamera();
         }
 
-        public void Load()
+        public void LoadContent()
         {
             SetActiveStage();
 
@@ -92,21 +97,41 @@ namespace GGFanGame.Game
             _objects.ForEach(o =>
             {
                 o.ParentStage = this;
-                o.Load();
+                o.LoadContent();
             });
+
+            _renderer.LoadContent();
         }
 
         /// <summary>
         /// Renders the objects in this stage.
         /// </summary>
+        public void Render()
+        {
+            GameInstance.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, BackColor, 1.0f, 0);
+            GameInstance.GraphicsDevice.RasterizerState = new RasterizerState { CullMode = CullMode.None };
+            GameInstance.GraphicsDevice.SamplerStates[0] = new SamplerState
+            {
+                Filter = TextureFilter.Point
+            };
+            GameInstance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            GameInstance.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+
+            _renderer.PrepareRender(_camera);
+            _objects.ForEach(o => _renderer.Render(o));
+        }
+
+        /// <summary>
+        /// Draws the objects in this stage.
+        /// </summary>
         public void Draw(SpriteBatch batch)
         {
-            batch.DrawRectangle(GameInstance.ClientRectangle, BackColor);
+            //batch.DrawRectangle(GameInstance.ClientRectangle, BackColor);
 
-            foreach (var obj in _objects)
-            {
-                obj.Draw(batch);
-            }
+            //foreach (var obj in _objects)
+            //{
+            //    obj.Draw(batch);
+            //}
 
             //TEST: Object counter.
             batch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall), _objects.Count.ToString(), Vector2.Zero, Color.White);
@@ -152,7 +177,7 @@ namespace GGFanGame.Game
         public void AddObject(StageObject obj)
         {
             obj.ParentStage = this;
-            obj.Load();
+            obj.LoadContent();
             _objects.Add(obj);
         }
 

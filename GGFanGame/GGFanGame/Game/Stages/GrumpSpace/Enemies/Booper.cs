@@ -32,7 +32,7 @@ namespace GGFanGame.Game.Stages.GrumpSpace.Enemies
             OnDeath += OnDeathHandler;
         }
 
-        protected override void LoadInternal()
+        protected override void LoadContentInternal()
         {
             SpriteSheet = ParentStage.Content.Load<Texture2D>(Resources.Sprites.Booper);
         }

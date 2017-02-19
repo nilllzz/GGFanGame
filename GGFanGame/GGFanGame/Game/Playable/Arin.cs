@@ -1,4 +1,5 @@
 ﻿using GGFanGame.Content;
+using GGFanGame.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static Core;
@@ -67,6 +68,13 @@ namespace GGFanGame.Game.Playable
 
             AddAttack("AB", B4);
             AddAttack("ABA", A4);
+
+            Texture = SpriteSheet;
+        }
+
+        protected override void CreateGeometry()
+        {
+            Geometry.AddVertices(CuboidComposer.Create(1f));
         }
 
         /// <summary>

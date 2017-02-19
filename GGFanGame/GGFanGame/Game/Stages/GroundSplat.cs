@@ -23,7 +23,7 @@ namespace GGFanGame.Game.Stages
             AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(128, 128), 100));
         }
 
-        protected override void LoadInternal()
+        protected override void LoadContentInternal()
         {
             const int ellipseAmount = 8;
             var ellipses = new (Rectangle Bounds, Color FillColor)[ellipseAmount];

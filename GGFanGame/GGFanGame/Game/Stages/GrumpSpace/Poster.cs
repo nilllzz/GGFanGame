@@ -21,7 +21,7 @@ namespace GGFanGame.Game.Stages.GrumpSpace
             AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(23, 30), 100));
         }
 
-        protected override void LoadInternal()
+        protected override void LoadContentInternal()
         {
             SetRandomPoster();
         }

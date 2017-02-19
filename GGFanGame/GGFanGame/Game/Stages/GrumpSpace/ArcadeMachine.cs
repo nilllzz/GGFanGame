@@ -27,7 +27,7 @@ namespace GGFanGame.Game.Stages.GrumpSpace
             AddAnimation(ObjectState.HurtFalling, new Animation(1, Point.Zero, new Point(30, 65), 100));
         }
 
-        protected override void LoadInternal()
+        protected override void LoadContentInternal()
         {
             SpriteSheet = ParentStage.Content.Load<Texture2D>($@"Levels\GrumpSpace\Arcade{(int)_arcadeType}");
         }

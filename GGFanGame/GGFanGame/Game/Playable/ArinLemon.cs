@@ -23,7 +23,7 @@ namespace GGFanGame.Game.Playable
             CanInteract = false;
         }
 
-        protected override void LoadInternal()
+        protected override void LoadContentInternal()
         {
             SpriteSheet = GameInstance.Content.Load<Texture2D>(Resources.Sprites.ArinLemon);
         }

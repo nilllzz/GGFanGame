@@ -16,7 +16,8 @@ namespace GGFanGame.Screens.Menu
     {
         //The title screen will just feature the logo of the game and a prompt that says "press any button to start".
 
-        private readonly Texture2D _logoTexture, _arinHead, _dannyHead; //texture of the logo that appears on the screen.
+        private readonly Texture2D _logoTexture,
+                                   _arinHead, _dannyHead;
 
         private float _logoAnimation = 20f;
         private float _flashAnimation = 0f;
@@ -66,6 +67,7 @@ namespace GGFanGame.Screens.Menu
             {
                 _batch.Draw(_arinHead, new Rectangle((int)(GameInstance.ClientRectangle.Width / 2f + logoWidth / 2f - 100), 
                     (int)(150 + offset * -5f), 240, 240), Color.White);
+
                 _batch.Draw(_dannyHead, new Rectangle((int)(GameInstance.ClientRectangle.Width / 2f - logoWidth / 2f - 150), 
                     (int)(150 + offset * -5f), 240, 240), Color.White);
             }

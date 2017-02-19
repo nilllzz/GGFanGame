@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GGFanGame.DataModel.Game;
+using GGFanGame.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,7 +11,7 @@ namespace GGFanGame.Game
     /// <summary>
     /// The base object for all things that appear in a stage.
     /// </summary>
-    internal abstract class StageObject : IComparable<StageObject>
+    internal abstract class StageObject : Base3DObject<VertexPositionNormalTexture>, IComparable<StageObject>
     {
         /// <summary>
         /// An event that occures when the position of the object changed.
@@ -190,11 +191,13 @@ namespace GGFanGame.Game
             MaxHealth = 1; // 1 is the default so every object has at least one health when spawned.
         }
 
-        public void Load()
+        public override void LoadContent()
         {
+            base.LoadContent();
+
             if (!_loadedContent)
             {
-                LoadInternal();
+                LoadContentInternal();
                 _loadedContent = true;
             }
         }
@@ -202,7 +205,7 @@ namespace GGFanGame.Game
         /// <summary>
         /// Loads the content of this StageObject.
         /// </summary>
-        protected virtual void LoadInternal() { }
+        protected virtual void LoadContentInternal() { }
 
         /// <summary>
         /// Applies the data from a passed in data model to the object (default implementation contains position set).
@@ -262,17 +265,12 @@ namespace GGFanGame.Game
         }
 
         public abstract Point GetDrawingSize();
-
-        /// <summary>
-        /// Update the object.
-        /// </summary>
-        public abstract void Update();
-
+        
         /// <summary>
         /// Draw the object.
         /// </summary>
         public abstract void Draw(SpriteBatch batch);
-
+        
         /// <summary>
         /// This object gets hit by an attack.
         /// </summary>

@@ -24,7 +24,7 @@ namespace GGFanGame.Game.Playable
             _movement = movement;
         }
 
-        protected override void LoadInternal()
+        protected override void LoadContentInternal()
         {
             SpriteSheet = GameInstance.Content.Load<Texture2D>(Resources.Sprites.ArinBomb);
         }

@@ -24,7 +24,7 @@ namespace GGFanGame.Game.Stages.Dojo
             GroundRelation = GroundRelation.Flat;
         }
 
-        protected override void LoadInternal()
+        protected override void LoadContentInternal()
         {
             SpriteSheet = ParentStage.Content.Load<Texture2D>(Resources.Levels.Dojo.Floor2);
         }

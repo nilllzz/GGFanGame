@@ -24,7 +24,7 @@ namespace GGFanGame.Game.Stages.GrumpSpace
             ZSortingOffset = -6; // -(boundingBox.Z / 2) - offset.Z
         }
 
-        protected override void LoadInternal()
+        protected override void LoadContentInternal()
         {
             SpriteSheet = ParentStage.Content.Load<Texture2D>(Resources.Levels.GrumpSpace.Couch);
         }

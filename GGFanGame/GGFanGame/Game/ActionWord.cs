@@ -99,27 +99,33 @@ namespace GGFanGame.Game
         {
             if (_size < _targetSize)
             {
-                _size = MathHelper.Lerp(_targetSize, _size, 0.8f);
+                var diff = _size - MathHelper.Lerp(_targetSize, _size, 0.8f);
+                diff *= ParentStage.TimeDelta;
 
+                _size -= diff;
+
+                // +0.01 for inaccuracy
                 if (_size + 0.01f >= _targetSize)
                 {
                     _size = _targetSize;
-                    _delay = 10d;
+                    _delay = 1d;
                 }
             }
             else
             {
                 if (_delay > 0d)
                 {
-                    _delay--;
-                    Y += 0.9f;
+                    _delay -= 0.05 * ParentStage.TimeDelta;
+                    Y += 0.9f * ParentStage.TimeDelta;
+                    Alpha = (float)_delay;
+
                     if (_delay <= 0d)
                     {
                         CanBeRemoved = true;
                     }
                 }
             }
-            _rotation += 0.01f;
+            _rotation += 0.01f * ParentStage.TimeDelta;
 
             World = Matrix.CreateScale(_size) * Matrix.CreateTranslation(Position);
         }

@@ -37,6 +37,7 @@ namespace GGFanGame.Game
         private StageModel _dataModel;
         private readonly float _yDefaultKillPlane = -0f;
         private readonly ObjectRenderer _renderer;
+        private readonly StageObjectCollection _objects;
 
         internal ContentManager Content { get; }
         internal Random Random { get; } = new Random();
@@ -56,8 +57,12 @@ namespace GGFanGame.Game
         public PlayerCharacter ThreePlayer { get; set; }
         public PlayerCharacter FourPlayer { get; set; }
 
-        public StageObjectCollection Objects { get; set; }
+        public IEnumerable<StageObject> Objects => _objects;
         internal StageCamera Camera { get; private set; }
+        /// <summary>
+        /// How fast the time in the game moves. 1 is default, 0 is not moving.
+        /// </summary>
+        internal float TimeDelta { get; set; } = 1f;
 
         internal bool IsDisposed { get; private set; }
 
@@ -69,7 +74,7 @@ namespace GGFanGame.Game
             Content = content;
 
             _dataModel = dataModel;
-            Objects = new StageObjectCollection(objects.ToArray());
+            _objects = new StageObjectCollection(objects.ToArray());
             _renderer = new StageObjectRenderer();
         }
 
@@ -82,12 +87,12 @@ namespace GGFanGame.Game
             //ThreePlayer = new Arin(PlayerIndex.Three) { X = 50, Z = 230 };
             //FourPlayer = new Arin(PlayerIndex.Four) { X = 50, Z = 200 };
 
-            Objects.Add(OnePlayer);
+            AddObject(OnePlayer);
             //_objects.Add(TwoPlayer);
             //_objects.Add(ThreePlayer);
             //_objects.Add(FourPlayer);
 
-            Objects.ForEach(o =>
+            _objects.ForEach(o =>
             {
                 o.ParentStage = this;
                 o.LoadContent();
@@ -113,11 +118,11 @@ namespace GGFanGame.Game
             _renderer.PrepareRender(Camera);
 
             GameInstance.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            foreach (var obj in Objects.OpaqueObjects)
+            foreach (var obj in _objects.OpaqueObjects)
                 _renderer.Render(obj);
 
             GameInstance.GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
-            foreach (var obj in Objects.TransparentObjects)
+            foreach (var obj in _objects.TransparentObjects)
                 _renderer.Render(obj);
         }
 
@@ -127,7 +132,7 @@ namespace GGFanGame.Game
         public void Draw(SpriteBatch batch)
         {
             //TEST: Object counter.
-            batch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall), Objects.Count.ToString(), Vector2.Zero, Color.White);
+            batch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall), _objects.Count.ToString(), Vector2.Zero, Color.White);
         }
         
         /// <summary>
@@ -135,20 +140,20 @@ namespace GGFanGame.Game
         /// </summary>
         public void Update()
         {
-            Objects.Sort();
+            _objects.Sort();
 
-            for (var i = 0; i < Objects.Count; i++)
+            for (var i = 0; i < _objects.Count; i++)
             {
-                if (i <= Objects.Count - 1)
+                if (i <= _objects.Count - 1)
                 {
-                    if (Objects[i].CanBeRemoved)
+                    if (_objects[i].CanBeRemoved)
                     {
-                        Objects.RemoveAt(i);
+                        _objects.RemoveAt(i);
                         i--;
                     }
                     else
                     {
-                        Objects[i].Update();
+                        _objects[i].Update();
                     }
                 }
             }
@@ -163,7 +168,7 @@ namespace GGFanGame.Game
         {
             obj.ParentStage = this;
             obj.LoadContent();
-            Objects.Add(obj);
+            _objects.Add(obj);
         }
 
         /// <summary>
@@ -178,9 +183,9 @@ namespace GGFanGame.Game
 
             var attackHitbox = attack.GetHitbox(relPosition);
 
-            while (objIndex < Objects.Count && hitCount < maxHitCount)
+            while (objIndex < _objects.Count && hitCount < maxHitCount)
             {
-                var obj = Objects[objIndex];
+                var obj = _objects[objIndex];
 
                 if (obj != attack.Origin && obj.CanInteract)
                 {

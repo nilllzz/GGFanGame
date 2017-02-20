@@ -39,7 +39,7 @@ namespace GGFanGame.Screens.Menu
             _batch = new SpriteBatch(GameInstance.GraphicsDevice);
             _fontBatch = new SpriteBatch(GameInstance.GraphicsDevice);
 
-            _target = new RenderTarget2D(GameInstance.GraphicsDevice, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
+            _target = new RenderTarget2D(GameInstance.GraphicsDevice, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8);
         }
 
         public override void Draw()

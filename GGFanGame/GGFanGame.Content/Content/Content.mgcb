@@ -42,7 +42,10 @@
 /processorParam:TextureFormat=Color
 /build:Levels/Dojo/Floor1.png
 
-#begin Levels/Dojo/Floor2.png
+#begin Levels/Dojo/stage.json
+/copy:Levels/Dojo/stage.json
+
+#begin Levels/Dojo/Wall1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -52,10 +55,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Levels/Dojo/Floor2.png
-
-#begin Levels/Dojo/stage.json
-/copy:Levels/Dojo/stage.json
+/build:Levels/Dojo/Wall1.png
 
 #begin Levels/Dojo/WoodFloor.png
 /importer:TextureImporter

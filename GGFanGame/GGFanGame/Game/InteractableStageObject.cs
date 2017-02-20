@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using GGFanGame.Content;
-using GGFanGame.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static Core;
@@ -168,7 +167,7 @@ namespace GGFanGame.Game
                 if (_actionHintTextAlpha > 0)
                 {
                     //TODO: Render properly.
-                    batch.DrawString(GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFont), 
+                    batch.DrawString(GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFont),
                         ActionHintText, new Vector2(X, Z - Y), new Color(255, 255, 255, _actionHintTextAlpha));
                 }
             }
@@ -188,7 +187,7 @@ namespace GGFanGame.Game
 
             if (GetAnimation().Frames.Length > 1)
             {
-                AnimationDelay--;
+                AnimationDelay -= ParentStage.TimeDelta * 1;
                 if (AnimationDelay <= 0d)
                 {
                     AnimationFrame++;
@@ -263,22 +262,23 @@ namespace GGFanGame.Game
         /// </summary>
         private void UpdateAutoMovement(float groundY)
         {
+            var timeDelta = ParentStage.TimeDelta;
+
             if (AutoMovement.X > 0f)
             {
-                AutoMovement.X -= 0.5f;
+                AutoMovement.X -= 0.5f * timeDelta;
                 if (AutoMovement.X < 0f)
                     AutoMovement.X = 0f;
             }
             if (AutoMovement.X < 0f)
             {
-                AutoMovement.X += 0.5f;
+                AutoMovement.X += 0.5f * timeDelta;
                 if (AutoMovement.X > 0f)
                     AutoMovement.X = 0f;
             }
-
             if (AutoMovement.Y > 0f)
             {
-                AutoMovement.Y -= 0.5f;
+                AutoMovement.Y -= 0.5f * timeDelta;
                 if (AutoMovement.Y < 0f)
                     AutoMovement.Y = 0f;
             }
@@ -286,7 +286,7 @@ namespace GGFanGame.Game
             {
                 if (Y > groundY && GravityAffected)
                 {
-                    AutoMovement.Y--;
+                    AutoMovement.Y -= 1 * timeDelta;
                 }
                 if (AutoMovement.Y < 0f && !GravityAffected)
                 {
@@ -296,22 +296,23 @@ namespace GGFanGame.Game
 
             if (AutoMovement.Z > 0f)
             {
-                AutoMovement.Z -= 0.5f;
+                AutoMovement.Z -= 0.5f * timeDelta;
                 if (AutoMovement.Z < 0f)
                     AutoMovement.Z = 0f;
             }
             if (AutoMovement.Z < 0f)
             {
-                AutoMovement.Z += 0.5f;
+                AutoMovement.Z += 0.5f * timeDelta;
                 if (AutoMovement.Z > 0f)
                     AutoMovement.Z = 0f;
             }
 
-            Y += AutoMovement.Y;
+            Y += AutoMovement.Y * timeDelta;
 
-            var desiredPos = new Vector3(X + AutoMovement.X, Y, Z + AutoMovement.Z);
+            var autoMovementAdjusted = AutoMovement * timeDelta;
+            var desiredPos = new Vector3(X + autoMovementAdjusted.X, Y, Z + autoMovementAdjusted.Z);
 
-            if (AutoMovement.X != 0f || AutoMovement.Z != 0f)
+            if (autoMovementAdjusted.X != 0f || autoMovementAdjusted.Z != 0f)
             {
                 if (!ParentStage.Intersects(this, desiredPos))
                 {
@@ -319,8 +320,8 @@ namespace GGFanGame.Game
                 }
                 else
                 {
-                    var desiredPosX = new Vector3(X + AutoMovement.X, Y, Z);
-                    var desiredPosZ = new Vector3(X, Y, Z + AutoMovement.Z);
+                    var desiredPosX = new Vector3(X + autoMovementAdjusted.X, Y, Z);
+                    var desiredPosZ = new Vector3(X, Y, Z + autoMovementAdjusted.Z);
 
                     if (!ParentStage.Intersects(this, desiredPosX))
                     {
@@ -332,7 +333,7 @@ namespace GGFanGame.Game
                     }
                 }
             }
-            
+
             if (Y < groundY)
             {
                 Y = groundY;
@@ -353,11 +354,9 @@ namespace GGFanGame.Game
                 }
             }
         }
-        
+
         public override void GetHit(StageObject origin, Vector3 movement, int health, bool knockback)
         {
-            base.GetHit(origin, movement, health, knockback);
-
             AutoMovement = movement;
             this.Health -= health;
 
@@ -371,12 +370,12 @@ namespace GGFanGame.Game
             }
 
             LastAttackedBy = origin;
+
+            base.GetHit(origin, movement, health, knockback);
         }
 
         public override void GetHit(Attack attack)
         {
-            base.GetHit(attack);
-
             var knockbackValue = attack.Strength + attack.Origin.Strength - Weight * 0.7f;
 
             if (Weight * 0.7f >= attack.Strength + attack.Origin.Strength)
@@ -455,6 +454,8 @@ namespace GGFanGame.Game
             }
 
             LastAttackedBy = attack.Origin;
+
+            base.GetHit(attack);
         }
 
         /// <summary>

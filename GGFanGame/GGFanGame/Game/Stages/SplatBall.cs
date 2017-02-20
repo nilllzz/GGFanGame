@@ -17,6 +17,8 @@ namespace GGFanGame.Game.Stages
 
         public SplatBall(Color color, Vector3 movement)
         {
+            IsOpaque = false;
+
             Initialize(color, movement);
         }
 
@@ -65,8 +67,6 @@ namespace GGFanGame.Game.Stages
             AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(16, 16), 100));
 
             AutoMovement = movement;
-
-            IsOpaque = true;
         }
 
         protected override void CreateGeometry()

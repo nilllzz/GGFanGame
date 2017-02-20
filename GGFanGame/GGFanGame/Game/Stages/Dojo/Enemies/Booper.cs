@@ -1,10 +1,8 @@
-﻿using System;
-using GGFanGame.Content;
+﻿using GGFanGame.Content;
 using GGFanGame.Rendering;
 using GGFanGame.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static Core;
 
 namespace GGFanGame.Game.Stages.Dojo.Enemies
 {

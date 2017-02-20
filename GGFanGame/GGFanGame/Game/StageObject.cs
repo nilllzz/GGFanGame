@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using GGFanGame.DataModel.Game;
 using GGFanGame.Rendering;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GGFanGame.Game
@@ -22,15 +21,19 @@ namespace GGFanGame.Game
         /// </summary>
         /// <param name="previousPosition">The position before the event occured.</param>
         public delegate void OnPositionChangedEventHandler(StageObject obj, Vector3 previousPosition);
+        /// <summary>
+        /// Event that fires when this object gets hit and takes damage.
+        /// </summary>
+        public event Action<StageObject> OnGettingHit;
 
         private Vector3 _position;
         private readonly List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
 
-        private static int _currentSortingPriority = 0; //Keeps track of all the sorting priorities added so that every object has a different one.
-        private readonly int _sortingPriority = 0;
+        private static int _instanceCount = 0;
+        private int _instanceNum;
         private int _maxHealth;
         private bool _loadedContent;
-
+        
         #region Properties
         
         /// <summary>
@@ -177,9 +180,8 @@ namespace GGFanGame.Game
 
         protected StageObject()
         {
-            _sortingPriority = _currentSortingPriority;
-            _currentSortingPriority++;
-
+            _instanceNum = _instanceCount;
+            _instanceCount++;
             MaxHealth = 1; // 1 is the default so every object has at least one health when spawned.
         }
 
@@ -245,12 +247,12 @@ namespace GGFanGame.Game
         /// <summary>
         /// This object gets hit by an attack.
         /// </summary>
-        public virtual void GetHit(Attack attack) { }
+        public virtual void GetHit(Attack attack) => OnGettingHit?.Invoke(this);
 
         /// <summary>
         /// This objects gets hit and moves by a certain amount.
         /// </summary>
-        public virtual void GetHit(StageObject origin, Vector3 movement, int health, bool knockback) { }
+        public virtual void GetHit(StageObject origin, Vector3 movement, int health, bool knockback) => OnGettingHit?.Invoke(this);
 
         /// <summary>
         /// Returns the lower center of this object.
@@ -272,7 +274,8 @@ namespace GGFanGame.Game
                     1 : -1;
             }
 
-            return 0;
+            return _instanceNum < obj._instanceNum ?
+                1 : -1;
         }
     }
 }

@@ -61,6 +61,26 @@
         { "t": "grumpSpace/dojo/woodPillar", "x": -40, "y": 0, "z": 152 },
         { "t": "grumpSpace/dojo/woodPillar", "x": -40, "y": 64, "z": 152 },
 
-        { "t": "grumpSpace/dojo/booper", "x": 0, "y": 0, "z": 0 }
+        { "t": "grumpSpace/dojo/booper", "x": 128, "y": 1, "z": 40 },
+
+        { "t": "grumpSpace/dojo/wall", "x": -64, "y": 0, "z": -96 },
+        { "t": "grumpSpace/dojo/wall", "x": 0, "y": 0, "z": -96 },
+        { "t": "grumpSpace/dojo/wall", "x": 64, "y": 0, "z": -96 },
+        { "t": "grumpSpace/dojo/wall", "x": 128, "y": 0, "z": -96 },
+        { "t": "grumpSpace/dojo/wall", "x": 192, "y": 0, "z": -96 },
+        { "t": "grumpSpace/dojo/wall", "x": 256, "y": 0, "z": -96 },
+        { "t": "grumpSpace/dojo/wall", "x": 320, "y": 0, "z": -96 },
+
+        { "t": "grumpSpace/dojo/wall", "x": -96, "y": 0, "z": -64, "args": [ "rotated" ] },
+        { "t": "grumpSpace/dojo/wall", "x": -96, "y": 0, "z": 0, "args": [ "rotated" ] },
+        { "t": "grumpSpace/dojo/wall", "x": -96, "y": 0, "z": 64, "args": [ "rotated" ] },
+        { "t": "grumpSpace/dojo/wall", "x": -96, "y": 0, "z": 128, "args": [ "rotated" ] },
+        { "t": "grumpSpace/dojo/wall", "x": -96, "y": 0, "z": 192, "args": [ "rotated" ] },
+
+        { "t": "grumpSpace/dojo/wall", "x": 352, "y": 0, "z": -64, "args": [ "rotated" ] },
+        { "t": "grumpSpace/dojo/wall", "x": 352, "y": 0, "z": 0, "args": [ "rotated" ] },
+        { "t": "grumpSpace/dojo/wall", "x": 352, "y": 0, "z": 64, "args": [ "rotated" ] },
+        { "t": "grumpSpace/dojo/wall", "x": 352, "y": 0, "z": 128, "args": [ "rotated" ] },
+        { "t": "grumpSpace/dojo/wall", "x": 352, "y": 0, "z": 192, "args": [ "rotated" ] }
     ]   
 }

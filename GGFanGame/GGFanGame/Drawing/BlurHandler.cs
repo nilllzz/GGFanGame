@@ -86,7 +86,7 @@ namespace GGFanGame.Drawing
                 {
                     if (_rt1 != null && !_rt1.IsDisposed) _rt1.Dispose();
                     if (_rt2 != null && !_rt2.IsDisposed) _rt2.Dispose();
-                    if (_blurCore != null && !_blurCore.isDisposed) _blurCore.Dispose();
+                    if (_blurCore != null && !_blurCore.IsDisposed) _blurCore.Dispose();
                     if (_batch != null && !_batch.IsDisposed) _batch.Dispose();
                 }
 

@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using GGFanGame.Game;
-using static Core;
+﻿using GGFanGame.Game;
 using GGFanGame.Input;
+using Microsoft.Xna.Framework;
+using static Core;
 
 namespace GGFanGame.Screens.Debug
 {

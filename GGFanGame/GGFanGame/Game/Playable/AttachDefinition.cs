@@ -34,5 +34,4 @@ namespace GGFanGame.Game.Playable
             _attackAction?.Invoke(this);
         }
     }
-
 }

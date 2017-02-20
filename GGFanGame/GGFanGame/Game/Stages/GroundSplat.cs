@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using GGFanGame.Drawing;
-using GGFanGame.Rendering;
+﻿using GGFanGame.Drawing;
 using GGFanGame.Rendering.Composers;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GGFanGame.Game.Stages
 {

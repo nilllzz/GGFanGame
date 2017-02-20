@@ -51,7 +51,7 @@ namespace GGFanGame.Drawing
         private float[] _kernel;
         private Vector2[] _offsetsHoriz, _offsetsVert;
 
-        internal bool isDisposed { get; private set; }
+        internal bool IsDisposed { get; private set; }
 
         /// <summary>
         /// This overloaded constructor instructs the GaussianBlur class to
@@ -195,7 +195,7 @@ namespace GGFanGame.Drawing
 
         private void Dispose(bool disposing)
         {
-            if (!isDisposed)
+            if (!IsDisposed)
             {
                 if (disposing)
                 {
@@ -205,7 +205,7 @@ namespace GGFanGame.Drawing
                 _effect = null;
                 _spriteBatch = null;
 
-                isDisposed = true;
+                IsDisposed = true;
             }
         }
     }

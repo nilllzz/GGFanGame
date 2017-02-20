@@ -1,5 +1,4 @@
-﻿using GGFanGame.Drawing;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using static Core;
 
 namespace GGFanGame

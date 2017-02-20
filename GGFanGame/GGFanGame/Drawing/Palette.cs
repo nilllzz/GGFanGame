@@ -27,19 +27,19 @@ namespace GGFanGame.Drawing
         {
             public PaletteColor(Color originalColor, Color newColor)
             {
-                this.originalColor = originalColor;
-                this.newColor = newColor;
+                this.OriginalColor = originalColor;
+                this.NewColor = newColor;
             }
 
             /// <summary>
             /// The color on the original texture.
             /// </summary>
-            public Color originalColor { get; }
+            public Color OriginalColor { get; }
 
             /// <summary>
             /// The replacement for the original color.
             /// </summary>
-            public Color newColor { get; }
+            public Color NewColor { get; }
         }
 
         /// <summary>
@@ -82,9 +82,9 @@ namespace GGFanGame.Drawing
 
                 foreach (var color in paletteColors)
                 {
-                    if (color.originalColor == originalColorData[i])
+                    if (color.OriginalColor == originalColorData[i])
                     {
-                        resultColorData[i] = color.newColor;
+                        resultColorData[i] = color.NewColor;
                         foundReplacement = true;
                     }
                 }

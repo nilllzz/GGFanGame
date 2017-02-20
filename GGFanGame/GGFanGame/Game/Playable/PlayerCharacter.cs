@@ -2,7 +2,6 @@
 using System.Linq;
 using GGFanGame.Input;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using static Core;
 

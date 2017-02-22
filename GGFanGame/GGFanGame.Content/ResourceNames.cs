@@ -17,6 +17,7 @@ namespace GGFanGame.Content
             public static class Dojo
             {
                 public const string Floor1 = "Levels/Dojo/Floor1";
+                public const string LightBeam = "Levels/Dojo/LightBeam";
                 public const string stage = "Levels/Dojo/stage";
                 public const string Wall1 = "Levels/Dojo/Wall1";
                 public const string WoodFloor = "Levels/Dojo/WoodFloor";

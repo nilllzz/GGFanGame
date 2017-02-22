@@ -16,7 +16,7 @@ namespace GGFanGame.Rendering
         public VertexBuffer VertexBuffer { get; set; }
         public IndexBuffer IndexBuffer { get; set; }
         public Matrix World { get; set; } = Matrix.Identity;
-        public virtual BlendState BlendState => null;
+        public BlendState BlendState { get; set; } = null;
         public bool IsVisible { get; set; } = true;
         public bool IsVisualObject { get; set; } = true;
         public float Alpha { get; set; } = 1f;

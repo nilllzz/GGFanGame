@@ -7,7 +7,7 @@ namespace GGFanGame.DataModel.Serizalitaion
     /// <summary>
     /// Serializes and deserializes xml data.
     /// </summary>
-    internal class XmlDataSerializer<T> : DataSerializer<T> where T : DataModel<T>
+    internal class XmlDataSerializer<T> : IDataSerializer<T> where T : DataModel<T>
     {
         private const string XML_SCHEMA_INSTANCE = " xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"";
 

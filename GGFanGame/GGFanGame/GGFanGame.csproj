@@ -58,7 +58,7 @@
     <Compile Include="DataModel\Game\StageListModel.cs" />
     <Compile Include="DataModel\Game\StageModel.cs" />
     <Compile Include="DataModel\Game\StageObjectModel.cs" />
-    <Compile Include="DataModel\Serizalitaion\DataSerializer.cs" />
+    <Compile Include="DataModel\Serizalitaion\IDataSerializer.cs" />
     <Compile Include="DataModel\Serizalitaion\DataTypeHelper.cs" />
     <Compile Include="DataModel\Serizalitaion\JsonDataSerializer.cs" />
     <Compile Include="DataModel\Serizalitaion\SerializerFactory.cs" />
@@ -107,6 +107,7 @@
     <Compile Include="Game\StageObjectRenderer.cs" />
     <Compile Include="Game\Stages\Dojo\FloorSide.cs" />
     <Compile Include="Game\Stages\Dojo\FloorCenter.cs" />
+    <Compile Include="Game\Stages\Dojo\LightBeam.cs" />
     <Compile Include="Game\Stages\Dojo\Wall.cs" />
     <Compile Include="Game\Stages\Dojo\WoodPillar.cs" />
     <Compile Include="Game\Stages\GroundSplat.cs" />

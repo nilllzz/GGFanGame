@@ -1,6 +1,6 @@
 ﻿namespace GGFanGame.DataModel.Serizalitaion
 {
-    internal interface DataSerializer<T> where T : DataModel<T>
+    internal interface IDataSerializer<T> where T : DataModel<T>
     {
         T FromString(string data);
         

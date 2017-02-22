@@ -16,6 +16,7 @@ namespace GGFanGame.Game
             Yaw = 0f;
             Pitch = -0.2f;
             CreatePosition();
+            FOV = 60;
 
             CreateView();
             CreateProjection();

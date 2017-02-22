@@ -7,7 +7,7 @@ namespace GGFanGame.DataModel.Serizalitaion
     /// <summary>
     /// Serializes and deserializes json data.
     /// </summary>
-    internal class JsonDataSerializer<T> : DataSerializer<T> where T : DataModel<T>
+    internal class JsonDataSerializer<T> : IDataSerializer<T> where T : DataModel<T>
     {
         public T FromString(string data)
         {

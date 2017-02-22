@@ -46,6 +46,7 @@
     <None Include="Content\Fonts\CartoonFont.spritefont" />
     <None Include="Content\Fonts\CartoonFontLarge.spritefont" />
     <None Include="Content\Fonts\CartoonFontSmall.spritefont" />
+    <Content Include="Content\Levels\Dojo\LightBeam.png" />
     <Content Include="Content\Levels\Dojo\stage.json" />
     <Content Include="Content\Levels\Dojo\Wall1.png" />
     <Content Include="Content\Levels\Dojo\WoodFloor.png" />

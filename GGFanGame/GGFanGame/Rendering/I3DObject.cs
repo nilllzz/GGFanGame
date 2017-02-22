@@ -9,7 +9,7 @@ namespace GGFanGame.Rendering
         IndexBuffer IndexBuffer { get; set; }
         Matrix World { get; set; }
         bool IsVisible { get; set; }
-        BlendState BlendState { get; }
+        BlendState BlendState { get; set; }
         bool IsVisualObject { get; set; }
         float Alpha { get; set; }
         Texture2D Texture { get; set; }

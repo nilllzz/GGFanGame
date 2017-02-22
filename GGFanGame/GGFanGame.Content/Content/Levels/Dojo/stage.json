@@ -81,6 +81,8 @@
         { "t": "grumpSpace/dojo/wall", "x": 352, "y": 0, "z": 0, "args": [ "rotated" ] },
         { "t": "grumpSpace/dojo/wall", "x": 352, "y": 0, "z": 64, "args": [ "rotated" ] },
         { "t": "grumpSpace/dojo/wall", "x": 352, "y": 0, "z": 128, "args": [ "rotated" ] },
-        { "t": "grumpSpace/dojo/wall", "x": 352, "y": 0, "z": 192, "args": [ "rotated" ] }
+        { "t": "grumpSpace/dojo/wall", "x": 352, "y": 0, "z": 192, "args": [ "rotated" ] },
+
+        { "t": "grumpSpace/dojo/lightBeam", "x": 32, "y": 0, "z": 100 }
     ]   
 }

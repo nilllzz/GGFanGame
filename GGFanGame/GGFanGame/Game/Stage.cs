@@ -39,9 +39,14 @@ namespace GGFanGame.Game
         private readonly ObjectRenderer _renderer;
         private readonly StageObjectCollection _objects;
 
+        public IEnumerable<StageObject> Objects => _objects;
+        internal StageCamera Camera { get; private set; }
+        /// <summary>
+        /// How fast the time in the game moves. 1 is default, 0 is not moving.
+        /// </summary>
+        internal float TimeDelta { get; set; } = 1f;
         internal ContentManager Content { get; }
         internal Random Random { get; } = new Random();
-
         /// <summary>
         /// The ambient shadow color in this stage.
         /// </summary>
@@ -56,13 +61,6 @@ namespace GGFanGame.Game
         public PlayerCharacter TwoPlayer { get; set; }
         public PlayerCharacter ThreePlayer { get; set; }
         public PlayerCharacter FourPlayer { get; set; }
-
-        public IEnumerable<StageObject> Objects => _objects;
-        internal StageCamera Camera { get; private set; }
-        /// <summary>
-        /// How fast the time in the game moves. 1 is default, 0 is not moving.
-        /// </summary>
-        internal float TimeDelta { get; set; } = 1f;
 
         internal bool IsDisposed { get; private set; }
 

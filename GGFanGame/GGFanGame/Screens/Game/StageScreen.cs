@@ -34,11 +34,12 @@ namespace GGFanGame.Screens.Game
 
         public override void Draw()
         {
+            // seperate these so they can be called seperately from the pause screen.
+
             RenderStage();
 
             _batch.Begin(SpriteBatchUsage.Default);
 
-            // seperate these so they can be called seperately from the pause screen.
             DrawStage();
             DrawHUD();
 
@@ -77,6 +78,16 @@ namespace GGFanGame.Screens.Game
             {
                 GetComponent<ScreenManager>().SetScreen(new Debug.BoundingBoxTestScreen());
             }
+
+            UpdateHUD();
+        }
+
+        private void UpdateHUD()
+        {
+            _oneStatus.Update(_stage.TimeDelta);
+            _twoStatus.Update(_stage.TimeDelta);
+            _threeStatus.Update(_stage.TimeDelta);
+            _fourStatus.Update(_stage.TimeDelta);
         }
 
         protected override void Dispose(bool disposing)

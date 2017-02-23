@@ -8,21 +8,21 @@ namespace GGFanGame.Game.HUD
     /// </summary>
     internal class Bubble
     {
-        public Vector2 position;
-        public float size;
+        private readonly Random _rnd;
 
-        private bool 
-            _sinking = true, 
+        private bool
+            _sinking = true,
             _growing = true;
 
-        private readonly Random _rnd;
+        public Vector2 Position;
+        public float Size;
 
         public Bubble(Vector2 position, float size, int seed)
         {
-            this.position = position;
-            this.size = size;
-
-            _rnd = new Random(seed);
+            Position = position;
+            Size = size;
+            
+             _rnd = new Random(seed);
 
             if (size > 13)
                 _growing = false;
@@ -34,31 +34,31 @@ namespace GGFanGame.Game.HUD
         /// <summary>
         /// Update size/position.
         /// </summary>
-        public void Update()
+        public void Update(float timeDelta)
         {
             if (_growing)
             {
-                size += 0.75f;
-                if (size >= 45)
+                Size += 0.75f * timeDelta;
+                if (Size >= 45)
                     _growing = false;
             }
             else
             {
-                size -= 0.75f;
-                if (size <= 15)
+                Size -= 0.75f * timeDelta;
+                if (Size <= 15)
                     _growing = true;
             }
 
             if (_sinking)
             {
-                position.Y += 0.1f;
-                if (position.Y >= -2f)
+                Position.Y += 0.1f * timeDelta;
+                if (Position.Y >= -2f)
                     _sinking = false;
             }
             else
             {
-                position.Y -= 0.1f;
-                if (position.Y <= -15f)
+                Position.Y -= 0.1f * timeDelta;
+                if (Position.Y <= -15f)
                     _sinking = true;
             }
         }

@@ -73,46 +73,8 @@ namespace GGFanGame.Game.HUD
                 return;
 
             // TODO: get rid of hardcoded life count!
-            // TODO: create update method
 
-            var healthWidth = (int)(_player.Health / (double)_player.MaxHealth * 86d);
-            // animate health bar change:
-            if (healthWidth < _drawHealthWidth)
-            {
-                _drawHealthWidth -= 2;
-                if (_drawHealthWidth < healthWidth)
-                {
-                    _drawHealthWidth = healthWidth;
-                }
-            }
-            else if (healthWidth > _drawHealthWidth)
-            {
-                _drawHealthWidth += 2;
-                if (_drawHealthWidth > healthWidth)
-                {
-                    _drawHealthWidth = healthWidth;
-                }
-            }
-            
-            var grumpWidth = (int)(_player.GrumpPower / (double)_player.MaxGrumpPower * 62d);
-            if (grumpWidth < _drawGrumpWidth)
-            {
-                _drawGrumpWidth -= 2;
-                if (_drawGrumpWidth < grumpWidth)
-                {
-                    _drawGrumpWidth = grumpWidth;
-                }
-            }
-            else if (grumpWidth > _drawGrumpWidth)
-            {
-                _drawGrumpWidth += 2;
-                if (_drawGrumpWidth > grumpWidth)
-                {
-                    _drawGrumpWidth = grumpWidth;
-                }
-            }
-
-            //Render bars:
+            // Render bars:
             var xOffset = 34 + 320 * (int)_playerIndex;
 
             batch.DrawRectangle(new Rectangle(xOffset + 75, 65, 120, 20), Colors.GetColor(_playerIndex));
@@ -121,17 +83,15 @@ namespace GGFanGame.Game.HUD
                 if (_player.GrumpPower == _player.MaxGrumpPower)
                 {
                     batch.Draw(_fireTexture,
-                        new Rectangle((int)(xOffset + 90 + ell.position.X - ell.size), (int)(71 + ell.position.Y - ell.size), (int)ell.size * 2, (int)ell.size * 2),
-                        new Rectangle(((int)ell.size / 9) % 3 * 32, 0, 32, 32),
+                        new Rectangle((int)(xOffset + 90 + ell.Position.X - ell.Size), (int)(71 + ell.Position.Y - ell.Size), (int)ell.Size * 2, (int)ell.Size * 2),
+                        new Rectangle(((int)ell.Size / 9) % 3 * 32, 0, 32, 32),
                         Colors.GetColor(_playerIndex));
                 }
                 else
                 {
-                    batch.DrawCircle(new Vector2(xOffset + 90, 71) + ell.position - new Vector2(ell.size / 2), (int)ell.size, Colors.GetColor(_playerIndex), 1d);
+                    batch.DrawCircle(new Vector2(xOffset + 90, 71) + ell.Position - new Vector2(ell.Size / 2), (int)ell.Size, Colors.GetColor(_playerIndex), 1d);
                 }
-                ell.Update();
             }
-            _grumpBarGlowAnimation += 0.2d;
 
             var textColor = Color.White;
             if (_playerIndex == PlayerIndex.One || _playerIndex == PlayerIndex.Two)
@@ -153,7 +113,7 @@ namespace GGFanGame.Game.HUD
                 batch.Draw(_barTexture, new Rectangle(xOffset + 80, 90, _drawGrumpWidth * 2 - 2, 6), new Rectangle(0, 24, _drawGrumpWidth - 1, 3), new Color(255, 255, 255, alpha));
             }
 
-            //Render face depending on the player's state.
+            // Render face depending on the player's state.
             if (_player.State == ObjectState.HurtFalling || _player.State == ObjectState.Hurt)
                 batch.Draw(HeadTexture, new Rectangle(xOffset, 34, 96, 96), new Rectangle(48, 0, 48, 48), Color.White);
             else if (_player.State == ObjectState.Dead)
@@ -164,6 +124,71 @@ namespace GGFanGame.Game.HUD
             DrawCombo(batch, xOffset);
         }
 
+        internal void Update(float timeDelta)
+        {
+            // if no player is created for this status, don't render.
+            if (_player == null)
+                return;
+
+            var healthWidth = (int)(_player.Health / (double)_player.MaxHealth * 86d);
+            // animate health bar change:
+            if (healthWidth < _drawHealthWidth)
+            {
+                _drawHealthWidth -= 2;
+                if (_drawHealthWidth < healthWidth)
+                {
+                    _drawHealthWidth = healthWidth;
+                }
+            }
+            else if (healthWidth > _drawHealthWidth)
+            {
+                _drawHealthWidth += 2;
+                if (_drawHealthWidth > healthWidth)
+                {
+                    _drawHealthWidth = healthWidth;
+                }
+            }
+
+            var grumpWidth = (int)(_player.GrumpPower / (double)_player.MaxGrumpPower * 62d);
+            if (grumpWidth < _drawGrumpWidth)
+            {
+                _drawGrumpWidth -= 2;
+                if (_drawGrumpWidth < grumpWidth)
+                {
+                    _drawGrumpWidth = grumpWidth;
+                }
+            }
+            else if (grumpWidth > _drawGrumpWidth)
+            {
+                _drawGrumpWidth += 2;
+                if (_drawGrumpWidth > grumpWidth)
+                {
+                    _drawGrumpWidth = grumpWidth;
+                }
+            }
+
+            _bubbles.ForEach(b => b.Update(timeDelta));
+
+            _grumpBarGlowAnimation += 0.2d;
+
+            // update combo display
+
+            // When the player adds to the combo, draw a growing number:
+            if (_lastComboDrawn != _player.ComboChain.ToString())
+            {
+                _lastComboDrawn = _player.ComboChain.ToString();
+                _growingNumberSize = 1f;
+                _drawGrowingNumber = true;
+            }
+
+            if (_drawGrowingNumber)
+            {
+                _growingNumberSize += 0.1f;
+                if (_growingNumberSize >= 2f)
+                    _drawGrowingNumber = false;
+            }
+        }
+
         /// <summary>
         /// Renders the combo meter.
         /// </summary>
@@ -171,7 +196,7 @@ namespace GGFanGame.Game.HUD
         {
             if (_player.ComboChain > 0 && _player.ComboDelay > 0)
             {
-                //Initialize things:
+                // Initialize things:
                 if (_target == null)
                 {
                     _target = new RenderTarget2D(GameInstance.GraphicsDevice, 120, 120, true, GameInstance.GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
@@ -196,26 +221,14 @@ namespace GGFanGame.Game.HUD
 
                 batch.Draw(_target, new Rectangle(xOffset, 100, (int)(fontWidth * 1f), _target.Height * 1), new Rectangle(0, 0, (int)fontWidth, _target.Height), playerColor, -0.2f, Vector2.Zero, SpriteEffects.None, 0f);
 
-                //When the player adds to the combo, draw a growing number:
-                if (_lastComboDrawn != _player.ComboChain.ToString())
-                {
-                    _lastComboDrawn = _player.ComboChain.ToString();
-                    _growingNumberSize = 1f;
-                    _drawGrowingNumber = true;
-                }
                 if (_drawGrowingNumber)
                 {
-                    _growingNumberSize += 0.1f;
-
                     var normalSize = _fontLarge.MeasureString("x" + _player.ComboChain);
                     var growingSize = normalSize * _growingNumberSize;
                     var largestSize = normalSize * _growingNumberSize * 2f;
 
                     batch.DrawString(_fontLarge, "x" + _player.ComboChain, new Vector2(xOffset - (largestSize.X - normalSize.X) / 2f + 5, 100 - (largestSize.Y - normalSize.Y) / 2f + 5), new Color(255, 255, 255, (int)(255 * (2f - _growingNumberSize))), -0.2f, Vector2.Zero, _growingNumberSize  * 2f, SpriteEffects.None, 0f);
                     batch.DrawString(_fontLarge, "x" + _player.ComboChain, new Vector2(xOffset - (growingSize.X - normalSize.X) / 2f + 5, 100 - (growingSize.Y - normalSize.Y) / 2f + 5), new Color(playerColor.R, playerColor.G, playerColor.B, (int)(255 * (2f - _growingNumberSize))), -0.2f, Vector2.Zero, _growingNumberSize, SpriteEffects.None, 0f);
-
-                    if (_growingNumberSize >= 2f)
-                        _drawGrowingNumber = false;
                 }
             }
         }

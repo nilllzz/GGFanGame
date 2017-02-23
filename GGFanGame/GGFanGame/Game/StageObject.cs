@@ -174,7 +174,7 @@ namespace GGFanGame.Game
         /// </summary>
         public bool CanClick { get; set; } = false;
 
-        internal float CameraDistance => Vector3.Distance(ParentStage.Camera.Position, Position);
+        internal float CameraDistance => -Z; // Vector3.Distance(ParentStage.Camera.Position, Position);
 
         #endregion
 
@@ -263,6 +263,11 @@ namespace GGFanGame.Game
         /// The player clicked on this object.
         /// </summary>
         public virtual void OnPlayerClick() { }
+        
+        protected void SetWorld(Vector3 position)
+        {
+            World = Matrix.CreateScale(64f) * Matrix.CreateTranslation(position);
+        }
 
         //Needed in order to sort the list of objects and arrange them in an order
         //so that the objects in the foreground are overlaying those in the background.

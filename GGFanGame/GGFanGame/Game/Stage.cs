@@ -195,7 +195,7 @@ namespace GGFanGame.Game
                         var wordPosition = obj.GetFeetPosition();
                         wordPosition.Y += (float)(obj.Size.Y / 2d);
 
-                        AddObject(new ActionWord(ActionWord.GetWordText(ActionWordType.HurtEnemy), obj.ObjectColor, 1f, wordPosition));
+                        AddObject(new ActionWord(ActionWordType.HurtEnemy, obj.ObjectColor, 1f, wordPosition));
                     }
                 }
 

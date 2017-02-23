@@ -175,7 +175,7 @@ namespace GGFanGame.Game
 
         protected override void CreateWorld()
         {
-            World = Matrix.CreateTranslation(Position);
+            SetWorld(Position);
         }
 
         public override void Update()
@@ -338,7 +338,7 @@ namespace GGFanGame.Game
             {
                 Y = groundY;
                 //Spawn an action word for where the player landed.
-                ParentStage.AddObject(new ActionWord(ActionWord.GetWordText(ActionWordType.Landing), ObjectColor, 0.3f, Position));
+                ParentStage.AddObject(new ActionWord(ActionWordType.Landing, ObjectColor, 0.3f, Position));
 
                 if (AutoMovement.Y < -17f && State == ObjectState.HurtFalling)
                 {

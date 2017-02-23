@@ -26,8 +26,8 @@ namespace GGFanGame.Game.Stages.Dojo
 
         protected override void CreateGeometry()
         {
-            var vertices = CuboidComposer.Create(16f, 64f, 16f);
-            VertexTransformer.Offset(vertices, new Vector3(0, 32, 0));
+            var vertices = CuboidComposer.Create(0.25f, 1f, 0.25f);
+            VertexTransformer.Offset(vertices, new Vector3(0, 0.5f, 0));
             Geometry.AddVertices(vertices);
         }
     }

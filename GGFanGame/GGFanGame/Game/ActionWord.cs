@@ -27,7 +27,7 @@ namespace GGFanGame.Game
         /// <summary>
         /// Returns a random word string for a specific word type.
         /// </summary>
-        public static string GetWordText(ActionWordType wordType)
+        private static string GetWordText(ActionWordType wordType)
         {
             var words = _wordGroups[wordType];
             return words[_wordRandomizer.Next(0, words.Length)];
@@ -45,6 +45,10 @@ namespace GGFanGame.Game
         private float _rotation = 0f;
 
         private readonly SpriteFont _grumpFont;
+
+        public ActionWord(ActionWordType wordType, Color color, float targetSize, Vector3 position)
+            : this(GetWordText(wordType), color, targetSize, position)
+        { }
 
         public ActionWord(string text, Color color, float targetSize, Vector3 position)
         {

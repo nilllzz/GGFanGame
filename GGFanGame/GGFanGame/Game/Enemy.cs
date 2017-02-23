@@ -78,7 +78,7 @@ namespace GGFanGame.Game
 
         protected override void CreateWorld()
         {
-            World = Matrix.CreateTranslation(Position + new Vector3(0, 32, 0));
+            SetWorld(Position + new Vector3(0, 32, 0));
         }
 
         private void Die()

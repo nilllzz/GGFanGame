@@ -69,7 +69,7 @@ namespace GGFanGame.Game.Stages
 
         protected override void CreateGeometry()
         {
-            var vertices = RectangleComposer.Create(16f, 16f);
+            var vertices = RectangleComposer.Create(0.25f, 0.25f);
             VertexTransformer.Rotate(vertices, new Vector3(MathHelper.PiOver2, 0f, 0f));
             Geometry.AddVertices(vertices);
         }

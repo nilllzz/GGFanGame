@@ -61,7 +61,7 @@ namespace GGFanGame.Rendering
         protected virtual void CreateProjection()
         {
             Projection =
-                Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(_fov), GameInstance.GraphicsDevice.Viewport.AspectRatio, 0.001f, 10000f);
+                Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(_fov), GameInstance.GraphicsDevice.Viewport.AspectRatio, 1f, 10000f);
         }
 
         public abstract void Update();

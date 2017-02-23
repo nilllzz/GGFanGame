@@ -26,7 +26,7 @@ namespace GGFanGame.Game.Stages.Dojo
 
         protected override void CreateGeometry()
         {
-            Geometry.AddVertices(RectangleComposer.Create(64f, 64f));
+            Geometry.AddVertices(RectangleComposer.Create(1f, 1f));
         }
     }
 }

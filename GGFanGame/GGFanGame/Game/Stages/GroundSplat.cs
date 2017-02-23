@@ -52,7 +52,7 @@ namespace GGFanGame.Game.Stages
 
         protected override void CreateGeometry()
         {
-            var vertices = RectangleComposer.Create(64, 64);
+            var vertices = RectangleComposer.Create(1f, 1f);
             Geometry.AddVertices(vertices);
         }
         

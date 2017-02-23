@@ -73,7 +73,7 @@ namespace GGFanGame.Game.Playable
         
         protected override void CreateGeometry()
         {
-            var vertices = RectangleComposer.Create(64f, 64f);
+            var vertices = RectangleComposer.Create(1f, 1f);
             VertexTransformer.Rotate(vertices, new Vector3(MathHelper.PiOver2, 0f, 0f));
             Geometry.AddVertices(vertices);
         }

@@ -42,7 +42,7 @@ namespace GGFanGame.Screens.Menu
             _target = new RenderTarget2D(GameInstance.GraphicsDevice, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8);
         }
 
-        public override void Draw()
+        public override void Draw(GameTime time)
         {
             if (IsDisposed) return;
 
@@ -91,7 +91,7 @@ namespace GGFanGame.Screens.Menu
             _fontBatch.End();
         }
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
             _backgroundRenderer.Update();
 

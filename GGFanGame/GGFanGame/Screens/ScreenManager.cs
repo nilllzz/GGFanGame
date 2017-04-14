@@ -34,7 +34,7 @@ namespace GGFanGame.Screens
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         internal void UpdateScreen(GameTime gameTime)
         {
-            CurrentScreen?.Update();
+            CurrentScreen?.Update(gameTime);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace GGFanGame.Screens
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         internal void DrawScreen(GameTime gameTime)
         {
-            CurrentScreen?.Draw();
+            CurrentScreen?.Draw(gameTime);
         }
     }
 }

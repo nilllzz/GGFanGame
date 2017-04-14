@@ -32,7 +32,7 @@ namespace GGFanGame.Screens.Game
             _batch = new SpriteBatch(GameInstance.GraphicsDevice);
         }
 
-        public override void Draw()
+        public override void Draw(GameTime time)
         {
             // seperate these so they can be called seperately from the pause screen.
 
@@ -64,7 +64,7 @@ namespace GGFanGame.Screens.Game
             _fourStatus.Draw(batch ?? _batch);
         }
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
             _stage.Update();
             

@@ -33,14 +33,14 @@ namespace GGFanGame.Screens.Menu
             _inScreen = inScreen;
         }
 
-        public override void Draw()
+        public override void Draw(GameTime time)
         {
             _batch.Begin(SpriteBatchUsage.Default);
 
             if (_outro)
-                _outScreen.Draw();
+                _outScreen.Draw(time);
             else
-                _inScreen.Draw();
+                _inScreen.Draw(time);
 
             if (_overlaySize > 0)
             {
@@ -77,13 +77,13 @@ namespace GGFanGame.Screens.Menu
             _batch.End();
         }
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
             if (_outro)
             {
                 _overlaySize = MathHelper.Lerp(0f, _overlaySize, 0.9f);
                 _rotation -= 0.08f;
-                _outScreen.Update();
+                _outScreen.Update(time);
 
                 if (_overlaySize - 0.01f <= 0f)
                 {
@@ -96,7 +96,7 @@ namespace GGFanGame.Screens.Menu
             {
                 _overlaySize += MathHelper.Lerp(0f, 80f, 0.92f * (_overlaySize / 600f)); // It works, dont question why.
                 _rotation += 0.08f;
-                _inScreen.Update();
+                _inScreen.Update(time);
 
                 // Once the intro animation is done, switch to the new screen.
                 if (_overlaySize + 0.01f >= 80f)

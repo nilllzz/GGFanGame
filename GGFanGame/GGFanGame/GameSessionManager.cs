@@ -1,13 +1,15 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using GGFanGame.DataModel;
 using GGFanGame.DataModel.Game;
+using Microsoft.Xna.Framework;
 
 namespace GGFanGame
 {
     /// <summary>
     /// This class represents a save game.
     /// </summary>
-    internal class GameSession
+    internal class GameSessionManager : IGameComponent
     {
         //This stores a data model that can be loaded from json data in a file.
         private GameSessionModel _dataModel;
@@ -38,28 +40,36 @@ namespace GGFanGame
             get { return _dataModel.LastGrump; }
             set { _dataModel.LastGrump = value; }
         }
-
-        private bool _loadedCorrectly;
-
+        
         /// <summary>
         /// Indicates wether this game session has been loaded correctly.
         /// </summary>
-        public bool LoadedCorrectly => _loadedCorrectly;
+        public bool LoadedCorrectly { get; private set; }
 
-        public GameSession(string fileName)
+        private static string SaveFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "save.json");
+        
+        internal void Load()
         {
-            var jsonData = File.ReadAllText(fileName);
+            if (!File.Exists(SaveFilePath))
+            {
+                // create.
+            }
+
+            var jsonData = File.ReadAllText(SaveFilePath);
 
             try
             {
                 _dataModel = DataModel<GameSessionModel>.FromString(jsonData, DataType.Json);
-                _loadedCorrectly = true;
+                LoadedCorrectly = true;
             }
             catch (DataLoadException)
             {
                 //TODO: Log error!
-                _loadedCorrectly = false;
+                LoadedCorrectly = false;
             }
         }
+
+        public void Initialize()
+        { }
     }
 }

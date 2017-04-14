@@ -343,7 +343,7 @@ namespace GGFanGame.Game.Playable
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X + PlayerSpeed * gamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right), Y, Z);
+                    var desiredPosition = new Vector3(X + PlayerSpeed * gamePadHandler.GetThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right), Y, Z);
 
                     if (!ParentStage.Intersects(this, desiredPosition))
                         X = desiredPosition.X;
@@ -355,7 +355,7 @@ namespace GGFanGame.Game.Playable
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X - PlayerSpeed * gamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left), Y, Z);
+                    var desiredPosition = new Vector3(X - PlayerSpeed * gamePadHandler.GetThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left), Y, Z);
 
                     if (!ParentStage.Intersects(this, desiredPosition))
                         X = desiredPosition.X;
@@ -367,7 +367,7 @@ namespace GGFanGame.Game.Playable
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X, Y, Z - PlayerSpeed * gamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up));
+                    var desiredPosition = new Vector3(X, Y, Z - PlayerSpeed * gamePadHandler.GetThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up));
 
                     if (!ParentStage.Intersects(this, desiredPosition))
                         Z = desiredPosition.Z;
@@ -377,7 +377,7 @@ namespace GGFanGame.Game.Playable
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X, Y, Z + PlayerSpeed * gamePadHandler.ThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down));
+                    var desiredPosition = new Vector3(X, Y, Z + PlayerSpeed * gamePadHandler.GetThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down));
 
                     if (!ParentStage.Intersects(this, desiredPosition))
                         Z = desiredPosition.Z;

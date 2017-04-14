@@ -7,6 +7,8 @@ namespace GGFanGame.Rendering
     internal abstract class Camera
     {
         private float _fov = 90f;
+        protected float NearPlane { get; set; } = 1f;
+        protected float FarPlane { get; set; } = 10000f;
 
         public event Action FOVChanged;
 
@@ -61,7 +63,7 @@ namespace GGFanGame.Rendering
         protected virtual void CreateProjection()
         {
             Projection =
-                Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(_fov), GameInstance.GraphicsDevice.Viewport.AspectRatio, 1f, 10000f);
+                Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(_fov), GameInstance.GraphicsDevice.Viewport.AspectRatio, NearPlane, FarPlane);
         }
 
         public abstract void Update();

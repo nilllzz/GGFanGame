@@ -31,10 +31,14 @@ namespace GGFanGame
 
         internal GameController()
         {
-            var test = new Game.Lighting.LightObject(Color.Red, Vector3.Zero, new Vector3(0, 0, 1f), MathHelper.PiOver2);
-
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            Graphics.PreferredBackBufferWidth = RENDER_WIDTH;
+            Graphics.PreferredBackBufferHeight = RENDER_HEIGHT;
+            Graphics.ApplyChanges();
+
+            Window.Title = $"Game Grumps: {GAME_TITLE}";
         }
 
         /// <summary>
@@ -46,12 +50,6 @@ namespace GGFanGame
         protected override void Initialize()
         {
             LoadComponents();
-
-            Window.Title = $"Game Grumps: {GAME_TITLE}";
-
-            Graphics.PreferredBackBufferWidth = RENDER_WIDTH;
-            Graphics.PreferredBackBufferHeight = RENDER_HEIGHT;
-            Graphics.ApplyChanges();
 
             base.Initialize();
 
@@ -69,10 +67,9 @@ namespace GGFanGame
 
         internal T GetComponent<T>() where T : IGameComponent
         {
-            IGameComponent component;
             var tType = typeof(T);
 
-            if (!_componentCache.TryGetValue(tType, out component))
+            if (!_componentCache.TryGetValue(tType, out IGameComponent component))
             {
                 component = Components.FirstOrDefault(c => c.GetType() == tType);
                 _componentCache.Add(tType, component);

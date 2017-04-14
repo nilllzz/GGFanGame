@@ -57,6 +57,7 @@
     <Compile Include="DataModel\Game\StageListMapEntryModel.cs" />
     <Compile Include="DataModel\Game\StageListModel.cs" />
     <Compile Include="DataModel\Game\StageModel.cs" />
+    <Compile Include="DataModel\Game\StageObjectArgumentModel.cs" />
     <Compile Include="DataModel\Game\StageObjectModel.cs" />
     <Compile Include="DataModel\Serizalitaion\IDataSerializer.cs" />
     <Compile Include="DataModel\Serizalitaion\DataTypeHelper.cs" />
@@ -72,8 +73,12 @@
     <Compile Include="Drawing\ShapeRenderer.cs" />
     <Compile Include="Drawing\SpriteBatchExtensions.cs" />
     <Compile Include="Drawing\SpriteBatchUsage.cs" />
+    <Compile Include="FMOD\fmod.cs" />
+    <Compile Include="FMOD\fmod_dsp.cs" />
+    <Compile Include="FMOD\fmod_errors.cs" />
+    <Compile Include="FMOD\MusicPlayer.cs" />
     <Compile Include="GameController.cs" />
-    <Compile Include="GameSession.cs" />
+    <Compile Include="GameSessionManager.cs" />
     <Compile Include="Game\ActionWord.cs" />
     <Compile Include="Game\ActionWordType.cs" />
     <Compile Include="Game\Animation.cs" />
@@ -135,6 +140,7 @@
     <Compile Include="Rendering\Composers\RectangleComposer.cs" />
     <Compile Include="Rendering\Composers\TubeComposer.cs" />
     <Compile Include="Rendering\Geometry.cs" />
+    <Compile Include="Rendering\GraphicsDeviceHelper.cs" />
     <Compile Include="Rendering\I3DObject.cs" />
     <Compile Include="Rendering\ObjectRenderer.cs" />
     <Compile Include="Rendering\Texture\CuboidSide.cs" />
@@ -151,12 +157,9 @@
     <Compile Include="Screens\Game\GameScreen.cs" />
     <Compile Include="Screens\Game\GrumpSpaceScreen.cs" />
     <Compile Include="Screens\Game\StageScreen.cs" />
-    <Compile Include="Screens\Menu\LoadSaveScreen.cs" />
     <Compile Include="Screens\Menu\MenuBackgroundRenderer.cs" />
-    <Compile Include="Screens\Menu\NewGameScreen.cs" />
     <Compile Include="Screens\Menu\PauseScreen.cs" />
     <Compile Include="Screens\Menu\PlayerSelectScreen.cs" />
-    <Compile Include="Screens\Menu\SaveContainer.cs" />
     <Compile Include="Screens\Menu\TestScreen.cs" />
     <Compile Include="Screens\Menu\TitleScreen.cs" />
     <Compile Include="Screens\Menu\TransitionScreen.cs" />
@@ -164,6 +167,9 @@
     <Compile Include="Screens\ScreenManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="LibTestTheThird">
+      <HintPath>..\..\..\..\..\Documents\Visual Studio 2017\Projects\LibTestTheThird\LibTestTheThird\bin\Debug\netstandard1.4\LibTestTheThird.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework, Version=3.5.1.1679, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.5.1.1679\lib\net40\MonoGame.Framework.dll</HintPath>
       <Private>True</Private>
@@ -182,6 +188,9 @@
     </MonoGameContentReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FMOD\fmod.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

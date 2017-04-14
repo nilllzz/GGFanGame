@@ -19,14 +19,17 @@ namespace GGFanGame.DataModel.Game
         public double Y;
         [DataMember(Name = "z")]
         public double Z;
-        [DataMember(Name = "t")]
+        [DataMember(Name = "type")]
         public string Type;
         [DataMember(Name = "args")]
-        public string[] Arguments;
+        public StageObjectArgumentModel[] Arguments;
 
         public Vector3 Position => new Vector3((float)X, (float)Y, (float)Z);
 
-        internal bool HasArg(string arg)
-            => Arguments != null && Arguments.Contains(arg);
+        internal bool HasArg(string key)
+            => Arguments != null && Arguments.Any(a => a.Key == key);
+
+        internal string GetArgValue(string key)
+            => Arguments.First(a => a.Key == key).Value;
     }
 }

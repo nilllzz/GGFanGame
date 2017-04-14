@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Content;
 using static Core;
+using Microsoft.Xna.Framework;
 
 namespace GGFanGame.Screens
 {
@@ -49,12 +50,12 @@ namespace GGFanGame.Screens
         /// <summary>
         /// Draws the screen.
         /// </summary>
-        public abstract void Draw();
+        public abstract void Draw(GameTime time);
 
         /// <summary>
         /// Updates the screen.
         /// </summary>
-        public abstract void Update();
+        public abstract void Update(GameTime time);
 
         /// <summary>
         /// Gets called when the screen gets closed by the ScreenManager.

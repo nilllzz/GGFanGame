@@ -3,7 +3,7 @@
 namespace GGFanGame.DataModel.Game
 {
     /// <summary>
-    /// The data model for a <see cref="GameSession"/>.
+    /// The data model for a <see cref="GameSessionManager"/>.
     /// </summary>
     [DataContract]
     internal class GameSessionModel : DataModel<GameSessionModel>

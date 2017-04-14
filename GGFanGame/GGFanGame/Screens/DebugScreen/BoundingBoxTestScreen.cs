@@ -32,7 +32,7 @@ namespace GGFanGame.Screens.Debug
             _view = Matrix.CreateLookAt(camPos, lookAt, Vector3.Up);
         }
 
-        public override void Draw()
+        public override void Draw(GameTime time)
         {
             foreach (var obj in Stage.ActiveStage.Objects)
             {
@@ -49,14 +49,14 @@ namespace GGFanGame.Screens.Debug
             }
         }
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
             var gamePadHandler = GetComponent<GamePadHandler>();
 
-            var inRight = gamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Right) * 0.1f;
-            var inLeft = gamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Left) * 0.1f;
-            var inUp = gamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Up) * 0.1f;
-            var inDown = gamePadHandler.ThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Down) * 0.1f;
+            var inRight = gamePadHandler.GetThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Right) * 0.1f;
+            var inLeft = gamePadHandler.GetThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Left) * 0.1f;
+            var inUp = gamePadHandler.GetThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Up) * 0.1f;
+            var inDown = gamePadHandler.GetThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Down) * 0.1f;
 
             _yaw += inLeft;
             _yaw -= inRight;

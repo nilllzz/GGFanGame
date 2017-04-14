@@ -67,7 +67,7 @@ namespace GGFanGame.Screens.Menu
             _grumps_names[index] = GameInstance.Content.Load<Texture2D>(@"UI\Names\" + name + "_name");
         }
 
-        public override void Draw()
+        public override void Draw(GameTime time)
         {
             _batch.Begin(SpriteBatchUsage.Default);
             _fontBatch.Begin(SpriteBatchUsage.Font);
@@ -165,7 +165,7 @@ namespace GGFanGame.Screens.Menu
             }
         }
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
             //Cycle through the connected GamePads:
             for (var i = 0; i < 4; i++)

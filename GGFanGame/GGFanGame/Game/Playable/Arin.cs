@@ -70,7 +70,7 @@ namespace GGFanGame.Game.Playable
             AddAttack("AB", B4);
             AddAttack("ABA", A4);
         }
-        
+
         protected override void CreateGeometry()
         {
             var vertices = RectangleComposer.Create(1f, 1f);

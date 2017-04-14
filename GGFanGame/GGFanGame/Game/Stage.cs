@@ -106,12 +106,7 @@ namespace GGFanGame.Game
         public void Render()
         {
             GameInstance.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, BackColor, 1.0f, 0);
-            GameInstance.GraphicsDevice.RasterizerState = new RasterizerState { CullMode = CullMode.None };
-            GameInstance.GraphicsDevice.SamplerStates[0] = new SamplerState
-            {
-                Filter = TextureFilter.Point
-            };
-            GameInstance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            GraphicsDeviceHelper.ResetGraphicsDevice();
 
             _renderer.PrepareRender(Camera);
 

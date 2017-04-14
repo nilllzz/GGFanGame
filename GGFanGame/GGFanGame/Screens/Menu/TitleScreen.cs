@@ -2,10 +2,12 @@
 using GGFanGame.Content;
 using GGFanGame.Drawing;
 using GGFanGame.Input;
+using GGFanGame.Screens.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using static Core;
+using Microsoft.Xna.Framework.Audio;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -14,17 +16,24 @@ namespace GGFanGame.Screens.Menu
     /// </summary>
     internal class TitleScreen : Screen
     {
-        //The title screen will just feature the logo of the game and a prompt that says "press any button to start".
+        // The title screen will just feature the logo of the game and a prompt that says "press any button to start".
 
         private readonly Texture2D _logoTexture,
                                    _arinHead, _dannyHead;
 
-        private float _logoAnimation = 20f;
-        private float _flashAnimation = 0f;
-        private float _gameTitleAnimation = 1f;
+        private int _stage = 0;
+        private DateTime _mainSoundStarted;
+
+        private float _arinHeadIntro = 0f;
+        private float _dannyHeadIntro = 0f;
+        private float _intermediateIntro = 0f;
+        private float _mainIntro = 0f;
+        private int _hardDudesDelay = 20;
+
         private float _contentFloat = 0f;
 
         private readonly SpriteFont _grumpFont;
+        private SoundEffectInstance _mainIntroSound, _hardDudesSound;
         private SpriteBatch _batch, _fontBatch;
         private MenuBackgroundRenderer _backgroundRenderer;
 
@@ -35,22 +44,41 @@ namespace GGFanGame.Screens.Menu
             _grumpFont = GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFontLarge);
             _arinHead = GameInstance.Content.Load<Texture2D>(Resources.UI.Heads.Arin);
             _dannyHead = GameInstance.Content.Load<Texture2D>(Resources.UI.Heads.Danny);
+            _mainIntroSound = Content.Load<SoundEffect>(Resources.Sounds.Intro.Main).CreateInstance();
+            _hardDudesSound = Content.Load<SoundEffect>(Resources.Sounds.Intro.HardDudes).CreateInstance();
+
+            _mainIntroSound.IsLooped = false;
+            _hardDudesSound.IsLooped = false;
 
             _batch = new SpriteBatch(GameInstance.GraphicsDevice);
             _fontBatch = new SpriteBatch(GameInstance.GraphicsDevice);
 
             //MediaPlayer.IsRepeating = true;
-            //MediaPlayer.Play(game.musicManager.load(@"Music\Smash 2"));
+            //MediaPlayer.Play(Content.Load<Song>(Resources.Music.Smash1));
         }
 
-        public override void Draw()
+        public override void Draw(GameTime time)
         {
             _batch.Begin(SpriteBatchUsage.Default);
             _fontBatch.Begin(SpriteBatchUsage.Font);
 
             _backgroundRenderer.Draw(_batch, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
 
-            DrawTitle();
+            switch (_stage)
+            {
+                case 0:
+                    DrawArinHead();
+                    break;
+                case 1:
+                    DrawDannyHead();
+                    break;
+                case 2:
+                    DrawIntermediate();
+                    break;
+                case 3:
+                    DrawTitle();
+                    break;
+            }
 
             _batch.End();
             _fontBatch.End();
@@ -58,79 +86,310 @@ namespace GGFanGame.Screens.Menu
 
         private void DrawTitle()
         {
-            var logoWidth = (int)(_logoTexture.Width / _logoAnimation);
-            var logoHeight = (int)(_logoTexture.Height / _logoAnimation);
+            var logoWidth = (int)(_logoTexture.Width);
+            var logoHeight = (int)(_logoTexture.Height);
 
-            float offset = (float)Math.Sin(_contentFloat);
+            float floatingOffset = (float)Math.Sin(_contentFloat);
 
-            if (_logoAnimation == 1f)
-            {
-                _batch.Draw(_arinHead, new Rectangle((int)(GameInstance.ClientRectangle.Width / 2f + logoWidth / 2f - 100), 
-                    (int)(150 + offset * -5f), 240, 240), Color.White);
+            _batch.Draw(_logoTexture,
+                new Rectangle((int)(GameInstance.ClientRectangle.Width / 2f),
+                (int)(300 + floatingOffset * 10f),
+                (int)(logoWidth * _mainIntro), (int)(logoHeight * _mainIntro)),
+                null, Color.White, 10 * (1f - _mainIntro),
+                new Vector2(_logoTexture.Width / 2f, _logoTexture.Height / 2f), SpriteEffects.None, 0f);
 
-                _batch.Draw(_dannyHead, new Rectangle((int)(GameInstance.ClientRectangle.Width / 2f - logoWidth / 2f - 150), 
-                    (int)(150 + offset * -5f), 240, 240), Color.White);
-            }
+            _batch.Draw(_arinHead, new Rectangle(
+                (int)(GameInstance.ClientRectangle.Width / 2f
+                    + logoWidth / 2f
+                    + (GameInstance.ClientRectangle.Width / 2f) * (1f - _mainIntro)),
+                (int)(240 + floatingOffset * -5f),
+                240, 240), null,
+                Color.White, 60 * ((1f - _mainIntro) / 10f), new Vector2(_arinHead.Width / 2f, _arinHead.Height / 2f), SpriteEffects.None, 0f);
 
-            _batch.Draw(_logoTexture, new Rectangle((int)(GameInstance.ClientRectangle.Width / 2f), (int)(300 + offset * 10f), logoWidth, logoHeight),
-                                          null, Color.White,
-                                          _logoAnimation - 1f, new Vector2(_logoTexture.Width / 2f, _logoTexture.Height / 2f), SpriteEffects.None, 0f);
+            _batch.Draw(_dannyHead, new Rectangle(
+                (int)(GameInstance.ClientRectangle.Width / 2f
+                    - logoWidth / 2f
+                    - _dannyHead.Width / 2f
+                    - (GameInstance.ClientRectangle.Width / 2f) * (1f - _mainIntro)),
+                (int)(240 + floatingOffset * -5f),
+                240, 240), null,
+                Color.White, 60 * ((1f - _mainIntro) / 10f), new Vector2(_dannyHead.Width / 2f, _dannyHead.Height / 2f), SpriteEffects.None, 0f);
 
-            if (_flashAnimation > 0f)
-            {
-                _batch.DrawRectangle(GameInstance.ClientRectangle, new Color(255, 255, 255, (int)(_flashAnimation * 255)));
-            }
+            var subtitleSize = _grumpFont.MeasureString(GameController.GAME_TITLE);
+            var subtitleState = (20 - _hardDudesDelay) / 20f;
 
-            _fontBatch.DrawString(_grumpFont, GameController.GAME_TITLE,
-                new Vector2((GameInstance.ClientRectangle.Width * _gameTitleAnimation) + GameInstance.ClientRectangle.Width / 2 - _grumpFont.MeasureString(GameController.GAME_TITLE).X / 2 + 5,
-                190 + _logoTexture.Height + 5), new Color(122, 141, 235), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            _fontBatch.DrawString(_grumpFont, GameController.GAME_TITLE,
-                new Vector2(-(GameInstance.ClientRectangle.Width * _gameTitleAnimation) + GameInstance.ClientRectangle.Width / 2 - _grumpFont.MeasureString(GameController.GAME_TITLE).X / 2,
-                190 + _logoTexture.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            _batch.DrawString(_grumpFont, GameController.GAME_TITLE, new Vector2(
+                GameInstance.ClientRectangle.Width / 2f - subtitleSize.X / 2f + 4,
+                GameInstance.ClientRectangle.Height - 200 * subtitleState + 4),
+                new Color(122, 141, 235, (int)(255 * subtitleState)), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            _batch.DrawString(_grumpFont, GameController.GAME_TITLE, new Vector2(
+                GameInstance.ClientRectangle.Width / 2f - subtitleSize.X / 2f,
+                GameInstance.ClientRectangle.Height - 200 * subtitleState),
+                new Color(255, 255, 255, (int)(255 * subtitleState)), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 
-        public override void Update()
+        private void DrawArinHead()
         {
-            _backgroundRenderer.Update();
+            int headSize = (int)(GameInstance.Window.ClientBounds.Height * 0.9f);
 
-            //Update title animation:
-            if (_logoAnimation > 1f)
+            var headX = 0f;
+            var titleX = 0f;
+
+            if (_arinHeadIntro <= 0.2f)
             {
-                _logoAnimation -= 0.2f;
-                if (_logoAnimation <= 1f)
-                {
-                    _logoAnimation = 1f;
-                    _flashAnimation = 1f;
-                }
+                var state = _arinHeadIntro / 0.2f;
+
+                headX = GameInstance.Window.ClientBounds.Width -
+                    (GameInstance.Window.ClientBounds.Width / 2f) * state
+                    - headSize / 2;
+                titleX = (GameInstance.Window.ClientBounds.Width / 2f) * state
+                    - 400;
+            }
+            else if (_arinHeadIntro <= 0.8f)
+            {
+                var state = _arinHeadIntro / 0.8f;
+
+                headX = GameInstance.Window.ClientBounds.Width / 2f
+                    - state * 20f
+                    - headSize / 2;
+                titleX = GameInstance.Window.ClientBounds.Width / 2f
+                    + 10f * state
+                    - 400;
             }
             else
             {
-                if (_gameTitleAnimation > 0f)
+                var state = (_arinHeadIntro - 0.8f) / 0.2f;
+
+                headX = GameInstance.Window.ClientBounds.Width / 2f
+                    - 20
+                    - state * (GameInstance.Window.ClientBounds.Width)
+                    - headSize / 2;
+                titleX = GameInstance.Window.ClientBounds.Width / 2f
+                    + 10f
+                    + state * GameInstance.Window.ClientBounds.Width
+                    - 400;
+            }
+
+            _batch.Draw(_arinHead, new Rectangle((int)headX, GameInstance.ClientRectangle.Height / 2 - headSize / 2, headSize, headSize), Color.White);
+
+            _fontBatch.DrawString(_grumpFont, "EGORAPTOR", new Vector2(titleX, GameInstance.ClientRectangle.Height - 180),
+                new Color(122, 141, 235), 0f, Vector2.Zero, 1.55f, SpriteEffects.None, 0f);
+            _fontBatch.DrawString(_grumpFont, "EGORAPTOR", new Vector2(titleX, GameInstance.ClientRectangle.Height - 180),
+                Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+        }
+
+        private void DrawDannyHead()
+        {
+            int headSize = (int)(GameInstance.Window.ClientBounds.Height * 0.9f);
+
+            var headX = 0f;
+            var titleX = 0f;
+
+            if (_dannyHeadIntro <= 0.2f)
+            {
+                var state = _dannyHeadIntro / 0.2f;
+
+                headX = state * ((GameInstance.Window.ClientBounds.Width) / 2f + headSize)
+                    - headSize * 1.5f;
+                titleX = (GameInstance.Window.ClientBounds.Width)
+                    - 300
+                    - GameInstance.Window.ClientBounds.Width / 2f * state;
+            }
+            else if (_dannyHeadIntro <= 0.8f)
+            {
+                var state = _dannyHeadIntro / 0.8f;
+
+                headX = ((GameInstance.Window.ClientBounds.Width + headSize) / 2f)
+                    + state * 20f
+                    - headSize;
+                titleX = GameInstance.Window.ClientBounds.Width / 2f
+                    - 300
+                    + 10f * state;
+            }
+            else
+            {
+                var state = (_dannyHeadIntro - 0.8f) / 0.2f;
+
+                headX = ((GameInstance.Window.ClientBounds.Width + headSize) / 2f)
+                    + 20f
+                    + GameInstance.Window.ClientBounds.Width * state
+                    - headSize;
+                titleX = GameInstance.Window.ClientBounds.Width / 2f
+                    - 300
+                    + 10f
+                    - GameInstance.Window.ClientBounds.Width * state;
+            }
+
+            _batch.Draw(_dannyHead, new Rectangle((int)headX, GameInstance.ClientRectangle.Height / 2 - headSize / 2, headSize, headSize), Color.White);
+
+            _fontBatch.DrawString(_grumpFont, "DANNY", new Vector2(titleX, GameInstance.ClientRectangle.Height - 180),
+                new Color(122, 141, 235), 0f, Vector2.Zero, 1.55f, SpriteEffects.None, 0f);
+            _fontBatch.DrawString(_grumpFont, "DANNY", new Vector2(titleX, GameInstance.ClientRectangle.Height - 180),
+                Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+        }
+
+        private void DrawIntermediate()
+        {
+            if (_intermediateIntro >= 0f)
+            {
+                var state = _intermediateIntro / 0.3f;
+                if (state > 1f)
+                    state = 1f;
+
+                var text = "AND";
+                var size = _grumpFont.MeasureString(text) * 1.5f;
+
+                _fontBatch.DrawString(_grumpFont, text,
+                    new Vector2(
+                        GameInstance.ClientRectangle.Width * 2f - (GameInstance.ClientRectangle.Width * 1.5f + size.X / 2f) * state,
+                        GameInstance.ClientRectangle.Height / 2f - size.Y * 1.5f),
+                    new Color(122, 141, 235), 0f, Vector2.Zero, 1.55f, SpriteEffects.None, 0f);
+                _fontBatch.DrawString(_grumpFont, text,
+                    new Vector2(
+                        GameInstance.ClientRectangle.Width * 2f - (GameInstance.ClientRectangle.Width * 1.5f + size.X / 2f) * state,
+                        GameInstance.ClientRectangle.Height / 2f - size.Y * 1.5f),
+                    Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+            }
+            if (_intermediateIntro >= 0.3f)
+            {
+                var state = (_intermediateIntro - 0.3f) / 0.3f;
+                if (state > 1f)
+                    state = 1f;
+
+                var text = "WE'RE";
+                var size = _grumpFont.MeasureString(text) * 1.5f;
+
+                _fontBatch.DrawString(_grumpFont, text,
+                    new Vector2(
+                        -GameInstance.ClientRectangle.Width + (GameInstance.ClientRectangle.Width * 1.5f - size.X / 2f) * state,
+                        GameInstance.ClientRectangle.Height / 2f - size.Y * 0.5f),
+                    new Color(122, 141, 235), 0f, Vector2.Zero, 1.55f, SpriteEffects.None, 0f);
+                _fontBatch.DrawString(_grumpFont, text,
+                    new Vector2(
+                        -GameInstance.ClientRectangle.Width + (GameInstance.ClientRectangle.Width * 1.5f - size.X / 2f) * state,
+                        GameInstance.ClientRectangle.Height / 2f - size.Y * 0.5f),
+                    Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+            }
+            if (_intermediateIntro >= 0.6f)
+            {
+                var state = (_intermediateIntro - 0.6f) / 0.3f;
+                if (state > 1f)
+                    state = 1f;
+
+                var text = "THE";
+                var size = _grumpFont.MeasureString(text) * 1.5f;
+
+                _fontBatch.DrawString(_grumpFont, text,
+                    new Vector2(
+                        GameInstance.ClientRectangle.Width * 2f - (GameInstance.ClientRectangle.Width * 1.5f + size.X / 2f) * state,
+                        GameInstance.ClientRectangle.Height / 2f + size.Y * 0.5f),
+                    new Color(122, 141, 235), 0f, Vector2.Zero, 1.55f, SpriteEffects.None, 0f);
+                _fontBatch.DrawString(_grumpFont, text,
+                    new Vector2(
+                        GameInstance.ClientRectangle.Width * 2f - (GameInstance.ClientRectangle.Width * 1.5f + size.X / 2f) * state,
+                        GameInstance.ClientRectangle.Height / 2f + size.Y * 0.5f),
+                    Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+            }
+        }
+
+        public override void Update(GameTime time)
+        {
+            _backgroundRenderer.Update();
+
+            switch (_stage)
+            {
+                case 0:
+                    UpdateArinHead();
+                    break;
+                case 1:
+                    UpdateDannyHead();
+                    break;
+                case 2:
+                    UpdateIntermediate();
+                    break;
+                case 3:
+                    UpdateTitle();
+                    break;
+            }
+        }
+
+        private void UpdateArinHead()
+        {
+            if (_mainIntroSound.State == SoundState.Stopped)
+            {
+                _mainIntroSound.Play();
+                _mainSoundStarted = DateTime.UtcNow;
+            }
+
+            var diff = (DateTime.UtcNow - _mainSoundStarted).TotalMilliseconds;
+            _arinHeadIntro = (float)(diff / 1100);
+
+            if (diff >= 1100)
+            {
+                _stage++;
+            }
+        }
+
+        private void UpdateDannyHead()
+        {
+            var diff = (DateTime.UtcNow - _mainSoundStarted).TotalMilliseconds;
+            _dannyHeadIntro = (float)((diff - 1100) / 1500);
+
+            if (diff >= 2600)
+            {
+                _stage++;
+            }
+        }
+
+        private void UpdateIntermediate()
+        {
+            var diff = (DateTime.UtcNow - _mainSoundStarted).TotalMilliseconds;
+            _intermediateIntro = (float)((diff - 2600) / 1500);
+
+            if (diff >= 4100)
+            {
+                _stage++;
+            }
+        }
+
+        private void UpdateTitle()
+        {
+            if (_mainIntro < 1f)
+            {
+                _mainIntro += 0.04f;
+                if (_mainIntro >= 1f)
                 {
-                    _gameTitleAnimation = MathHelper.Lerp(0f, _gameTitleAnimation, 0.92f);
-                    if (_gameTitleAnimation <= 0f)
+                    _mainIntro = 1f;
+                }
+            }
+
+            if (_mainIntro == 1f)
+            {
+                _contentFloat += 0.07f;
+
+                if (_hardDudesDelay > 0)
+                {
+                    _hardDudesDelay--;
+                    if (_hardDudesDelay == 0)
                     {
-                        _gameTitleAnimation = 0f;
+                        _hardDudesSound.Play();
+                    }
+                }
+                else
+                {
+                    // When a button is pressed, open the next screen:
+                    if (GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.A))
+                    {
+                        StartGame();
                     }
                 }
             }
+        }
 
-            if (_flashAnimation > 0f)
-            {
-                _flashAnimation -= 0.01f;
-                if (_flashAnimation <= 0f)
-                {
-                    _flashAnimation = 0f;
-                }
-            }
-
-            _contentFloat += 0.07f;
-
-            //When a button is pressed, open the next screen:
-            if (GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.A))
-            {
-                GetComponent<ScreenManager>().SetScreen(new LoadSaveScreen(_backgroundRenderer.Clone()));
-            }
+        private void StartGame()
+        {
+            GetComponent<GameSessionManager>().Load();
+            GetComponent<ScreenManager>().SetScreen(new TransitionScreen(this, new StageScreen()));
         }
 
         protected override void Dispose(bool disposing)

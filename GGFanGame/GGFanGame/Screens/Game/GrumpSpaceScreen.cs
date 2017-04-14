@@ -1,5 +1,6 @@
 ﻿using GGFanGame.Game;
 using GGFanGame.Input;
+using Microsoft.Xna.Framework;
 using static Core;
 
 namespace GGFanGame.Screens.Game
@@ -17,13 +18,13 @@ namespace GGFanGame.Screens.Game
             _stage.SetActiveStage();
         }
 
-        public override void Draw()
+        public override void Draw(GameTime time)
         {
             //Drawing.Graphics.DrawRectangle(GameInstance.ClientRectangle, Color.CornflowerBlue);
             _stage.Draw(null);
         }
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
             _stage.Update();
 

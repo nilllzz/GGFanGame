@@ -28,7 +28,7 @@ namespace GGFanGame.Input
             _currentStates[2] = GamePad.GetState(PlayerIndex.Three);
             _currentStates[3] = GamePad.GetState(PlayerIndex.Four);
         }
-
+        
         /// <summary>
         /// Returns if a specific button on a GamePad is pressed.
         /// </summary>
@@ -59,7 +59,7 @@ namespace GGFanGame.Input
         /// <summary>
         /// Returns a value from 0 to 1 how much a thumbstick is pressed in one direction.
         /// </summary>
-        internal float ThumbStickDirection(PlayerIndex playerIndex, ThumbStick thumbStick, InputDirection direction)
+        internal float GetThumbStickDirection(PlayerIndex playerIndex, ThumbStick thumbStick, InputDirection direction)
         {
             Vector2 v;
             var result = 0f;

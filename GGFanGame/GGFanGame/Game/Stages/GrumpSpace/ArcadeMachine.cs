@@ -36,7 +36,7 @@ namespace GGFanGame.Game.Stages.GrumpSpace
         {
             base.ApplyDataModel(dataModel);
 
-            _arcadeType = ParseArcadeType(dataModel.Arguments[0]);
+            _arcadeType = ParseArcadeType(dataModel.GetArgValue("game"));
         }
 
         private static ArcadeType ParseArcadeType(string input)

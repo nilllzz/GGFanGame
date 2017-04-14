@@ -26,7 +26,7 @@ namespace GGFanGame.Game.Stages.Dojo
         {
             base.ApplyDataModel(dataModel);
 
-            _rotated = dataModel.HasArg("rotated");
+            _rotated = dataModel.HasArg("rotation");
             if (_rotated)
             {
                 Size = new Vector3(16, 128, 64);

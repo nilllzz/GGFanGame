@@ -17,7 +17,7 @@ namespace GGFanGame.Screens.Menu
             _batch = new SpriteBatch(GameInstance.GraphicsDevice);
         }
 
-        public override void Draw()
+        public override void Draw(GameTime time)
         {
             _batch.Begin(SpriteBatchUsage.Default);
 
@@ -142,7 +142,7 @@ namespace GGFanGame.Screens.Menu
         private float _fadeRight;
         private bool _selection = true;
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
             if (GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.DPadLeft) || GetComponent<KeyboardHandler>().KeyPressed(Keys.Left))
             {

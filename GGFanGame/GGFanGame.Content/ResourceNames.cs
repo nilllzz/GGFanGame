@@ -60,6 +60,16 @@ namespace GGFanGame.Content
             public const string GaussianBlur = "Shaders/GaussianBlur";
         }
         
+        public static class Sounds
+        {
+            
+            public static class Intro
+            {
+                public const string HardDudes = "Sounds/Intro/HardDudes";
+                public const string Main = "Sounds/Intro/Main";
+            }
+        }
+        
         public static class Sprites
         {
             public const string Arin = "Sprites/Arin";

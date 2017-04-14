@@ -73,7 +73,10 @@
                 BuildTexture(file);
                 break;
             case "mp3":
-                BuildMusic(file);
+				if (path.Contains("Sounds"))
+					BuildSoundMp3(file);
+				else
+					BuildMusic(file);
                 break;
             case "wav":
                 BuildSound(file);
@@ -113,6 +116,15 @@
 
 /importer:Mp3Importer
 /processor:SongProcessor
+/processorParam:Quality=Best<#+
+    }
+	
+    void BuildSoundMp3(ProjectItem file)
+    {
+        #>
+
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best<#+
     }
 

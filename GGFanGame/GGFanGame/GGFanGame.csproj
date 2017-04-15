@@ -49,6 +49,8 @@
     <Compile Include="ASCIIProvider.cs" />
     <Compile Include="BoundingBoxExtension.cs" />
     <Compile Include="Content\DataModelContentExtension.cs" />
+    <Compile Include="Content\MusicPlayerHelper.cs" />
+    <Compile Include="Content\TextRenderHelper.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="DataModel\Base\ColorModel.cs" />
     <Compile Include="DataModel\DataModel.cs" />

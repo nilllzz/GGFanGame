@@ -70,6 +70,7 @@
     <Content Include="Content\Levels\Stage1_1\BridgeBottom.png" />
     <Content Include="Content\Levels\Stage1_1\BridgeRailing.png" />
     <Content Include="Content\Levels\Stage1_1\Street.png" />
+    <Content Include="Content\Music\GGVersus.mp3" />
     <Content Include="Content\Music\Smash1.mp3" />
     <Content Include="Content\Music\Smash2.mp3" />
     <Content Include="Content\Shaders\GaussianBlur.fx" />

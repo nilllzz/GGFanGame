@@ -219,6 +219,12 @@
 #begin Levels/stages.json
 /copy:Levels/stages.json
 
+#begin Music/GGVersus.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/GGVersus.mp3
+
 #begin Music/Smash1.mp3
 /importer:Mp3Importer
 /processor:SongProcessor

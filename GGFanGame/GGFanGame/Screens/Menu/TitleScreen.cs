@@ -1,13 +1,15 @@
-﻿using System;
-using GGFanGame.Content;
+﻿using GGFanGame.Content;
 using GGFanGame.Drawing;
 using GGFanGame.Input;
 using GGFanGame.Screens.Game;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using System;
+using System.Threading.Tasks;
 using static Core;
-using Microsoft.Xna.Framework.Audio;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -16,6 +18,9 @@ namespace GGFanGame.Screens.Menu
     /// </summary>
     internal class TitleScreen : Screen
     {
+        private const int ARIN_HEAD_SIZE = 100;
+        private const int DANNY_HEAD_SIZE = 100;
+
         // The title screen will just feature the logo of the game and a prompt that says "press any button to start".
 
         private readonly Texture2D _logoTexture,
@@ -29,6 +34,9 @@ namespace GGFanGame.Screens.Menu
         private float _intermediateIntro = 0f;
         private float _mainIntro = 0f;
         private int _hardDudesDelay = 20;
+        private float _dannyLaughAnimation = 0f;
+        private float _dannyLaughAnimationDelay = 1f;
+        private float _dannyLaughAnimationBack = 1f;
 
         private float _contentFloat = 0f;
 
@@ -52,9 +60,6 @@ namespace GGFanGame.Screens.Menu
 
             _batch = new SpriteBatch(GameInstance.GraphicsDevice);
             _fontBatch = new SpriteBatch(GameInstance.GraphicsDevice);
-
-            //MediaPlayer.IsRepeating = true;
-            //MediaPlayer.Play(Content.Load<Song>(Resources.Music.Smash1));
         }
 
         public override void Draw(GameTime time)
@@ -103,29 +108,29 @@ namespace GGFanGame.Screens.Menu
                     + logoWidth / 2f
                     + (GameInstance.ClientRectangle.Width / 2f) * (1f - _mainIntro)),
                 (int)(240 + floatingOffset * -5f),
-                240, 240), null,
-                Color.White, 60 * ((1f - _mainIntro) / 10f), new Vector2(_arinHead.Width / 2f, _arinHead.Height / 2f), SpriteEffects.None, 0f);
+                240, 240), new Rectangle(0, 0, ARIN_HEAD_SIZE, ARIN_HEAD_SIZE),
+                Color.White, 60 * ((1f - _mainIntro) / 10f), new Vector2(ARIN_HEAD_SIZE / 2f, ARIN_HEAD_SIZE / 2f), SpriteEffects.None, 0f);
+
+            int dannyHeadIndex = (int)(9 * _dannyLaughAnimation);
+            if (_dannyLaughAnimationBack == 0f)
+                dannyHeadIndex = 0;
 
             _batch.Draw(_dannyHead, new Rectangle(
                 (int)(GameInstance.ClientRectangle.Width / 2f
                     - logoWidth / 2f
-                    - _dannyHead.Width / 2f
+                    - DANNY_HEAD_SIZE / 2f
                     - (GameInstance.ClientRectangle.Width / 2f) * (1f - _mainIntro)),
                 (int)(240 + floatingOffset * -5f),
-                240, 240), null,
-                Color.White, 60 * ((1f - _mainIntro) / 10f), new Vector2(_dannyHead.Width / 2f, _dannyHead.Height / 2f), SpriteEffects.None, 0f);
+                240, 240), new Rectangle(dannyHeadIndex * DANNY_HEAD_SIZE, 0, DANNY_HEAD_SIZE, DANNY_HEAD_SIZE),
+                Color.White, -60 * ((1f - _mainIntro) / 10f), new Vector2(DANNY_HEAD_SIZE / 2f, DANNY_HEAD_SIZE / 2f), SpriteEffects.None, 0f);
 
             var subtitleSize = _grumpFont.MeasureString(GameController.GAME_TITLE);
             var subtitleState = (20 - _hardDudesDelay) / 20f;
 
-            _batch.DrawString(_grumpFont, GameController.GAME_TITLE, new Vector2(
-                GameInstance.ClientRectangle.Width / 2f - subtitleSize.X / 2f + 4,
-                GameInstance.ClientRectangle.Height - 200 * subtitleState + 4),
-                new Color(122, 141, 235, (int)(255 * subtitleState)), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            _batch.DrawString(_grumpFont, GameController.GAME_TITLE, new Vector2(
+            TextRenderHelper.RenderGrumpText(_fontBatch, _grumpFont, GameController.GAME_TITLE,
+                new Vector2(
                 GameInstance.ClientRectangle.Width / 2f - subtitleSize.X / 2f,
-                GameInstance.ClientRectangle.Height - 200 * subtitleState),
-                new Color(255, 255, 255, (int)(255 * subtitleState)), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                GameInstance.ClientRectangle.Height + 10 - 200 * subtitleState), 1f, (int)(255 * subtitleState));
         }
 
         private void DrawArinHead()
@@ -134,6 +139,7 @@ namespace GGFanGame.Screens.Menu
 
             var headX = 0f;
             var titleX = 0f;
+            int headTexture = 0;
 
             if (_arinHeadIntro <= 0.2f)
             {
@@ -155,6 +161,8 @@ namespace GGFanGame.Screens.Menu
                 titleX = GameInstance.Window.ClientBounds.Width / 2f
                     + 10f * state
                     - 400;
+
+                headTexture = (int)(state * 10);
             }
             else
             {
@@ -169,13 +177,13 @@ namespace GGFanGame.Screens.Menu
                     + state * GameInstance.Window.ClientBounds.Width
                     - 400;
             }
+            
+            _batch.Draw(_arinHead,
+                new Rectangle((int)headX, GameInstance.ClientRectangle.Height / 2 - headSize / 2, headSize, headSize),
+                new Rectangle(headTexture * ARIN_HEAD_SIZE, 0, ARIN_HEAD_SIZE, ARIN_HEAD_SIZE), Color.White);
 
-            _batch.Draw(_arinHead, new Rectangle((int)headX, GameInstance.ClientRectangle.Height / 2 - headSize / 2, headSize, headSize), Color.White);
-
-            _fontBatch.DrawString(_grumpFont, "EGORAPTOR", new Vector2(titleX, GameInstance.ClientRectangle.Height - 180),
-                new Color(122, 141, 235), 0f, Vector2.Zero, 1.55f, SpriteEffects.None, 0f);
-            _fontBatch.DrawString(_grumpFont, "EGORAPTOR", new Vector2(titleX, GameInstance.ClientRectangle.Height - 180),
-                Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+            TextRenderHelper.RenderGrumpText(_fontBatch, _grumpFont, "EGORAPTOR",
+                new Vector2(titleX, GameInstance.ClientRectangle.Height - 180), 1.5f);
         }
 
         private void DrawDannyHead()
@@ -220,12 +228,12 @@ namespace GGFanGame.Screens.Menu
                     - GameInstance.Window.ClientBounds.Width * state;
             }
 
-            _batch.Draw(_dannyHead, new Rectangle((int)headX, GameInstance.ClientRectangle.Height / 2 - headSize / 2, headSize, headSize), Color.White);
+            _batch.Draw(_dannyHead,
+                new Rectangle((int)headX, GameInstance.ClientRectangle.Height / 2 - headSize / 2, headSize, headSize),
+                new Rectangle(0, 0, DANNY_HEAD_SIZE, DANNY_HEAD_SIZE), Color.White);
 
-            _fontBatch.DrawString(_grumpFont, "DANNY", new Vector2(titleX, GameInstance.ClientRectangle.Height - 180),
-                new Color(122, 141, 235), 0f, Vector2.Zero, 1.55f, SpriteEffects.None, 0f);
-            _fontBatch.DrawString(_grumpFont, "DANNY", new Vector2(titleX, GameInstance.ClientRectangle.Height - 180),
-                Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+            TextRenderHelper.RenderGrumpText(_fontBatch, _grumpFont, "DANNY",
+                new Vector2(titleX, GameInstance.ClientRectangle.Height - 180), 1.5f);
         }
 
         private void DrawIntermediate()
@@ -239,16 +247,10 @@ namespace GGFanGame.Screens.Menu
                 var text = "AND";
                 var size = _grumpFont.MeasureString(text) * 1.5f;
 
-                _fontBatch.DrawString(_grumpFont, text,
+                TextRenderHelper.RenderGrumpText(_fontBatch, _grumpFont, text,
                     new Vector2(
                         GameInstance.ClientRectangle.Width * 2f - (GameInstance.ClientRectangle.Width * 1.5f + size.X / 2f) * state,
-                        GameInstance.ClientRectangle.Height / 2f - size.Y * 1.5f),
-                    new Color(122, 141, 235), 0f, Vector2.Zero, 1.55f, SpriteEffects.None, 0f);
-                _fontBatch.DrawString(_grumpFont, text,
-                    new Vector2(
-                        GameInstance.ClientRectangle.Width * 2f - (GameInstance.ClientRectangle.Width * 1.5f + size.X / 2f) * state,
-                        GameInstance.ClientRectangle.Height / 2f - size.Y * 1.5f),
-                    Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+                        GameInstance.ClientRectangle.Height / 2f - size.Y * 1.5f), 1.5f);
             }
             if (_intermediateIntro >= 0.3f)
             {
@@ -259,16 +261,10 @@ namespace GGFanGame.Screens.Menu
                 var text = "WE'RE";
                 var size = _grumpFont.MeasureString(text) * 1.5f;
 
-                _fontBatch.DrawString(_grumpFont, text,
+                TextRenderHelper.RenderGrumpText(_fontBatch, _grumpFont, text,
                     new Vector2(
                         -GameInstance.ClientRectangle.Width + (GameInstance.ClientRectangle.Width * 1.5f - size.X / 2f) * state,
-                        GameInstance.ClientRectangle.Height / 2f - size.Y * 0.5f),
-                    new Color(122, 141, 235), 0f, Vector2.Zero, 1.55f, SpriteEffects.None, 0f);
-                _fontBatch.DrawString(_grumpFont, text,
-                    new Vector2(
-                        -GameInstance.ClientRectangle.Width + (GameInstance.ClientRectangle.Width * 1.5f - size.X / 2f) * state,
-                        GameInstance.ClientRectangle.Height / 2f - size.Y * 0.5f),
-                    Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+                        GameInstance.ClientRectangle.Height / 2f - size.Y * 0.5f), 1.5f);
             }
             if (_intermediateIntro >= 0.6f)
             {
@@ -279,16 +275,10 @@ namespace GGFanGame.Screens.Menu
                 var text = "THE";
                 var size = _grumpFont.MeasureString(text) * 1.5f;
 
-                _fontBatch.DrawString(_grumpFont, text,
+                TextRenderHelper.RenderGrumpText(_fontBatch, _grumpFont, text,
                     new Vector2(
                         GameInstance.ClientRectangle.Width * 2f - (GameInstance.ClientRectangle.Width * 1.5f + size.X / 2f) * state,
-                        GameInstance.ClientRectangle.Height / 2f + size.Y * 0.5f),
-                    new Color(122, 141, 235), 0f, Vector2.Zero, 1.55f, SpriteEffects.None, 0f);
-                _fontBatch.DrawString(_grumpFont, text,
-                    new Vector2(
-                        GameInstance.ClientRectangle.Width * 2f - (GameInstance.ClientRectangle.Width * 1.5f + size.X / 2f) * state,
-                        GameInstance.ClientRectangle.Height / 2f + size.Y * 0.5f),
-                    Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+                        GameInstance.ClientRectangle.Height / 2f + size.Y * 0.5f), 1.5f);
             }
         }
 
@@ -366,17 +356,44 @@ namespace GGFanGame.Screens.Menu
             if (_mainIntro == 1f)
             {
                 _contentFloat += 0.07f;
-
+                
                 if (_hardDudesDelay > 0)
                 {
                     _hardDudesDelay--;
                     if (_hardDudesDelay == 0)
                     {
                         _hardDudesSound.Play();
+                        MediaPlayer.Play(Content.Load<Song>(Resources.Music.GGVersus));
+                        Task.Run(() => MusicPlayerHelper.FadeIn(50));
                     }
                 }
                 else
                 {
+                    if (_dannyLaughAnimationDelay > 0f)
+                    {
+                        _dannyLaughAnimationDelay -= 0.02f;
+                        if (_dannyLaughAnimationDelay <= 0f)
+                        {
+                            _dannyLaughAnimationDelay = 0f;
+                        }
+                    }
+                    else if (_dannyLaughAnimation < 1f)
+                    {
+                        _dannyLaughAnimation += 0.01f;
+                        if (_dannyLaughAnimation >= 1f)
+                        {
+                            _dannyLaughAnimation = 1f;
+                        }
+                    }
+                    else if (_dannyLaughAnimationBack > 0f)
+                    {
+                        _dannyLaughAnimationBack -= 0.01f;
+                        if (_dannyLaughAnimationBack <= 0f)
+                        {
+                            _dannyLaughAnimationBack = 0f;
+                        }
+                    }
+
                     // When a button is pressed, open the next screen:
                     if (GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.A))
                     {

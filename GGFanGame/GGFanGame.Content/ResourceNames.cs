@@ -51,6 +51,7 @@ namespace GGFanGame.Content
         
         public static class Music
         {
+            public const string GGVersus = "Music/GGVersus";
             public const string Smash1 = "Music/Smash1";
             public const string Smash2 = "Music/Smash2";
         }

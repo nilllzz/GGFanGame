@@ -177,6 +177,9 @@
 /processorParam:TextureFormat=Color
 /build:Levels/GrumpSpace/Posters/UpDog.png
 
+#begin Levels/GrumpSpace/stage.json
+/copy:Levels/GrumpSpace/stage.json
+
 #begin Levels/Stage1_1/BridgeBottom.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -494,6 +497,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:UI/Heads/Danny.png
+
+#begin UI/Heads/Suzy.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/Heads/Suzy.png
 
 #begin UI/HUD/Arin.png
 /importer:TextureImporter

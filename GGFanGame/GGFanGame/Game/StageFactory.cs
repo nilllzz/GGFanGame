@@ -58,7 +58,7 @@ namespace GGFanGame.Game
 
             var dataModel = LoadDataModel(content, worldId, stageId);
 
-            var objects = dataModel.Objects.Select(o =>
+            var objects = dataModel.Scenes[0].Objects.Select(o =>
             {
                 var type = _stageObjectBuffer[o.Type];
                 var obj = Activator.CreateInstance(type) as StageObject;

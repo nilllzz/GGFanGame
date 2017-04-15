@@ -1,6 +1,7 @@
 {
     "stages": [
         { "worldId" : "1", "stageId": "1", "path": "Levels\\Stage1_1\\stage.json" },
-        { "worldId" : "grumpSpace", "stageId": "dojo", "path": "Levels\\Dojo\\stage.json" }
+        { "worldId" : "grumpSpace", "stageId": "dojo", "path": "Levels\\Dojo\\stage.json" },
+        { "worldId" : "grumpSpace", "stageId": "main", "path": "Levels\\GrumpSpace\\stage.json" }
     ]
 }

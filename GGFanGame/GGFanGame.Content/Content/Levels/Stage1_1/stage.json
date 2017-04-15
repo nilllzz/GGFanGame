@@ -7,24 +7,29 @@
         "g": 149,
         "b": 237
     },
-    "objects": [
-        { "t": "0/1/couch", "x": 110, "y": 0, "z": 320 },
-        { "t": "0/1/arcadeMachine", "x": 310, "y": 0, "z": 320, "args": [ "ninja" ] },
-        { "t": "1/1/bridgeRailing", "x": 64, "y": 0, "z": 158 },
-        { "t": "1/1/bridgeRailing", "x": 64, "y": 0, "z": 190 },
-        { "t": "1/1/street", "x": 64, "y": 0, "z": 190 },
-        { "t": "1/1/bridgeRailing", "x": 128, "y": 0, "z": 158 },
-        { "t": "1/1/bridgeRailing", "x": 128, "y": 0, "z": 190 },
-        { "t": "1/1/street", "x": 128, "y": 0, "z": 190 },
-        { "t": "1/1/bridgeRailing", "x": 192, "y": 0, "z": 158 },
-        { "t": "1/1/bridgeRailing", "x": 192, "y": 0, "z": 190 },
-        { "t": "1/1/street", "x": 192, "y": 0, "z": 190 },
-        { "t": "1/1/bridgeRailing", "x": 256, "y": 0, "z": 158 },
-        { "t": "1/1/bridgeRailing", "x": 256, "y": 0, "z": 190 },
-        { "t": "1/1/street", "x": 256, "y": 0, "z": 190 },
-        { "t": "1/1/bridgeRailing", "x": 320, "y": 0, "z": 158 },
-        { "t": "1/1/bridgeRailing", "x": 320, "y": 0, "z": 190 },
-        { "t": "1/1/street", "x": 320, "y": 0, "z": 190 },
-        { "t": "0/1/booper", "x": 280, "y": 0, "z": 250 }
-    ]   
+    "scenes": [
+        {
+            "name": "main",
+            "objects": [
+                { "t": "0/1/couch", "x": 110, "y": 0, "z": 320 },
+                { "t": "0/1/arcadeMachine", "x": 310, "y": 0, "z": 320, "args": [ "ninja" ] },
+                { "t": "1/1/bridgeRailing", "x": 64, "y": 0, "z": 158 },
+                { "t": "1/1/bridgeRailing", "x": 64, "y": 0, "z": 190 },
+                { "t": "1/1/street", "x": 64, "y": 0, "z": 190 },
+                { "t": "1/1/bridgeRailing", "x": 128, "y": 0, "z": 158 },
+                { "t": "1/1/bridgeRailing", "x": 128, "y": 0, "z": 190 },
+                { "t": "1/1/street", "x": 128, "y": 0, "z": 190 },
+                { "t": "1/1/bridgeRailing", "x": 192, "y": 0, "z": 158 },
+                { "t": "1/1/bridgeRailing", "x": 192, "y": 0, "z": 190 },
+                { "t": "1/1/street", "x": 192, "y": 0, "z": 190 },
+                { "t": "1/1/bridgeRailing", "x": 256, "y": 0, "z": 158 },
+                { "t": "1/1/bridgeRailing", "x": 256, "y": 0, "z": 190 },
+                { "t": "1/1/street", "x": 256, "y": 0, "z": 190 },
+                { "t": "1/1/bridgeRailing", "x": 320, "y": 0, "z": 158 },
+                { "t": "1/1/bridgeRailing", "x": 320, "y": 0, "z": 190 },
+                { "t": "1/1/street", "x": 320, "y": 0, "z": 190 },
+                { "t": "0/1/booper", "x": 280, "y": 0, "z": 250 }
+            ]
+        }
+    ]
 }

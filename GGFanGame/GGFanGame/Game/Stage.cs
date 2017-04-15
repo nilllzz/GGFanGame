@@ -80,7 +80,7 @@ namespace GGFanGame.Game
         {
             SetActiveStage();
 
-            OnePlayer = new Arin(PlayerIndex.One) { X = 0, Z = 0 };
+            OnePlayer = new Arin(PlayerIndex.One) { X = 0, Y = 0.1f, Z = 0 };
             //TwoPlayer = new Arin(PlayerIndex.Two) { X = 320, Z = 230 };
             //ThreePlayer = new Arin(PlayerIndex.Three) { X = 50, Z = 230 };
             //FourPlayer = new Arin(PlayerIndex.Four) { X = 50, Z = 200 };

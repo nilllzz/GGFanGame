@@ -1,6 +1,10 @@
-﻿using GGFanGame.Game;
+﻿using GGFanGame.Drawing;
+using GGFanGame.Game;
 using GGFanGame.Input;
+using GGFanGame.Screens.Menu;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using static Core;
 
 namespace GGFanGame.Screens.Game
@@ -8,30 +12,53 @@ namespace GGFanGame.Screens.Game
     /// <summary>
     /// The screen that is active during the Grump Space scenes.
     /// </summary>
-    internal class GrumpSpaceScreen : Screen
+    internal class GrumpSpaceScreen : StageScreen
     {
-        private readonly Stage _stage;
+        private Stage _stage;
+        private SpriteBatch _batch;
 
         public GrumpSpaceScreen()
         {
-            _stage = new Stage(Content, null, null);
-            _stage.SetActiveStage();
+            _stage = StageFactory.Create(Content, "grumpSpace", "main");
+            _stage.LoadContent();
+
+            _batch = new SpriteBatch(GameInstance.GraphicsDevice);
         }
 
         public override void Draw(GameTime time)
         {
-            //Drawing.Graphics.DrawRectangle(GameInstance.ClientRectangle, Color.CornflowerBlue);
-            _stage.Draw(null);
+            RenderStage();
+
+            _batch.Begin(SpriteBatchUsage.Default);
+
+            DrawStage();
+            DrawHUD();
+
+            _batch.End();
+        }
+
+        internal override void RenderStage()
+        {
+            _stage.Render();
+        }
+
+        internal override void DrawHUD(SpriteBatch batch = null)
+        {
+
+        }
+
+        internal override void DrawStage(SpriteBatch batch = null)
+        {
+            _stage.Draw(batch ?? _batch);
         }
 
         public override void Update(GameTime time)
         {
             _stage.Update();
 
-            //TEST CODE: When pressed P, rendering switches to 3D bounding box test stage:
-            if (GetComponent<KeyboardHandler>().KeyPressed(Microsoft.Xna.Framework.Input.Keys.P))
+            if (GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.Start))
             {
-                GetComponent<ScreenManager>().SetScreen(new Debug.BoundingBoxTestScreen());
+                GetComponent<ScreenManager>().SetScreen(new PauseScreen(this));
             }
         }
     }

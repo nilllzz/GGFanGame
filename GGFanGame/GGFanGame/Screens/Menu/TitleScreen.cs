@@ -406,7 +406,7 @@ namespace GGFanGame.Screens.Menu
         private void StartGame()
         {
             GetComponent<GameSessionManager>().Load();
-            GetComponent<ScreenManager>().SetScreen(new TransitionScreen(this, new StageScreen()));
+            GetComponent<ScreenManager>().SetScreen(new TransitionScreen(this, new GrumpSpaceScreen()));
         }
 
         protected override void Dispose(bool disposing)

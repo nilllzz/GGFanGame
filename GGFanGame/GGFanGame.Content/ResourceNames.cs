@@ -37,6 +37,7 @@ namespace GGFanGame.Content
                     public const string NoUse = "Levels/GrumpSpace/Posters/NoUse";
                     public const string UpDog = "Levels/GrumpSpace/Posters/UpDog";
                 }
+                public const string stage = "Levels/GrumpSpace/stage";
             }
             
             public static class Stage1_1
@@ -104,6 +105,7 @@ namespace GGFanGame.Content
             {
                 public const string Arin = "UI/Heads/Arin";
                 public const string Danny = "UI/Heads/Danny";
+                public const string Suzy = "UI/Heads/Suzy";
             }
             
             public static class HUD

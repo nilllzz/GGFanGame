@@ -57,6 +57,7 @@
     <Content Include="Content\Levels\Dojo\WoodPillar.png" />
     <Content Include="Content\Levels\Stage1_1\stage.json" />
     <Content Include="Content\Levels\stages.json" />
+    <None Include="Content\Levels\GrumpSpace\stage.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Levels\Dojo\Floor1.png" />
@@ -96,6 +97,7 @@
     <Content Include="Content\UI\GrumpCade\Suzy_Overlay.png" />
     <Content Include="Content\UI\Heads\Arin.png" />
     <Content Include="Content\UI\Heads\Danny.png" />
+    <Content Include="Content\UI\Heads\Suzy.png" />
     <Content Include="Content\UI\HUD\Arin.png" />
     <Content Include="Content\UI\HUD\Bars.png" />
     <Content Include="Content\UI\HUD\Fire.png" />

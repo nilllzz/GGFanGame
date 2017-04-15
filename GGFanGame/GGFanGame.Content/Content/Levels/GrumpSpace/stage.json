@@ -1,0 +1,18 @@
+{
+    "name": "Grump Space",
+    "worldId": "grumpSpace",
+    "stageId": "main",
+    "backColor": {
+        "r": 50,
+        "g": 50,
+        "b": 50
+    },
+    "scenes": [
+        {
+            "name": "main",
+            "objects": [
+                { "type": "grumpSpace/dojo/floorSide", "x": -64, "y": 0, "z": 0 }
+            ]
+        }
+    ]
+}

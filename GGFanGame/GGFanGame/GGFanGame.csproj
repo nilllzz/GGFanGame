@@ -61,6 +61,7 @@
     <Compile Include="DataModel\Game\StageModel.cs" />
     <Compile Include="DataModel\Game\StageObjectArgumentModel.cs" />
     <Compile Include="DataModel\Game\StageObjectModel.cs" />
+    <Compile Include="DataModel\Game\StageSceneModel.cs" />
     <Compile Include="DataModel\Serizalitaion\IDataSerializer.cs" />
     <Compile Include="DataModel\Serizalitaion\DataTypeHelper.cs" />
     <Compile Include="DataModel\Serizalitaion\JsonDataSerializer.cs" />
@@ -156,9 +157,9 @@
     <Compile Include="RenderTargetManager.cs" />
     <Compile Include="Screens\DebugScreen\BoundingBoxRenderer.cs" />
     <Compile Include="Screens\DebugScreen\BoundingBoxTestScreen.cs" />
-    <Compile Include="Screens\Game\GameScreen.cs" />
-    <Compile Include="Screens\Game\GrumpSpaceScreen.cs" />
     <Compile Include="Screens\Game\StageScreen.cs" />
+    <Compile Include="Screens\Game\GrumpSpaceScreen.cs" />
+    <Compile Include="Screens\Game\InGameScreen.cs" />
     <Compile Include="Screens\Menu\MenuBackgroundRenderer.cs" />
     <Compile Include="Screens\Menu\PauseScreen.cs" />
     <Compile Include="Screens\Menu\PlayerSelectScreen.cs" />

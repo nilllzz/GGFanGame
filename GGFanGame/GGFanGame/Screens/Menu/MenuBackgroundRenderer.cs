@@ -209,10 +209,11 @@ namespace GGFanGame.Screens.Menu
         /// </summary>
         internal MenuBackgroundRenderer Clone()
         {
-            var clone = new MenuBackgroundRenderer(new Vector2(_offsetX, _offsetY), 
-                _backgroundFromColor, _backgroundToColor, _dotFromColor, _dotToColor);
-            clone.ApplyTransparency = ApplyTransparency;
-            
+            var clone = new MenuBackgroundRenderer(new Vector2(_offsetX, _offsetY),
+                _backgroundFromColor, _backgroundToColor, _dotFromColor, _dotToColor)
+            {
+                ApplyTransparency = ApplyTransparency
+            };
             return clone;
         }
     }

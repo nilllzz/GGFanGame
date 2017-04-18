@@ -23,7 +23,7 @@ namespace GGFanGame.Screens.Menu
 
         // The title screen will just feature the logo of the game and a prompt that says "press any button to start".
 
-        private readonly Texture2D _logoTexture,
+        private readonly Texture2D _logoTexture, _hardDudesLogo,
                                    _arinHead, _dannyHead;
 
         private int _stage = 0;
@@ -49,6 +49,7 @@ namespace GGFanGame.Screens.Menu
         {
             _backgroundRenderer = new MenuBackgroundRenderer();
             _logoTexture = GameInstance.Content.Load<Texture2D>(Resources.UI.Logos.GameGrumps);
+            _hardDudesLogo = GameInstance.Content.Load<Texture2D>(Resources.UI.Logos.HardDudes);
             _grumpFont = GameInstance.Content.Load<SpriteFont>(Resources.Fonts.CartoonFontLarge);
             _arinHead = GameInstance.Content.Load<Texture2D>(Resources.UI.Heads.Arin);
             _dannyHead = GameInstance.Content.Load<Texture2D>(Resources.UI.Heads.Danny);
@@ -91,8 +92,8 @@ namespace GGFanGame.Screens.Menu
 
         private void DrawTitle()
         {
-            var logoWidth = (int)(_logoTexture.Width);
-            var logoHeight = (int)(_logoTexture.Height);
+            var logoWidth = _logoTexture.Width * 2;
+            var logoHeight = _logoTexture.Height * 2;
 
             float floatingOffset = (float)Math.Sin(_contentFloat);
 
@@ -124,13 +125,13 @@ namespace GGFanGame.Screens.Menu
                 240, 240), new Rectangle(dannyHeadIndex * DANNY_HEAD_SIZE, 0, DANNY_HEAD_SIZE, DANNY_HEAD_SIZE),
                 Color.White, -60 * ((1f - _mainIntro) / 10f), new Vector2(DANNY_HEAD_SIZE / 2f, DANNY_HEAD_SIZE / 2f), SpriteEffects.None, 0f);
 
-            var subtitleSize = _grumpFont.MeasureString(GameController.GAME_TITLE);
+            var subtitleWidth = _hardDudesLogo.Width * (floatingOffset + 10) / 10f;
+            var subtitleHeight = _hardDudesLogo.Height * (floatingOffset + 10) / 10f;
             var subtitleState = (20 - _hardDudesDelay) / 20f;
-
-            TextRenderHelper.RenderGrumpText(_fontBatch, _grumpFont, GameController.GAME_TITLE,
-                new Vector2(
-                GameInstance.ClientRectangle.Width / 2f - subtitleSize.X / 2f,
-                GameInstance.ClientRectangle.Height + 10 - 200 * subtitleState), 1f, (int)(255 * subtitleState));
+            _batch.Draw(_hardDudesLogo, new Rectangle(
+                (int)(GameInstance.ClientRectangle.Width / 2f - subtitleWidth),
+                (int)(GameInstance.ClientRectangle.Height - 200 * subtitleState),
+                (int)(subtitleWidth * 2), (int)(subtitleHeight * 2)), Color.White);
         }
 
         private void DrawArinHead()
@@ -363,8 +364,9 @@ namespace GGFanGame.Screens.Menu
                     if (_hardDudesDelay == 0)
                     {
                         _hardDudesSound.Play();
-                        MediaPlayer.Play(Content.Load<Song>(Resources.Music.GGVersus));
+                        MediaPlayer.Play(Content.Load<Song>(Resources.Music.GGVersionLong));
                         Task.Run(() => MusicPlayerHelper.FadeIn(50));
+                        MediaPlayer.IsRepeating = true;
                     }
                 }
                 else

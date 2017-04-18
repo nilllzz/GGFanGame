@@ -222,11 +222,17 @@
 #begin Levels/stages.json
 /copy:Levels/stages.json
 
-#begin Music/GGVersus.mp3
+#begin Music/GGVersionLong.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Music/GGVersus.mp3
+/build:Music/GGVersionLong.mp3
+
+#begin Music/GGVersusShort.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/GGVersusShort.mp3
 
 #begin Music/Smash1.mp3
 /importer:Mp3Importer
@@ -486,6 +492,18 @@
 /processorParam:TextureFormat=Color
 /build:UI/Heads/Arin.png
 
+#begin UI/Heads/Barry.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/Heads/Barry.png
+
 #begin UI/Heads/Danny.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -497,6 +515,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:UI/Heads/Danny.png
+
+#begin UI/Heads/Jon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/Heads/Jon.png
+
+#begin UI/Heads/Ross.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/Heads/Ross.png
 
 #begin UI/Heads/Suzy.png
 /importer:TextureImporter
@@ -569,6 +611,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:UI/Logos/GameGrumpsTransition.png
+
+#begin UI/Logos/HardDudes.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/Logos/HardDudes.png
 
 #begin UI/Logos/SteamTrain.png
 /importer:TextureImporter

@@ -71,7 +71,8 @@
     <Content Include="Content\Levels\Stage1_1\BridgeBottom.png" />
     <Content Include="Content\Levels\Stage1_1\BridgeRailing.png" />
     <Content Include="Content\Levels\Stage1_1\Street.png" />
-    <Content Include="Content\Music\GGVersus.mp3" />
+    <Content Include="Content\Music\GGVersionLong.mp3" />
+    <Content Include="Content\Music\GGVersusShort.mp3" />
     <Content Include="Content\Music\Smash1.mp3" />
     <Content Include="Content\Music\Smash2.mp3" />
     <Content Include="Content\Shaders\GaussianBlur.fx" />
@@ -96,13 +97,17 @@
     <Content Include="Content\UI\GrumpCade\Suzy.png" />
     <Content Include="Content\UI\GrumpCade\Suzy_Overlay.png" />
     <Content Include="Content\UI\Heads\Arin.png" />
+    <Content Include="Content\UI\Heads\Barry.png" />
     <Content Include="Content\UI\Heads\Danny.png" />
+    <Content Include="Content\UI\Heads\Jon.png" />
+    <Content Include="Content\UI\Heads\Ross.png" />
     <Content Include="Content\UI\Heads\Suzy.png" />
     <Content Include="Content\UI\HUD\Arin.png" />
     <Content Include="Content\UI\HUD\Bars.png" />
     <Content Include="Content\UI\HUD\Fire.png" />
     <Content Include="Content\UI\Logos\GameGrumps.png" />
     <Content Include="Content\UI\Logos\GameGrumpsTransition.png" />
+    <Content Include="Content\UI\Logos\HardDudes.png" />
     <Content Include="Content\UI\Logos\SteamTrain.png" />
     <Content Include="Content\UI\Names\Arin_name.png" />
     <Content Include="Content\UI\Names\Barry_name.png" />

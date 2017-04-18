@@ -52,7 +52,8 @@ namespace GGFanGame.Content
         
         public static class Music
         {
-            public const string GGVersus = "Music/GGVersus";
+            public const string GGVersionLong = "Music/GGVersionLong";
+            public const string GGVersusShort = "Music/GGVersusShort";
             public const string Smash1 = "Music/Smash1";
             public const string Smash2 = "Music/Smash2";
         }
@@ -104,7 +105,10 @@ namespace GGFanGame.Content
             public static class Heads
             {
                 public const string Arin = "UI/Heads/Arin";
+                public const string Barry = "UI/Heads/Barry";
                 public const string Danny = "UI/Heads/Danny";
+                public const string Jon = "UI/Heads/Jon";
+                public const string Ross = "UI/Heads/Ross";
                 public const string Suzy = "UI/Heads/Suzy";
             }
             
@@ -119,6 +123,7 @@ namespace GGFanGame.Content
             {
                 public const string GameGrumps = "UI/Logos/GameGrumps";
                 public const string GameGrumpsTransition = "UI/Logos/GameGrumpsTransition";
+                public const string HardDudes = "UI/Logos/HardDudes";
                 public const string SteamTrain = "UI/Logos/SteamTrain";
             }
             

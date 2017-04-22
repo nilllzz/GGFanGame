@@ -364,7 +364,7 @@ namespace GGFanGame.Screens.Menu
                     if (_hardDudesDelay == 0)
                     {
                         _hardDudesSound.Play();
-                        MediaPlayer.Play(Content.Load<Song>(Resources.Music.GGVersionLong));
+                        MediaPlayer.Play(Content.Load<Song>(Resources.Music.GGVersus));
                         Task.Run(() => MusicPlayerHelper.FadeIn(50));
                         MediaPlayer.IsRepeating = true;
                     }

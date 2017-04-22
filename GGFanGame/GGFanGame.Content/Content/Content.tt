@@ -79,7 +79,10 @@
 					BuildMusic(file);
                 break;
             case "wav":
-                BuildSound(file);
+				if (path.Contains("Music"))
+					BuildMusicWav(file);
+				else
+					BuildSound(file);
                 break;
             case "fx":
                 BuildEffect(file);
@@ -115,6 +118,15 @@
         #>
 
 /importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best<#+
+    }
+	
+    void BuildMusicWav(ProjectItem file)
+    {
+        #>
+		
+/importer:WavImporter
 /processor:SongProcessor
 /processorParam:Quality=Best<#+
     }

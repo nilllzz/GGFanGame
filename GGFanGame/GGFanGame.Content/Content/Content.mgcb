@@ -222,17 +222,23 @@
 #begin Levels/stages.json
 /copy:Levels/stages.json
 
-#begin Music/GGVersionLong.mp3
-/importer:Mp3Importer
+#begin Music/GGVersus.wav		
+/importer:WavImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Music/GGVersionLong.mp3
+/build:Music/GGVersus.wav
 
-#begin Music/GGVersusShort.mp3
-/importer:Mp3Importer
+#begin Music/Grump Space Intro.wav		
+/importer:WavImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Music/GGVersusShort.mp3
+/build:Music/Grump Space Intro.wav
+
+#begin Music/Grump Space Loop.wav		
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Grump Space Loop.wav
 
 #begin Music/Smash1.mp3
 /importer:Mp3Importer

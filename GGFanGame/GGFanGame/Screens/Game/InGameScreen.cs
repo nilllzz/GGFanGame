@@ -1,7 +1,7 @@
-﻿using GGFanGame.Drawing;
+﻿using GameDevCommon.Drawing;
 using GGFanGame.Game;
 using GGFanGame.Game.HUD;
-using GGFanGame.Input;
+using GameDevCommon.Input;
 using GGFanGame.Screens.Menu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,7 +23,7 @@ namespace GGFanGame.Screens.Game
         {
             _stage = StageFactory.Create(Content, "grumpSpace", "dojo");
             _stage.LoadContent();
-            
+
             _oneStatus = new PlayerStatus(_stage.OnePlayer, PlayerIndex.One, Content);
             _twoStatus = new PlayerStatus(_stage.TwoPlayer, PlayerIndex.Two, Content);
             _threeStatus = new PlayerStatus(_stage.ThreePlayer, PlayerIndex.Three, Content);
@@ -48,7 +48,7 @@ namespace GGFanGame.Screens.Game
 
         internal override void RenderStage()
         {
-            _stage.Render();
+            //_stage.Render();
         }
 
         internal override void DrawStage(SpriteBatch batch = null)
@@ -67,7 +67,7 @@ namespace GGFanGame.Screens.Game
         public override void Update(GameTime time)
         {
             _stage.Update();
-            
+
             if (GetComponent<GamePadHandler>().ButtonPressed(PlayerIndex.One, Buttons.Start))
             {
                 GetComponent<ScreenManager>().SetScreen(new PauseScreen(this));
@@ -101,7 +101,7 @@ namespace GGFanGame.Screens.Game
                     if (_threeStatus != null && !_threeStatus.IsDisposed) _threeStatus.Dispose();
                     if (_fourStatus != null && !_fourStatus.IsDisposed) _fourStatus.Dispose();
                 }
-                
+
                 _oneStatus = null;
                 _twoStatus = null;
                 _threeStatus = null;

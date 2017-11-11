@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,14 +56,18 @@
     <Content Include="Content\Levels\Dojo\Wall1.png" />
     <Content Include="Content\Levels\Dojo\WoodFloor.png" />
     <Content Include="Content\Levels\Dojo\WoodPillar.png" />
+    <Content Include="Content\Levels\GrumpSpace\Main.png" />
+    <Content Include="Content\Levels\GrumpSpace\OfficeDoor.png" />
+    <Content Include="Content\Levels\GrumpSpace\PlayButton.png" />
+    <Content Include="Content\Levels\GrumpSpace\WoodenFloor.png" />
+    <Content Include="Content\Levels\GrumpSpace\WoodenWall.png" />
     <Content Include="Content\Levels\Stage1_1\stage.json" />
     <Content Include="Content\Levels\stages.json" />
     <None Include="Content\Levels\GrumpSpace\stage.json" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Levels\Dojo\Floor1.png" />
-    <Content Include="Content\Levels\GrumpSpace\Arcade0.png" />
-    <Content Include="Content\Levels\GrumpSpace\Couch.png" />
     <Content Include="Content\Levels\GrumpSpace\Posters\Brian.png" />
     <Content Include="Content\Levels\GrumpSpace\Posters\Goose.png" />
     <Content Include="Content\Levels\GrumpSpace\Posters\Larry.png" />
@@ -76,6 +81,7 @@
     <Content Include="Content\Music\Grump Space Loop.wav" />
     <Content Include="Content\Music\Smash1.mp3" />
     <Content Include="Content\Music\Smash2.mp3" />
+    <Content Include="Content\Shaders\Default.fx" />
     <Content Include="Content\Shaders\GaussianBlur.fx" />
     <Content Include="Content\Sounds\Intro\HardDudes.mp3" />
     <Content Include="Content\Sounds\Intro\Main.mp3" />
@@ -117,6 +123,7 @@
     <Content Include="Content\UI\Names\Suzy_name.png" />
     <Content Include="Content\UI\Pause\barry_pause.png" />
     <Content Include="Content\UI\Pause\paused_bubble.png" />
+    <Content Include="Content\UI\Portal\dot_overlay.png" />
     <Content Include="Content\UI\SaveBack.png" />
     <Content Include="ResourceNames.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -132,6 +139,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceNames.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.6.0.1625\lib\net40\MonoGame.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

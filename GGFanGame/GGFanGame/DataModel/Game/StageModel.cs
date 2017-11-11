@@ -20,6 +20,8 @@ namespace GGFanGame.DataModel.Game
         public string StageId;
         [DataMember(Name = "backColor")]
         public ColorModel BackColor;
+        [DataMember(Name = "light")]
+        public StageLightModel Light;
         [DataMember(Name = "scenes")]
         public StageSceneModel[] Scenes;
     }

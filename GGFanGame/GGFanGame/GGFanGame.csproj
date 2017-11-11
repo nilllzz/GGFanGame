@@ -49,13 +49,16 @@
     <Compile Include="ASCIIProvider.cs" />
     <Compile Include="BoundingBoxExtension.cs" />
     <Compile Include="Content\DataModelContentExtension.cs" />
+    <Compile Include="Content\EffectHelper.cs" />
     <Compile Include="Content\MusicPlayerHelper.cs" />
     <Compile Include="Content\TextRenderHelper.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="DataModel\Base\ColorModel.cs" />
+    <Compile Include="DataModel\Base\Vector3Model.cs" />
     <Compile Include="DataModel\DataModel.cs" />
     <Compile Include="DataModel\DataType.cs" />
     <Compile Include="DataModel\Game\GameSessionModel.cs" />
+    <Compile Include="DataModel\Game\StageLightModel.cs" />
     <Compile Include="DataModel\Game\StageListMapEntryModel.cs" />
     <Compile Include="DataModel\Game\StageListModel.cs" />
     <Compile Include="DataModel\Game\StageModel.cs" />
@@ -67,19 +70,10 @@
     <Compile Include="DataModel\Serizalitaion\JsonDataSerializer.cs" />
     <Compile Include="DataModel\Serizalitaion\SerializerFactory.cs" />
     <Compile Include="DataModel\Serizalitaion\XmlDataSerializer.cs" />
-    <Compile Include="Drawing\BlurHandler.cs" />
     <Compile Include="Drawing\Colors.cs" />
-    <Compile Include="Drawing\EllipseConfiguration.cs" />
-    <Compile Include="Drawing\GaussianBlur.cs" />
-    <Compile Include="Drawing\GradientConfiguration.cs" />
-    <Compile Include="Drawing\Palette.cs" />
-    <Compile Include="Drawing\ShapeRenderer.cs" />
-    <Compile Include="Drawing\SpriteBatchExtensions.cs" />
-    <Compile Include="Drawing\SpriteBatchUsage.cs" />
-    <Compile Include="FMOD\fmod.cs" />
-    <Compile Include="FMOD\fmod_dsp.cs" />
-    <Compile Include="FMOD\fmod_errors.cs" />
-    <Compile Include="FMOD\MusicPlayer.cs" />
+    <Compile Include="Drawing\StageShader.cs" />
+    <Compile Include="Drawing\DirectionalLightConfiguration.cs" />
+    <Compile Include="Drawing\PointLight.cs" />
     <Compile Include="GameController.cs" />
     <Compile Include="GameSessionManager.cs" />
     <Compile Include="Game\ActionWord.cs" />
@@ -91,9 +85,6 @@
     <Compile Include="Game\HUD\Bubble.cs" />
     <Compile Include="Game\HUD\PlayerStatus.cs" />
     <Compile Include="Game\InteractableStageObject.cs" />
-    <Compile Include="Game\Lighting\Cone.cs" />
-    <Compile Include="Game\Lighting\LightDirection.cs" />
-    <Compile Include="Game\Lighting\LightObject.cs" />
     <Compile Include="Game\ObjectFacing.cs" />
     <Compile Include="Game\ObjectState.cs" />
     <Compile Include="Game\Playable\Arin.cs" />
@@ -112,49 +103,26 @@
     <Compile Include="Game\StageObject.cs" />
     <Compile Include="Game\StageObjectAttribute.cs" />
     <Compile Include="Game\StageObjectCollection.cs" />
-    <Compile Include="Game\StageObjectRenderer.cs" />
     <Compile Include="Game\Stages\Dojo\FloorSide.cs" />
     <Compile Include="Game\Stages\Dojo\FloorCenter.cs" />
     <Compile Include="Game\Stages\Dojo\LightBeam.cs" />
     <Compile Include="Game\Stages\Dojo\Wall.cs" />
     <Compile Include="Game\Stages\Dojo\WoodPillar.cs" />
     <Compile Include="Game\Stages\GroundSplat.cs" />
-    <Compile Include="Game\Stages\GrumpSpace\ArcadeMachine.cs" />
-    <Compile Include="Game\Stages\GrumpSpace\ArcadeType.cs" />
-    <Compile Include="Game\Stages\GrumpSpace\Couch.cs" />
     <Compile Include="Game\Stages\Dojo\Enemies\Booper.cs" />
-    <Compile Include="Game\Stages\GrumpSpace\Poster.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\Barrel.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\GrumpSpacePortal.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\KnotPillar.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\OfficeDoor.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\AlbumAward.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\PlayButton.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\SteelPipe.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\ToyStoreSign.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\TriForceShield.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\WoodenWall.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\WoodenFloor.cs" />
     <Compile Include="Game\Stages\SplatBall.cs" />
-    <Compile Include="Input\ControlsHandler.cs" />
-    <Compile Include="Input\GamePadHandler.cs" />
-    <Compile Include="Input\InputControlType.cs" />
-    <Compile Include="Input\InputDirection.cs" />
-    <Compile Include="Input\InputDirectionType.cs" />
-    <Compile Include="Input\KeyboardHandler.cs" />
-    <Compile Include="Input\MouseButton.cs" />
-    <Compile Include="Input\MouseHandler.cs" />
-    <Compile Include="Input\ThumbStick.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rendering\Base3DObject.cs" />
-    <Compile Include="Rendering\Camera.cs" />
-    <Compile Include="Rendering\Composers\CircleComposer.cs" />
-    <Compile Include="Rendering\Composers\CuboidComposer.cs" />
-    <Compile Include="Rendering\Composers\CylinderComposer.cs" />
-    <Compile Include="Rendering\Composers\RectangleComposer.cs" />
-    <Compile Include="Rendering\Composers\TubeComposer.cs" />
-    <Compile Include="Rendering\Geometry.cs" />
-    <Compile Include="Rendering\GraphicsDeviceHelper.cs" />
-    <Compile Include="Rendering\I3DObject.cs" />
-    <Compile Include="Rendering\ObjectRenderer.cs" />
-    <Compile Include="Rendering\Texture\CuboidSide.cs" />
-    <Compile Include="Rendering\Texture\DefaultGeometryTextureDefinition.cs" />
-    <Compile Include="Rendering\Texture\GeometryTextureCuboidWrapper.cs" />
-    <Compile Include="Rendering\Texture\GeometryTextureMultiplier.cs" />
-    <Compile Include="Rendering\Texture\GeometryTexturePoleWrapper.cs" />
-    <Compile Include="Rendering\Texture\GeometryTextureRectangle.cs" />
-    <Compile Include="Rendering\Texture\IGeometryTextureDefintion.cs" />
-    <Compile Include="Rendering\VertexTransformer.cs" />
-    <Compile Include="RenderTargetManager.cs" />
     <Compile Include="Screens\DebugScreen\BoundingBoxRenderer.cs" />
     <Compile Include="Screens\DebugScreen\BoundingBoxTestScreen.cs" />
     <Compile Include="Screens\Game\StageScreen.cs" />
@@ -170,18 +138,17 @@
     <Compile Include="Screens\ScreenManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="LibTestTheThird">
-      <HintPath>..\..\..\..\..\Documents\Visual Studio 2017\Projects\LibTestTheThird\LibTestTheThird\bin\Debug\netstandard1.4\LibTestTheThird.dll</HintPath>
+    <Reference Include="GameDevCommon">
+      <HintPath>..\..\..\..\..\Documents\Visual Studio 2017\Projects\GameDevCommon\GameDevCommon\bin\Debug\GameDevCommon.dll</HintPath>
     </Reference>
-    <Reference Include="MonoGame.Framework, Version=3.5.1.1679, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.5.1.1679\lib\net40\MonoGame.Framework.dll</HintPath>
+    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.6.0.1625\lib\net40\MonoGame.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.3.0-preview1-24530-04\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.ValueTuple, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -191,9 +158,6 @@
     </MonoGameContentReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FMOD\fmod.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

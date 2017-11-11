@@ -1,8 +1,8 @@
-﻿using System;
-using GGFanGame.Drawing;
-using GGFanGame.Rendering;
-using GGFanGame.Rendering.Composers;
+﻿using GameDevCommon.Drawing;
+using GameDevCommon.Rendering;
+using GameDevCommon.Rendering.Composers;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GGFanGame.Game.Stages
 {
@@ -36,11 +36,11 @@ namespace GGFanGame.Game.Stages
 
             Initialize(color, new Vector3(xMovement, yMovement, zMovement));
         }
-        
+
         private void Initialize(Color color, Vector3 movement)
         {
             const int ellipseAmount = 3;
-            var ellipses = new (Rectangle Bounds, Color FillColor)[ellipseAmount];
+            var ellipses = new EllipseHelper.SimpleEllipse[ellipseAmount];
 
             for (var i = 0; i < ellipseAmount; i++)
             {
@@ -53,7 +53,7 @@ namespace GGFanGame.Game.Stages
                 ellipses[i].FillColor = color;
             }
 
-            SpriteSheet1 = new SpriteSheet(EllipseConfiguration.CreateJoinedEllipse(
+            SpriteSheet = new SpriteSheet(EllipseHelper.CreateJoined(
                 16,
                 16,
                 ellipses
@@ -78,7 +78,7 @@ namespace GGFanGame.Game.Stages
         {
             base.Update();
 
-            var groundY = ParentStage.GetGround(Position);
+            var groundY = ParentStage.GetSupporting(this).objY;
 
             if (Y <= groundY)
             {

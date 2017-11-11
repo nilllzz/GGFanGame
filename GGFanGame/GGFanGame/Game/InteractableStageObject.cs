@@ -17,9 +17,7 @@ namespace GGFanGame.Game
 
         #region Properties
 
-        protected SpriteSheet SpriteSheet1 { get; set; }
-
-        protected Texture2D SpriteSheet { get; set; }
+        protected SpriteSheet SpriteSheet { get; set; }
 
         /// <summary>
         /// The current state of this object.
@@ -40,16 +38,6 @@ namespace GGFanGame.Game
         /// The delay between frames of animation.
         /// </summary>
         protected double AnimationDelay { get; private set; } = 0f;
-
-        /// <summary>
-        /// If the default draw void should draw a shadow.
-        /// </summary>
-        protected bool DrawShadow { get; set; } = true;
-
-        /// <summary>
-        /// The size of the default shadow, relative to 1.
-        /// </summary>
-        protected double ShadowSize { get; set; } = 1f;
 
         /// <summary>
         /// If this object falls when in the air.
@@ -85,37 +73,6 @@ namespace GGFanGame.Game
         protected void AddAnimation(ObjectState state, Animation animation)
         {
             _animations.Add(state, animation);
-        }
-
-        public void Draw(SpriteBatch batch)
-        {
-            //var frame = GetAnimation().GetFrameRec(AnimationFrame);
-            //var stageScale = ParentStage.Camera.Scale;
-
-            //if (DrawShadow)
-            //{
-            //    var shadowWidth = (int)(frame.Width * ShadowSize);
-            //    var shadowHeight = (int)(frame.Height * ShadowSize * (1d / 4d));
-
-            //    batch.DrawEllipse(new Rectangle((int)((X - shadowWidth / 2d) * stageScale),
-            //               (int)((Z - shadowHeight / 2d - ParentStage.GetGround(Position)) * stageScale),
-            //               (int)(shadowWidth * stageScale),
-            //               (int)(shadowHeight * stageScale)),
-            //               ParentStage.AmbientColor, stageScale); // TODO: maybe, we have the shadow fade away when the player jumps?
-            //}
-
-            //// Flip the sprite if facing the other way.
-            //var effect = Facing == ObjectFacing.Left ? 
-            //    SpriteEffects.FlipHorizontally : 
-            //    SpriteEffects.None;
-
-            //batch.Draw(SpriteSheet, new Rectangle((int)((X - frame.Width / 2d) * stageScale),
-            //                                                         (int)((Z - Y - frame.Height) * stageScale),
-            //                                                         (int)(frame.Width * stageScale),
-            //                                                         (int)(frame.Height * stageScale)),
-            //                                           frame, Color.White, 0f, Vector2.Zero, effect, 0f);
-
-            //DrawActionHint(batch);
         }
 
         /// <summary>
@@ -181,7 +138,7 @@ namespace GGFanGame.Game
         public override void Update()
         {
             //Item1 is the actual object and Item2 is the Y position:
-            var (supportingObj, objY) = ParentStage.GetSupporting(GetFeetPosition());
+            var (supportingObj, objY) = ParentStage.GetSupporting(this);
             UpdateSupporting(supportingObj);
             UpdateAutoMovement(objY);
 
@@ -206,7 +163,7 @@ namespace GGFanGame.Game
                 }
             }
 
-            Texture = SpriteSheet1.GetPart(GetAnimation().GetFrameRec(AnimationFrame), Facing == ObjectFacing.Left);
+            Texture = SpriteSheet.GetPart(GetAnimation().GetFrameRec(AnimationFrame), Facing == ObjectFacing.Left);
             CreateWorld();
         }
 
@@ -262,6 +219,10 @@ namespace GGFanGame.Game
         /// </summary>
         private void UpdateAutoMovement(float groundY)
         {
+            // originally, the game was programmed with 1 current unit == 64 units
+            // to combat this, the factor will divide speed by 64.
+            const float factor = 1 / 64f;
+
             var timeDelta = ParentStage.TimeDelta;
 
             if (AutoMovement.X > 0f)
@@ -307,9 +268,9 @@ namespace GGFanGame.Game
                     AutoMovement.Z = 0f;
             }
 
-            Y += AutoMovement.Y * timeDelta;
+            Y += AutoMovement.Y * timeDelta * factor;
 
-            var autoMovementAdjusted = AutoMovement * timeDelta;
+            var autoMovementAdjusted = AutoMovement * timeDelta * factor;
             var desiredPos = new Vector3(X + autoMovementAdjusted.X, Y, Z + autoMovementAdjusted.Z);
 
             if (autoMovementAdjusted.X != 0f || autoMovementAdjusted.Z != 0f)

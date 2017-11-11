@@ -1,6 +1,6 @@
 ﻿using GGFanGame.Content;
-using GGFanGame.Drawing;
-using GGFanGame.Input;
+using GameDevCommon.Drawing;
+using GameDevCommon.Input;
 using GGFanGame.Screens.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -122,7 +122,7 @@ namespace GGFanGame.Screens.Menu
                     - DANNY_HEAD_SIZE / 2f
                     - (GameInstance.ClientRectangle.Width / 2f) * (1f - _mainIntro)),
                 (int)(240 + floatingOffset * -5f),
-                240, 240), new Rectangle(dannyHeadIndex * DANNY_HEAD_SIZE, 0, DANNY_HEAD_SIZE, DANNY_HEAD_SIZE),
+                240, 240), new Rectangle(dannyHeadIndex * DANNY_HEAD_SIZE, 100, DANNY_HEAD_SIZE, DANNY_HEAD_SIZE),
                 Color.White, -60 * ((1f - _mainIntro) / 10f), new Vector2(DANNY_HEAD_SIZE / 2f, DANNY_HEAD_SIZE / 2f), SpriteEffects.None, 0f);
 
             var subtitleWidth = _hardDudesLogo.Width * (floatingOffset + 10) / 10f;
@@ -140,7 +140,7 @@ namespace GGFanGame.Screens.Menu
 
             var headX = 0f;
             var titleX = 0f;
-            int headTexture = 0;
+            var headTexture = 0;
 
             if (_arinHeadIntro <= 0.2f)
             {
@@ -178,7 +178,7 @@ namespace GGFanGame.Screens.Menu
                     + state * GameInstance.Window.ClientBounds.Width
                     - 400;
             }
-            
+
             _batch.Draw(_arinHead,
                 new Rectangle((int)headX, GameInstance.ClientRectangle.Height / 2 - headSize / 2, headSize, headSize),
                 new Rectangle(headTexture * ARIN_HEAD_SIZE, 0, ARIN_HEAD_SIZE, ARIN_HEAD_SIZE), Color.White);
@@ -193,6 +193,7 @@ namespace GGFanGame.Screens.Menu
 
             var headX = 0f;
             var titleX = 0f;
+            var headTexture = 0;
 
             if (_dannyHeadIntro <= 0.2f)
             {
@@ -214,6 +215,8 @@ namespace GGFanGame.Screens.Menu
                 titleX = GameInstance.Window.ClientBounds.Width / 2f
                     - 300
                     + 10f * state;
+
+                headTexture = (int)(state * 10);
             }
             else
             {
@@ -231,7 +234,7 @@ namespace GGFanGame.Screens.Menu
 
             _batch.Draw(_dannyHead,
                 new Rectangle((int)headX, GameInstance.ClientRectangle.Height / 2 - headSize / 2, headSize, headSize),
-                new Rectangle(0, 0, DANNY_HEAD_SIZE, DANNY_HEAD_SIZE), Color.White);
+                new Rectangle(headTexture * DANNY_HEAD_SIZE, 0, DANNY_HEAD_SIZE, DANNY_HEAD_SIZE), Color.White);
 
             TextRenderHelper.RenderGrumpText(_fontBatch, _grumpFont, "DANNY",
                 new Vector2(titleX, GameInstance.ClientRectangle.Height - 180), 1.5f);
@@ -357,7 +360,7 @@ namespace GGFanGame.Screens.Menu
             if (_mainIntro == 1f)
             {
                 _contentFloat += 0.07f;
-                
+
                 if (_hardDudesDelay > 0)
                 {
                     _hardDudesDelay--;
@@ -408,7 +411,7 @@ namespace GGFanGame.Screens.Menu
         private void StartGame()
         {
             GetComponent<GameSessionManager>().Load();
-            GetComponent<ScreenManager>().SetScreen(new TransitionScreen(this, new GrumpSpaceScreen()));
+            GetComponent<ScreenManager>().SetScreen(new TransitionScreen(this, new GrumpSpaceScreen("grumpSpace", "main", new Vector3(-4, 0.05f, -4))));
         }
 
         protected override void Dispose(bool disposing)

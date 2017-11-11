@@ -4,6 +4,7 @@ using GGFanGame.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static Core;
+using GameDevCommon.Drawing;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -15,7 +16,7 @@ namespace GGFanGame.Screens.Menu
         internal override bool ReplacePrevious => false;
 
         private SpriteBatch _batch;
-        private readonly Texture2D _gg_overlay;
+        private readonly Texture2D _ggOverlay;
         private float _overlaySize = 80f;
         private float _rotation;
 
@@ -28,7 +29,7 @@ namespace GGFanGame.Screens.Menu
         public TransitionScreen(Screen outScreen, Screen inScreen)
         {
             _batch = new SpriteBatch(GameInstance.GraphicsDevice);
-            _gg_overlay = GameInstance.Content.Load<Texture2D>(Resources.UI.Logos.GameGrumpsTransition);
+            _ggOverlay = GameInstance.Content.Load<Texture2D>(Resources.UI.Logos.GameGrumpsTransition);
             _outScreen = outScreen;
             _inScreen = inScreen;
         }
@@ -45,15 +46,15 @@ namespace GGFanGame.Screens.Menu
             if (_overlaySize > 0)
             {
                 // Render the rotating logo:
-                _batch.Draw(_gg_overlay, new Rectangle(GameController.RENDER_WIDTH / 2,
+                _batch.Draw(_ggOverlay, new Rectangle(GameController.RENDER_WIDTH / 2,
                                                         GameController.RENDER_HEIGHT / 2,
-                                                        (int)(_gg_overlay.Width * _overlaySize),
-                                                        (int)(_gg_overlay.Height * _overlaySize)),
-                    null, Color.White, _rotation, new Vector2(_gg_overlay.Width / 2, _gg_overlay.Height / 2), SpriteEffects.None, 0f);
+                                                        (int)(_ggOverlay.Width * _overlaySize),
+                                                        (int)(_ggOverlay.Height * _overlaySize)),
+                    null, Color.White, _rotation, new Vector2(_ggOverlay.Width / 2, _ggOverlay.Height / 2), SpriteEffects.None, 0f);
 
                 // Get the space between the edges of the screen and the logo.
-                var diffX = GameController.RENDER_WIDTH - (_gg_overlay.Width * _overlaySize);
-                var diffY = GameController.RENDER_HEIGHT - (_gg_overlay.Height * _overlaySize);
+                var diffX = GameController.RENDER_WIDTH - (_ggOverlay.Width * _overlaySize);
+                var diffY = GameController.RENDER_HEIGHT - (_ggOverlay.Height * _overlaySize);
 
                 var addSide = (int)(160 * _overlaySize);
 
@@ -90,6 +91,7 @@ namespace GGFanGame.Screens.Menu
                     _outScreen.Close(); // the screen closes once the transition animation is over.
                     _overlaySize = 0.01f;
                     _outro = false;
+                    _inScreen.LoadContent();
                 }
             }
             else

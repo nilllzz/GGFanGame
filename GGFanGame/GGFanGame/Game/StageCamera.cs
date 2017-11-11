@@ -1,6 +1,7 @@
-﻿using GGFanGame.Rendering;
+﻿using GameDevCommon.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using static Core;
 
 namespace GGFanGame.Game
 {
@@ -34,7 +35,11 @@ namespace GGFanGame.Game
 
         private void CreatePosition()
         {
-            Position = new Vector3(FollowObject.X, 48f * ZoomLevel + 16, FollowObject.Z + 128f * ZoomLevel);
+            var offset = new Vector3(0, 0.75f * ZoomLevel + 0.25f, 2f * ZoomLevel);
+            var mat = Matrix.CreateFromYawPitchRoll(Yaw, 0, 0);
+            Position = Vector3.Transform(offset, mat) + new Vector3(FollowObject.X, 0, FollowObject.Z);
+
+            //Position = new Vector3(FollowObject.X, 0.75f * ZoomLevel + 0.25f, FollowObject.Z + 2f * ZoomLevel);
         }
     }
 }

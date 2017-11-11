@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using static Core;
+using GameDevCommon.Drawing;
+using GameDevCommon;
 
 namespace GGFanGame.Game.HUD
 {

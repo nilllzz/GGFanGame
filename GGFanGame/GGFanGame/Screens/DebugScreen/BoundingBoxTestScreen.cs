@@ -1,5 +1,5 @@
 ﻿using GGFanGame.Game;
-using GGFanGame.Input;
+using GameDevCommon.Input;
 using Microsoft.Xna.Framework;
 using static Core;
 
@@ -36,16 +36,7 @@ namespace GGFanGame.Screens.Debug
         {
             foreach (var obj in Stage.ActiveStage.Objects)
             {
-                var boxes = obj.BoundingBoxes;
-
-                //When the object does not have defined bounding boxes, take the default bounding box.
-                if (boxes.Length == 0)
-                    boxes = new BoundingBox[] { obj.BoundingBox };
-
-                foreach (var box in boxes)
-                {
-                    BoundingBoxRenderer.Render(box, GameInstance.GraphicsDevice, _view, _projection, obj.ObjectColor);
-                }
+                BoundingBoxRenderer.Render(obj.BoundingBox, GameInstance.GraphicsDevice, _view, _projection, obj.ObjectColor);
             }
         }
 
@@ -53,10 +44,10 @@ namespace GGFanGame.Screens.Debug
         {
             var gamePadHandler = GetComponent<GamePadHandler>();
 
-            var inRight = gamePadHandler.GetThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Right) * 0.1f;
-            var inLeft = gamePadHandler.GetThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Left) * 0.1f;
-            var inUp = gamePadHandler.GetThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Up) * 0.1f;
-            var inDown = gamePadHandler.GetThumbStickDirection(PlayerIndex.One, Input.ThumbStick.Right, Input.InputDirection.Down) * 0.1f;
+            var inRight = gamePadHandler.GetThumbStickDirection(PlayerIndex.One, ThumbStick.Right, InputDirection.Right) * 0.1f;
+            var inLeft = gamePadHandler.GetThumbStickDirection(PlayerIndex.One, ThumbStick.Right, InputDirection.Left) * 0.1f;
+            var inUp = gamePadHandler.GetThumbStickDirection(PlayerIndex.One, ThumbStick.Right, InputDirection.Up) * 0.1f;
+            var inDown = gamePadHandler.GetThumbStickDirection(PlayerIndex.One, ThumbStick.Right, InputDirection.Down) * 0.1f;
 
             _yaw += inLeft;
             _yaw -= inRight;

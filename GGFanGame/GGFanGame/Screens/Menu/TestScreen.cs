@@ -1,5 +1,5 @@
-﻿using GGFanGame.Drawing;
-using GGFanGame.Input;
+﻿using GameDevCommon.Drawing;
+using GameDevCommon.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

@@ -47,6 +47,8 @@ namespace GGFanGame.Screens
             }
         }
 
+        public virtual void LoadContent() { }
+
         /// <summary>
         /// Draws the screen.
         /// </summary>
@@ -63,7 +65,7 @@ namespace GGFanGame.Screens
         public virtual void Close() => Dispose();
 
         /// <summary>
-        /// Gets called when hte screen gets opened by the ScreenManager.
+        /// Gets called when the screen gets opened by the ScreenManager.
         /// </summary>
         public virtual void Open() { }
 

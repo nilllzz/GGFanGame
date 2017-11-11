@@ -27,5 +27,5 @@ internal static class Core
     /// Gets a component of the game.
     /// </summary>
     internal static T GetComponent<T>() where T : Microsoft.Xna.Framework.IGameComponent
-        => GameInstance.GetComponent<T>();
+        => GameInstance.GetComponentManager().GetComponent<T>();
 }

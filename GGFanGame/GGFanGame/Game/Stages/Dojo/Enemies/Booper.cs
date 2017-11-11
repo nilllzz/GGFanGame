@@ -1,6 +1,6 @@
 ﻿using GGFanGame.Content;
-using GGFanGame.Rendering;
-using GGFanGame.Rendering.Composers;
+using GameDevCommon.Rendering;
+using GameDevCommon.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -16,8 +16,6 @@ namespace GGFanGame.Game.Stages.Dojo.Enemies
 
         public Booper()
         {
-            DrawShadow = true;
-            ShadowSize = 0.6d;
             Strength = 0f;
             Weight = 4f;
             State = ObjectState.Idle;
@@ -34,7 +32,7 @@ namespace GGFanGame.Game.Stages.Dojo.Enemies
 
         protected override void LoadContentInternal()
         {
-            SpriteSheet1 = new SpriteSheet(ParentStage.Content.Load<Texture2D>(Resources.Sprites.Booper));
+            SpriteSheet = new SpriteSheet(ParentStage.Content.Load<Texture2D>(Resources.Sprites.Booper));
         }
 
         protected override void CreateGeometry()

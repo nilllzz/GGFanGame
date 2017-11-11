@@ -1,5 +1,5 @@
-﻿using GGFanGame.Drawing;
-using GGFanGame.Rendering.Composers;
+﻿using GameDevCommon.Drawing;
+using GameDevCommon.Rendering.Composers;
 using Microsoft.Xna.Framework;
 
 namespace GGFanGame.Game.Stages
@@ -24,7 +24,7 @@ namespace GGFanGame.Game.Stages
         protected override void LoadContentInternal()
         {
             const int ellipseAmount = 8;
-            var ellipses = new (Rectangle Bounds, Color FillColor)[ellipseAmount];
+            var ellipses = new EllipseHelper.SimpleEllipse[ellipseAmount];
             var random = ParentStage.Random;
 
             for (var i = 0; i < ellipseAmount; i++)
@@ -38,7 +38,7 @@ namespace GGFanGame.Game.Stages
                 ellipses[i].FillColor = ObjectColor;
             }
 
-            SpriteSheet1 = new SpriteSheet(EllipseConfiguration.CreateJoinedEllipse(
+            SpriteSheet = new SpriteSheet(EllipseHelper.CreateJoined(
                 64,
                 64,
                 ellipses

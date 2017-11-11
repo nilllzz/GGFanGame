@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using GameDevCommon.Drawing;
 using GGFanGame.Content;
 using GGFanGame.DataModel.Game;
+using GGFanGame.Drawing;
 using GGFanGame.Game.Playable;
-using GGFanGame.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static Core;
 
 namespace GGFanGame.Game
@@ -15,7 +16,7 @@ namespace GGFanGame.Game
     /// <summary>
     /// Represents a level in the game.
     /// </summary>
-    internal class Stage
+    internal class Stage : IDisposable
     {
         #region ActiveStage
 
@@ -35,23 +36,18 @@ namespace GGFanGame.Game
         #endregion
 
         private StageModel _dataModel;
-        private readonly float _yDefaultKillPlane = -0f;
-        private readonly ObjectRenderer _renderer;
-        private readonly StageObjectCollection _objects;
+        private readonly float _yDefaultKillPlane = float.MinValue;
+        private StageShader _shader;
+        private StageObjectCollection _objects;
 
         public IEnumerable<StageObject> Objects => _objects;
-        internal StageCamera Camera { get; private set; }
         /// <summary>
         /// How fast the time in the game moves. 1 is default, 0 is not moving.
         /// </summary>
         internal float TimeDelta { get; set; } = 1f;
-        internal ContentManager Content { get; }
-        internal Random Random { get; } = new Random();
-        /// <summary>
-        /// The ambient shadow color in this stage.
-        /// </summary>
-        public Color AmbientColor { get; private set; } = new Color(0, 0, 0, 100); //Used for shadow color
-        
+        internal ContentManager Content { get; private set; }
+        internal Random Random { get; private set; } = new Random();
+
         public string Name => _dataModel.Name;
         public string WorldId => _dataModel.WorldId;
         public string StageId => _dataModel.StageId;
@@ -73,20 +69,23 @@ namespace GGFanGame.Game
 
             _dataModel = dataModel;
             _objects = new StageObjectCollection(objects.ToArray());
-            _renderer = new StageObjectRenderer();
         }
 
         public void LoadContent()
         {
             SetActiveStage();
 
-            OnePlayer = new Arin(PlayerIndex.One) { X = 0, Y = 0.1f, Z = 0 };
-            //TwoPlayer = new Arin(PlayerIndex.Two) { X = 320, Z = 230 };
+            _shader = new StageShader(Content);
+            _shader.SetDirectionalLight(_dataModel.Light.Config);
+            _shader.AddPointLight(new PointLight(position: new Vector3(-3, 2, -4), color: Color.White, radius: 3, intensity: 2));
+
+            OnePlayer = new Arin(PlayerIndex.One) { X = -4, Y = 0.1f, Z = -4 };
+            //TwoPlayer = new Arin(PlayerIndex.Two) { X = 0, Y = 0.1f, Z = 0 };
             //ThreePlayer = new Arin(PlayerIndex.Three) { X = 50, Z = 230 };
             //FourPlayer = new Arin(PlayerIndex.Four) { X = 50, Z = 200 };
 
             AddObject(OnePlayer);
-            //_objects.Add(TwoPlayer);
+            //AddObject(TwoPlayer);
             //_objects.Add(ThreePlayer);
             //_objects.Add(FourPlayer);
 
@@ -95,28 +94,24 @@ namespace GGFanGame.Game
                 o.ParentStage = this;
                 o.LoadContent();
             });
-
-            Camera = new StageCamera(OnePlayer);
-            _renderer.LoadContent();
         }
 
         /// <summary>
         /// Renders the objects in this stage.
         /// </summary>
-        public void Render()
+        public void Render(StageCamera camera)
         {
             GameInstance.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, BackColor, 1.0f, 0);
-            GraphicsDeviceHelper.ResetGraphicsDevice();
+            GameInstance.GraphicsDevice.ResetFull();
 
-            _renderer.PrepareRender(Camera);
+            _shader.Prepare(camera);
 
             GameInstance.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             foreach (var obj in _objects.OpaqueObjects)
-                _renderer.Render(obj);
+                _shader.Render(obj);
 
-            GameInstance.GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
             foreach (var obj in _objects.TransparentObjects)
-                _renderer.Render(obj);
+                _shader.Render(obj);
         }
 
         /// <summary>
@@ -127,7 +122,7 @@ namespace GGFanGame.Game
             //TEST: Object counter.
             batch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall), _objects.Count.ToString(), Vector2.Zero, Color.White);
         }
-        
+
         /// <summary>
         /// Updates and sorts the objects in this stage.
         /// </summary>
@@ -150,8 +145,6 @@ namespace GGFanGame.Game
                     }
                 }
             }
-
-            Camera.Update();
         }
 
         /// <summary>
@@ -162,6 +155,11 @@ namespace GGFanGame.Game
             obj.ParentStage = this;
             obj.LoadContent();
             _objects.Add(obj);
+        }
+
+        internal void AddPointLight(PointLight light)
+        {
+            _shader.AddPointLight(light);
         }
 
         /// <summary>
@@ -256,47 +254,32 @@ namespace GGFanGame.Game
         }
 
         /// <summary>
-        /// Returns the altitute of the ground for a specific position.
-        /// </summary>
-        public float GetGround(Vector3 position)
-            => GetSupporting(position).objY;
-
-        /// <summary>
         /// Returns the supporting object and its Y height for a position.
         /// </summary>
         /// <param name="position">The position to check the supporting object for.</param>
-        public (StageObject supportingObject, float objY) GetSupporting(Vector3 position)
+        public (StageObject supportingObject, float objY) GetSupporting(StageObject chkObj)
         {
             var returnY = _yDefaultKillPlane;
             StageObject returnObj = null;
+            var chkBox = chkObj.BoundingBox;
+            var minY = chkBox.Min.Y;
 
-            if (position.Y > 0f)
+            foreach (var obj in Objects)
             {
-                var twoDimPoint = new Vector2(position.X, position.Z);
-
-                foreach (var obj in Objects)
+                if (obj.CanLandOn)
                 {
-                    if (obj.CanLandOn)
+                    var box = obj.BoundingBox;
+                    var topY = box.Max.Y;
+
+                    if (topY <= minY && topY > returnY)
                     {
-                        var boxes = obj.BoundingBoxes;
-
-                        //When the object does not have defined bounding boxes, take the default bounding box.
-                        if (boxes.Length == 0)
-                            boxes = new BoundingBox[] { obj.BoundingBox };
-
-                        foreach (var box in boxes)
+                        if (chkBox.Min.X < box.Max.X &&
+                            box.Min.X < chkBox.Max.X &&
+                            chkBox.Min.Z < box.Max.Z &&
+                            box.Min.Z < chkBox.Max.Z)
                         {
-                            var topY = box.Max.Y;
-                            var twoDimPlane = new Rectangle((int)box.Min.X, (int)box.Min.Z, (int)(box.Max.X - box.Min.X), (int)(box.Max.Z - box.Min.Z));
-
-                            if (topY <= position.Y && topY > returnY)
-                            {
-                                if (twoDimPlane.Contains(twoDimPoint))
-                                {
-                                    returnY = topY;
-                                    returnObj = obj;
-                                }
-                            }
+                            returnY = topY;
+                            returnObj = obj;
                         }
                     }
                 }
@@ -321,28 +304,16 @@ namespace GGFanGame.Game
         /// </summary>
         public StageObject CheckCollision(StageObject chkObj, Vector3 desiredPosition)
         {
-            //Create bounding box out of the desired position to check for collision with other bounding boxes.
-            //We add 0.1 to the Y position so we don't get stuck in the floor.
-            //The destination box is basically a line from the feet of the object with the height of its own height.
-            //This way, it is consistent with the way we check for ground.
-            var destinationBox = new BoundingBox(desiredPosition + new Vector3(0, 0.1f, 0), desiredPosition + new Vector3(0, 0.1f + (chkObj.BoundingBox.Max.Y - chkObj.BoundingBox.Min.Y), 0));
-
+            var destinationBox = chkObj.BoundingBox.Offset(desiredPosition - chkObj.Position + new Vector3(0, 0.1f, 0));
             foreach (var obj in Objects)
             {
                 if (obj != chkObj && obj.Collision)
                 {
-                    var boxes = obj.BoundingBoxes;
+                    var box = obj.BoundingBox;
 
-                    //When the object does not have defined bounding boxes, take the default bounding box.
-                    if (boxes.Length == 0)
-                        boxes = new BoundingBox[] { obj.BoundingBox };
-
-                    foreach (var box in boxes)
+                    if (box.Intersects(destinationBox))
                     {
-                        if (box.Intersects(destinationBox))
-                        {
-                            return obj;
-                        }
+                        return obj;
                     }
                 }
             }
@@ -362,6 +333,42 @@ namespace GGFanGame.Game
             if (FourPlayer != null)
                 players.Add(FourPlayer);
             return players;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        ~Stage()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                if (disposing)
+                {
+                    if (_shader != null && !_shader.IsDisposed) _shader.Dispose();
+                    if (_objects != null)
+                    {
+                        foreach (var obj in _objects)
+                        {
+                            if (obj != null && !obj.IsDisposed)
+                                obj.Dispose();
+                        }
+                    }
+                }
+
+                _objects = null;
+                Content = null;
+                Random = null;
+                _dataModel = null;
+                _shader = null;
+                IsDisposed = true;
+            }
         }
     }
 }

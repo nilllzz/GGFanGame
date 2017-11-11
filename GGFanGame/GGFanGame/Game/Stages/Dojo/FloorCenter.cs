@@ -1,5 +1,5 @@
 ﻿using GGFanGame.Content;
-using GGFanGame.Rendering.Composers;
+using GameDevCommon.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,7 +11,6 @@ namespace GGFanGame.Game.Stages.Dojo
         public FloorSide()
         {
             Size = new Vector3(64, 1, 64);
-            DrawShadow = false;
             Collision = true;
             CanLandOn = true;
             GravityAffected = false;
@@ -21,7 +20,7 @@ namespace GGFanGame.Game.Stages.Dojo
 
         protected override void LoadContentInternal()
         {
-            SpriteSheet1 = new SpriteSheet(ParentStage.Content.Load<Texture2D>(Resources.Levels.Dojo.WoodFloor));
+            SpriteSheet = new SpriteSheet(ParentStage.Content.Load<Texture2D>(Resources.Levels.Dojo.WoodFloor));
         }
 
         protected override void CreateGeometry()

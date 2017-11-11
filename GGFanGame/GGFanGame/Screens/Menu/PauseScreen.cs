@@ -1,12 +1,13 @@
 ﻿using GGFanGame.Content;
-using GGFanGame.Drawing;
+using GameDevCommon.Drawing;
 using GGFanGame.Game;
-using GGFanGame.Input;
+using GameDevCommon.Input;
 using GGFanGame.Screens.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using static Core;
+using GameDevCommon;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -47,12 +48,12 @@ namespace GGFanGame.Screens.Menu
             if (IsDisposed) return;
 
             // create texture of pre screen
-            RenderTargetManager.BeginRenderScreenToTarget(_target);
+            RenderTargetManager.BeginRenderToTarget(_target);
             _preScreen.RenderStage();
             _batch.Begin(SpriteBatchUsage.Default);
             _preScreen.DrawStage(_batch);
             _batch.End();
-            RenderTargetManager.EndRenderScreenToTarget();
+            RenderTargetManager.EndRenderToTarget();
 
             _batch.Begin(SpriteBatchUsage.Default);
             _fontBatch.Begin(SpriteBatchUsage.Font);

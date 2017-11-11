@@ -25,7 +25,7 @@ namespace GGFanGame.Game.Playable
 
         protected override void LoadContentInternal()
         {
-            SpriteSheet = GameInstance.Content.Load<Texture2D>(Resources.Sprites.ArinLemon);
+            //SpriteSheet = GameInstance.Content.Load<Texture2D>(Resources.Sprites.ArinLemon);
         }
 
         public override void Update()

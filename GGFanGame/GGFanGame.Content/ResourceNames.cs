@@ -26,8 +26,9 @@ namespace GGFanGame.Content
             
             public static class GrumpSpace
             {
-                public const string Arcade0 = "Levels/GrumpSpace/Arcade0";
-                public const string Couch = "Levels/GrumpSpace/Couch";
+                public const string Main = "Levels/GrumpSpace/Main";
+                public const string OfficeDoor = "Levels/GrumpSpace/OfficeDoor";
+                public const string PlayButton = "Levels/GrumpSpace/PlayButton";
                 
                 public static class Posters
                 {
@@ -38,6 +39,8 @@ namespace GGFanGame.Content
                     public const string UpDog = "Levels/GrumpSpace/Posters/UpDog";
                 }
                 public const string stage = "Levels/GrumpSpace/stage";
+                public const string WoodenFloor = "Levels/GrumpSpace/WoodenFloor";
+                public const string WoodenWall = "Levels/GrumpSpace/WoodenWall";
             }
             
             public static class Stage1_1
@@ -61,6 +64,7 @@ namespace GGFanGame.Content
         
         public static class Shaders
         {
+            public const string Default = "Shaders/Default";
             public const string GaussianBlur = "Shaders/GaussianBlur";
         }
         
@@ -141,6 +145,11 @@ namespace GGFanGame.Content
             {
                 public const string barry_pause = "UI/Pause/barry_pause";
                 public const string paused_bubble = "UI/Pause/paused_bubble";
+            }
+            
+            public static class Portal
+            {
+                public const string dot_overlay = "UI/Portal/dot_overlay";
             }
             public const string SaveBack = "UI/SaveBack";
         }

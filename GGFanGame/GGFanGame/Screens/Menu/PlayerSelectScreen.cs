@@ -1,7 +1,7 @@
 ﻿using System;
 using GGFanGame.Content;
-using GGFanGame.Drawing;
-using GGFanGame.Input;
+using GameDevCommon.Drawing;
+using GameDevCommon.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -136,7 +136,10 @@ namespace GGFanGame.Screens.Menu
             //When the player has NOT chosen a character, draw a colored overlay:
             if (!_activatedPlayers[index])
             {
-                _batch.Draw(_grumps_overlay[_selections[index]], new Rectangle((int)offset.X + 20, (int)(offset.Y + 180 + addedY), (int)(_grumps[_selections[index]].Width * 0.5), (int)(_grumps[_selections[index]].Height * 0.5)), new Color(color.R, color.G, color.B, 180));
+                _batch.Draw(_grumps_overlay[_selections[index]],
+                    new Rectangle((int)offset.X + 20, (int)(offset.Y + 180 + addedY),
+                    (int)(_grumps[_selections[index]].Width * 0.5), (int)(_grumps[_selections[index]].Height * 0.5)),
+                    new Color((int)color.R, (int)color.G, (int)color.B, 180));
             }
             else //otherwise...
             {
@@ -181,12 +184,12 @@ namespace GGFanGame.Screens.Menu
                     }
                     else
                     {
-                        if (GetComponent<ControlsHandler>().UpPressed(playerIndex, new Input.InputDirectionType[] { Input.InputDirectionType.All }))
+                        if (GetComponent<ControlsHandler>().UpPressed(playerIndex, new InputDirectionType[] { InputDirectionType.All }))
                         {
                             _selections[i]--;
                             _switchedAnimations[i] = 10;
                         }
-                        if (GetComponent<ControlsHandler>().DownPressed(playerIndex, new Input.InputDirectionType[] { Input.InputDirectionType.All }))
+                        if (GetComponent<ControlsHandler>().DownPressed(playerIndex, new InputDirectionType[] { InputDirectionType.All }))
                         {
                             _selections[i]++;
                             _switchedAnimations[i] = 10;

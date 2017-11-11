@@ -23,7 +23,7 @@ namespace GGFanGame.Game
 
         internal Texture2D GetPart(Rectangle rectangle, bool flipped = false)
         {
-            var settings = new SpriteSetting
+            var setting = new SpriteSetting
             {
                 Flipped = flipped,
                 Rectangle = rectangle
@@ -35,7 +35,7 @@ namespace GGFanGame.Game
             }
             else
             {
-                if (!_parts.TryGetValue(settings, out Texture2D part))
+                if (!_parts.TryGetValue(setting, out Texture2D part))
                 {
                     var data = new Color[rectangle.Width * rectangle.Height];
                     _texture.GetData(0, rectangle, data, 0, data.Length);
@@ -45,7 +45,7 @@ namespace GGFanGame.Game
 
                     part = new Texture2D(GameInstance.GraphicsDevice, rectangle.Width, rectangle.Height);
                     part.SetData(data);
-                    _parts.Add(settings, part);
+                    _parts.Add(setting, part);
                 }
 
                 return part;

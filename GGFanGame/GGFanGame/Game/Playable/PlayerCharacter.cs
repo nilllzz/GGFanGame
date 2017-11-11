@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GGFanGame.Input;
+using GameDevCommon.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using static Core;
@@ -23,7 +23,7 @@ namespace GGFanGame.Game.Playable
         /// <summary>
         /// The speed of this player character.
         /// </summary>
-        protected float PlayerSpeed { get; set; } = 4f;
+        protected float PlayerSpeed { get; set; } = 0.0625f;
 
         /// <summary>
         /// The name of this player character.
@@ -63,7 +63,7 @@ namespace GGFanGame.Game.Playable
         /// The maximum amount of grump power.
         /// </summary>
         public abstract int MaxGrumpPower { get; }
-        
+
         /// <summary>
         /// Creates a new instance of the player character class.
         /// </summary>
@@ -80,7 +80,7 @@ namespace GGFanGame.Game.Playable
         {
             _attacks.Add(comboChain, combo);
         }
-        
+
         public override void Update()
         {
             UpdateState();
@@ -139,7 +139,7 @@ namespace GGFanGame.Game.Playable
         private void UpdateState()
         {
             var setToState = ObjectState.Idle;
-            var groundY = ParentStage.GetGround(GetFeetPosition());
+            var groundY = ParentStage.GetSupporting(this).objY;
             GravityAffected = true;
 
             if (State == ObjectState.Dead)
@@ -343,7 +343,7 @@ namespace GGFanGame.Game.Playable
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X + PlayerSpeed * gamePadHandler.GetThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Right), Y, Z);
+                    var desiredPosition = new Vector3(X + PlayerSpeed * gamePadHandler.GetThumbStickDirection(_playerIndex, ThumbStick.Left, InputDirection.Right), Y, Z);
 
                     if (!ParentStage.Intersects(this, desiredPosition))
                         X = desiredPosition.X;
@@ -355,7 +355,7 @@ namespace GGFanGame.Game.Playable
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X - PlayerSpeed * gamePadHandler.GetThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Left), Y, Z);
+                    var desiredPosition = new Vector3(X - PlayerSpeed * gamePadHandler.GetThumbStickDirection(_playerIndex, ThumbStick.Left, InputDirection.Left), Y, Z);
 
                     if (!ParentStage.Intersects(this, desiredPosition))
                         X = desiredPosition.X;
@@ -367,7 +367,7 @@ namespace GGFanGame.Game.Playable
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X, Y, Z - PlayerSpeed * gamePadHandler.GetThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Up));
+                    var desiredPosition = new Vector3(X, Y, Z - PlayerSpeed * gamePadHandler.GetThumbStickDirection(_playerIndex, ThumbStick.Left, InputDirection.Up));
 
                     if (!ParentStage.Intersects(this, desiredPosition))
                         Z = desiredPosition.Z;
@@ -377,7 +377,7 @@ namespace GGFanGame.Game.Playable
                     if (setToState == ObjectState.Idle)
                         setToState = ObjectState.Walking;
 
-                    var desiredPosition = new Vector3(X, Y, Z + PlayerSpeed * gamePadHandler.GetThumbStickDirection(_playerIndex, Input.ThumbStick.Left, Input.InputDirection.Down));
+                    var desiredPosition = new Vector3(X, Y, Z + PlayerSpeed * gamePadHandler.GetThumbStickDirection(_playerIndex, ThumbStick.Left, InputDirection.Down));
 
                     if (!ParentStage.Intersects(this, desiredPosition))
                         Z = desiredPosition.Z;
@@ -395,7 +395,7 @@ namespace GGFanGame.Game.Playable
 
         protected override void CreateWorld()
         {
-            SetWorld(Position + new Vector3(0, 32, 0));
+            SetWorld(Position + new Vector3(0, 0.5f, 0));
         }
 
         protected override Animation GetAnimation()

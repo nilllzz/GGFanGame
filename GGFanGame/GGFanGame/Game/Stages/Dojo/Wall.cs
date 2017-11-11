@@ -1,7 +1,7 @@
 ﻿using GGFanGame.Content;
 using GGFanGame.DataModel.Game;
-using GGFanGame.Rendering;
-using GGFanGame.Rendering.Composers;
+using GameDevCommon.Rendering;
+using GameDevCommon.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,7 +15,6 @@ namespace GGFanGame.Game.Stages.Dojo
         public Wall()
         {
             Size = new Vector3(64, 128, 16);
-            DrawShadow = false;
             Collision = true;
             GravityAffected = false;
 
@@ -35,7 +34,7 @@ namespace GGFanGame.Game.Stages.Dojo
 
         protected override void LoadContentInternal()
         {
-            SpriteSheet1 = new SpriteSheet(ParentStage.Content.Load<Texture2D>(Resources.Levels.Dojo.Wall1));
+            SpriteSheet = new SpriteSheet(ParentStage.Content.Load<Texture2D>(Resources.Levels.Dojo.Wall1));
         }
 
         protected override void CreateGeometry()

@@ -1,6 +1,6 @@
 ﻿using GGFanGame.Content;
-using GGFanGame.Rendering;
-using GGFanGame.Rendering.Composers;
+using GameDevCommon.Rendering;
+using GameDevCommon.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,7 +12,6 @@ namespace GGFanGame.Game.Stages.Dojo
         public LightBeam()
         {
             Size = new Vector3(256, 128, 1);
-            DrawShadow = false;
             Collision = false;
             GravityAffected = false;
             BlendState = BlendState.Additive;
@@ -20,10 +19,10 @@ namespace GGFanGame.Game.Stages.Dojo
 
             AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(256, 128), 100));
         }
-        
+
         protected override void LoadContentInternal()
         {
-            SpriteSheet1 = new SpriteSheet(ParentStage.Content.Load<Texture2D>(Resources.Levels.Dojo.LightBeam));
+            SpriteSheet = new SpriteSheet(ParentStage.Content.Load<Texture2D>(Resources.Levels.Dojo.LightBeam));
         }
 
         protected override void CreateGeometry()

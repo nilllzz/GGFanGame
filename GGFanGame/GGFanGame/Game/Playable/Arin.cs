@@ -1,9 +1,11 @@
 ﻿using GGFanGame.Content;
-using GGFanGame.Rendering;
-using GGFanGame.Rendering.Composers;
+using GameDevCommon.Rendering;
+using GameDevCommon.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static Core;
+using GameDevCommon.Rendering.Texture;
+using GGFanGame.Drawing;
 
 namespace GGFanGame.Game.Playable
 {
@@ -18,14 +20,10 @@ namespace GGFanGame.Game.Playable
         public Arin(PlayerIndex playerIndex)
             : base(playerIndex)
         {
-            SpriteSheet1 = new SpriteSheet(GameInstance.Content.Load<Texture2D>(Resources.Sprites.Arin));
-            DrawShadow = true;
-            ShadowSize = 0.48d;
             Strength = 4;
             Weight = 4;
-            Size = new Vector3(32, 50, 5);
+            Size = new Vector3(0.5f, 0.78125f, 0.078125f);
             MaxHealth = 100;
-            PlayerSpeed = 4f;
 
             AddAnimation(ObjectState.Idle, new Animation(8, Point.Zero, new Point(64, 64), 7));
             AddAnimation(ObjectState.Walking, new Animation(6, new Point(0, 64), new Point(64, 64), 5));
@@ -69,6 +67,12 @@ namespace GGFanGame.Game.Playable
 
             AddAttack("AB", B4);
             AddAttack("ABA", A4);
+
+        }
+
+        protected override void LoadContentInternal()
+        {
+            SpriteSheet = new SpriteSheet(GameInstance.Content.Load<Texture2D>(Resources.Sprites.Arin));
         }
 
         protected override void CreateGeometry()

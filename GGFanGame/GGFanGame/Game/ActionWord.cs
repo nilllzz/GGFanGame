@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using GGFanGame.Content;
-using GGFanGame.Drawing;
-using GGFanGame.Rendering;
-using GGFanGame.Rendering.Composers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static Core;
+using GameDevCommon.Drawing;
+using GameDevCommon.Rendering.Composers;
+using GameDevCommon.Rendering;
 
 namespace GGFanGame.Game
 {
@@ -120,7 +120,7 @@ namespace GGFanGame.Game
                 if (_delay > 0d)
                 {
                     _delay -= 0.05 * ParentStage.TimeDelta;
-                    Y += 0.9f * ParentStage.TimeDelta;
+                    Y += 0.9f / 64f * ParentStage.TimeDelta;
                     Alpha = (float)_delay;
 
                     if (_delay <= 0d)
@@ -131,7 +131,7 @@ namespace GGFanGame.Game
             }
             _rotation += 0.01f * ParentStage.TimeDelta;
 
-            World = Matrix.CreateScale(_size) * Matrix.CreateTranslation(Position);
+            World = Matrix.CreateScale(_size / 64f) * Matrix.CreateTranslation(Position);
         }
     }
 }

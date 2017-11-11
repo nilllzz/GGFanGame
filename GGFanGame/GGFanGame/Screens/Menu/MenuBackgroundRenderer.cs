@@ -1,18 +1,20 @@
 ﻿using System;
-using GGFanGame.Drawing;
+using GameDevCommon.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static Core;
+using GGFanGame.Content;
+using GameDevCommon;
 
 namespace GGFanGame.Screens.Menu
 {
     internal class MenuBackgroundRenderer : IDisposable
     {
-        //The offset of the dots:
+        // The offset of the dots:
         private float _offsetX,
                       _offsetY;
 
-        //The size reference of the dots in the background in pixels
+        // The size reference of the dots in the background in pixels
         private const int DOT_SIZE = 16;
 
         private readonly Color _backgroundFromColor,
@@ -28,29 +30,31 @@ namespace GGFanGame.Screens.Menu
         internal bool ApplyTransparency { get; set; }
 
         internal bool IsDisposed { get; private set; }
-        
+
         internal MenuBackgroundRenderer()
          : this(Vector2.Zero) { }
 
         internal MenuBackgroundRenderer(Vector2 initialDotOffset)
-         : this (initialDotOffset, 
-               new Color(235, 148, 48), 
-               new Color(242, 167, 76), 
-               new Color(236, 130, 47), 
-               new Color(242, 153, 90)) { }
+         : this(initialDotOffset,
+               new Color(235, 148, 48),
+               new Color(242, 167, 76),
+               new Color(236, 130, 47),
+               new Color(242, 153, 90))
+        { }
 
         internal MenuBackgroundRenderer(Color backgroundFromColor,
                                         Color backgroundToColor,
                                         Color dotFromColor,
                                         Color dotToColor)
-         : this(Vector2.Zero, 
-               backgroundFromColor, 
-               backgroundToColor, 
-               dotFromColor, 
-               dotToColor) { }
+         : this(Vector2.Zero,
+               backgroundFromColor,
+               backgroundToColor,
+               dotFromColor,
+               dotToColor)
+        { }
 
         internal MenuBackgroundRenderer(Vector2 initialDotOffset,
-                                        Color backgroundFromColor, 
+                                        Color backgroundFromColor,
                                         Color backgroundToColor,
                                         Color dotFromColor,
                                         Color dotToColor)
@@ -85,13 +89,13 @@ namespace GGFanGame.Screens.Menu
         {
             CreateRenderDevices(width, height);
 
-            RenderTargetManager.BeginRenderScreenToTarget(_target);
+            RenderTargetManager.BeginRenderToTarget(_target);
             _batch.Begin(SpriteBatchUsage.Default);
 
             // draws the background gradient:
             _batch.DrawGradient(new Rectangle(0, 0, width, height), _backgroundFromColor, _backgroundToColor, false, 1d);
-            
-            //Draw the background dots:
+
+            // Draw the background dots:
             for (var x = -6; x < 32; x++)
             {
                 for (var y = 0; y < 21; y++)
@@ -99,17 +103,17 @@ namespace GGFanGame.Screens.Menu
                     var posX = (int)(x * DOT_SIZE * 3 + y * DOT_SIZE + _offsetX);
                     var posY = (int)(y * DOT_SIZE * 3 - (x * DOT_SIZE) + _offsetY);
 
-                    //We shift their color from top to bottom, so we take the different between the height of the screen and the dot's position:
+                    // We shift their color from top to bottom, so we take the different between the height of the screen and the dot's position:
                     var colorShift = (double)posY / height;
                     var cR = _dotColorDiff.R * colorShift;
                     var cG = _dotColorDiff.G * colorShift;
                     var cB = _dotColorDiff.B * colorShift;
 
                     double cA = 255;
-                    
+
                     if (ApplyTransparency)
                     {
-                        //When they approach the sides of the screen, make them fade out:
+                        // When they approach the sides of the screen, make them fade out:
                         if (posX > width - 90)
                         {
                             cA -= ((posX - (width - 90)) * 3);
@@ -127,16 +131,16 @@ namespace GGFanGame.Screens.Menu
                             }
                         }
 
-                        //Also, make them fade out on the top of the screen, cause the orange-black contrast would be a bit jarring.
+                        // Also, make them fade out on the top of the screen, cause the orange-black contrast would be a bit jarring.
                         cA *= colorShift;
                     }
 
-                    //When the dot is inside the rendering area, draw it.
+                    // When the dot is inside the rendering area, draw it.
                     if (posX + DOT_SIZE * 2 >= 0 && posX < width && posY + DOT_SIZE * 2 >= 0 && posY < height)
                     {
                         _batch.DrawCircle(new Vector2(posX, posY), DOT_SIZE * 2, new Color((int)(_dotFromColor.R + cR),
                                                                                             (int)(_dotFromColor.G + cG),
-                                                                                            (int)(_dotFromColor.B + cB), 
+                                                                                            (int)(_dotFromColor.B + cB),
                                                                                             (int)(cA)));
                     }
                 }
@@ -144,7 +148,7 @@ namespace GGFanGame.Screens.Menu
 
             _batch.End();
 
-            RenderTargetManager.EndRenderScreenToTarget();
+            RenderTargetManager.EndRenderToTarget();
 
             return _blurHandler.BlurTexture(_target);
         }
@@ -157,7 +161,9 @@ namespace GGFanGame.Screens.Menu
             if (_target == null || _blurHandler == null || width != _target.Width || height != _target.Height)
             {
                 _target = new RenderTarget2D(GameInstance.GraphicsDevice, width, height);
-                _blurHandler = new BlurHandler(_batch, width, height);
+
+                var effect = GameInstance.Content.Load<Effect>(Resources.Shaders.GaussianBlur);
+                _blurHandler = new BlurHandler(effect, _batch, width, height);
             }
         }
 

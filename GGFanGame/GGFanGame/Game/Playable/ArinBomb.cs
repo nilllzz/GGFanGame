@@ -14,7 +14,6 @@ namespace GGFanGame.Game.Playable
 
         public ArinBomb(Vector3 movement, Vector3 startPosition, ObjectFacing facing)
         {
-            ShadowSize = 0.8f;
             Facing = facing;
 
             AddAnimation(ObjectState.Idle, new Animation(1, Point.Zero, new Point(32, 32), 20));
@@ -26,12 +25,12 @@ namespace GGFanGame.Game.Playable
 
         protected override void LoadContentInternal()
         {
-            SpriteSheet = GameInstance.Content.Load<Texture2D>(Resources.Sprites.ArinBomb);
+            //SpriteSheet = GameInstance.Content.Load<Texture2D>(Resources.Sprites.ArinBomb);
         }
 
         public override void Update()
         {
-            var groundY = ParentStage.GetGround(GetFeetPosition());
+            var groundY = ParentStage.GetSupporting(this).objY;
 
             X += _movement.X;
             Z += _movement.Z;

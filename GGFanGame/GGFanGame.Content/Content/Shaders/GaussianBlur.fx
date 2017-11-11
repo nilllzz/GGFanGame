@@ -7,6 +7,7 @@
 
 float weights[KERNEL_SIZE];
 float2 offsets[KERNEL_SIZE];
+float multiplier;
 
 //-----------------------------------------------------------------------------
 // Textures.
@@ -32,8 +33,8 @@ float4 PS_GaussianBlur(float4 position : SV_Position, float4 col : COLOR0, float
     float4 color = float4(0.0f, 0.0f, 0.0f, 0.0f);
     
     for (int i = 0; i < KERNEL_SIZE; ++i)
-        color += tex2D(colorMap, texCoord + offsets[i]) * weights[i];
-        
+        color += tex2D(colorMap, texCoord + offsets[i]) * weights[i] * multiplier;
+       
     return color;
 }
 

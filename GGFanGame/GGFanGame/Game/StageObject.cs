@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using GGFanGame.DataModel.Game;
-using GGFanGame.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GameDevCommon.Rendering;
 
 namespace GGFanGame.Game
 {
@@ -33,14 +33,14 @@ namespace GGFanGame.Game
         private int _instanceNum;
         private int _maxHealth;
         private bool _loadedContent;
-        
+
         #region Properties
-        
+
         /// <summary>
         /// The parent stage this StageObject belongs to.
         /// </summary>
-        public Stage ParentStage { protected get; set; } 
-        
+        public Stage ParentStage { protected get; set; }
+
         /// <summary>
         /// The main color associated with this object.
         /// </summary>
@@ -115,6 +115,7 @@ namespace GGFanGame.Game
         /// The size of this object.
         /// </summary>
         public Vector3 Size { get; set; }
+        public Vector3 Rotation { get; set; }
 
         /// <summary>
         /// The way this object is facing.
@@ -168,7 +169,7 @@ namespace GGFanGame.Game
         /// If an object can land on this object.
         /// </summary>
         public bool CanLandOn { get; set; } = false;
-        
+
         /// <summary>
         /// If the player can use a button on the gamepad to interact with this object.
         /// </summary>
@@ -204,37 +205,9 @@ namespace GGFanGame.Game
         /// <summary>
         /// Applies the data from a passed in data model to the object (default implementation contains position set).
         /// </summary>
-        public virtual void ApplyDataModel(StageObjectModel dataModel) => Position = dataModel.Position;
-
-        /// <summary>
-        /// Adds a new bounding box to the array of defined bounding boxes for this object.
-        /// </summary>
-        /// <param name="size">The size of the box.</param>
-        /// <param name="offset">The offset of this box relative to the position of this object.</param>
-        protected void AddBoundingBox(Vector3 size, Vector3 offset)
+        public virtual void ApplyDataModel(StageObjectModel dataModel)
         {
-            _boundingBoxes.Add(
-                new BoundingBox(
-                    new Vector3(-size.X / 2f + offset.X, -size.Y / 2f + offset.Y, -size.Z / 2f + offset.Z),
-                    new Vector3(size.X / 2f + offset.X, size.Y / 2f + offset.Y, size.Z / 2f + offset.Z)
-                ));
-        }
-
-        /// <summary>
-        /// Returns the array of defined bounding boxes for this object.
-        /// </summary>
-        public BoundingBox[] BoundingBoxes
-        {
-            get
-            {
-                var boxes = new BoundingBox[_boundingBoxes.Count];
-
-                //Add this object's position to each bounding box as offset:
-                for (var i = 0; i < _boundingBoxes.Count; i++)
-                    boxes[i] = _boundingBoxes[i].Offset(_position);
-
-                return boxes;
-            }
+            Position = dataModel.Position;
         }
 
         /// <summary>
@@ -263,10 +236,10 @@ namespace GGFanGame.Game
         /// The player clicked on this object.
         /// </summary>
         public virtual void OnPlayerClick() { }
-        
+
         protected void SetWorld(Vector3 position)
         {
-            World = Matrix.CreateScale(64f) * Matrix.CreateTranslation(position);
+            World = Matrix.CreateScale(1f) * Matrix.CreateFromYawPitchRoll(Rotation.Y, Rotation.X, Rotation.Z) * Matrix.CreateTranslation(position);
         }
 
         //Needed in order to sort the list of objects and arrange them in an order

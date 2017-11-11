@@ -162,7 +162,7 @@ namespace GGFanGame.Screens.Menu
             {
                 _target = new RenderTarget2D(GameInstance.GraphicsDevice, width, height);
 
-                var effect = GameInstance.Content.Load<Effect>(Resources.Shaders.GaussianBlur);
+                var effect = EffectHelper.GetGaussianBlurEffect(GameInstance.Content);
                 _blurHandler = new BlurHandler(effect, _batch, width, height);
             }
         }

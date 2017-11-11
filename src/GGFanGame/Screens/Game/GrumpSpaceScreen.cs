@@ -56,7 +56,7 @@ namespace GGFanGame.Screens.Game
             Camera = new StageCamera(_stage.OnePlayer);
 
             _batch = new SpriteBatch(GameInstance.GraphicsDevice);
-            _blur = new BlurHandler(Content.Load<Effect>(Resources.Shaders.GaussianBlur), _batch, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
+            _blur = new BlurHandler(EffectHelper.GetGaussianBlurEffect(Content), _batch, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
             _stageTarget = RenderTargetManager.CreateScreenTarget();
             _dotOverlay = Content.Load<Texture2D>(Resources.UI.Portal.dot_overlay);
 

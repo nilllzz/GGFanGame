@@ -138,9 +138,6 @@
     <Compile Include="Screens\ScreenManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="GameDevCommon">
-      <HintPath>..\..\..\..\..\Documents\Visual Studio 2017\Projects\GameDevCommon\GameDevCommon\bin\Debug\GameDevCommon.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.6.0.1625\lib\net40\MonoGame.Framework.dll</HintPath>
       <Private>True</Private>
@@ -165,6 +162,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\Game-Dev-Common\src\GameDevCommon\GameDevCommon.csproj">
+      <Project>{087378ee-7591-47ce-979f-6824fc0606ef}</Project>
+      <Name>GameDevCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GGFanGame.Content\GGFanGame.Content.csproj">
       <Project>{421a1548-b885-4a2d-94c0-c4ed90f4f98f}</Project>
       <Name>GGFanGame.Content</Name>

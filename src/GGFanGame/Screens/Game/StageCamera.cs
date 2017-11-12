@@ -1,9 +1,9 @@
 ﻿using GameDevCommon.Rendering;
+using GGFanGame.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using static Core;
 
-namespace GGFanGame.Game
+namespace GGFanGame.Screens.Game
 {
     internal class StageCamera : Camera
     {
@@ -25,7 +25,7 @@ namespace GGFanGame.Game
 
         public override void Update()
         {
-            CreatePosition();
+            Position = CreatePosition();
 
             var gState = GamePad.GetState(PlayerIndex.One);
             Yaw += gState.ThumbSticks.Right.X * 0.1f;
@@ -33,13 +33,11 @@ namespace GGFanGame.Game
             CreateView();
         }
 
-        private void CreatePosition()
+        protected virtual Vector3 CreatePosition()
         {
             var offset = new Vector3(0, 0.75f * ZoomLevel + 0.25f, 2f * ZoomLevel);
             var mat = Matrix.CreateFromYawPitchRoll(Yaw, 0, 0);
-            Position = Vector3.Transform(offset, mat) + new Vector3(FollowObject.X, 0, FollowObject.Z);
-
-            //Position = new Vector3(FollowObject.X, 0.75f * ZoomLevel + 0.25f, FollowObject.Z + 2f * ZoomLevel);
+            return Vector3.Transform(offset, mat) + new Vector3(FollowObject.X, 0, FollowObject.Z);
         }
     }
 }

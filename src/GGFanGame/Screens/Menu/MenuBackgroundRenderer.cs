@@ -158,12 +158,13 @@ namespace GGFanGame.Screens.Menu
         /// </summary>
         private void CreateRenderDevices(int width, int height)
         {
-            if (_target == null || _blurHandler == null || width != _target.Width || height != _target.Height)
+            if (_target == null || _blurHandler == null ||
+                width != _target.Width || height != _target.Height)
             {
                 _target = new RenderTarget2D(GameInstance.GraphicsDevice, width, height);
 
                 var effect = EffectHelper.GetGaussianBlurEffect(GameInstance.Content);
-                _blurHandler = new BlurHandler(effect, _batch, width, height);
+                _blurHandler = new BlurHandler(effect, _batch, width * 2, height * 2);
             }
         }
 

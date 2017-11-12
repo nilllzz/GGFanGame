@@ -98,7 +98,8 @@
     <Compile Include="Game\SceneryObject.cs" />
     <Compile Include="Game\SpriteSheet.cs" />
     <Compile Include="Game\Stage.cs" />
-    <Compile Include="Game\StageCamera.cs" />
+    <Compile Include="Screens\Game\GrumpSpaceCamera.cs" />
+    <Compile Include="Screens\Game\StageCamera.cs" />
     <Compile Include="Game\StageFactory.cs" />
     <Compile Include="Game\StageObject.cs" />
     <Compile Include="Game\StageObjectAttribute.cs" />

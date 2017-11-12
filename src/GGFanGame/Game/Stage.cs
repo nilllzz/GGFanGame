@@ -3,6 +3,7 @@ using GGFanGame.Content;
 using GGFanGame.DataModel.Game;
 using GGFanGame.Drawing;
 using GGFanGame.Game.Playable;
+using GGFanGame.Screens.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;

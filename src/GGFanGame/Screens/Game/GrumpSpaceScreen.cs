@@ -53,7 +53,7 @@ namespace GGFanGame.Screens.Game
             _stage = StageFactory.Create(Content, _worldId, _stageId);
             _stage.LoadContent();
             _stage.OnePlayer.Position = _portalPosition;
-            Camera = new StageCamera(_stage.OnePlayer);
+            Camera = new GrumpSpaceCamera(_stage.OnePlayer);
 
             _batch = new SpriteBatch(GameInstance.GraphicsDevice);
             _blur = new BlurHandler(EffectHelper.GetGaussianBlurEffect(Content), _batch, GameController.RENDER_WIDTH, GameController.RENDER_HEIGHT);
@@ -62,8 +62,7 @@ namespace GGFanGame.Screens.Game
 
             _titleBatch = new SpriteBatch(GameInstance.GraphicsDevice);
             _titleFont = Content.Load<SpriteFont>(Resources.Fonts.CartoonFontLarge);
-            var titleSize = _titleFont.MeasureString(_stage.Name);
-            _titleTarget = RenderTargetManager.CreateRenderTarget((int)Math.Ceiling(titleSize.X), (int)Math.Ceiling(titleSize.Y));
+            _titleTarget = RenderTargetManager.CreateScreenTarget();
             _titleBackground = new MenuBackgroundRenderer(
                new Color(235, 148, 48),
                new Color(242, 167, 76),
@@ -96,41 +95,33 @@ namespace GGFanGame.Screens.Game
 
         internal override void DrawHUD(SpriteBatch batch = null)
         {
-            RenderTargetManager.BeginRenderToTarget(_titleTarget);
-            GameInstance.GraphicsDevice.Clear(Color.Transparent);
+            _batch.Begin(SpriteBatchUsage.Default);
 
-            _titleBatch.Begin(SpriteBatchUsage.Font);
+            for (int i = 0; i < GameController.RENDER_WIDTH; i += 130)
+            {
+                _batch.DrawRectangle(new Rectangle(105 + i, (int)(-118 + 178 * _titleIntro), 130, 130), new Color(0, 0, 0, 120), MathHelper.PiOver4);
+            }
 
-            _titleBatch.DrawString(_titleFont, _stage.Name,
-                new Vector2(0, _titleTarget.Height * (1f - _titleIntro)), Color.White);
-
-            _titleBatch.End();
-
-            RenderTargetManager.EndRenderToTarget();
+            _batch.End();
 
             var texture = _titleBackground.CreateBackgroundTexture(GameInstance.ClientRectangle.Width, GameInstance.ClientRectangle.Height);
             _batch.DrawMask(() =>
             {
-                _batch.Draw(_titleTarget,
-                    new Rectangle(
-                        _titleTarget.Width / 2 + 50,
-                        (int)(_titleTarget.Height * 1.5f),
-                        _titleTarget.Width,
-                        _titleTarget.Height
-                    ),
-                    _titleTarget.Bounds, Color.White,
-                    -0.2f, new Vector2(_titleTarget.Width / 2f, _titleTarget.Height / 2f), SpriteEffects.None, 0f);
-
-                _batch.DrawRectangle(new Rectangle(
-                    _titleTarget.Width / 2 + 60,
-                    (int)(_titleTarget.Height * 2.5f) + 20,
-                    (int)(_titleTarget.Width * _titleIntro), 10), Color.White, -0.2f);
+                for (int i = 0; i < GameController.RENDER_WIDTH; i += 130)
+                {
+                    _batch.DrawRectangle(new Rectangle(100 + i, (int)(-120 + 180 * _titleIntro), 130, 130), Color.White, MathHelper.PiOver4);
+                }
+                _batch.DrawRectangle(new Rectangle(0, (int)(-180 + 180 * _titleIntro), GameInstance.ClientRectangle.Width, 80), Color.White);
             }, () =>
             {
                 _batch.Draw(texture, Vector2.Zero, Color.White);
             });
 
-            _batch.Begin(SpriteBatchUsage.Default);
+            _batch.Begin(SpriteBatchUsage.Font);
+            var textWidth = _titleFont.MeasureString(_stage.Name).X;
+            var textPos = new Vector2(GameController.RENDER_WIDTH / 2f - textWidth / 2f, -153 + 180 * _titleIntro);
+            _batch.DrawString(_titleFont, _stage.Name, textPos + new Vector2(3), new Color(0, 0, 0, 120));
+            _batch.DrawString(_titleFont, _stage.Name, textPos, Color.White);
             _batch.End();
         }
 

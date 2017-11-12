@@ -588,6 +588,18 @@
 /processorParam:TextureFormat=Color
 /build:UI/HUD/Fire.png
 
+#begin UI/Loading.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/Loading.png
+
 #begin UI/Logos/GameGrumps.png
 /importer:TextureImporter
 /processor:TextureProcessor

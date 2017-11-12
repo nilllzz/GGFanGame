@@ -13,8 +13,8 @@ namespace GGFanGame.Screens.Game
         {
             var pos = base.CreatePosition();
 
-            if (pos.X < -3.5f)
-                pos.X = -3.5f;
+            if (pos.X < -3f)
+                pos.X = -3f;
 
             return pos;
         }

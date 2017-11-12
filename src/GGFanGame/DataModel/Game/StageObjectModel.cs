@@ -88,8 +88,18 @@ namespace GGFanGame.DataModel.Game
             switch (tType)
             {
                 case Type vec3Type when vec3Type == typeof(Vector3):
-                    var values = value.Split(',').Select(s => float.Parse(s)).ToArray();
-                    return new Vector3(values[0], values[1], values[2]);
+                    {
+                        var values = value.Split(',').Select(s => float.Parse(s)).ToArray();
+                        return new Vector3(values[0], values[1], values[2]);
+                    }
+                case Type colorType when colorType == typeof(Color):
+                    {
+                        var values = value.Split(',').Select(s => int.Parse(s)).ToArray();
+                        if (values.Length == 3)
+                            return new Color(values[0], values[1], values[2]);
+                        else
+                            return new Color(values[0], values[1], values[2], values[3]);
+                    }
             }
 
             throw new Exception();

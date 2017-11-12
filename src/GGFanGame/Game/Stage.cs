@@ -120,8 +120,9 @@ namespace GGFanGame.Game
         /// </summary>
         public void Draw(SpriteBatch batch)
         {
-            //TEST: Object counter.
-            batch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall), _objects.Count.ToString(), Vector2.Zero, Color.White);
+            // TEST: Object counter.
+            batch.DrawString(Content.Load<SpriteFont>(Resources.Fonts.CartoonFontSmall),
+                _objects.Count.ToString() + ", " + OnePlayer.Position.ToString(), Vector2.Zero, Color.White);
         }
 
         /// <summary>

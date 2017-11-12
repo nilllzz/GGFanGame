@@ -36,6 +36,18 @@
                 { "type": "grumpSpace/main/knotPillar", "x": -1.1, "y": 0.5, "z": -2.5, "args": [ { "key": "rotation", "value": "0,0,0" }, { "key": "height", "value": "2" } ]  },
                 { "type": "grumpSpace/main/barrel", "x": -4.7, "y": 0, "z": -3 },
                 { "type": "grumpSpace/main/barrel", "x": -4.2, "y": 0, "z": -2.7 },
+                { "type": "grumpSpace/main/barrel", "x": -3.7, "y": 0, "z": -2.2 },
+                
+                { "type": "grumpSpace/main/bathroomWall", "x": -4.25, "y": 0, "z": -1.5, "args": [ { "key": "size", "value": "1.5" } ] },
+                { "type": "grumpSpace/main/bathroomWall", "x": -3.5, "y": 0, "z": -1.25, "args": [ { "key": "size", "value": "0.5" }, { "key": "rotation" } ] },
+                { "type": "grumpSpace/main/bathroomWall", "x": -3.5, "y": 0, "z": 0, "args": [ { "key": "size", "value": "0.5" }, { "key": "rotation" } ] },
+                { "type": "grumpSpace/main/bathroomWall", "x": -4.25, "y": 0, "z": -1, "args": [ { "key": "size", "value": "1.5" } ] },
+                { "type": "grumpSpace/main/bathroomWall", "x": -4.25, "y": 0, "z": -0.25, "args": [ { "key": "size", "value": "1.5" } ] },
+                { "type": "default/lights/pointLight", "x": -4, "y": 0.5, "z": -0.8, "args": [ { "key": "color", "value": "0,0,255" }, { "key": "radius", "value": "2" }, { "key": "intensity", "value": "2" } ] },
+                { "type": "default/lights/pointLight", "x": -4, "y": 0.5, "z": -0.1, "args": [ { "key": "color", "value": "232,113,63" }, { "key": "radius", "value": "2" }, { "key": "intensity", "value": "1" } ] },
+                { "type": "grumpSpace/main/portal", "x": -4, "y": 0, "z": -0.5, "args": [ { "key": "toPos", "value": "0,0.5,0"}, {"key": "to", "value": "grumpSpace/main/main" } ] },
+                { "type": "grumpSpace/main/bathroomWall", "x": -4.25, "y": 0, "z": 0.25, "args": [ { "key": "size", "value": "1.5" } ] },
+
                 { "type": "grumpSpace/main/steelPipe", "x": -4.2, "y": 2, "z": -4, "args": [ { "key": "height", "value": "20" } ] },
                 { "type": "grumpSpace/main/woodenWall", "x": -1, "y": 0, "z": -3.5, "args": [ { "key": "size", "value": "3" }, { "key": "rotation" } ] },
                 { "type": "grumpSpace/main/toyStoreSign", "x": -1, "y": 0.4, "z": -2 },
@@ -45,7 +57,7 @@
                 { "type": "grumpSpace/main/woodenWall", "x": -0.5, "y": 0, "z": -2, "args": [ { "key": "size", "value": "1" } ] },
                 { "type": "grumpSpace/main/woodenWall", "x": 0, "y": 0, "z": -2.5, "args": [ { "key": "size", "value": "1" }, { "key": "rotation" } ] },
                 { "type": "grumpSpace/main/woodenWall", "x": 1, "y": 0, "z": -2.5, "args": [ { "key": "size", "value": "1" }, { "key": "rotation" } ] },
-                { "type": "grumpSpace/main/portal", "x": 0.5, "y": 0, "z": -2.5, "args": [ { "key": "toPos", "value": "0,0.5,0"}, {"key": "to", "value": "grumpSpace/main" } ] }
+                { "type": "grumpSpace/main/portal", "x": 0.5, "y": 0, "z": -2.5, "args": [ { "key": "toPos", "value": "0,0.5,0"}, {"key": "to", "value": "grumpSpace/main/main" } ] }
             ]
         }
     ]

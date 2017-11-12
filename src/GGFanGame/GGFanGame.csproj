@@ -98,6 +98,8 @@
     <Compile Include="Game\SceneryObject.cs" />
     <Compile Include="Game\SpriteSheet.cs" />
     <Compile Include="Game\Stage.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\BathroomWall.cs" />
+    <Compile Include="Game\Stages\Default\PointLight.cs" />
     <Compile Include="Screens\Game\GrumpSpaceCamera.cs" />
     <Compile Include="Screens\Game\StageCamera.cs" />
     <Compile Include="Game\StageFactory.cs" />

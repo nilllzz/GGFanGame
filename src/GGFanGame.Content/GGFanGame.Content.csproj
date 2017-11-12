@@ -109,6 +109,7 @@
     <Content Include="Content\UI\HUD\Arin.png" />
     <Content Include="Content\UI\HUD\Bars.png" />
     <Content Include="Content\UI\HUD\Fire.png" />
+    <Content Include="Content\UI\Loading.png" />
     <Content Include="Content\UI\Logos\GameGrumps.png" />
     <Content Include="Content\UI\Logos\GameGrumpsTransition.png" />
     <Content Include="Content\UI\Logos\HardDudes.png" />

@@ -142,28 +142,32 @@ namespace GGFanGame.Game
             UpdateSupporting(supportingObj);
             UpdateAutoMovement(objY);
 
-            if (GetAnimation().Frames.Length > 1)
+            if (IsVisualObject)
             {
-                AnimationDelay -= ParentStage.TimeDelta * 1;
-                if (AnimationDelay <= 0d)
+                if (GetAnimation().Frames.Length > 1)
                 {
-                    AnimationFrame++;
-                    if (AnimationFrame == GetAnimation().Frames.Length)
+                    AnimationDelay -= ParentStage.TimeDelta * 1;
+                    if (AnimationDelay <= 0d)
                     {
-                        if (RepeatAnimation)
+                        AnimationFrame++;
+                        if (AnimationFrame == GetAnimation().Frames.Length)
                         {
-                            AnimationFrame = 0;
+                            if (RepeatAnimation)
+                            {
+                                AnimationFrame = 0;
+                            }
+                            else
+                            {
+                                AnimationFrame--;
+                            }
                         }
-                        else
-                        {
-                            AnimationFrame--;
-                        }
+                        AnimationDelay = GetAnimation().Frames[AnimationFrame].FrameLength;
                     }
-                    AnimationDelay = GetAnimation().Frames[AnimationFrame].FrameLength;
                 }
+
+                Texture = SpriteSheet.GetPart(GetAnimation().GetFrameRec(AnimationFrame), Facing == ObjectFacing.Left);
             }
 
-            Texture = SpriteSheet.GetPart(GetAnimation().GetFrameRec(AnimationFrame), Facing == ObjectFacing.Left);
             CreateWorld();
         }
 

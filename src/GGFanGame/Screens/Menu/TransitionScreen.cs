@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static Core;
 using GameDevCommon.Drawing;
+using System.Threading.Tasks;
 
 namespace GGFanGame.Screens.Menu
 {
@@ -16,9 +17,13 @@ namespace GGFanGame.Screens.Menu
         internal override bool ReplacePrevious => false;
 
         private SpriteBatch _batch;
-        private readonly Texture2D _ggOverlay;
+        private readonly Texture2D _ggOverlay, _loadingAnimation;
         private float _overlaySize = 80f;
         private float _rotation;
+
+        private bool _loading = false;
+        private int _loadingFrame = 0;
+        private float _loadingFrameDelay = 1f;
 
         // If the screen outro is playing, or the intro.
         private bool _outro = true;
@@ -30,6 +35,7 @@ namespace GGFanGame.Screens.Menu
         {
             _batch = new SpriteBatch(GameInstance.GraphicsDevice);
             _ggOverlay = GameInstance.Content.Load<Texture2D>(Resources.UI.Logos.GameGrumpsTransition);
+            _loadingAnimation = GameInstance.Content.Load<Texture2D>(Resources.UI.Loading);
             _outScreen = outScreen;
             _inScreen = inScreen;
         }
@@ -38,10 +44,13 @@ namespace GGFanGame.Screens.Menu
         {
             _batch.Begin(SpriteBatchUsage.Default);
 
-            if (_outro)
-                _outScreen.Draw(time);
-            else
-                _inScreen.Draw(time);
+            if (!_loading)
+            {
+                if (_outro)
+                    _outScreen.Draw(time);
+                else
+                    _inScreen.Draw(time);
+            }
 
             if (_overlaySize > 0)
             {
@@ -75,11 +84,30 @@ namespace GGFanGame.Screens.Menu
                 _batch.DrawRectangle(GameInstance.ClientRectangle, Color.Black);
             }
 
+            if (_loading)
+            {
+                _batch.Draw(_loadingAnimation, new Rectangle(GameController.RENDER_WIDTH / 2 - 64, GameController.RENDER_HEIGHT / 2 - 64, 128, 128),
+                    new Rectangle(_loadingFrame * 64, 0, 64, 64), Color.White);
+            }
+
             _batch.End();
         }
 
         public override void Update(GameTime time)
         {
+            if (_loading)
+            {
+                _loadingFrameDelay -= 0.15f;
+                if (_loadingFrameDelay <= 0f)
+                {
+                    _loadingFrameDelay = 1f;
+                    _loadingFrame++;
+                    if (_loadingFrame * 64 == _loadingAnimation.Width)
+                        _loadingFrame = 0;
+                }
+                return;
+            }
+
             if (_outro)
             {
                 _overlaySize = MathHelper.Lerp(0f, _overlaySize, 0.9f);
@@ -88,10 +116,10 @@ namespace GGFanGame.Screens.Menu
 
                 if (_overlaySize - 0.01f <= 0f)
                 {
-                    _outScreen.Close(); // the screen closes once the transition animation is over.
                     _overlaySize = 0.01f;
                     _outro = false;
-                    _inScreen.LoadContent();
+                    _loading = true;
+                    Task.Run(() => LoadScreenContent());
                 }
             }
             else
@@ -106,6 +134,13 @@ namespace GGFanGame.Screens.Menu
                     GetComponent<ScreenManager>().SetScreen(_inScreen);
                 }
             }
+        }
+
+        private void LoadScreenContent()
+        {
+            _outScreen.Close(); // the screen closes once the transition animation is over.
+            _inScreen.LoadContent();
+            _loading = false;
         }
 
         protected override void Dispose(bool disposing)

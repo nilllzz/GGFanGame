@@ -119,6 +119,7 @@ namespace GGFanGame.Content
                 public const string Bars = "UI/HUD/Bars";
                 public const string Fire = "UI/HUD/Fire";
             }
+            public const string Loading = "UI/Loading";
             
             public static class Logos
             {

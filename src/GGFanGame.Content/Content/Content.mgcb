@@ -105,30 +105,6 @@
 /processorParam:TextureFormat=Color
 /build:Levels/GrumpSpace/Main.png
 
-#begin Levels/GrumpSpace/OfficeDoor.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Levels/GrumpSpace/OfficeDoor.png
-
-#begin Levels/GrumpSpace/PlayButton.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Levels/GrumpSpace/PlayButton.png
-
 #begin Levels/GrumpSpace/Posters/Brian.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -191,30 +167,6 @@
 
 #begin Levels/GrumpSpace/stage.json
 /copy:Levels/GrumpSpace/stage.json
-
-#begin Levels/GrumpSpace/WoodenFloor.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Levels/GrumpSpace/WoodenFloor.png
-
-#begin Levels/GrumpSpace/WoodenWall.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Levels/GrumpSpace/WoodenWall.png
 
 #begin Levels/Stage1_1/BridgeBottom.png
 /importer:TextureImporter

@@ -216,8 +216,8 @@ namespace GGFanGame.Screens.Game
             {
                 // copy stages from content to output:
                 // DEBUG
-                var sourceDir = @"C:\Users\Nils\Projects\git\GGFanGame\GGFanGame\GGFanGame.Content\Content\Levels";
-                var targetDir = @"C:\Users\Nils\Projects\git\GGFanGame\GGFanGame\GGFanGame\bin\Windows\Debug\Content\Levels";
+                var sourceDir = @"C:\Users\Nils\Projects\git\GGFanGame\src\GGFanGame.Content\Content\Levels";
+                var targetDir = @"C:\Users\Nils\Projects\git\GGFanGame\src\GGFanGame\bin\Windows\Debug\Content\Levels";
                 foreach (var sourceFile in Directory.GetFiles(sourceDir, "*.json", SearchOption.AllDirectories))
                 {
                     var targetFile = sourceFile.Replace(sourceDir, targetDir);
@@ -260,6 +260,9 @@ namespace GGFanGame.Screens.Game
                 _stage = null;
                 _stageTarget = null;
                 _blur = null;
+                _titleTarget = null;
+                _titleBatch = null;
+                _titleBackground = null;
             }
 
             base.Dispose(disposing);

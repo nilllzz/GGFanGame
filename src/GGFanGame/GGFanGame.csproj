@@ -112,6 +112,7 @@
     <Compile Include="Game\Stages\Dojo\Enemies\Booper.cs" />
     <Compile Include="Game\Stages\GrumpSpace\Barrel.cs" />
     <Compile Include="Game\Stages\GrumpSpace\GrumpSpacePortal.cs" />
+    <Compile Include="Game\Stages\GrumpSpace\Koinobori.cs" />
     <Compile Include="Game\Stages\GrumpSpace\KnotPillar.cs" />
     <Compile Include="Game\Stages\GrumpSpace\OfficeDoor.cs" />
     <Compile Include="Game\Stages\GrumpSpace\AlbumAward.cs" />

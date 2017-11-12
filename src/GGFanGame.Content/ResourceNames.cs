@@ -27,8 +27,6 @@ namespace GGFanGame.Content
             public static class GrumpSpace
             {
                 public const string Main = "Levels/GrumpSpace/Main";
-                public const string OfficeDoor = "Levels/GrumpSpace/OfficeDoor";
-                public const string PlayButton = "Levels/GrumpSpace/PlayButton";
                 
                 public static class Posters
                 {
@@ -39,8 +37,6 @@ namespace GGFanGame.Content
                     public const string UpDog = "Levels/GrumpSpace/Posters/UpDog";
                 }
                 public const string stage = "Levels/GrumpSpace/stage";
-                public const string WoodenFloor = "Levels/GrumpSpace/WoodenFloor";
-                public const string WoodenWall = "Levels/GrumpSpace/WoodenWall";
             }
             
             public static class Stage1_1

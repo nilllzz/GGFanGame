@@ -40,6 +40,8 @@
                 { "type": "grumpSpace/main/woodenWall", "x": -1, "y": 0, "z": -3.5, "args": [ { "key": "size", "value": "3" }, { "key": "rotation" } ] },
                 { "type": "grumpSpace/main/toyStoreSign", "x": -1, "y": 0.4, "z": -2 },
                 { "type": "grumpSpace/main/triForceShield", "x": -0.5, "y": 1, "z": -1.95 },
+                { "type": "grumpSpace/main/koinobori", "x": -0.1, "y": 1.2, "z": -1.8 },
+                { "type": "grumpSpace/main/koinobori", "x": 1.1, "y": 1.2, "z": -1.8 },
                 { "type": "grumpSpace/main/woodenWall", "x": -0.5, "y": 0, "z": -2, "args": [ { "key": "size", "value": "1" } ] },
                 { "type": "grumpSpace/main/woodenWall", "x": 0, "y": 0, "z": -2.5, "args": [ { "key": "size", "value": "1" }, { "key": "rotation" } ] },
                 { "type": "grumpSpace/main/woodenWall", "x": 1, "y": 0, "z": -2.5, "args": [ { "key": "size", "value": "1" }, { "key": "rotation" } ] },

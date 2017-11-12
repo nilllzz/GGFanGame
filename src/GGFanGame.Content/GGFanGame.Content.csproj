@@ -50,6 +50,7 @@
     <Content Include="Content\Content.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Content.mgcb</LastGenOutput>
+      <RunCustomToolOnBuild>True</RunCustomToolOnBuild>
     </Content>
     <Content Include="Content\Levels\Dojo\LightBeam.png" />
     <Content Include="Content\Levels\Dojo\stage.json" />
@@ -57,10 +58,6 @@
     <Content Include="Content\Levels\Dojo\WoodFloor.png" />
     <Content Include="Content\Levels\Dojo\WoodPillar.png" />
     <Content Include="Content\Levels\GrumpSpace\Main.png" />
-    <Content Include="Content\Levels\GrumpSpace\OfficeDoor.png" />
-    <Content Include="Content\Levels\GrumpSpace\PlayButton.png" />
-    <Content Include="Content\Levels\GrumpSpace\WoodenFloor.png" />
-    <Content Include="Content\Levels\GrumpSpace\WoodenWall.png" />
     <Content Include="Content\Levels\Stage1_1\stage.json" />
     <Content Include="Content\Levels\stages.json" />
     <None Include="Content\Levels\GrumpSpace\stage.json" />
@@ -128,6 +125,7 @@
     <Content Include="ResourceNames.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ResourceNames.cs</LastGenOutput>
+      <RunCustomToolOnBuild>True</RunCustomToolOnBuild>
     </Content>
   </ItemGroup>
   <ItemGroup>
